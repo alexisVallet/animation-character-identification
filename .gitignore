@@ -11,3 +11,14 @@
 *.lai
 *.la
 *.a
+
+# CMake stuff
+/CMakeFile/*
+/CMakeFiles
+/aci/CMakeFiles
+/aci/Makefile
+/aci/cmake_install.cmake
+/build
+
+# Emacs temp files
+*~
