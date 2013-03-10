@@ -46,13 +46,19 @@ int DisjointSetForest::setUnion(int element1, int element2) {
 
 Mat_<Vec<uchar, 3> > DisjointSetForest::toRegionImage(Mat_<Vec<uchar,3> > sourceImage) {
   Mat_<Vec<uchar, 3> > regions(sourceImage.rows, sourceImage.cols, CV_8UC3);
+  vector<Vec<uchar,3> > colors(sourceImage.rows * sourceImage.cols);
+
+  for (int i = 0; i < sourceImage.rows * sourceImage.cols; i++) {
+    colors[i][0] = rand() % 255;
+    colors[i][1] = rand() % 255;
+    colors[i][2] = rand() % 255;
+  }
 
   for (int i = 0; i < sourceImage.rows; i++) {
     for (int j = 0; j < sourceImage.cols; j++) {
       int root = this->find(toRowMajor(sourceImage.cols, j, i));
-      pair<int,int> rootCoords = fromRowMajor(sourceImage.cols, root);
 
-      regions(i, j) = sourceImage(rootCoords.first, rootCoords.second);
+      regions(i, j) = colors[root];
     }
   }
 

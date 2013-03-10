@@ -9,9 +9,9 @@ configure_file (
 add_library(Utils Utils.cpp)
 add_library(WeightedGraph WeightedGraph.cpp)
 add_library(DisjointSet DisjointSet.cpp)
-add_library(Felsenwalb Felsenwalb.cpp)
+add_library(Felzenszwalb Felzenszwalb.cpp)
 target_link_libraries(DisjointSet ${OpenCV_LIBS} Utils)
 target_link_libraries(WeightedGraph Utils)
-target_link_libraries(Felsenwalb ${OpenCV_LIBS} WeightedGraph DisjointSet)
+target_link_libraries(Felzenszwalb ${OpenCV_LIBS} WeightedGraph DisjointSet)
 
 add_subdirectory(test)
