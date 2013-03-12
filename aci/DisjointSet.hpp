@@ -7,8 +7,8 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 #include <opencv2/opencv.hpp>
-#include <stdio.h>
 
 #include "Utils.hpp"
 
@@ -23,6 +23,10 @@ struct DisjointSet {
 class DisjointSetForest {
 private:
   vector<DisjointSet> forest;
+  int numberOfComponents;
+  vector<int> componentSizes;
+  bool isModified;
+  map<int,int> rootIndexes;
 
 public:
   DisjointSetForest(); // should not be called
@@ -55,6 +59,22 @@ public:
    * is a pixel in row major order, labelled by their set representant.
    */
   Mat_<Vec<uchar,3> > toRegionImage(Mat_<Vec<uchar,3> > sourceImage);
+  /**
+   * Returns the number of components in the partition.
+   *
+   * @return the number of components in the partition.
+   */
+  int getNumberOfComponents();
+  /**
+   * Map associating a linear index in [0..getNumberOfComponents]
+   * to each component root. Runs in O(n) time where n is the number
+   * of leaves in the forest (ie. elements to partition).
+   */
+  map<int,int> getRootIndexes();
+  /**
+   * Returns the size of the component containing a specific element.
+   */
+  int getComponentSize(int element);
 };
 
 #endif

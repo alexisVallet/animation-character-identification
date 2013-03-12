@@ -14,23 +14,21 @@ DisjointSetForest felzenszwalbSegment(int k, WeightedGraph graph, int minCompSiz
   // differences.
   DisjointSetForest segmentation(graph.numberOfVertices());
   vector<float> internalDifferences(graph.numberOfVertices(), 0);
-  vector<int> sizes(graph.numberOfVertices(), 1);
 
   // Goes through the edges, and fuses vertices if they pass a check,
-  // updating component size and internal differences.
+  // updating internal differences.
   for (int i = 0; i < edges.size(); i++) {
     Edge currentEdge = edges[i];
     int root1 = segmentation.find(currentEdge.source);
     int root2 = segmentation.find(currentEdge.destination);
     float mInt = min(internalDifferences[root1] 
-		     + ((float)k)/((float)sizes[root1]),
+		     + ((float)k)/((float)segmentation.getComponentSize(root1)),
 		     internalDifferences[root2] 
-		     + ((float)k)/((float)sizes[root2]));
+		     + ((float)k)/((float)segmentation.getComponentSize(root2)));
 
     if (root1 != root2 && currentEdge.weight <= mInt) {
       int newRoot = segmentation.setUnion(root1,root2);
       internalDifferences[newRoot] = currentEdge.weight;
-      sizes[newRoot] = sizes[root1] + sizes[root2];
     }
   }
 
@@ -39,7 +37,7 @@ DisjointSetForest felzenszwalbSegment(int k, WeightedGraph graph, int minCompSiz
     int srcRoot = segmentation.find(edges[i].source);
     int dstRoot = segmentation.find(edges[i].destination);
 
-    if (srcRoot != dstRoot && (sizes[srcRoot] <= minCompSize || sizes[dstRoot] <= minCompSize)) {
+    if (srcRoot != dstRoot && (segmentation.getComponentSize(srcRoot) <= minCompSize || segmentation.getComponentSize(dstRoot) <= minCompSize)) {
       segmentation.setUnion(srcRoot, dstRoot);
     }
   }

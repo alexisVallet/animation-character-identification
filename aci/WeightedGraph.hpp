@@ -11,8 +11,10 @@
 #include <iostream>
 #include <vector>
 #include <utility>
+#include <opencv2/opencv.hpp>
 
 using namespace std;
+using namespace cv;
 
 struct Edge {
   int source;
@@ -64,6 +66,13 @@ public:
    * @return the number of vertices of the graph.
    */
   int numberOfVertices() const;
+  /**
+   * Draws the graph on an image.
+   *
+   * @param verticesPositions vertices positions on the image
+   * @param imageToDrawOn image the graph will be drawn over
+   */
+  void drawGraph(vector<Vec<float,2> > verticesPositions, Mat &imageToDrawOn);
 };
 
 #endif

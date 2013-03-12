@@ -40,3 +40,13 @@ const vector<Edge> &WeightedGraph::getEdges() const {
 int WeightedGraph::numberOfVertices() const {
   return this->adjacencyLists.size();
 }
+
+void WeightedGraph::drawGraph(vector<Vec<float,2> > verticesPositions, Mat &imageToDrawOn) {
+  for (int i = 0; i < this->edges.size(); i++) {
+    Edge edge = this->edges[i];
+    Vec<float,2> srcPos = verticesPositions[edge.source];
+    Vec<float,2> dstPos = verticesPositions[edge.destination];
+
+    line(imageToDrawOn, Point(srcPos[1], srcPos[0]), Point(dstPos[1], dstPos[0]), Scalar(0,0,0));
+  }
+}
