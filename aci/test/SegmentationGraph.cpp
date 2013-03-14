@@ -6,7 +6,9 @@
 #include "../ACIConfig.h"
 
 int main() {
-  Mat_<Vec<uchar,3> > image = imread(ACI_SOURCE_DIR "/aci/test/mickey.png");
+  Mat_<Vec<uchar,3> > imageRGB = imread(ACI_SOURCE_DIR "/aci/test/mickey.png");
+  Mat_<Vec<uchar,3> > image;
+  cvtColor(imageRGB, image, CV_RGB2Lab);
   Mat_<Vec<uchar,3> > smoothed;
   GaussianBlur(image, smoothed, Size(0,0), 0.8);
   WeightedGraph grid = gridGraph(smoothed, CONNECTIVITY_4);
