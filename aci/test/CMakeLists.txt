@@ -12,3 +12,7 @@ add_test(TestDisjointSet TestDisjointSetExe)
 add_executable(TestSegmentationGraphExe SegmentationGraph.cpp)
 target_link_libraries(TestSegmentationGraphExe ${OpenCV_LIBS} SegmentationGraph Felzenszwalb)
 add_test(TestSegmentationGraph TestSegmentationGraphExe)
+
+add_executable(TestTreeWalkKernelExe TreeWalkKernel.cpp)
+target_link_libraries(TestTreeWalkKernelExe ${OpenCV_LIBS} TreeWalkKernel SegmentationGraph Felzenszwalb)
+add_test(TestTreeWalkKernel TestTreeWalkKernelExe)

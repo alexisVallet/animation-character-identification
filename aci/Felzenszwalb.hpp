@@ -31,14 +31,14 @@ DisjointSetForest felzenszwalbSegment(int k, WeightedGraph graph, int minCompSiz
 /**
  * Returns the grid graph of a color image. The grid graph is defined
  * as the graph where vertices are pixels of the image and vertices have an
- * edge (undirected) between them iff they are neighbor in an 8-connectivity
+ * edge (undirected) between them iff they are neighbor in an N-connectivity
  * sense. Does not repeat edges in both directions, every edge only appears
  * on the first pixel's adjacency list in row major order. Every edge is
  * weighted by euclidean distance between pixel values.
  *
  * @param image image to compute the grid graph from.
  */
-WeightedGraph gridGraph(Mat_<Vec<uchar,3> > &image);
+WeightedGraph gridGraph(Mat_<Vec<uchar,3> > &image, ConnectivityType connectivity);
 
 /**
  * Combines segmentations of the same graph by the following rule:

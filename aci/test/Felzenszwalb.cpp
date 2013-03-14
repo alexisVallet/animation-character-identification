@@ -19,7 +19,7 @@ int main() {
   }
   Mat_<Vec<uchar,3> > image;
   merge(smoothChannels, 3, image);
-  WeightedGraph graph = gridGraph(image);
+  WeightedGraph graph = gridGraph(image, CONNECTIVITY_4);
   DisjointSetForest segmentation = felzenszwalbSegment(150, graph, 50);
   Mat_<Vec<uchar,3> > segImage = segmentation.toRegionImage(image);
 

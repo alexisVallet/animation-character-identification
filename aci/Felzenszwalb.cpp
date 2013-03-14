@@ -53,10 +53,12 @@ static float euclDist(Vec<uchar,3> v1, Vec<uchar,3> v2) {
   return sqrt(dr*dr + dg*dg + db*db);
 }
 
-WeightedGraph gridGraph(Mat_<Vec<uchar,3> > &image) {
+WeightedGraph gridGraph(Mat_<Vec<uchar,3> > &image, ConnectivityType connectivity) {
   WeightedGraph grid(image.cols*image.rows, 4);
-  int colOffsets[] = {-1, 0, 1, 1};
-  int rowOffsets[] = { 1, 1, 1, 0};
+  // indicates neigbor positions depending on connectivity
+  int numberOfNeighbors[2] = {2, 4};
+  int colOffsets[2][4] = {{0, 1, 0, 0}, {-1, 0, 1, 1}};
+  int rowOffsets[2][4] = {{1, 0, 0, 0}, { 1, 1, 1, 0}};
 
   for (int i = 0; i < image.rows; i++) {
     for (int j = 0; j < image.cols; j++) {
@@ -64,9 +66,9 @@ WeightedGraph gridGraph(Mat_<Vec<uchar,3> > &image) {
       assert(centerIndex >= 0 && centerIndex < grid.numberOfVertices());
       Vec<uchar,3> centerIntensity = image(i,j);
       
-      for (int n = 0; n < 4; n++) {
-	int neighborRow = i + rowOffsets[n];
-	int neighborCol = j + colOffsets[n];
+      for (int n = 0; n < numberOfNeighbors[connectivity]; n++) {
+	int neighborRow = i + rowOffsets[connectivity][n];
+	int neighborCol = j + colOffsets[connectivity][n];
 	
 	if (neighborRow >= 0 && neighborRow < image.rows &&
 	    neighborCol >= 0 && neighborCol < image.cols) {

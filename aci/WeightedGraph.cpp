@@ -50,3 +50,14 @@ void WeightedGraph::drawGraph(vector<Vec<float,2> > verticesPositions, Mat &imag
     line(imageToDrawOn, Point(srcPos[1], srcPos[0]), Point(dstPos[1], dstPos[0]), Scalar(0,0,0));
   }
 }
+
+adjacency_list<vecS,vecS,bidirectionalS,property<vertex_index_t, int> > WeightedGraph::toBoostGraph() {
+  adjacency_list<vecS,vecS,bidirectionalS,property<vertex_index_t, int> > 
+    graph(this->adjacencyLists.size());
+  
+  for (int i = 0; i < this->edges.size(); i++) {
+    add_edge(this->edges[i].source, this->edges[i].destination, graph);
+  }
+
+  return graph;
+}

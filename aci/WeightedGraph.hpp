@@ -12,9 +12,11 @@
 #include <vector>
 #include <utility>
 #include <opencv2/opencv.hpp>
+#include <boost/graph/adjacency_list.hpp>
 
 using namespace std;
 using namespace cv;
+using namespace boost;
 
 struct Edge {
   int source;
@@ -73,6 +75,13 @@ public:
    * @param imageToDrawOn image the graph will be drawn over
    */
   void drawGraph(vector<Vec<float,2> > verticesPositions, Mat &imageToDrawOn);
+  /**
+   * Converts this graph into a boost adjacency list. Drops both
+   * weights and vertices labels.
+   *
+   * @return adjacency list representing the same grpah as this.
+   */
+  adjacency_list<vecS,vecS,bidirectionalS,property<vertex_index_t, int> > toBoostGraph();
 };
 
 #endif
