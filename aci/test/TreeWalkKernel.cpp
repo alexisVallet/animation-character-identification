@@ -18,15 +18,18 @@ int main() {
   GaussianBlur(image, smoothed, Size(0,0), 0.8);
   WeightedGraph grid = gridGraph(smoothed, CONNECTIVITY_4);
   DisjointSetForest segmentation = felzenszwalbSegment(300, grid, 500);
+  Mat_<Vec<uchar,3> > segmentationImage = segmentation.toRegionImage(image);
   cout<<"computing segmentation graph"<<endl;
   LabelledGraph<Mat> segGraph = segmentationGraph<Mat>(smoothed, segmentation, grid);
+  segGraph.drawGraph(segmentCenters(image,segmentation), segmentationImage);
+  imshow("segmentation graph", segmentationImage);
+  waitKey(0);
   cout<<"computing histograms"<<endl;
   colorHistogramLabels(smoothed, segmentation, segGraph, BINS_PER_CHANNEL);
   cout<<"computing kernel"<<endl;
   float kernelValue = 
-    treeWalkKernel<Mat>(basisKernel, 2, 2, segGraph, segGraph);
-  cout<<"kernel value ="<<kernelValue<<endl;
-  assert(false);
+    treeWalkKernel<Mat>(kroneckerKernel, 4, 4, segGraph, segGraph);
+  cout<<"kernel value = "<<kernelValue<<endl;
 
   return 0;
 }

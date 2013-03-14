@@ -1,5 +1,9 @@
 #include "TreeWalkKernel.hpp"
 
+static int uniformMap(int binsPerChannel, unsigned char channelValue) {
+  return floor(((float)channelValue/255.0)*binsPerChannel);
+}
+
 void colorHistogramLabels(
     Mat_<Vec<uchar,3> > &image, 
     DisjointSetForest &segmentation, 
@@ -7,32 +11,27 @@ void colorHistogramLabels(
     int binsPerChannel) {
   int numberOfComponents = segmentation.getNumberOfComponents();
   map<int,int> rootIndexes = segmentation.getRootIndexes();
-  vector<Mat_<uchar> > masks(
-    numberOfComponents, 
-    Mat::zeros(image.rows,image.cols,CV_8U));
+  vector<Mat> histograms(numberOfComponents);
+  const int dims[3] = {binsPerChannel, binsPerChannel, binsPerChannel};
 
-  // computes mask for each component
+  for (int i = 0; i < numberOfComponents; i++) {
+    histograms[i] = Mat(3, dims, CV_32S);
+  }
+
   for (int i = 0; i < image.rows; i++) {
     for (int j = 0; j < image.cols; j++) {
-      int pixComp = 
+      int pixComp =
 	rootIndexes[segmentation.find(toRowMajor(image.cols,j,i))];
-
-      masks[pixComp][i][j] = 1;
+      Vec<uchar,3> pixColor = image(i,j);
+      histograms[pixComp].at<int>(
+          uniformMap(binsPerChannel,pixColor[0]),
+	  uniformMap(binsPerChannel,pixColor[1]),
+	  uniformMap(binsPerChannel,pixColor[2]))++;
     }
   }
 
-  int histSizes[3] = {binsPerChannel, binsPerChannel, binsPerChannel};
-  float rRange[2] = {0, 256};
-  const float *ranges[3] = {rRange, rRange, rRange};
-  int channels[3] = {0, 1, 2};
-
-  // compute the histogram for each component and add it to 
-  // the corresponding vertex
   for (int i = 0; i < numberOfComponents; i++) {
-    Mat histogram(3, histSizes, CV_32S);
-
-    calcHist(&image, 1, channels, masks[i], histogram, 3, histSizes, ranges, true, false);
-    segmentationGraph.addLabel(i, histogram);
+    segmentationGraph.addLabel(i, histograms[i]);
   }
 }
 
@@ -66,10 +65,24 @@ float khi2Kernel(int binsPerChannel, float lambda, float mu, const Mat &h1, cons
 	int pi = h1.at<int>(r,g,b);
 	int qi = h2.at<int>(r,g,b);
 
-	d2 += pow(pi-qi,2) / (pi + qi);
+	if (pi + qi != 0) {
+	  float toAdd = pow((float)(pi-qi),2) / (float)(pi + qi);
+
+	  d2 += toAdd;
+	}
       }
     }
   }
 
-  return lambda * exp(-mu * d2);
+  float result = lambda * exp(-mu * d2);
+
+  return result;
+}
+
+float kroneckerKernel(const Mat &h1, const Mat&h2) {
+  Mat diff;
+
+  absdiff(h1, h2, diff);
+
+  return sum(diff)[0] == 0;
 }

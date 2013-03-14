@@ -9,6 +9,7 @@
 #include <boost/property_map/property_map.hpp>
 #include <vector>
 #include <iostream>
+#include <cmath>
 
 #include "LabelledGraph.hpp"
 #include "DisjointSet.hpp"
@@ -55,92 +56,14 @@ void medianColorLabels(
  */
 float khi2Kernel(int binsPerChannel, float lambda, float mu, const Mat &h1, const Mat &h2);
 
-template < typename T >
-static float treeWalkKernelHelper(
-    float (*basisKernel)(const T &l1,const T &l2), 
-    int depth, 
-    int arity, 
-    LabelledGraph<T> &graph1,
-    LabelledGraph<T> &graph2,
-    graph_t &bGraph1,
-    graph_t &bGraph2,
-    embedding_t &embedding1,
-    embedding_t &embedding2,
-    int v1, 
-    int v2,
-    vector<vector<vector<float> > > &memoizedResults) {
-  if (memoizedResults[depth-1][v1][v2] >= 0) {
-    cout<<"returning memoized result"<<endl;
+float kroneckerKernel(const Mat &h1, const Mat &h2);
 
-    return memoizedResults[depth-1][v1][v2];
-  }
-  if (depth == 1) {
-    memoizedResults[depth-1][v1][v2] = basisKernel(graph1.getLabel(v1), graph2.getLabel(v2));
-    
-    return memoizedResults[depth-1][v1][v2];
-  } else {
-    // neighbors of v1 and v2 respectively in the circular order given
-    // by the embeddings.
-    vector<int> neighbors1;
-    vector<int> neighbors2;
-    property_traits<embedding_t>::value_type::const_iterator it;
-    //    cout<<"extracting neighbors in circular order"<<endl;
-    for (it = embedding1[v1].begin(); it != embedding1[v1].end(); it++) {
-      neighbors1.push_back(get(vertex_index, bGraph1, target(*it, bGraph1)));
-    }
+static int current(int iteration) {
+  return iteration % 2;
+}
 
-    for (it = embedding2[v2].begin(); it != embedding2[v2].end(); it++) {
-      neighbors2.push_back(get(vertex_index, bGraph2, target(*it, bGraph2)));
-    }
-
-    float sum = 0;
-    
-    for (int iSize = 1; iSize <= arity; iSize++) {
-      //cout<<"for neighbor intervals of size "<<iSize<<endl;
-      // enumerates all neighbor intervals of size iSize for both vertices.
-      // If there are less neighbors than the required size, there are
-      // no such intervals. Otherwise, there are exactly as many such
-      // intervals as neighbors.
-      if (neighbors1.size() >= iSize && neighbors2.size() >= iSize) {
-	//cout<<"for each neighbor interval of "<<v1<<endl;
-	// for each neighbor interval i of v1
-	for (int i = 0; i < neighbors1.size(); i++) {
-	  //cout<<"for each neighbor interval of "<<v2<<endl;
-	  // for each neighbor interval j of v2
-	  for (int j = 0; j < neighbors2.size(); j++) {
-	    float product = 1;
-	    
-	    // for each neighbor r of v1 in i
-	    for (int r = i; r < (i + iSize) % neighbors1.size(); r++) {
-	      // for each neighbor s of v2 in j
-	      for (int s = j; s < (j + iSize) % neighbors2.size(); s++) {
-		//cout<<"computing for neighbors "<<r<<" and "<<s<<endl;
-		product *= treeWalkKernelHelper(
-		  basisKernel,
-		  depth - 1,
-		  arity,
-		  graph1,
-		  graph2,
-		  bGraph1,
-		  bGraph2,
-		  embedding1,
-		  embedding2,
-		  r,
-		  s,
-		  memoizedResults);
-	      }
-	    }
-
-	    sum += product;
-	  }
-	}
-      }
-    }
-
-    memoizedResults[depth-1][v1][v2] = basisKernel(graph1.getLabel(v1), graph2.getLabel(v2)) * sum;
-    
-    return memoizedResults[depth-1][v1][v2];
-  }
+static int previous(int iteration) {
+  return !current(iteration);
 }
 
 /**
@@ -156,22 +79,17 @@ static float treeWalkKernelHelper(
  */
 template < typename T >
 float treeWalkKernel(float (*basisKernel)(const T &l1,const T &l2), int depth, int arity, LabelledGraph<T> &graph1, LabelledGraph<T> &graph2) {
-  // memoizes results for efficient dynamic programming recursion
-  vector<vector<vector<float> > > memoizedResults(depth, vector<vector<float> >(graph1.numberOfVertices(), vector<float>(graph1.numberOfVertices(), -1)));
-
-  float sum = 0;
-  cout<<"computing boost graphs"<<endl;
+  // data structures for boost's boyer myrvold planarity test implementation
   graph_t 
     bGraph1 = graph1.toBoostGraph(),
     bGraph2 = graph2.toBoostGraph();
-  // data structures for boost
   embedding_storage_t 
     embedding_storage1(num_vertices(bGraph1)),
     embedding_storage2(num_vertices(bGraph2));
   embedding_t
     embedding1(embedding_storage1.begin(), get(vertex_index,bGraph1)),
     embedding2(embedding_storage2.begin(), get(vertex_index,bGraph2));
-  cout<<"computing planar embeddings"<<endl;
+
   // computes planar embeddings for both graphs to get a circular
   // ordering of edges out of each vertex.
   bool isPlanar1 = boyer_myrvold_planarity_test(
@@ -182,26 +100,86 @@ float treeWalkKernel(float (*basisKernel)(const T &l1,const T &l2), int depth, i
      boyer_myrvold_params::embedding = embedding2);
   assert(isPlanar1 && isPlanar2);
 
+  // basisKernels contains the basis kernel for each pair of vertices
+  // the two graphs, computed once and for all.
+  Mat_<float> basisKernels(graph1.numberOfVertices(), graph2.numberOfVertices(), CV_32F);
+
+  // depthKernels contains the current iteration's results as well as the previous
+  // iteration's results, swapped at each iteration in a "ping-pong" fashion.
+  Mat_<float> depthKernels[2] = {
+    Mat_<float>(graph1.numberOfVertices(), graph2.numberOfVertices(), CV_32F),
+    Mat_<float>(graph1.numberOfVertices(), graph2.numberOfVertices(), CV_32F)
+  };
+
+  // neighbors for each vertex in each graph in the circular order given
+  // by the embeddings.
+  vector<vector<int> > 
+    circNeighbors1(graph1.numberOfVertices()), 
+    circNeighbors2(graph2.numberOfVertices());
+
+  //initializes neighbors in circular order
+  for (int v1 = 0; v1 < graph1.numberOfVertices(); v1++) {
+    property_traits<embedding_t>::value_type::const_iterator it;
+
+    for (it = embedding1[v1].begin(); it != embedding1[v1].end(); it++) {
+      circNeighbors1[v1].push_back(get(vertex_index, bGraph1, target(*it, bGraph1)));
+    }
+  }
+  for (int v2 = 0; v2 < graph2.numberOfVertices(); v2++) {
+    property_traits<embedding_t>::value_type::const_iterator it;
+
+    for (it = embedding2[v2].begin(); it != embedding2[v2].end(); it++) {
+      circNeighbors2[v2].push_back(get(vertex_index, bGraph2, target(*it, bGraph2)));
+    }
+  }
+
+  // initializes basis kernels
   for (int v1 = 0; v1 < graph1.numberOfVertices(); v1++) {
     for (int v2 = 0; v2 < graph2.numberOfVertices(); v2++) {
-      cout<<"computing kernel for roots "<<v1<<" and "<<v2<<endl;
-      sum += treeWalkKernelHelper(
-	  basisKernel, 
-	  depth, 
-	  arity, 
-	  graph1,
-	  graph2,
-	  bGraph1,
-	  bGraph2,
-	  embedding1, 
-	  embedding2, 
-	  v1, 
-	  v2,
-	  memoizedResults);
+      basisKernels(v1,v2) = basisKernel(graph1.getLabel(v1), graph2.getLabel(v2));
+      depthKernels[previous(0)](v1,v2) = basisKernels(v1,v2);
     }
-  }  
+  }
 
-  return sum;
+  // computes kernels for each depth up to the maximum depth
+  for (int d = 0; d < depth; d++) {
+    for (int v1 = 0; v1 < graph1.numberOfVertices(); v1++) {
+      for (int v2 = 0; v2 < graph2.numberOfVertices(); v2++) {
+	//cout<<"from roots "<<v1<<" and "<<v2<<endl;
+	float sum = 0;
+	
+	// summing for neighbor intervals of cardinal lower
+	// than arity
+	for (int iSize = 1; iSize <= arity; iSize++) {
+	  // if the size is greater than either number of
+	  // neighbors, there are no such neighbor intervals
+	  if (iSize > circNeighbors1[v1].size() || iSize > circNeighbors2[v2].size()) {
+	    break;
+	  }
+	  // for each neighbor interval i (resp j) of v1 (resp v2)
+	  for (int i = 0; i < circNeighbors1[v1].size() - iSize; i++) {
+	    for (int j = 0; j < circNeighbors2[v2].size() - iSize; j++) {
+	      float product = 1;
+	      // for each neighbor r (resp s) of v1 (resp v2) in i (resp j)
+	      for (int r = i; r < i + iSize; r++) {
+		for (int s = j; s < j + iSize; s++) {
+		  product *= depthKernels[previous(d)](r,s);
+		}
+	      }
+	      sum += product;
+	    }
+	  }
+	}
+
+	depthKernels[current(d)](v1,v2) = basisKernels(v1,v2) * sum;
+      }
+    }
+  }
+  
+  Scalar result = sum(depthKernels[previous(depth)]);
+
+  // sum and return the results of the last iteration
+  return result[0];
 }
 
 #endif
