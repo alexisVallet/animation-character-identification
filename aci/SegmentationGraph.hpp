@@ -5,7 +5,7 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 
-#include "LabelledGraph.hpp"
+#include "LabeledGraph.hpp"
 #include "DisjointSet.hpp"
 
 using namespace cv;
@@ -23,14 +23,14 @@ using namespace std;
  * (the default constructor is called).
  */
 template < typename T >
-LabelledGraph<T> segmentationGraph(Mat_<Vec<uchar,3> > &image, DisjointSetForest &segmentation, WeightedGraph &grid) {
+LabeledGraph<T> segmentationGraph(Mat_<Vec<uchar,3> > &image, DisjointSetForest &segmentation, WeightedGraph &grid) {
   int numberOfComponents = segmentation.getNumberOfComponents();
-  LabelledGraph<T> graph(numberOfComponents);
+  LabeledGraph<T> graph(numberOfComponents);
   vector<vector<bool> > adjMatrix(numberOfComponents, vector<bool>(numberOfComponents, false));
   map<int,int> rootIndexes = segmentation.getRootIndexes();
 
   // for each pair of neighboring pixels
-  for (int i = 0; i < grid.getEdges().size(); i++) {
+  for (int i = 0; i < (int)grid.getEdges().size(); i++) {
     Edge edge = grid.getEdges()[i];
     int srcRoot = rootIndexes[segmentation.find(edge.source)];
     int dstRoot = rootIndexes[segmentation.find(edge.destination)];

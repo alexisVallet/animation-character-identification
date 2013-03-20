@@ -17,7 +17,7 @@ DisjointSetForest felzenszwalbSegment(int k, WeightedGraph graph, int minCompSiz
 
   // Goes through the edges, and fuses vertices if they pass a check,
   // updating internal differences.
-  for (int i = 0; i < edges.size(); i++) {
+  for (int i = 0; i < (int)edges.size(); i++) {
     Edge currentEdge = edges[i];
     int root1 = segmentation.find(currentEdge.source);
     int root2 = segmentation.find(currentEdge.destination);
@@ -33,7 +33,7 @@ DisjointSetForest felzenszwalbSegment(int k, WeightedGraph graph, int minCompSiz
   }
 
   // Post processing phase which fuses components below a certain size
-  for (int i = 0; i < edges.size(); i++) {
+  for (int i = 0; i < (int)edges.size(); i++) {
     int srcRoot = segmentation.find(edges[i].source);
     int dstRoot = segmentation.find(edges[i].destination);
 
@@ -90,11 +90,11 @@ DisjointSetForest combineSegmentations(const WeightedGraph &graph, vector<Disjoi
   DisjointSetForest combination(graph.numberOfVertices());
   vector<Edge> edges = graph.getEdges();
 
-  for (int i = 0; i < edges.size(); i++) {
+  for (int i = 0; i < (int)edges.size(); i++) {
     Edge edge = edges[i];
     bool areInSameComponents = true;
 
-    for (int j = 0; j < segmentations.size(); j++) {
+    for (int j = 0; j < (int)segmentations.size(); j++) {
       int sourceRoot = segmentations[j].find(edge.source);
       int destinationRoot = segmentations[j].find(edge.destination);
       

@@ -90,7 +90,7 @@ map<int,int> DisjointSetForest::getRootIndexes() {
   this->rootIndexes.clear();
   int currentIndex = 0;
 
-  for (int i = 0; i < this->forest.size(); i++) {
+  for (int i = 0; i < (int)this->forest.size(); i++) {
     int root = this->find(i);
     map<int,int>::iterator it = this->rootIndexes.find(root);
 

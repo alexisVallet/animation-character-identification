@@ -7,6 +7,7 @@
 #ifndef _WEIGHTEDGRAPH_HPP_
 #define _WEIGHTEDGRAPH_HPP_
 
+#include <cmath>
 #include <assert.h>
 #include <iostream>
 #include <vector>

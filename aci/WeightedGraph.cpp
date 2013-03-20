@@ -42,12 +42,12 @@ int WeightedGraph::numberOfVertices() const {
 }
 
 void WeightedGraph::drawGraph(vector<Vec<float,2> > verticesPositions, Mat &imageToDrawOn) {
-  for (int i = 0; i < this->edges.size(); i++) {
+  for (int i = 0; i < (int)this->edges.size(); i++) {
     Edge edge = this->edges[i];
     Vec<float,2> srcPos = verticesPositions[edge.source];
     Vec<float,2> dstPos = verticesPositions[edge.destination];
 
-    line(imageToDrawOn, Point(srcPos[1], srcPos[0]), Point(dstPos[1], dstPos[0]), Scalar(0,0,0));
+    line(imageToDrawOn, Point(floor(srcPos[1]), floor(srcPos[0])), Point(floor(dstPos[1]), floor(dstPos[0])), Scalar(0,0,0));
   }
 }
 
@@ -55,7 +55,7 @@ adjacency_list<vecS,vecS,bidirectionalS,property<vertex_index_t, int> > Weighted
   adjacency_list<vecS,vecS,bidirectionalS,property<vertex_index_t, int> > 
     graph(this->adjacencyLists.size());
   
-  for (int i = 0; i < this->edges.size(); i++) {
+  for (int i = 0; i < (int)this->edges.size(); i++) {
     add_edge(this->edges[i].source, this->edges[i].destination, graph);
   }
 
