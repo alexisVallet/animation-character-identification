@@ -3,11 +3,6 @@
 
 #include <opencv2/opencv.hpp>
 #include <boost/graph/boyer_myrvold_planar_test.hpp>
-#include <boost/graph/adjacency_list.hpp>
-#include <boost/graph/properties.hpp>
-#include <boost/graph/graph_traits.hpp>
-#include <boost/property_map/property_map.hpp>
-#include <boost/math/special_functions/fpclassify.hpp>
 #include <vector>
 #include <iostream>
 #include <cmath>
@@ -20,12 +15,6 @@
 using namespace std;
 using namespace cv;
 using namespace boost;
-
-typedef adjacency_list<vecS,vecS,bidirectionalS,property<vertex_index_t, int> > graph_t;
-
-typedef vector<vector<graph_traits<adjacency_list<vecS,vecS,bidirectionalS,property<vertex_index_t, int> > >::edge_descriptor> > embedding_storage_t;
-
-typedef iterator_property_map<vector<vector<graph_traits<adjacency_list<vecS,vecS,bidirectionalS,property<vertex_index_t, int> > >::edge_descriptor> >::iterator,property_map<adjacency_list<vecS,vecS,bidirectionalS,property<vertex_index_t, int> >,vertex_index_t>::type> embedding_t;
 
 /**
  * Adds color histogram labels to a segmentation graph.
@@ -69,6 +58,24 @@ static int previous(int iteration) {
   return !current(iteration);
 }
 
+static void computeNeighbors(WeightedGraph &graph, graph_t &bGraph, embedding_t &embedding, vector<vector<int> > &circNeighbors) {
+	for (int v1 = 0; v1 < graph.numberOfVertices(); v1++) {
+		property_traits<embedding_t>::value_type::const_iterator it;
+		cout<<v1<<" : [";
+		for (it = embedding[v1].begin(); it != embedding[v1].end(); it++) {
+			// The neighbor is the vertex of the edge which is not v1.
+			int neighbor = 
+				get(vertex_index, bGraph, target(*it, bGraph)) ==  v1 ? 
+				get(vertex_index, bGraph, source(*it, bGraph)) : 
+				get(vertex_index, bGraph, target(*it, bGraph));
+
+			circNeighbors[v1].push_back(neighbor);
+			cout<<neighbor<<", ";
+		}
+		cout<<"]"<<endl;
+	}
+}
+
 /**
  * Computes the tree walk kernel between two labelled graphs given
  * a basis kernel function. It is assumed that each graph is undirected,
@@ -103,7 +110,7 @@ double treeWalkKernel(double (*basisKernel)(const T &l1,const T &l2), int depth,
 		boyer_myrvold_params::embedding = embedding2);
 	assert(isPlanar1 && isPlanar2);
 
-	// basisKernels contains the basis kernel for each pair of vertices
+	// basisKernels contains the basis kernel for each pair of vertices in
 	// the two graphs, computed once and for all.
 	Mat_<double> basisKernels = Mat_<double>::zeros(graph1.numberOfVertices(), graph2.numberOfVertices());
 
@@ -121,21 +128,10 @@ double treeWalkKernel(double (*basisKernel)(const T &l1,const T &l2), int depth,
 		circNeighbors2(graph2.numberOfVertices());
 
 	//initializes neighbors in circular order
-	for (int v1 = 0; v1 < graph1.numberOfVertices(); v1++) {
-		property_traits<embedding_t>::value_type::const_iterator it;
+	computeNeighbors(graph1, bGraph1, embedding1, circNeighbors1);
+	computeNeighbors(graph2, bGraph2, embedding2, circNeighbors2);
 
-		for (it = embedding1[v1].begin(); it != embedding1[v1].end(); it++) {
-			circNeighbors1[v1].push_back(get(vertex_index, bGraph1, target(*it, bGraph1)));
-		}
-	}
-
-	for (int v2 = 0; v2 < graph2.numberOfVertices(); v2++) {
-		property_traits<embedding_t>::value_type::const_iterator it;
-
-		for (it = embedding2[v2].begin(); it != embedding2[v2].end(); it++) {
-			circNeighbors2[v2].push_back(get(vertex_index, bGraph2, target(*it, bGraph2)));
-		}
-	}
+	cout<<"neighbors computed"<<endl;
 
 	// initializes basis kernels
 	for (int v1 = 0; v1 < graph1.numberOfVertices(); v1++) {
@@ -145,11 +141,14 @@ double treeWalkKernel(double (*basisKernel)(const T &l1,const T &l2), int depth,
 		}
 	}
 
+	cout<<"basis kernels computed"<<endl;
+
 	// computes kernels for each depth up to the maximum depth
 	for (int d = 0; d < depth; d++) {
+		cout<<"computing kernel for trees of depth "<<d<<endl;
 		for (int v1 = 0; v1 < graph1.numberOfVertices(); v1++) {
 			for (int v2 = 0; v2 < graph2.numberOfVertices(); v2++) {
-				//cout<<"from roots "<<v1<<" and "<<v2<<endl;
+				cout<<"from roots "<<v1<<" and "<<v2<<endl;
 				double sum = 0;
 	
 				// summing for neighbor intervals of cardinal lower
@@ -161,13 +160,16 @@ double treeWalkKernel(double (*basisKernel)(const T &l1,const T &l2), int depth,
 						break;
 					}
 					// for each neighbor interval i (resp j) of v1 (resp v2)
-					for (int i = 0; i < (int)circNeighbors1[v1].size() - iSize; i++) {
-						for (int j = 0; j < (int)circNeighbors2[v2].size() - iSize; j++) {
+					for (int i = 0; i < (int)circNeighbors1[v1].size(); i++) {
+						for (int j = 0; j < (int)circNeighbors2[v2].size(); j++) {
 							double product = 1;
 							// for each neighbor r (resp s) of v1 (resp v2) in i (resp j)
 							for (int r = i; r < i + iSize; r++) {
 								for (int s = j; s < j + iSize; s++) {
-									product *= depthKernels[previous(d)](r,s);
+									int neighbor1 = circNeighbors1[v1][r % circNeighbors1[v1].size()];
+									int neighbor2 = circNeighbors2[v2][s % circNeighbors2[v2].size()];
+									
+									product *= depthKernels[previous(d)](neighbor1, neighbor2);
 								}
 							}
 
@@ -182,6 +184,8 @@ double treeWalkKernel(double (*basisKernel)(const T &l1,const T &l2), int depth,
 			}
 		}
 	}
+
+	cout<<"summing resulting matrix"<<endl;
 
 	Scalar result = sum(depthKernels[previous(depth)]);
 

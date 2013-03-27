@@ -2,7 +2,8 @@
  * Weighted graph data structure represented as adjacency
  * lists. Lists are stored as vectors for efficiency, as our
  * graphs in the use case of image segmentation have a limited
- * degree.
+ * degree. Also keeps an edge list data structure for efficiently
+ * listing edges in the graph.
  */
 #ifndef _WEIGHTEDGRAPH_HPP_
 #define _WEIGHTEDGRAPH_HPP_
@@ -14,10 +15,21 @@
 #include <utility>
 #include <opencv2/opencv.hpp>
 #include <boost/graph/adjacency_list.hpp>
+#include <boost/graph/properties.hpp>
+#include <boost/graph/graph_traits.hpp>
+#include <boost/property_map/property_map.hpp>
+#include <boost/math/special_functions/fpclassify.hpp>
 
 using namespace std;
 using namespace cv;
 using namespace boost;
+
+// convenience typedefs for boost graph datatypes
+typedef adjacency_list<vecS,vecS,bidirectionalS,property<vertex_index_t, int> > graph_t;
+
+typedef vector<vector<graph_traits<adjacency_list<vecS,vecS,bidirectionalS,property<vertex_index_t, int> > >::edge_descriptor> > embedding_storage_t;
+
+typedef iterator_property_map<vector<vector<graph_traits<adjacency_list<vecS,vecS,bidirectionalS,property<vertex_index_t, int> > >::edge_descriptor> >::iterator,property_map<adjacency_list<vecS,vecS,bidirectionalS,property<vertex_index_t, int> >,vertex_index_t>::type> embedding_t;
 
 struct Edge {
   int source;
@@ -77,12 +89,26 @@ public:
    */
   void drawGraph(vector<Vec<float,2> > verticesPositions, Mat &imageToDrawOn);
   /**
+   * Draws the graph on an image, vertex by vertex adding each edge in its circular
+   * ordering as defined by a planar embedding. Displays the intermediary image at each
+   * step, waiting for user input between each step. This method should therefore only
+   * be used for debugging purposes.
+   *
+   * @param verticesPositions vertices positions on the image
+   * @param imageToDrawOn image the graph will be drawn over
+   * @param embedding a planar embedding of the graph, as returned by 
+   * boost::graph::boyer_myrvold_planarity_test for instance.
+   */
+  void drawGraphWithEmbedding(vector<Vec<float,2> > verticesPositions, Mat &imageToDrawOn, graph_t boostGraph, embedding_t embedding);
+  /**
    * Converts this graph into a boost adjacency list. Drops both
    * weights and vertices labels.
    *
    * @return adjacency list representing the same grpah as this.
    */
-  adjacency_list<vecS,vecS,bidirectionalS,property<vertex_index_t, int> > toBoostGraph();
+  graph_t toBoostGraph();
+
+  friend ostream &operator<<(ostream &os, const WeightedGraph &graph);
 };
 
 #endif

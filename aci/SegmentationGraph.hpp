@@ -14,7 +14,8 @@ using namespace std;
 /**
  * Computes the segmentation graph of an image segmentation, where
  * vertices are segments and there is an edge between two segments
- * iff these segments are connected in an 8-connexity sense.
+ * iff these segments are connected in a 4-connexity sense. Every edge
+ * is represented in only one adjacency list.
  *
  * @param image the segmented image
  * @param segmentation a segmentation of the image
@@ -36,15 +37,13 @@ LabeledGraph<T> segmentationGraph(Mat_<Vec<uchar,3> > &image, DisjointSetForest 
     int dstRoot = rootIndexes[segmentation.find(edge.destination)];
 
     // if they are not in the same segment and there isn't
-    // already an edge between them, add one. The edge is undirected,
-    // and added to both adjacency lists for more efficient neighbors
-    // listing.
+    // already an edge between them, add one.
     if (srcRoot != dstRoot && 
 	!adjMatrix[srcRoot][dstRoot] &&
 	!adjMatrix[dstRoot][srcRoot]) {
       adjMatrix[srcRoot][dstRoot] = true;
+	  adjMatrix[dstRoot][srcRoot] = true;
       graph.addEdge(srcRoot,dstRoot,0);
-      graph.addEdge(dstRoot,srcRoot,0);
     }
   }
 

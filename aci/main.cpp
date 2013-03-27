@@ -34,13 +34,32 @@ void computeLabeledGraphs(char* filename, LabeledGraph<Mat> &histogramGraph) {
 	WeightedGraph grid = gridGraph(smoothed, CONNECTIVITY);
 	DisjointSetForest segmentation = felzenszwalbSegment(k, grid, minCompSize);
 	histogramGraph = segmentationGraph<Mat>(smoothed, segmentation, grid);
+	cout<<histogramGraph<<endl;
 	Mat_<Vec<uchar,3> > segmentationImage = segmentation.toRegionImage(image);
-	adjacency_list<vecS,vecS,bidirectionalS,property<vertex_index_t, int> > 
-    boostGraph = histogramGraph.toBoostGraph();
-	bool isPlanar = boyer_myrvold_planarity_test(boostGraph);
+	adjacency_list<vecS,vecS,bidirectionalS,property<vertex_index_t, int> >
+		boostGraph = histogramGraph.toBoostGraph();
+	embedding_storage_t 
+		embedding_storage(num_vertices(boostGraph));
+	embedding_t
+		embedding(embedding_storage.begin(), get(vertex_index,boostGraph));
+	bool isPlanar = boyer_myrvold_planarity_test(
+		boyer_myrvold_params::graph = boostGraph,
+		boyer_myrvold_params::embedding = embedding);
+	for (int i = 0; i < histogramGraph.numberOfVertices(); i++) {
+		pair<graph_traits<graph_t>::adjacency_iterator , graph_traits<graph_t>::adjacency_iterator> 
+			itRange = adjacent_vertices(i, boostGraph);
+		graph_traits<graph_t>::adjacency_iterator it;
+		cout<<i<<" : [";
+
+		for (it = itRange.first; it != itRange.second; it++) {
+			cout<<get(vertex_index, boostGraph, *it)<<", ";
+		}
+		cout<<"]"<<endl;
+	}
 	cout<<"Planarity: "<<isPlanar<<endl;
 	assert(isPlanar);
-	histogramGraph.drawGraph(segmentCenters(image,segmentation), segmentationImage);
+	//histogramGraph.drawGraphWithEmbedding(segmentCenters(image,segmentation), segmentationImage, boostGraph, embedding);
+	histogramGraph.drawGraph(segmentCenters(image,segmentation),segmentationImage);
 	imshow("segmentation graph", segmentationImage);
 	waitKey(0);
 	colorHistogramLabels(smoothed, segmentation, histogramGraph, BINS_PER_CHANNEL);
