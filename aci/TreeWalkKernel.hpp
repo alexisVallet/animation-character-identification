@@ -61,7 +61,6 @@ static int previous(int iteration) {
 static void computeNeighbors(WeightedGraph &graph, graph_t &bGraph, embedding_t &embedding, vector<vector<int> > &circNeighbors) {
 	for (int v1 = 0; v1 < graph.numberOfVertices(); v1++) {
 		property_traits<embedding_t>::value_type::const_iterator it;
-		cout<<v1<<" : [";
 		for (it = embedding[v1].begin(); it != embedding[v1].end(); it++) {
 			// The neighbor is the vertex of the edge which is not v1.
 			int neighbor = 
@@ -70,9 +69,7 @@ static void computeNeighbors(WeightedGraph &graph, graph_t &bGraph, embedding_t 
 				get(vertex_index, bGraph, target(*it, bGraph));
 
 			circNeighbors[v1].push_back(neighbor);
-			cout<<neighbor<<", ";
 		}
-		cout<<"]"<<endl;
 	}
 }
 
@@ -131,8 +128,6 @@ double treeWalkKernel(double (*basisKernel)(const T &l1,const T &l2), int depth,
 	computeNeighbors(graph1, bGraph1, embedding1, circNeighbors1);
 	computeNeighbors(graph2, bGraph2, embedding2, circNeighbors2);
 
-	cout<<"neighbors computed"<<endl;
-
 	// initializes basis kernels
 	for (int v1 = 0; v1 < graph1.numberOfVertices(); v1++) {
 		for (int v2 = 0; v2 < graph2.numberOfVertices(); v2++) {
@@ -141,14 +136,10 @@ double treeWalkKernel(double (*basisKernel)(const T &l1,const T &l2), int depth,
 		}
 	}
 
-	cout<<"basis kernels computed"<<endl;
-
 	// computes kernels for each depth up to the maximum depth
 	for (int d = 0; d < depth; d++) {
-		cout<<"computing kernel for trees of depth "<<d<<endl;
 		for (int v1 = 0; v1 < graph1.numberOfVertices(); v1++) {
 			for (int v2 = 0; v2 < graph2.numberOfVertices(); v2++) {
-				cout<<"from roots "<<v1<<" and "<<v2<<endl;
 				double sum = 0;
 	
 				// summing for neighbor intervals of cardinal lower
@@ -184,8 +175,6 @@ double treeWalkKernel(double (*basisKernel)(const T &l1,const T &l2), int depth,
 			}
 		}
 	}
-
-	cout<<"summing resulting matrix"<<endl;
 
 	Scalar result = sum(depthKernels[previous(depth)]);
 

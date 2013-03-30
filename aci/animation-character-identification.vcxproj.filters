@@ -21,6 +21,12 @@
     <ClCompile Include="Felzenszwalb.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlanarGraph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="SegmentationGraph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -33,15 +39,18 @@
     <ClCompile Include="WeightedGraph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="PlanarGraph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="DisjointSet.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Felzenszwalb.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LabeledGraph.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SegmentationGraph.hpp">
@@ -54,9 +63,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WeightedGraph.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LabeledGraph.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

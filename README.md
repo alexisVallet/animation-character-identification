@@ -6,8 +6,10 @@ Implementation of a method for animation character identification from color ima
 Compiling and running using Visual Studio
 -----------------------------------------
 
-Requires Visual Studio 2012, please download and install the the express version for windows desktop 
-if you don't already have it installed on your computer: http://www.microsoft.com/visualstudio/eng/downloads
+Requires Visual Studio 2010, please download and install the the express version for windows desktop 
+if you don't already have it installed on your computer: http://www.microsoft.com/visualstudio/eng/downloads . If you
+already have another version of Visual Studio installed, please make sure to uninstall it beforehand as it may provoke
+conflicts.
 
 Download the latest sources from this url: https://github.com/alexisVallet/animation-character-identification/archive/master.zip
 

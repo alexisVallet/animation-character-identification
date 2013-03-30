@@ -11,8 +11,8 @@
 #define CONNECTIVITY CONNECTIVITY_4
 #define MAX_SEGMENTS 50
 #define BINS_PER_CHANNEL 5
-#define TREE_WALK_ARITY 2
-#define TREE_WALK_DEPTH 2
+#define TREE_WALK_ARITY 1
+#define TREE_WALK_DEPTH 1
 #define LAMBDA 0.75
 #define MU 1
 
@@ -34,6 +34,8 @@ void computeLabeledGraphs(char* filename, LabeledGraph<Mat> &histogramGraph) {
 	WeightedGraph grid = gridGraph(smoothed, CONNECTIVITY);
 	DisjointSetForest segmentation = felzenszwalbSegment(k, grid, minCompSize);
 	histogramGraph = segmentationGraph<Mat>(smoothed, segmentation, grid);
+	cout<<histogramGraph.numberOfVertices()<<" vertices"<<endl;
+	cout<<histogramGraph.getEdges().size()<<" edges"<<endl;
 	cout<<histogramGraph<<endl;
 	Mat_<Vec<uchar,3> > segmentationImage = segmentation.toRegionImage(image);
 	adjacency_list<vecS,vecS,bidirectionalS,property<vertex_index_t, int> >
@@ -45,17 +47,6 @@ void computeLabeledGraphs(char* filename, LabeledGraph<Mat> &histogramGraph) {
 	bool isPlanar = boyer_myrvold_planarity_test(
 		boyer_myrvold_params::graph = boostGraph,
 		boyer_myrvold_params::embedding = embedding);
-	for (int i = 0; i < histogramGraph.numberOfVertices(); i++) {
-		pair<graph_traits<graph_t>::adjacency_iterator , graph_traits<graph_t>::adjacency_iterator> 
-			itRange = adjacent_vertices(i, boostGraph);
-		graph_traits<graph_t>::adjacency_iterator it;
-		cout<<i<<" : [";
-
-		for (it = itRange.first; it != itRange.second; it++) {
-			cout<<get(vertex_index, boostGraph, *it)<<", ";
-		}
-		cout<<"]"<<endl;
-	}
 	cout<<"Planarity: "<<isPlanar<<endl;
 	assert(isPlanar);
 	//histogramGraph.drawGraphWithEmbedding(segmentCenters(image,segmentation), segmentationImage, boostGraph, embedding);
@@ -85,7 +76,7 @@ int main(int argc, char** argv) {
 
 		computeLabeledGraphs(argv[2], graph2);
 
-		double kernelResult = treeWalkKernel<Mat>(basisKernel, TREE_WALK_DEPTH, TREE_WALK_ARITY, graph1, graph2);
+		double kernelResult = treeWalkKernel<Mat>(kroneckerKernel, TREE_WALK_DEPTH, TREE_WALK_ARITY, graph1, graph2);
 
 		cout<<"Tree walk kernel between "<<argv[1]<<" and "<<argv[2]<<" is "<<kernelResult<<endl;
 	}
