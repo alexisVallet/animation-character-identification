@@ -43,7 +43,7 @@ LabeledGraph<T> segmentationGraph(Mat_<Vec<uchar,3> > &image, DisjointSetForest 
 	!adjMatrix[dstRoot][srcRoot]) {
       adjMatrix[srcRoot][dstRoot] = true;
 	  adjMatrix[dstRoot][srcRoot] = true;
-      graph.addEdge(srcRoot,dstRoot,0);
+      graph.addEdge(srcRoot,dstRoot,1);
     }
   }
 

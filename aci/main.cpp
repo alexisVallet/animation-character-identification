@@ -6,6 +6,7 @@
 #include "Felzenszwalb.hpp"
 #include "SegmentationGraph.hpp"
 #include "TreeWalkKernel.hpp"
+#include "GraphSpectra.h"
 
 #define SIGMA 0.8
 #define CONNECTIVITY CONNECTIVITY_4
@@ -84,16 +85,21 @@ int main(int argc, char** argv) {
 	
 	computeLabeledGraphs(argv[1], graph1);
 
+	Mat_<double> unnormalized = laplacian(graph1);
+	Mat uEigenvectors;
+	Mat uEigenvalues;
 
-	if (argc >= 3) {
-		LabeledGraph<Mat> graph2;
+	eigen(unnormalized, uEigenvalues, uEigenvectors);
 
-		computeLabeledGraphs(argv[2], graph2);
+	cout<<"Laplacian eigenvalues: "<<endl<<uEigenvalues<<endl;
 
-		double kernelResult = treeWalkKernel<Mat>(basisKernel, TREE_WALK_DEPTH, TREE_WALK_ARITY, graph1, graph2);
+	Mat_<double> normalized = normalizedLaplacian(graph1);
+	Mat nEigenvectors;
+	Mat nEigenvalues;
 
-		cout<<"Tree walk kernel between "<<argv[1]<<" and "<<argv[2]<<" is "<<kernelResult<<endl;
-	}
+	eigen(normalized, nEigenvalues, nEigenvectors);
+
+	cout<<"Normalized laplacian eigenvalues: "<<endl<<nEigenvalues<<endl;
 
 	return 0;
 }

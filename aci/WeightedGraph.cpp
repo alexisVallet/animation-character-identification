@@ -15,7 +15,7 @@ WeightedGraph::WeightedGraph(int numberOfVertices, int maxDegree)
   }
 }
 
-void WeightedGraph::addEdge(int source, int destination, float weight) {
+void WeightedGraph::addEdge(int source, int destination, float weight = 1) {
   HalfEdge toAdd;
 
   assert(source >= 0 && source < this->numberOfVertices());
