@@ -86,6 +86,50 @@ WeightedGraph gridGraph(Mat_<Vec<uchar,3> > &image, ConnectivityType connectivit
   return grid;
 }
 
+WeightedGraph nearestNeighborGraph(Mat_<Vec<uchar,3> > &image, int k) {
+	// computes the set of features of the image
+	cout<<"computing features"<<endl;
+	Mat features(image.rows * image.cols, 5, CV_32F);
+	
+	for (int i = 0; i < image.rows; i++) {
+		for (int j = 0; j < image.cols; j++) {
+			int index = toRowMajor(image.cols, j, i);
+			Vec<uchar,3> color = image(i,j);
+
+			features.at<float>(index,0) = (float)j;
+			features.at<float>(index,1) = (float)i;
+			features.at<float>(index,2) = color[0];
+			features.at<float>(index,3) = color[1];
+			features.at<float>(index,4) = color[2];
+		}
+	}
+
+	cout<<"computing flann index"<<endl;
+	flann::Index flannIndex(features, flann::KMeansIndexParams(16, 5));
+	WeightedGraph nnGraph(image.rows * image.cols);
+
+	cout<<"computing nearest neighbors and adding edges"<<endl;
+	// for each feature, determine the k nearest neighbors and add them
+	// as edges to the graph.
+	for (int i = 0; i < features.rows; i++) {
+		vector<int> indices(k);
+		vector<float> distances(k);
+		set<pair<int,int>> edges;
+
+		flannIndex.knnSearch(features.row(i), indices, distances, k);
+
+		for (int j = 0; j < k; j++) {
+			// if there isn't already an edge the other way, add an edge
+			if (edges.find(pair<int,int>(indices[j], i)) == edges.end()) {
+				nnGraph.addEdge(i, indices[j], distances[j]);
+				edges.insert(pair<int,int>(i, indices[j]));
+			}
+		}
+	}
+
+	return nnGraph;
+}
+
 DisjointSetForest combineSegmentations(const WeightedGraph &graph, vector<DisjointSetForest> &segmentations) {
   DisjointSetForest combination(graph.numberOfVertices());
   vector<Edge> edges = graph.getEdges();

@@ -41,6 +41,20 @@ DisjointSetForest felzenszwalbSegment(int k, WeightedGraph graph, int minCompSiz
 WeightedGraph gridGraph(Mat_<Vec<uchar,3> > &image, ConnectivityType connectivity);
 
 /**
+ * Returns a graph where vertices are pixels in the image, and every vertex has an edge
+ * to each of its K nearest neighbor in feature space. For a pixel at position (x,y) and
+ * color (r,g,b), the associated vector in feature space is (x,y,r,g,b). Uses approximate
+ * nearest neighbor search.
+ *
+ * @param image image to compute the nearest neighbor graph from.
+ * @param k the number of nearest neighbors each pixel should have an edge
+ * towards. Note that this does not mean that the graph is k-regular (seen as an
+ * undirected graph) as the k nearest neighbor relation is not symmetric.
+ * @return the nearest neighbor graph of the image.
+ */
+WeightedGraph nearestNeighborGraph(Mat_<Vec<uchar,3> > &image, int k);
+
+/**
  * Combines segmentations of the same graph by the following rule:
  * two neighboring vertices in the graph are in the same component iff
  * they are in the same component in all segmentations. Useful for

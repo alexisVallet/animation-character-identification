@@ -9,15 +9,32 @@
 
 #define SIGMA 0.8
 #define CONNECTIVITY CONNECTIVITY_4
-#define MAX_SEGMENTS 50
+#define KNN 10
+#define MAX_SEGMENTS 100
 #define BINS_PER_CHANNEL 5
-#define TREE_WALK_ARITY 1
-#define TREE_WALK_DEPTH 1
-#define LAMBDA 0.75
+#define TREE_WALK_ARITY 2
+#define TREE_WALK_DEPTH 2
+#define LAMBDA 1
 #define MU 1
 
 using namespace std;
 using namespace cv;
+
+void showBoostGraph(WeightedGraph graph, graph_t bGraph) {
+	for (int i = 0; i < graph.numberOfVertices(); i++) {
+		cout<<i<<" : [";
+		typedef graph_traits<graph_t>::adjacency_iterator adjacency_iterator;
+		pair<adjacency_iterator,adjacency_iterator> neighbors = adjacent_vertices(i, bGraph);
+		adjacency_iterator it;
+
+		for (it = neighbors.first; it != neighbors.second; it++) {
+			int neighbor = get(vertex_index, bGraph, *it);
+
+			cout<<neighbor<<", ";
+		}
+		cout<<"]"<<endl;
+	}
+}
 
 void computeLabeledGraphs(char* filename, LabeledGraph<Mat> &histogramGraph) {
 	Mat_<Vec<uchar,3> > imageRGB = imread(filename);
@@ -31,24 +48,21 @@ void computeLabeledGraphs(char* filename, LabeledGraph<Mat> &histogramGraph) {
 	cvtColor(imageRGB, image, CV_RGB2Lab);
 	Mat_<Vec<uchar,3> > smoothed;
 	GaussianBlur(image, smoothed, Size(0,0), SIGMA);
-	WeightedGraph grid = gridGraph(smoothed, CONNECTIVITY);
-	DisjointSetForest segmentation = felzenszwalbSegment(k, grid, minCompSize);
-	histogramGraph = segmentationGraph<Mat>(smoothed, segmentation, grid);
+	WeightedGraph nnGraph = gridGraph(smoothed, CONNECTIVITY);
+	DisjointSetForest segmentation = felzenszwalbSegment(k, nnGraph, minCompSize);
+	histogramGraph = segmentationGraph<Mat>(smoothed, segmentation, nnGraph);
 	cout<<histogramGraph.numberOfVertices()<<" vertices"<<endl;
 	cout<<histogramGraph.getEdges().size()<<" edges"<<endl;
 	cout<<histogramGraph<<endl;
 	Mat_<Vec<uchar,3> > segmentationImage = segmentation.toRegionImage(image);
-	adjacency_list<vecS,vecS,bidirectionalS,property<vertex_index_t, int> >
+	cout<<"computing boost graph"<<endl;
+	graph_t
 		boostGraph = histogramGraph.toBoostGraph();
-	embedding_storage_t 
-		embedding_storage(num_vertices(boostGraph));
-	embedding_t
-		embedding(embedding_storage.begin(), get(vertex_index,boostGraph));
-	bool isPlanar = boyer_myrvold_planarity_test(
-		boyer_myrvold_params::graph = boostGraph,
-		boyer_myrvold_params::embedding = embedding);
-	cout<<"Planarity: "<<isPlanar<<endl;
-	assert(isPlanar);
+	//showBoostGraph(histogramGraph, boostGraph);
+	cout<<"computing planarity"<<endl;
+	//bool isPlanar = boyer_myrvold_planarity_test(boyer_myrvold_params::graph = boostGraph);
+	//cout<<"Planarity: "<<isPlanar<<endl;
+
 	//histogramGraph.drawGraphWithEmbedding(segmentCenters(image,segmentation), segmentationImage, boostGraph, embedding);
 	histogramGraph.drawGraph(segmentCenters(image,segmentation),segmentationImage);
 	imshow("segmentation graph", segmentationImage);
@@ -76,7 +90,7 @@ int main(int argc, char** argv) {
 
 		computeLabeledGraphs(argv[2], graph2);
 
-		double kernelResult = treeWalkKernel<Mat>(kroneckerKernel, TREE_WALK_DEPTH, TREE_WALK_ARITY, graph1, graph2);
+		double kernelResult = treeWalkKernel<Mat>(basisKernel, TREE_WALK_DEPTH, TREE_WALK_ARITY, graph1, graph2);
 
 		cout<<"Tree walk kernel between "<<argv[1]<<" and "<<argv[2]<<" is "<<kernelResult<<endl;
 	}

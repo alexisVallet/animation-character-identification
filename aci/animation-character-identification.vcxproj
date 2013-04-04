@@ -78,8 +78,8 @@
   <ItemGroup>
     <ClCompile Include="DisjointSet.cpp" />
     <ClCompile Include="Felzenszwalb.cpp" />
+    <ClCompile Include="GraphSpectra.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="PlanarGraph.cpp" />
     <ClCompile Include="SegmentationGraph.cpp" />
     <ClCompile Include="TreeWalkKernel.cpp" />
     <ClCompile Include="Utils.cpp" />
@@ -88,8 +88,8 @@
   <ItemGroup>
     <ClInclude Include="DisjointSet.hpp" />
     <ClInclude Include="Felzenszwalb.hpp" />
+    <ClInclude Include="GraphSpectra.h" />
     <ClInclude Include="LabeledGraph.hpp" />
-    <ClInclude Include="PlanarGraph.h" />
     <ClInclude Include="SegmentationGraph.hpp" />
     <ClInclude Include="TreeWalkKernel.hpp" />
     <ClInclude Include="Utils.hpp" />
