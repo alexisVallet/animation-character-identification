@@ -22,6 +22,7 @@ using namespace std;
 using namespace cv;
 
 void showBoostGraph(WeightedGraph graph, graph_t bGraph) {
+	cout<<"pouet"<<endl;
 	for (int i = 0; i < graph.numberOfVertices(); i++) {
 		cout<<i<<" : [";
 		typedef graph_traits<graph_t>::adjacency_iterator adjacency_iterator;
