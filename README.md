@@ -11,8 +11,6 @@ if you don't already have it installed on your computer: http://www.microsoft.co
 already have another version of Visual Studio installed, please make sure to uninstall it beforehand as it may provoke
 conflicts.
 
-Also requires the windows SDK 7.1, please download and install it from: http://www.microsoft.com/en-us/download/details.aspx?id=8279 .
-
 Download the latest sources from this url: https://github.com/alexisVallet/animation-character-identification/archive/master.zip
 
 Extract the archive in the directory of your choice, then open 'aci/animation-character-identification.sln' with Visual Studio.
