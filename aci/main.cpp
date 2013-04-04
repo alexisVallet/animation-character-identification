@@ -50,7 +50,7 @@ void computeLabeledGraphs(char* filename, LabeledGraph<Mat> &histogramGraph) {
 	cvtColor(imageRGB, image, CV_RGB2Lab);
 	Mat_<Vec<uchar,3> > smoothed;
 	GaussianBlur(image, smoothed, Size(0,0), SIGMA);
-	WeightedGraph nnGraph = gridGraph(smoothed, CONNECTIVITY);
+	WeightedGraph nnGraph = nearestNeighborGraph(smoothed, KNN);
 	DisjointSetForest segmentation = felzenszwalbSegment(k, nnGraph, minCompSize);
 	histogramGraph = segmentationGraph<Mat>(smoothed, segmentation, nnGraph);
 	cout<<histogramGraph.numberOfVertices()<<" vertices"<<endl;
@@ -61,7 +61,6 @@ void computeLabeledGraphs(char* filename, LabeledGraph<Mat> &histogramGraph) {
 	graph_t
 		boostGraph = histogramGraph.toBoostGraph();
 	//showBoostGraph(histogramGraph, boostGraph);
-	cout<<"computing planarity"<<endl;
 	//bool isPlanar = boyer_myrvold_planarity_test(boyer_myrvold_params::graph = boostGraph);
 	//cout<<"Planarity: "<<isPlanar<<endl;
 
