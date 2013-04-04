@@ -24,8 +24,4 @@ In the command line, the following segments the image and displays the resulting
 
 	animation-character-identification.exe image.png
 
-And the following segments both images, then computes the tree walk kernel between the two segmentation graphs:
-
-	animation-character-identification.exe image1.png image2.png
-
-The program accepts any color image in a format recognized by OpenCV's imread (see OpenCV's documentation for details).
+Also prints eigenvalues for the laplacian and normalized laplacian of the segmentation graph.
