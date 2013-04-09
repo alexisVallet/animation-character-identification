@@ -80,8 +80,12 @@
     <ClCompile Include="DisjointSet.cpp" />
     <ClCompile Include="Felzenszwalb.cpp" />
     <ClCompile Include="GraphSpectra.cpp" />
+    <ClCompile Include="IsoPerimetricGraphPartioning.cpp" />
+    <ClCompile Include="Kernels.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SegmentationGraph.cpp" />
+    <ClCompile Include="SpectrumDistanceClassifier.cpp" />
+    <ClCompile Include="TrainableStatModel.cpp" />
     <ClCompile Include="TreeWalkKernel.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="WeightedGraph.cpp" />
@@ -90,8 +94,12 @@
     <ClInclude Include="DisjointSet.hpp" />
     <ClInclude Include="Felzenszwalb.hpp" />
     <ClInclude Include="GraphSpectra.h" />
+    <ClInclude Include="isoperimetricGraphPartitioning.h" />
+    <ClInclude Include="Kernels.h" />
     <ClInclude Include="LabeledGraph.hpp" />
     <ClInclude Include="SegmentationGraph.hpp" />
+    <ClInclude Include="SpectrumDistanceClassifier.h" />
+    <ClInclude Include="TrainableStatModel.h" />
     <ClInclude Include="TreeWalkKernel.hpp" />
     <ClInclude Include="Utils.hpp" />
     <ClInclude Include="WeightedGraph.hpp" />

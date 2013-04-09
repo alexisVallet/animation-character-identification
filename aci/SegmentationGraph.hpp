@@ -12,6 +12,17 @@ using namespace cv;
 using namespace std;
 
 /**
+ * Computes the border length between each pair of segments in the
+ * segmentation.
+ *
+ * @param segmentation a segmentation of the image
+ * @param gridGraph the grid graph of the image
+ * @return an n by n matrix, where n is the number of segments, and the (i,j) entry
+ * contains the border length between segments i and j.
+ */
+Mat_<int> computeBorderLengths(DisjointSetForest &segmentation, WeightedGraph &gridGraph);
+
+/**
  * Computes the segmentation graph of an image segmentation, where
  * vertices are segments and there is an edge between two segments
  * iff these segments are connected in a 4-connexity sense. Every edge
@@ -29,6 +40,7 @@ LabeledGraph<T> segmentationGraph(Mat_<Vec<uchar,3> > &image, DisjointSetForest 
   LabeledGraph<T> graph(numberOfComponents);
   vector<vector<bool> > adjMatrix(numberOfComponents, vector<bool>(numberOfComponents, false));
   map<int,int> rootIndexes = segmentation.getRootIndexes();
+  Mat_<int> borderLengths = computeBorderLengths(segmentation, grid);
 
   // for each pair of neighboring pixels
   for (int i = 0; i < (int)grid.getEdges().size(); i++) {
@@ -43,7 +55,7 @@ LabeledGraph<T> segmentationGraph(Mat_<Vec<uchar,3> > &image, DisjointSetForest 
 	!adjMatrix[dstRoot][srcRoot]) {
       adjMatrix[srcRoot][dstRoot] = true;
 	  adjMatrix[dstRoot][srcRoot] = true;
-      graph.addEdge(srcRoot,dstRoot,1);
+      graph.addEdge(srcRoot,dstRoot, (float)borderLengths(srcRoot, dstRoot));
     }
   }
 

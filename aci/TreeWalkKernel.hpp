@@ -3,52 +3,18 @@
 
 #include <opencv2/opencv.hpp>
 #include <boost/graph/boyer_myrvold_planar_test.hpp>
+#include <boost/math/special_functions/fpclassify.hpp>
 #include <vector>
 #include <iostream>
 #include <cmath>
 
 #include "LabeledGraph.hpp"
 #include "DisjointSet.hpp"
-
-#define TREE_WALK_EPSILON (0.00001)
+#include "Kernels.h"
 
 using namespace std;
 using namespace cv;
 using namespace boost;
-
-/**
- * Adds color histogram labels to a segmentation graph.
- * 
- * @param image image to compute hitograms from
- * @param segmentation a segmentation of the image
- * @param segmentationGraph segmentation graph to add labels to
- * @param binsPerChannel the number of histogram bins per color channel
- */
-void colorHistogramLabels(
-  Mat_<Vec<uchar,3> > &image, 
-  DisjointSetForest &segmentation, 
-  LabeledGraph<Mat> &segmentationGraph,
-  int binsPerChannel);
-
-/**
- * Labels a segmentation graph by median color of each segment.
- *
- * @param image image to compute hitograms from
- * @param segmentation a segmentation of the image
- * @param segmentationGraph segmentation graph to add labels to
- */
-void medianColorLabels(
-  Mat_<Vec<uchar,3> > &image,
-  DisjointSetForest &segmentation,
-  LabeledGraph<Vec<uchar,3> > &segmentationGraph);
-
-/**
- * khi² (X²) kernel between two color histograms seen as
- * distributions.
- */
-double khi2Kernel(int binsPerChannel, float lambda, float mu, const Mat &h1, const Mat &h2);
-
-double kroneckerKernel(const Mat &h1, const Mat &h2);
 
 static int current(int iteration) {
   return iteration % 2;
@@ -79,13 +45,23 @@ static void computeNeighbors(WeightedGraph &graph, graph_t &bGraph, embedding_t 
  * with each edge duplicated in both the source and destination's
  * adjacency list. Both graphs must be planar.
  *
- * @param basisKernel basis kernel function, taking 2 labels as parameters.
+ * @param basisKernel basis kernel function, taking 2 labels as parameters,
+ * with the associated area for each segment.
+ * @param segmentation1 segmentation corresponding to graph1
  * @param graph1 the first graph
+ * @param segmentation2 segmentation corresponding to graph2
  * @param graph2 the second graph
  * @return the tree walk kernel value between graph1 and graph2.
  */
 template < typename T >
-double treeWalkKernel(double (*basisKernel)(const T &l1,const T &l2), int depth, int arity, LabeledGraph<T> &graph1, LabeledGraph<T> &graph2) {
+double treeWalkKernel(
+	double (*basisKernel)(int area1, const T &l1, int area2, const T &l2), 
+	int depth, 
+	int arity, 
+	DisjointSetForest &segmentation1, 
+	LabeledGraph<T> &graph1,
+	DisjointSetForest &segmentation2,
+	LabeledGraph<T> &graph2) {
 	// data structures for boost's boyer myrvold planarity test implementation
 	graph_t 
 		bGraph1 = graph1.toBoostGraph(),
@@ -131,10 +107,16 @@ double treeWalkKernel(double (*basisKernel)(const T &l1,const T &l2), int depth,
 	// initializes basis kernels
 	for (int v1 = 0; v1 < graph1.numberOfVertices(); v1++) {
 		for (int v2 = 0; v2 < graph2.numberOfVertices(); v2++) {
-			basisKernels(v1,v2) = basisKernel(graph1.getLabel(v1), graph2.getLabel(v2));
+			basisKernels(v1,v2) = basisKernel(
+				segmentation1.getComponentSize(v1), 
+				graph1.getLabel(v1),
+				segmentation2.getComponentSize(v2),
+				graph2.getLabel(v2));
 			depthKernels[previous(0)](v1,v2) = basisKernels(v1,v2);
 		}
 	}
+
+	cout<<basisKernels<<endl;
 
 	// computes kernels for each depth up to the maximum depth
 	for (int d = 0; d < depth; d++) {
@@ -170,6 +152,10 @@ double treeWalkKernel(double (*basisKernel)(const T &l1,const T &l2), int depth,
 				}
 
 				double res = basisKernels(v1,v2) * sum;
+
+				// as the basis kernels can be very small non zero values,
+				// the previous operation tends to create underflows. Hence
+				// the check.
 
 				depthKernels[current(d)](v1,v2) = res;
 			}

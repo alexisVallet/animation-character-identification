@@ -100,6 +100,8 @@ map<int,int> DisjointSetForest::getRootIndexes() {
     }
   }
 
+  this->isModified = false;
+
   return this->rootIndexes;
 }
 

@@ -1,6 +1,6 @@
 #include "GraphSpectra.h"
 
-Mat_<double> laplacian(WeightedGraph graph) {
+Mat_<double> laplacian(const WeightedGraph &graph) {
 	Mat_<double> result = Mat_<double>::zeros(graph.numberOfVertices(), graph.numberOfVertices());
 
 	for (int i = 0; i < (int)graph.getEdges().size(); i++) {
@@ -18,7 +18,7 @@ Mat_<double> laplacian(WeightedGraph graph) {
 	return result;
 }
 
-Mat_<double> normalizedLaplacian(WeightedGraph graph) {
+Mat_<double> normalizedLaplacian(const WeightedGraph &graph) {
 	Mat_<double> unnormalized = laplacian(graph);
 	Mat_<double> degrees = Mat_<double>::zeros(graph.numberOfVertices(), graph.numberOfVertices());
 

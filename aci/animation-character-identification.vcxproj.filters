@@ -39,6 +39,18 @@
     <ClCompile Include="GraphSpectra.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="IsoPerimetricGraphPartioning.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Kernels.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TrainableStatModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpectrumDistanceClassifier.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisjointSet.hpp">
@@ -63,6 +75,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GraphSpectra.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="isoperimetricGraphPartitioning.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Kernels.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TrainableStatModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpectrumDistanceClassifier.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
