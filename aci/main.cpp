@@ -7,118 +7,102 @@
 #include "SegmentationGraph.hpp"
 #include "TreeWalkKernel.hpp"
 #include "GraphSpectra.h"
+#include "SpectrumDistanceClassifier.h"
+#include "Kernels.h"
 
-#define SIGMA 0.8
+#define DEBUG false
+#define BLUR_SIGMA 0.8
 #define CONNECTIVITY CONNECTIVITY_4
-#define KNN 10
 #define MAX_SEGMENTS 100
 #define BINS_PER_CHANNEL 16
-#define TREE_WALK_ARITY 1
-#define TREE_WALK_DEPTH 0
-#define LAMBDA 0.75
-#define MU 0.01
-#define GAMMA 0.8
+#define EIG_MU 1
+#define GAUSS_SIGMA 100
+#define KHI_MU 0.01
+#define KHI_LAMBDA 0.75
 
 using namespace std;
 using namespace cv;
 
-void showBoostGraph(WeightedGraph graph, graph_t bGraph) {
-	cout<<"pouet"<<endl;
-	for (int i = 0; i < graph.numberOfVertices(); i++) {
-		cout<<i<<" : [";
-		typedef graph_traits<graph_t>::adjacency_iterator adjacency_iterator;
-		pair<adjacency_iterator,adjacency_iterator> neighbors = adjacent_vertices(i, bGraph);
-		adjacency_iterator it;
+LabeledGraph<Mat> computeGraphFrom(Mat &image) {
+	// remove the alpha channel, turning to black transparent pixels.
+	Mat_<float> mask(image.rows, image.cols);
+	vector<Mat> channels(4);
 
-		for (it = neighbors.first; it != neighbors.second; it++) {
-			int neighbor = get(vertex_index, bGraph, *it);
+	split(image, channels);
 
-			cout<<neighbor<<", ";
-		}
-		cout<<"]"<<endl;
+	mask = channels[3] / 255;
+
+	vector<Mat_<uchar> > rgbChannels(3);
+
+	for (int i = 0; i < 3; i++) {
+		rgbChannels[i] = channels[i];
 	}
-}
 
-void computeLabeledGraphs(char* filename, LabeledGraph<Mat> &segGraph, DisjointSetForest &segmentation) {
-	Mat_<Vec<uchar,3> > imageRGB = imread(filename);
-	if (imageRGB.cols == 0) {
-	    cout<<"Image "<<filename<<" not found."<<endl;
-	    exit(0);
-	}
-	int minCompSize = imageRGB.rows * imageRGB.cols / MAX_SEGMENTS;
-	int k = min(imageRGB.rows, imageRGB.cols) / 2;
-	Mat_<Vec<uchar,3> > image;
-	cvtColor(imageRGB, image, CV_RGB2Lab);
-	imshow("lab",image);
+	Mat_<Vec<uchar, 3> > rgbImage;
+
+	merge(rgbChannels, rgbImage);
+	// filter the image for better segmentation
 	Mat_<Vec<uchar,3> > smoothed;
-	GaussianBlur(image, smoothed, Size(0,0), SIGMA);
-	WeightedGraph nnGraph = gridGraph(smoothed, CONNECTIVITY);
-	segmentation = felzenszwalbSegment(k, nnGraph, minCompSize);
-	segGraph = segmentationGraph<Mat>(smoothed, segmentation, nnGraph);
-	cout<<segGraph.numberOfVertices()<<" vertices"<<endl;
-	cout<<segGraph.getEdges().size()<<" edges"<<endl;
-	cout<<segGraph<<endl;
-	Mat_<Vec<uchar,3> > segmentationImage = segmentation.toRegionImage(image);
-	graph_t
-		boostGraph = segGraph.toBoostGraph();
-	embedding_storage_t
-		embedding_storage(num_vertices(boostGraph));
-	embedding_t
-		embedding(embedding_storage.begin(), get(vertex_index, boostGraph));
-	bool isPlanar = boyer_myrvold_planarity_test(
-		boyer_myrvold_params::graph = boostGraph,
-		boyer_myrvold_params::embedding = embedding);
-	cout<<"Planarity: "<<isPlanar<<endl;
-	/*if (isPlanar) {
-		segGraph.drawGraphWithEmbedding(segmentCenters(smoothed, segmentation), segmentationImage, boostGraph, embedding);
-	}*/
-	segGraph.drawGraph(segmentCenters(smoothed, segmentation), segmentationImage);
-	imshow("segmentation graph", segmentationImage);
-	waitKey(0);
+
+	GaussianBlur(rgbImage, smoothed, Size(0,0), BLUR_SIGMA);
+
+	// segment the image using Felzenszwalb's method
+	WeightedGraph basicGraph = gridGraph(smoothed, CONNECTIVITY, mask);
+	DisjointSetForest segmentation = felzenszwalbSegment(
+		min(rgbImage.rows,rgbImage.cols),
+		basicGraph,
+		(rgbImage.rows * rgbImage.cols) / MAX_SEGMENTS,
+		mask);
+	LabeledGraph<Mat> segGraph = segmentationGraph<Mat>(
+		smoothed,
+		segmentation,
+		basicGraph);
 	colorHistogramLabels(smoothed, segmentation, segGraph, BINS_PER_CHANNEL);
+	if (DEBUG) {
+		Mat regionImage = segmentation.toRegionImage(smoothed);
+		segGraph.drawGraph(segmentCenters(smoothed, segmentation), regionImage);
+		imshow("segmentation graph", regionImage);
+		waitKey(0);
+	}
+
+	return segGraph;
 }
 
-double basisKernel(int area1, const Mat &c1, int area2, const Mat &c2) {
-	return khi2Kernel(BINS_PER_CHANNEL, LAMBDA, MU, GAMMA, area1, c1, area2, c2);
+static double gaussianKernel_(const Mat &h1, const Mat &h2) {
+	return gaussianKernel(GAUSS_SIGMA, h1, h2);
+}
+
+static double khi2Kernel_(const Mat &h1, const Mat &h2) {
+	return khi2Kernel(BINS_PER_CHANNEL, KHI_LAMBDA, KHI_MU, 1, 1, h1, 1, h2);
 }
 
 int main(int argc, char** argv) {
-    if (argc < 2) {
-		cout<<"Please enter an image filename to process."<<endl;
-		return 0;
+	// loads the dataset
+	char *folder = "C:\\Users\\Vallet\\Documents\\Dev\\animation-character-identification\\test\\dataset\\";
+	char *names[] = {"amuro", "asuka", "char", "chirno", "conan", "jigen", "kouji", "lupin", "majin", "miku", "ray", "rufy"};
+	vector<Mat> dataSet;
+	Mat classes;
+
+	loadDataSet(folder, names, 12, 5, dataSet, classes);
+
+	cout<<classes<<endl;
+	// compute segmentation graphs
+	vector<LabeledGraph<Mat> > graphs;
+
+	for (int i = 0; i < dataSet.size(); i++) {
+		graphs.push_back(computeGraphFrom(dataSet[i]));
 	}
 
-	LabeledGraph<Mat> graph1;
-	DisjointSetForest segmentation1;
-	
-	computeLabeledGraphs(argv[1], graph1, segmentation1);
+	KNearestModel model;
+	SpectrumDistanceClassifier dpClassifier(dotProductKernel, &model, laplacian, EIG_MU);
+	float dpRate = dpClassifier.leaveOneOutRecognitionRate(graphs, classes);
+	SpectrumDistanceClassifier gaussClassifier(gaussianKernel_, &model, laplacian, EIG_MU);
+	float gaussRate = gaussClassifier.leaveOneOutRecognitionRate(graphs, classes);
+	SpectrumDistanceClassifier khi2Classifier(khi2Kernel_, &model, laplacian, EIG_MU);
+	float khi2Rate = khi2Classifier.leaveOneOutRecognitionRate(graphs, classes);
 
-/*	Mat_<double> unnormalized = laplacian(graph1);
-	Mat uEigenvectors;
-	Mat uEigenvalues;
-
-	eigen(unnormalized, uEigenvalues, uEigenvectors);
-
-	cout<<"Laplacian eigenvalues: "<<endl<<uEigenvalues<<endl;
-
-	Mat_<double> normalized = normalizedLaplacian(graph1);
-	Mat nEigenvectors;
-	Mat nEigenvalues;
-
-	eigen(normalized, nEigenvalues, nEigenvectors);
-
-	cout<<"Normalized laplacian eigenvalues: "<<endl<<nEigenvalues<<endl; */
-
-	if (argc >= 3) {
-		LabeledGraph<Mat> graph2;
-		DisjointSetForest segmentation2;
-
-		computeLabeledGraphs(argv[2], graph2, segmentation2);
-
-		double twk = treeWalkKernel<Mat>(basisKernel, TREE_WALK_DEPTH, TREE_WALK_ARITY, segmentation1, graph1, segmentation2, graph2);
-
-		cout<<"Tree walk kernel between the 2 segmentation graphs is "<<twk<<endl;
-	}
+	cout<<"Dot product: "<<dpRate<<endl<<"Gaussian kernel: "<<gaussRate<<endl<<"Khi2 kernel: "
+<<khi2Rate<<endl;
 
 	return 0;
 }

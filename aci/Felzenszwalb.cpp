@@ -4,45 +4,62 @@ static bool compareWeights(Edge edge1, Edge edge2) {
   return edge1.weight < edge2.weight;
 }
 
-DisjointSetForest felzenszwalbSegment(int k, WeightedGraph graph, int minCompSize) {
-  // sorts edge in increasing weight order
-  vector<Edge> edges = graph.getEdges();
-  sort(edges.begin(), edges.end(), compareWeights);
+DisjointSetForest felzenszwalbSegment(int k, WeightedGraph graph, int minCompSize, Mat_<float> mask) {
+	// sorts edge in increasing weight order
+	vector<Edge> edges = graph.getEdges();
+	sort(edges.begin(), edges.end(), compareWeights);
 
-  // initializes the disjoint set forest to keep track of components, as
-  // well as structures to keep track of component size and internal
-  // differences.
-  DisjointSetForest segmentation(graph.numberOfVertices());
-  vector<float> internalDifferences(graph.numberOfVertices(), 0);
+	// initializes the disjoint set forest to keep track of components, as
+	// well as structures to keep track of component size and internal
+	// differences.
+	DisjointSetForest segmentation(graph.numberOfVertices());
+	vector<float> internalDifferences(graph.numberOfVertices(), 0);
 
-  // Goes through the edges, and fuses vertices if they pass a check,
-  // updating internal differences.
-  for (int i = 0; i < (int)edges.size(); i++) {
-    Edge currentEdge = edges[i];
-    int root1 = segmentation.find(currentEdge.source);
-    int root2 = segmentation.find(currentEdge.destination);
-    float mInt = min(internalDifferences[root1] 
-		     + ((float)k)/((float)segmentation.getComponentSize(root1)),
-		     internalDifferences[root2] 
-		     + ((float)k)/((float)segmentation.getComponentSize(root2)));
+	// Goes through the edges, and fuses vertices if they pass a check,
+	// updating internal differences.
+	for (int i = 0; i < (int)edges.size(); i++) {
+		Edge currentEdge = edges[i];
+		int root1 = segmentation.find(currentEdge.source);
+		int root2 = segmentation.find(currentEdge.destination);
+		float mInt = min(internalDifferences[root1] 
+			+ ((float)k)/((float)segmentation.getComponentSize(root1)),
+			internalDifferences[root2] 
+		    + ((float)k)/((float)segmentation.getComponentSize(root2)));
 
-    if (root1 != root2 && currentEdge.weight <= mInt) {
-      int newRoot = segmentation.setUnion(root1,root2);
-      internalDifferences[newRoot] = currentEdge.weight;
-    }
-  }
+		if (root1 != root2 && currentEdge.weight <= mInt) {
+			int newRoot = segmentation.setUnion(root1,root2);
+			internalDifferences[newRoot] = currentEdge.weight;
+		}
+	}
 
-  // Post processing phase which fuses components below a certain size
-  for (int i = 0; i < (int)edges.size(); i++) {
-    int srcRoot = segmentation.find(edges[i].source);
-    int dstRoot = segmentation.find(edges[i].destination);
+	// Post processing phase which fuses components below a certain size
+	for (int i = 0; i < (int)edges.size(); i++) {
+		int srcRoot = segmentation.find(edges[i].source);
+		int dstRoot = segmentation.find(edges[i].destination);
 
-    if (srcRoot != dstRoot && (segmentation.getComponentSize(srcRoot) <= minCompSize || segmentation.getComponentSize(dstRoot) <= minCompSize)) {
-      segmentation.setUnion(srcRoot, dstRoot);
-    }
-  }
+		if (srcRoot != dstRoot && (segmentation.getComponentSize(srcRoot) <= minCompSize || segmentation.getComponentSize(dstRoot) <= minCompSize)) {
+			segmentation.setUnion(srcRoot, dstRoot);
+		}
+	}
 
-  return segmentation;
+	bool firstBgPixelFound = false;
+	int bgSegment;
+
+	// Fuses background into a single, unconnected component
+	for (int i = 0; i < mask.rows; i++) {
+		for (int j = 0; j < mask.cols; j++) {
+			if (mask(i,j) < 0.5) {
+				if (!firstBgPixelFound) {
+					bgSegment = toRowMajor(mask.cols, j, i);
+					firstBgPixelFound = true;
+				} else {
+					segmentation.setUnion(bgSegment, toRowMajor(mask.cols, j, i));
+				}
+			}
+		}
+	}
+
+	return segmentation;
 }
 
 static float euclDist(Vec<uchar,3> v1, Vec<uchar,3> v2) {
@@ -53,37 +70,41 @@ static float euclDist(Vec<uchar,3> v1, Vec<uchar,3> v2) {
   return sqrt(dr*dr + dg*dg + db*db);
 }
 
-WeightedGraph gridGraph(Mat_<Vec<uchar,3> > &image, ConnectivityType connectivity) {
-  WeightedGraph grid(image.cols*image.rows, 4);
-  // indicates neigbor positions depending on connectivity
-  int numberOfNeighbors[2] = {2, 4};
-  int colOffsets[2][4] = {{0, 1, 0, 0}, {-1, 0, 1, 1}};
-  int rowOffsets[2][4] = {{1, 0, 0, 0}, { 1, 1, 1, 0}};
+WeightedGraph gridGraph(Mat_<Vec<uchar,3> > &image, ConnectivityType connectivity, Mat_<float> mask) {
+	assert(image.size() == mask.size());
+	WeightedGraph grid(image.cols*image.rows, 4);
+	// indicates neigbor positions depending on connectivity
+	int numberOfNeighbors[2] = {2, 4};
+	int colOffsets[2][4] = {{0, 1, 0, 0}, {-1, 0, 1, 1}};
+	int rowOffsets[2][4] = {{1, 0, 0, 0}, { 1, 1, 1, 0}};
 
-  for (int i = 0; i < image.rows; i++) {
-    for (int j = 0; j < image.cols; j++) {
-      int centerIndex = toRowMajor(image.cols, j,i);
-      assert(centerIndex >= 0 && centerIndex < grid.numberOfVertices());
-      Vec<uchar,3> centerIntensity = image(i,j);
+	for (int i = 0; i < image.rows; i++) {
+		for (int j = 0; j < image.cols; j++) {
+			if (mask(i,j) >= 0.5) {
+				int centerIndex = toRowMajor(image.cols, j,i);
+				assert(centerIndex >= 0 && centerIndex < grid.numberOfVertices());
+				Vec<uchar,3> centerIntensity = image(i,j);
       
-      for (int n = 0; n < numberOfNeighbors[connectivity]; n++) {
-	int neighborRow = i + rowOffsets[connectivity][n];
-	int neighborCol = j + colOffsets[connectivity][n];
+				for (int n = 0; n < numberOfNeighbors[connectivity]; n++) {
+					int neighborRow = i + rowOffsets[connectivity][n];
+					int neighborCol = j + colOffsets[connectivity][n];
 	
-	if (neighborRow >= 0 && neighborRow < image.rows &&
-	    neighborCol >= 0 && neighborCol < image.cols) {
-	  int neighborIndex = toRowMajor(image.cols, neighborCol, neighborRow);
-	  Vec<uchar,3> neighborIntensity = image(neighborRow, neighborCol);
+					if (neighborRow >= 0 && neighborRow < image.rows &&
+						neighborCol >= 0 && neighborCol < image.cols &&
+						mask(neighborRow, neighborCol) >= 0.5) {
+						int neighborIndex = toRowMajor(image.cols, neighborCol, neighborRow);
+						Vec<uchar,3> neighborIntensity = image(neighborRow, neighborCol);
 	  
-	  assert(neighborIndex >= 0 && neighborIndex < grid.numberOfVertices());
+						assert(neighborIndex >= 0 && neighborIndex < grid.numberOfVertices());
 	  
-	  grid.addEdge(centerIndex, neighborIndex, euclDist(centerIntensity, neighborIntensity));
+						grid.addEdge(centerIndex, neighborIndex, euclDist(centerIntensity, neighborIntensity));
+					}
+				}
+			}
+		}
 	}
-      }
-    }
-  }
 
-  return grid;
+	return grid;
 }
 
 WeightedGraph nearestNeighborGraph(Mat_<Vec<uchar,3> > &image, int k) {

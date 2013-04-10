@@ -26,7 +26,7 @@ using namespace cv;
  * @param minCompSize minimum size of components.
  * @return a segmentation of the graph.
  */
-DisjointSetForest felzenszwalbSegment(int k, WeightedGraph graph, int minCompSize);
+DisjointSetForest felzenszwalbSegment(int k, WeightedGraph graph, int minCompSize, Mat_<float> mask);
 
 /**
  * Returns the grid graph of a color image. The grid graph is defined
@@ -38,7 +38,7 @@ DisjointSetForest felzenszwalbSegment(int k, WeightedGraph graph, int minCompSiz
  *
  * @param image image to compute the grid graph from.
  */
-WeightedGraph gridGraph(Mat_<Vec<uchar,3> > &image, ConnectivityType connectivity);
+WeightedGraph gridGraph(Mat_<Vec<uchar,3> > &image, ConnectivityType connectivity, Mat_<float> mask);
 
 /**
  * Returns a graph where vertices are pixels in the image, and every vertex has an edge

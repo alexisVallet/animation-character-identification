@@ -40,7 +40,7 @@ LabeledGraph<T> segmentationGraph(Mat_<Vec<uchar,3> > &image, DisjointSetForest 
   LabeledGraph<T> graph(numberOfComponents);
   vector<vector<bool> > adjMatrix(numberOfComponents, vector<bool>(numberOfComponents, false));
   map<int,int> rootIndexes = segmentation.getRootIndexes();
-  Mat_<int> borderLengths = computeBorderLengths(segmentation, grid);
+  //Mat_<int> borderLengths = computeBorderLengths(segmentation, grid);
 
   // for each pair of neighboring pixels
   for (int i = 0; i < (int)grid.getEdges().size(); i++) {
@@ -55,7 +55,7 @@ LabeledGraph<T> segmentationGraph(Mat_<Vec<uchar,3> > &image, DisjointSetForest 
 	!adjMatrix[dstRoot][srcRoot]) {
       adjMatrix[srcRoot][dstRoot] = true;
 	  adjMatrix[dstRoot][srcRoot] = true;
-      graph.addEdge(srcRoot,dstRoot, (float)borderLengths(srcRoot, dstRoot));
+      graph.addEdge(srcRoot, dstRoot, 1/*(float)borderLengths(srcRoot, dstRoot)*/);
     }
   }
 

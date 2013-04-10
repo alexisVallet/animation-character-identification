@@ -20,8 +20,6 @@ aci/Debug/animation-character-identification.exe (or at aci/Release/ in release 
 Usage
 -----
 
-In the command line, the following segments the image and displays the resulting segmentation graph:
+In the command line, the following computes a recognition rate from the dataset in test/dataset using leave one out cross validation with various parameters:
 
-	animation-character-identification.exe image.png
-
-Also prints eigenvalues for the laplacian and normalized laplacian of the segmentation graph.
+	animation-character-identification.exe

@@ -18,9 +18,6 @@ float BayesModel::predict(Mat &samples) {
 void BayesModel::clear() {
     this->internalStatModel.clear();
 }
-
-KNearestModel::KNearestModel() : k(DEFAULT_K) {
-}
     
 KNearestModel::KNearestModel(int kValue) : k(kValue) {
 }

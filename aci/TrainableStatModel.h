@@ -79,7 +79,6 @@ private:
     CvKNearest internalStatModel;
     
 public:
-    KNearestModel();
     
     KNearestModel(int kValue = DEFAULT_K);
     
