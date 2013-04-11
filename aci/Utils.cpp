@@ -34,7 +34,7 @@ void loadDataSet(char* folderName, char** charaNames, int nbCharas, int nbImages
 }
 
 Mat_<double> sparseMul(SparseMat_<double> A, Mat_<double> b) {
-	assert(A.cols == b.rows);
+	assert(A.size(1) == b.rows);
 	assert(b.cols == 1);
 	Mat_<double> c = Mat_<double>::zeros(b.rows, 1);
 

@@ -75,6 +75,10 @@ public:
    * Returns the size of the component containing a specific element.
    */
   int getComponentSize(int element);
+  /**
+   * Returns the total number of elements this forest partitions.
+   */
+  int getNumberOfElements();
 };
 
 #endif

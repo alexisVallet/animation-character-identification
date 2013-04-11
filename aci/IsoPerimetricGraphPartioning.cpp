@@ -54,9 +54,9 @@ DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, dou
 	int bestCut = 0;
 	vector<bool> currentSegment(x0.rows, false);
 	currentSegment[0] = true;
-	float currentCutSize = d0(sortedIdx(0,0),0);
-	float currentSegmentVol = currentCutSize;
-	float bestCutRatio = 1;
+	double currentCutSize = d0(sortedIdx(0,0),0);
+	double currentSegmentVol = currentCutSize;
+	double bestCutRatio = 1;
 
 	for (int i = 1; i < sortedIdx.rows; i++) {
 		currentSegment[i] = true;
@@ -72,7 +72,7 @@ DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, dou
 		// for each neighboring vertex that's in the current segment, subtract twice the
 		// weight of the edge to the cut size, once for the degree of the source and once for the degree
 		// of the destination.
-		for (int j = 0; j < graph.getAdjacencyList(actualVertex).size(); j++) {
+		for (int j = 0; j < (int)graph.getAdjacencyList(actualVertex).size(); j++) {
 			HalfEdge edge = graph.getAdjacencyList(actualVertex)[j];
 			int neighbor = j < ground ? j : j - 1; // once again keeping track of the ground
 
@@ -127,10 +127,10 @@ DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, dou
 
 	vector<int> s1ps2(s1.size() + s2.size());
 
-	for (int i = 0; i < s1.size(); i++) {
+	for (int i = 0; i < (int)s1.size(); i++) {
 		s1ps2[i] = s1[i];
 	}
-	for (int i = 0; i < s2.size(); i++) {
+	for (int i = 0; i < (int)s2.size(); i++) {
 		s1ps2[s1.size() + i] = s2[i];
 	}
 
@@ -138,8 +138,8 @@ DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, dou
 	enum Segment { S1, S2 }; // ;_; why am I not programming in Haskell
 	vector<pair<Segment,int> > f(s1.size() + s2.size());
 
-	for (int i = 0; i < s1.size() + s2.size(); i++) {
-		if (i < s1.size()) {
+	for (int i = 0; i < (int)(s1.size() + s2.size()); i++) {
+		if (i < (int)s1.size()) {
 			f[s1ps2[i]] = pair<Segment,int>(S1, i);
 		} else {
 			f[s1ps2[i]] = pair<Segment,int>(S2, i - s1.size());
@@ -154,7 +154,7 @@ DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, dou
 		g1(s1.size()),
 		g2(s2.size());
 
-	for (int i = 0; i < graph.getEdges().size(); i++) {
+	for (int i = 0; i < (int)graph.getEdges().size(); i++) {
 		Edge edge = graph.getEdges()[i];
 		pair<Segment,int> srcSeg = f[edge.source];
 		pair<Segment,int> dstSeg = f[edge.destination];
@@ -174,6 +174,32 @@ DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, dou
 	// We can now finally call the procedure recursively.
 	DisjointSetForest p1 = isoperimetricGraphPartitioning(g1, stop);
 	DisjointSetForest p2 = isoperimetricGraphPartitioning(g2, stop);
+	// We combine the two segmentations and return it
+	assert(p1.getNumberOfElements() + p2.getNumberOfElements() == graph.numberOfVertices());
+	DisjointSetForest segmentation(graph.numberOfVertices());
+	// the indexes of vertices in G from those in g1 and g2 are mapped by s1 and s2
+	// respectively.
+	for (int i = 0; i < (int)graph.getEdges().size(); i++) {
+		Edge edge = graph.getEdges()[i];
+		pair<Segment,int> srcSeg = f[edge.source];
+		pair<Segment,int> dstSeg = f[edge.destination];
+
+		// If the source and destination are in the same segment, fuse them iff they
+		// are in the same subsegment in p1 or p2.
+		if (srcSeg.first == dstSeg.first) {
+			if (srcSeg.first == S1) {
+				if (p1.find(srcSeg.second) == p1.find(dstSeg.second)) {
+					segmentation.setUnion(edge.source, edge.destination);
+				}
+			} else {
+				if (p2.find(srcSeg.second) == p2.find(dstSeg.second)) {
+					segmentation.setUnion(edge.source, edge.destination);
+				}
+			}
+		}
+	}
+
+	return segmentation;
 }
 
 Mat_<double> conjugateGradient(SparseMat_<double> &A, Mat_<double> &b, Mat_<double> &x) {

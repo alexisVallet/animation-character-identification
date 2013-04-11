@@ -82,11 +82,11 @@ void computeRates(
 	vector<pair<string, TrainableStatModel*> > models, 
 	vector<pair<string, MatKernel> > kernels, 
 	vector<pair<string, MatrixRepresentation> > representations) {
-	for (int i = 0; i < models.size(); i++) {
+	for (int i = 0; i < (int)models.size(); i++) {
 		cout<<models[i].first<<endl;
-		for (int j = 0; j < kernels.size(); j++) {
+		for (int j = 0; j < (int)kernels.size(); j++) {
 			cout<<kernels[j].first<<endl;
-			for (int k = 0; k < representations.size(); k++) {
+			for (int k = 0; k < (int)representations.size(); k++) {
 				cout<<representations[k].first<<endl;
 				SpectrumDistanceClassifier classifier(kernels[j].second, models[i].second, representations[k].second, EIG_MU);
 				float rate = classifier.leaveOneOutRecognitionRate(graphs, classes);
@@ -109,7 +109,7 @@ int main(int argc, char** argv) {
 	// compute segmentation graphs
 	vector<LabeledGraph<Mat> > graphs;
 
-	for (int i = 0; i < dataSet.size(); i++) {
+	for (int i = 0; i < (int)dataSet.size(); i++) {
 		graphs.push_back(computeGraphFrom(dataSet[i]));
 	}
 

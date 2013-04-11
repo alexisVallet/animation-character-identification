@@ -110,3 +110,7 @@ int DisjointSetForest::getComponentSize(int element) {
 
   return this->componentSizes[root];
 }
+
+int DisjointSetForest::getNumberOfElements() {
+	return this->forest.size();
+}
