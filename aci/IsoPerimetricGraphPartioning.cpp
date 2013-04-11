@@ -1,8 +1,26 @@
 #include "IsoperimetricGraphPartitioning.h"
 
+WeightedGraph removeIsolatedVertices(WeightedGraph &graph, vector<int> &vertexMap) {
+	// first we count the number of non-isolated vertices in the graph, filling
+	// vertexMap appropriately.
+	vertexMap = vector<int>(graph.numberOfVertices());
+	int nonIsolated = 0;
+
+	for (int i = 0; i < graph.numberOfVertices(); i++) {
+		if (!graph.getAdjacencyList(i).empty()) {
+			vertexMap[i] = nonIsolated;
+			nonIsolated++;
+		} else {
+			vertexMap[i] = -1;
+		}
+	}
+
+	WeightedGraph connected(nonIsolated);
+}
+
 DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, double stop) {
 	// Compute laplacian and degrees
-	SparseMat_<double> matrix = sparseLaplacian(graph);
+	SparseMat_<double> matrix = sparseLaplacian(graph, true);
 	Mat_<double> degrees(matrix.size(0), 1);
 
 	for (int i = 0; i < matrix.size(0); i++) {
@@ -23,7 +41,7 @@ DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, dou
 	SparseMat_<double> L0(2, dims);
 	SparseMatConstIterator_<double> it;
 
-	for (it = matrix.begin(); it != matrix.end(); it++) {
+	for (it = matrix.begin(); it != matrix.end(); ++it) {
 		const SparseMat_<double>::Node* n = it.node();
 		int row = n->idx[0];
 		int col = n->idx[1];

@@ -41,7 +41,7 @@ Mat_<double> sparseMul(SparseMat_<double> A, Mat_<double> b) {
 	SparseMatConstIterator_<double> it;
 
 	// iterates over non zero elements
-	for (it = A.begin(); it != A.end(); it++) {
+	for (it = A.begin(); it != A.end(); ++it) {
 		const SparseMat_<double>::Node* n = it.node();
 		int row = n->idx[0];
 		int col = n->idx[1];
