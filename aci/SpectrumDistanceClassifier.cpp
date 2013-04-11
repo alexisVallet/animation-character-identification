@@ -3,7 +3,6 @@
 SpectrumDistanceClassifier::SpectrumDistanceClassifier(MatKernel kernel, TrainableStatModel *statModel, MatrixRepresentation representation, float mu) 
 	: kernel(kernel), statModel(statModel), representation(representation), mu(mu)
 {
-	assert(maxNumberofVertices > 0);
 	assert(mu > 0);
 }
 
