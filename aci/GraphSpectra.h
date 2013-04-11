@@ -27,6 +27,14 @@ typedef Mat_<double> (*MatrixRepresentation)(const WeightedGraph&);
 Mat_<double> laplacian(const WeightedGraph &graph);
 
 /**
+ * Same as laplacian, but returns a sparse matrix data structure.
+ * Useful when dealing with graphs with a lot of vertices, but
+ * relatively few edges (for instances grid graphs, nearest neighbor
+ * graphs, large planar graphs).
+ */
+SparseMat_<double> sparseLaplacian(const WeightedGraph &graph, bool bidirectional = false);
+
+/**
  * Computes the normalized laplacian NL matrix of a weighted graph, defined by:
  *
  * NL(u,v) = 1 - w(v,v)/dv			if u = v

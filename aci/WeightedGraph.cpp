@@ -83,6 +83,10 @@ graph_t WeightedGraph::toBoostGraph() {
   return graph;
 }
 
+const vector<HalfEdge> &WeightedGraph::getAdjacencyList(int vertex) const {
+	return this->adjacencyLists[vertex];
+}
+
 ostream &operator<<(ostream &os, const WeightedGraph &graph) {
 	for (int i = 0; i < graph.numberOfVertices(); i++) {
 		os<<i<<" : [";

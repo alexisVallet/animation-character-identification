@@ -108,6 +108,13 @@ public:
    */
   graph_t toBoostGraph();
 
+  /**
+   * Returns the adjacency list of a specific vertex. In the case of
+   * unidirectional representation, this does not return all adjacent
+   * vertices. Use a bidirectional representation for this.
+   */
+  const vector<HalfEdge> &getAdjacencyList(int vertex) const;
+
   friend ostream &operator<<(ostream &os, const WeightedGraph &graph);
 };
 

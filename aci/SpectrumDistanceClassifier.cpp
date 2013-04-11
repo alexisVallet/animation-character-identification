@@ -80,8 +80,6 @@ float SpectrumDistanceClassifier::leaveOneOutRecognitionRate(vector<LabeledGraph
 		this->statModel->train(otherSamples, otherClasses);
 		int result = this->statModel->predict(spectra.row(i));
 
-		cout<<i<<" is classified in class "<<result<<endl;
-
 		if (result == classes.at<int>(i,0)) {
 			totalCorrectResults++;
 		}

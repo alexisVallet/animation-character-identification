@@ -10,7 +10,7 @@
 #include "SpectrumDistanceClassifier.h"
 #include "Kernels.h"
 
-#define DEBUG false
+#define DEBUG true
 #define BLUR_SIGMA 0.8
 #define CONNECTIVITY CONNECTIVITY_4
 #define MAX_SEGMENTS 100
@@ -76,6 +76,27 @@ static double khi2Kernel_(const Mat &h1, const Mat &h2) {
 	return khi2Kernel(BINS_PER_CHANNEL, KHI_LAMBDA, KHI_MU, 1, 1, h1, 1, h2);
 }
 
+void computeRates(
+	vector<LabeledGraph<Mat> > graphs,
+	Mat classes,
+	vector<pair<string, TrainableStatModel*> > models, 
+	vector<pair<string, MatKernel> > kernels, 
+	vector<pair<string, MatrixRepresentation> > representations) {
+	for (int i = 0; i < models.size(); i++) {
+		cout<<models[i].first<<endl;
+		for (int j = 0; j < kernels.size(); j++) {
+			cout<<kernels[j].first<<endl;
+			for (int k = 0; k < representations.size(); k++) {
+				cout<<representations[k].first<<endl;
+				SpectrumDistanceClassifier classifier(kernels[j].second, models[i].second, representations[k].second, EIG_MU);
+				float rate = classifier.leaveOneOutRecognitionRate(graphs, classes);
+
+				cout<<"rate = "<<rate<<endl;;
+			}
+		}
+	}
+}
+
 int main(int argc, char** argv) {
 	// loads the dataset
 	char *folder = "C:\\Users\\Vallet\\Documents\\Dev\\animation-character-identification\\test\\dataset\\";
@@ -85,7 +106,6 @@ int main(int argc, char** argv) {
 
 	loadDataSet(folder, names, 12, 5, dataSet, classes);
 
-	cout<<classes<<endl;
 	// compute segmentation graphs
 	vector<LabeledGraph<Mat> > graphs;
 
@@ -93,16 +113,26 @@ int main(int argc, char** argv) {
 		graphs.push_back(computeGraphFrom(dataSet[i]));
 	}
 
-	KNearestModel model;
-	SpectrumDistanceClassifier dpClassifier(dotProductKernel, &model, laplacian, EIG_MU);
-	float dpRate = dpClassifier.leaveOneOutRecognitionRate(graphs, classes);
-	SpectrumDistanceClassifier gaussClassifier(gaussianKernel_, &model, laplacian, EIG_MU);
-	float gaussRate = gaussClassifier.leaveOneOutRecognitionRate(graphs, classes);
-	SpectrumDistanceClassifier khi2Classifier(khi2Kernel_, &model, laplacian, EIG_MU);
-	float khi2Rate = khi2Classifier.leaveOneOutRecognitionRate(graphs, classes);
+	KNearestModel knnModel;
+	BayesModel bayesModel;
 
-	cout<<"Dot product: "<<dpRate<<endl<<"Gaussian kernel: "<<gaussRate<<endl<<"Khi2 kernel: "
-<<khi2Rate<<endl;
+	vector<pair<string, TrainableStatModel*> > models;
+
+	models.push_back(pair<string,TrainableStatModel*>("Nearest neighbor", &knnModel));
+	//models.push_back(pair<string,TrainableStatModel*>("Bayes", &bayesModel));
+	
+	vector<pair<string, MatKernel> > kernels;
+
+	kernels.push_back(pair<string, MatKernel>("Dot product", dotProductKernel));
+	kernels.push_back(pair<string, MatKernel>("Gaussian kernel", gaussianKernel_));
+	kernels.push_back(pair<string, MatKernel>("Khi2 kernel", khi2Kernel_));
+
+	vector<pair<string, MatrixRepresentation> > representations;
+
+	representations.push_back(pair<string, MatrixRepresentation>("Combinatorial Laplacian", laplacian));
+	representations.push_back(pair<string, MatrixRepresentation>("Normalized Laplacian", normalizedLaplacian));
+
+	computeRates(graphs, classes, models, kernels, representations);
 
 	return 0;
 }

@@ -32,3 +32,22 @@ void loadDataSet(char* folderName, char** charaNames, int nbCharas, int nbImages
 		}
 	}
 }
+
+Mat_<double> sparseMul(SparseMat_<double> A, Mat_<double> b) {
+	assert(A.cols == b.rows);
+	assert(b.cols == 1);
+	Mat_<double> c = Mat_<double>::zeros(b.rows, 1);
+
+	SparseMatConstIterator_<double> it;
+
+	// iterates over non zero elements
+	for (it = A.begin(); it != A.end(); it++) {
+		const SparseMat_<double>::Node* n = it.node();
+		int row = n->idx[0];
+		int col = n->idx[1];
+
+		c(col, 0) += it.value<double>() * b(col,0);
+	}
+
+	return c;
+}

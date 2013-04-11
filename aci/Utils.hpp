@@ -27,4 +27,9 @@ pair<int,int> fromRowMajor(int width, int i);
  */
 void loadDataSet(char* folderName, char** charaNames, int nbCharas, int nbImagesPerChara, vector<Mat> &images, Mat &classes);
 
+/**
+ * Multiplies a sparse n by n matrix by a dense n by 1 column vector.
+ */
+Mat_<double> sparseMul(SparseMat_<double> A, Mat_<double> b);
+
 #endif
