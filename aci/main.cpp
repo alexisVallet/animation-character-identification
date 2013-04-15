@@ -24,6 +24,7 @@ using namespace std;
 using namespace cv;
 
 LabeledGraph<Mat> computeGraphFrom(Mat &image) {
+	cout<<"creating a mask for the background from alpha channel"<<endl;
 	// remove the alpha channel, turning to black transparent pixels.
 	Mat_<float> mask(image.rows, image.cols);
 	vector<Mat> channels(4);
@@ -46,17 +47,21 @@ LabeledGraph<Mat> computeGraphFrom(Mat &image) {
 
 	GaussianBlur(rgbImage, smoothed, Size(0,0), BLUR_SIGMA);
 
+	cout<<"computing grid graph"<<endl;
 	// segment the image using Felzenszwalb's method
 	WeightedGraph basicGraph = gridGraph(smoothed, CONNECTIVITY, mask);
+	cout<<"segmenting"<<endl;
 	DisjointSetForest segmentation = felzenszwalbSegment(
 		min(rgbImage.rows,rgbImage.cols),
 		basicGraph,
 		(rgbImage.rows * rgbImage.cols) / MAX_SEGMENTS,
 		mask);
+	cout<<"computing segmentation graph"<<endl;
 	LabeledGraph<Mat> segGraph = segmentationGraph<Mat>(
 		smoothed,
 		segmentation,
 		basicGraph);
+	cout<<"computing color histograms"<<endl;
 	colorHistogramLabels(smoothed, segmentation, segGraph, BINS_PER_CHANNEL);
 	if (DEBUG) {
 		Mat regionImage = segmentation.toRegionImage(smoothed);
@@ -78,6 +83,7 @@ static double khi2Kernel_(const Mat &h1, const Mat &h2) {
 
 int main(int argc, char** argv) {
 	// loads the dataset
+	cout<<"loading dataset"<<endl;
 	char *folder = "C:\\Users\\Vallet\\Documents\\Dev\\animation-character-identification\\test\\dataset\\";
 	char *names[] = {"amuro", "asuka", "char", "chirno", "conan", "jigen", "kouji", "lupin", "majin", "miku", "ray", "rufy"};
 	vector<Mat> dataSet;
@@ -89,10 +95,13 @@ int main(int argc, char** argv) {
 	// compute segmentation graphs
 	vector<LabeledGraph<Mat> > graphs;
 
+
+	cout<<"computing segmentation graphs"<<endl;
 	for (int i = 0; i < dataSet.size(); i++) {
 		graphs.push_back(computeGraphFrom(dataSet[i]));
 	}
 
+	cout<<"measuring results"<<endl;
 	KNearestModel model;
 	SpectrumDistanceClassifier dpClassifier(dotProductKernel, &model, laplacian, EIG_MU);
 	float dpRate = dpClassifier.leaveOneOutRecognitionRate(graphs, classes);
