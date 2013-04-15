@@ -10,7 +10,9 @@
 #include "SpectrumDistanceClassifier.h"
 #include "Kernels.h"
 #include "IsoperimetricGraphPartitioning.h"
+#include "GraphSpectraTest.h"
 
+#define TEST false
 #define DEBUG true
 #define BLUR_SIGMA 0.8
 #define CONNECTIVITY CONNECTIVITY_4
@@ -102,41 +104,45 @@ void computeRates(
 }
 
 int main(int argc, char** argv) {
-	// loads the dataset
-	char *folder = "C:\\Users\\Vallet\\Documents\\Dev\\animation-character-identification\\test\\dataset\\";
-	char *names[] = {"amuro", "asuka", "char", "chirno", "conan", "jigen", "kouji", "lupin", "majin", "miku", "ray", "rufy"};
-	vector<Mat> dataSet;
-	Mat classes;
+	if (TEST) {
+		testGraphSpectra();
+	} else {
+		// loads the dataset
+		char *folder = "C:\\Users\\Vallet\\Documents\\Dev\\animation-character-identification\\test\\dataset\\";
+		char *names[] = {"amuro", "asuka", "char", "chirno", "conan", "jigen", "kouji", "lupin", "majin", "miku", "ray", "rufy"};
+		vector<Mat> dataSet;
+		Mat classes;
 
-	loadDataSet(folder, names, 12, 5, dataSet, classes);
+		loadDataSet(folder, names, 12, 5, dataSet, classes);
 
-	// compute segmentation graphs
-	vector<LabeledGraph<Mat> > graphs;
+		// compute segmentation graphs
+		vector<LabeledGraph<Mat> > graphs;
 
-	for (int i = 0; i < (int)dataSet.size(); i++) {
-		graphs.push_back(computeGraphFrom(dataSet[i]));
-	}
+		for (int i = 0; i < (int)dataSet.size(); i++) {
+			graphs.push_back(computeGraphFrom(dataSet[i]));
+		}
 
-	KNearestModel knnModel;
-	BayesModel bayesModel;
+		KNearestModel knnModel;
+		BayesModel bayesModel;
 
-	vector<pair<string, TrainableStatModel*> > models;
+		vector<pair<string, TrainableStatModel*> > models;
 
-	models.push_back(pair<string,TrainableStatModel*>("Nearest neighbor", &knnModel));
-	//models.push_back(pair<string,TrainableStatModel*>("Bayes", &bayesModel));
+		models.push_back(pair<string,TrainableStatModel*>("Nearest neighbor", &knnModel));
+		//models.push_back(pair<string,TrainableStatModel*>("Bayes", &bayesModel));
 	
-	vector<pair<string, MatKernel> > kernels;
+		vector<pair<string, MatKernel> > kernels;
 
-	kernels.push_back(pair<string, MatKernel>("Dot product", dotProductKernel));
-	kernels.push_back(pair<string, MatKernel>("Gaussian kernel", gaussianKernel_));
-	kernels.push_back(pair<string, MatKernel>("Khi2 kernel", khi2Kernel_));
+		kernels.push_back(pair<string, MatKernel>("Dot product", dotProductKernel));
+		kernels.push_back(pair<string, MatKernel>("Gaussian kernel", gaussianKernel_));
+		kernels.push_back(pair<string, MatKernel>("Khi2 kernel", khi2Kernel_));
 
-	vector<pair<string, MatrixRepresentation> > representations;
+		vector<pair<string, MatrixRepresentation> > representations;
 
-	representations.push_back(pair<string, MatrixRepresentation>("Combinatorial Laplacian", laplacian));
-	representations.push_back(pair<string, MatrixRepresentation>("Normalized Laplacian", normalizedLaplacian));
+		representations.push_back(pair<string, MatrixRepresentation>("Combinatorial Laplacian", laplacian));
+		representations.push_back(pair<string, MatrixRepresentation>("Normalized Laplacian", normalizedLaplacian));
 
-	computeRates(graphs, classes, models, kernels, representations);
+		computeRates(graphs, classes, models, kernels, representations);
+	}
 
 	return 0;
 }

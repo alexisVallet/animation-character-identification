@@ -88,6 +88,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SegmentationGraph.cpp" />
     <ClCompile Include="SpectrumDistanceClassifier.cpp" />
+    <ClCompile Include="GraphSpectraTest.cpp" />
     <ClCompile Include="TrainableStatModel.cpp" />
     <ClCompile Include="TreeWalkKernel.cpp" />
     <ClCompile Include="Utils.cpp" />
@@ -97,6 +98,7 @@
     <ClInclude Include="DisjointSet.hpp" />
     <ClInclude Include="Felzenszwalb.hpp" />
     <ClInclude Include="GraphSpectra.h" />
+    <ClInclude Include="GraphSpectraTest.h" />
     <ClInclude Include="ImageGraphs.h" />
     <ClInclude Include="isoperimetricGraphPartitioning.h" />
     <ClInclude Include="Kernels.h" />

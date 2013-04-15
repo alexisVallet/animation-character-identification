@@ -27,7 +27,7 @@ WeightedGraph removeIsolatedVertices(WeightedGraph &graph, vector<int> &vertexMa
 DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, double stop) {
 	// Compute laplacian and degrees
 	cout<<"computing laplacian"<<endl;
-	Eigen::VectorXd degrees(graph.numberOfVertices());
+	Eigen::VectorXd degrees = Eigen::VectorXd::Zero(graph.numberOfVertices());
 	Eigen::SparseMatrix<double> matrix = sparseLaplacian(graph, true, degrees);
 	
 	// determine ground vertex as the maximum degree vertex

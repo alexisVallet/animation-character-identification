@@ -56,6 +56,7 @@ Eigen::SparseMatrix<double> sparseLaplacian(const WeightedGraph &graph, bool bid
 	for (int i = 0; i < graph.numberOfVertices(); i++) {
 		tripletList.push_back(T(i, i, degrees(i)));
 	}
+	cout<<degrees<<endl;
 
 	Eigen::SparseMatrix<double> result(graph.numberOfVertices(), graph.numberOfVertices());
 
