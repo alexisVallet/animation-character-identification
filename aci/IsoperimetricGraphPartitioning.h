@@ -1,5 +1,8 @@
 #pragma once
 
+#include <Eigen\Sparse>
+#include <Eigen\SparseCholesky>
+
 #include "WeightedGraph.hpp"
 #include "DisjointSet.hpp"
 #include "GraphSpectra.h"

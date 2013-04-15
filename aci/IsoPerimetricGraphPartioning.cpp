@@ -24,92 +24,86 @@ WeightedGraph removeIsolatedVertices(WeightedGraph &graph, vector<int> &vertexMa
 
 	return connected;
 }
-
-bool symmetric(SparseMat_<double> &m) {
-	SparseMatConstIterator_<double> it;
-
-	for (it = m.begin(); it != m.end(); ++it) {
-		const SparseMat_<double>::Node* n = it.node();
-		int row = n->idx[0];
-		int col = n->idx[1];
-
-		if (abs(it.value<double>() - m.ref(col,row)) >= 10E-5) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
 DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, double stop) {
 	// Compute laplacian and degrees
 	cout<<"computing laplacian"<<endl;
-	SparseMat_<double> matrix = sparseLaplacian(graph, true);
-	Mat_<double> degrees(matrix.size(0), 1);
-
-	for (int i = 0; i < matrix.size(0); i++) {
-		degrees(i,0) = matrix.ref(i,i);
-	}
-
+	Eigen::VectorXd degrees(graph.numberOfVertices());
+	Eigen::SparseMatrix<double> matrix = sparseLaplacian(graph, true, degrees);
+	
 	// determine ground vertex as the maximum degree vertex
-	Point groundCoords;
+	int ground;
 
-	minMaxLoc(degrees, NULL, NULL, NULL, &groundCoords);
+	degrees.maxCoeff(&ground);
 
-	int ground = groundCoords.y;
-	cout<<"ground vertex is "<<endl;
+	cout<<"ground vertex is "<<ground<<endl;
 	// remove the ground vertex line/column from the laplacian
 	// and its degree so the eigenvalue problem becomes a simple linear
 	// system
 	cout<<"removing ground from laplacian, degrees"<<endl;
-	int dims[] = {matrix.size(0) - 1, matrix.size(1) - 1};
-	SparseMat_<double> L0(2, dims);
-	SparseMatConstIterator_<double> it;
+	typedef Eigen::Triplet<double> T;
+	vector<T> tripletList;
 
-	for (it = matrix.begin(); it != matrix.end(); ++it) {
-		const SparseMat_<double>::Node* n = it.node();
-		int row = n->idx[0];
-		int col = n->idx[1];
+	tripletList.reserve(matrix.nonZeros());
+	
+	for (int k = 0; k < matrix.outerSize(); ++k) {
+		for (Eigen::SparseMatrix<double>::InnerIterator it(matrix,k); it; ++it) {
+			if (it.row() != ground && it.col() != ground) {
+				int newRow = it.row() > ground ? it.row() - 1 : it.row();
+				int newCol = it.col() > ground ? it.col() - 1 : it.col();
 
-		if (row != ground && col != ground) {
-			int newRow = row > ground ? row - 1 : row;
-			int newCol = col > ground ? col - 1 : col;
-
-			L0.ref(newRow, newCol) = it.value<double>();
+				tripletList.push_back(T(newRow, newCol, it.value()));
+			}
 		}
 	}
 
-	Mat_<double> d0(degrees.rows - 1, 1);
+	Eigen::SparseMatrix<double> L0(graph.numberOfVertices() - 1, graph.numberOfVertices() - 1);
 
-	degrees.rowRange(0, ground).copyTo(d0.rowRange(0,ground));
-	degrees.rowRange(ground + 1, degrees.rows).copyTo(d0.rowRange(ground, d0.rows));
+	L0.setFromTriplets(tripletList.begin(), tripletList.end());
+
+	Eigen::VectorXd d0(graph.numberOfVertices() - 1, 1);
+
+	d0.head(ground) = degrees.head(ground);
+	int tailLength = d0.size() - ground;
+	d0.tail(tailLength) = degrees.tail(tailLength);
 
 	// solve the linear system using the conjugate gradient method
-	Mat_<double> x0 = Mat_<double>::zeros(d0.rows, 1);
-
-	cout<<"checking symmetry"<<endl;
-	assert(symmetric(L0));
-
 	cout<<"solving linear system using conjugate gradient"<<endl;
-	//conjugateGradient(L0, d0, x0);
+	cout<<"checking positive definiteness"<<endl;
+	Eigen::SimplicialLDLT<Eigen::SparseMatrix<double> > chol;
 
+	chol.analyzePattern(L0);
+	chol.factorize(L0);
+
+	assert(chol.info() == Eigen::Success);
+	cout<<" the matrix is positive definite"<<endl;
+
+	int maxIterations = 10000;
+	Eigen::ConjugateGradient<Eigen::SparseMatrix<double> > cg;
+
+	cg.compute(L0);
+	Eigen::VectorXd x0(graph.numberOfVertices() - 1);
+	x0 = cg.solve(d0);
 
 	cout<<"thresholding to find the bipartition"<<endl;
 	// thresholding to find the best ratio-cut
-	Mat_<int> sortedIdx;
+	vector<double> sortedIdx(graph.numberOfVertices() - 1);
 
-	sortIdx(x0, sortedIdx, CV_SORT_EVERY_COLUMN + CV_SORT_ASCENDING);
+	for (int i = 0; i < graph.numberOfVertices() - 1; i++) {
+		sortedIdx[i] = x0(i);
+	}
+
+	sort(sortedIdx.begin(), sortedIdx.end());
 
 	int bestCut = 0;
-	vector<bool> currentSegment(x0.rows, false);
+	vector<bool> currentSegment(graph.numberOfVertices() - 1, false);
 	currentSegment[0] = true;
-	double currentCutSize = d0(sortedIdx(0,0),0);
+	double currentCutSize = d0(sortedIdx[0],0);
 	double currentSegmentVol = currentCutSize;
 	double bestCutRatio = 1;
 
-	for (int i = 1; i < sortedIdx.rows; i++) {
+	for (int i = 1; i < graph.numberOfVertices() - 1; i++) {
 		currentSegment[i] = true;
-		int vertex = sortedIdx(i,0);
+		int vertex = sortedIdx[i];
 		// the new segment volume simply takes the degree of the new vertex
 		currentSegmentVol += d0(vertex);
 		// the new cut size however require a bit more computation. Provided
@@ -147,14 +141,14 @@ DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, dou
 
 		// fuse every vertex in the segment with the ground vertex
 		for (int i = 0; i <= bestCut; i++) {
-			int vertex = sortedIdx(i,0) < ground ? sortedIdx(i,0) : sortedIdx(i,0) + 1;
+			int vertex = sortedIdx[i] < ground ? sortedIdx[i] : sortedIdx[i] + 1;
 
 			bipartition.setUnion(ground, vertex);
 		}
 		int firstOut = -1;
 		// fuse every other one with each other to form the complement
-		for (int i = bestCut + 1; i < sortedIdx.rows; i++) {
-			int vertex = sortedIdx(i,0) < ground ? sortedIdx(i,0) : sortedIdx(i,0) + 1;
+		for (int i = bestCut + 1; i < graph.numberOfVertices() - 1; i++) {
+			int vertex = sortedIdx[i] < ground ? sortedIdx[i] : sortedIdx[i] + 1;
 
 			if (firstOut < 0) {
 				firstOut = vertex;

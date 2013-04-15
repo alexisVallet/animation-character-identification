@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Eigen\Sparse>
 #include <opencv2\opencv.hpp>
 #include <complex>
 
@@ -32,7 +33,7 @@ Mat_<double> laplacian(const WeightedGraph &graph);
  * relatively few edges (for instances grid graphs, nearest neighbor
  * graphs, large planar graphs).
  */
-SparseMat_<double> sparseLaplacian(const WeightedGraph &graph, bool bidirectional = false);
+Eigen::SparseMatrix<double> sparseLaplacian(const WeightedGraph &graph, bool bidirectional, Eigen::VectorXd &degrees);
 
 /**
  * Computes the normalized laplacian NL matrix of a weighted graph, defined by:
