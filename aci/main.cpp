@@ -9,6 +9,7 @@
 #include "GraphSpectra.h"
 #include "SpectrumDistanceClassifier.h"
 #include "Kernels.h"
+#include "IsoperimetricGraphPartitioning.h"
 
 #define DEBUG true
 #define BLUR_SIGMA 0.8
@@ -47,12 +48,15 @@ LabeledGraph<Mat> computeGraphFrom(Mat &image) {
 	GaussianBlur(rgbImage, smoothed, Size(0,0), BLUR_SIGMA);
 
 	// segment the image using Felzenszwalb's method
-	WeightedGraph basicGraph = gridGraph(smoothed, CONNECTIVITY, mask);
-	DisjointSetForest segmentation = felzenszwalbSegment(
-		min(rgbImage.rows,rgbImage.cols),
-		basicGraph,
-		(rgbImage.rows * rgbImage.cols) / MAX_SEGMENTS,
-		mask);
+	cout<<"computing grid graph"<<endl;
+	WeightedGraph basicGraph = gridGraph(smoothed, CONNECTIVITY, mask, true);
+	vector<int> vertexMap;
+	cout<<"removing isolated vertices"<<endl;
+	WeightedGraph connected = removeIsolatedVertices(basicGraph, vertexMap);
+	cout<<"computing segmentation"<<endl;
+	DisjointSetForest segmentationConn = isoperimetricGraphPartitioning(basicGraph, 0.25);
+	cout<<"adding isolated vertices back"<<endl;
+	DisjointSetForest segmentation = addIsolatedVertices(basicGraph, segmentationConn, vertexMap);
 	LabeledGraph<Mat> segGraph = segmentationGraph<Mat>(
 		smoothed,
 		segmentation,

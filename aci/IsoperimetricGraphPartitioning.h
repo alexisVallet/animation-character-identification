@@ -9,7 +9,7 @@ using namespace std;
 
 /**
  * Removes isolated vertices from the graph, generated from the background for
- * instance, for post-processing to the isoperimetric graph partitioning algorithm.
+ * instance, for pre-processing to the isoperimetric graph partitioning algorithm.
  * Optionally, returns a vector mapping vertices from graph to the result graph so
  * the transformation can be undone. Assumes a bidirectional representation for the graph.
  *
@@ -27,6 +27,16 @@ WeightedGraph removeIsolatedVertices(WeightedGraph &graph, vector<int> &vertexMa
  * @return a partition of the graph.
  */
 DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, double stop);
+
+/**
+ * Performs the inverse transformation to removeIsolatedVertices, for post-processing to
+ * the isoperimetric algorithm. Operates on the segmentation.
+ *
+ * @param segmentation the segmentation to add isolated vertices to
+ * @param vertexMap a vector such as the one outputted by removeIsolatedVertices.
+ * 
+ */
+DisjointSetForest addIsolatedVertices(WeightedGraph &graph, DisjointSetForest &segmentation, vector<int> &vertexMap);
 
 /**
  * Solves the linear system Ax = b for x where A is a n by n symmetric positive definite matrix,

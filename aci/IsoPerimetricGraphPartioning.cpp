@@ -16,10 +16,34 @@ WeightedGraph removeIsolatedVertices(WeightedGraph &graph, vector<int> &vertexMa
 	}
 
 	WeightedGraph connected(nonIsolated);
+
+	for (int i = 0; i < graph.getEdges().size(); i++) {
+		Edge edge = graph.getEdges()[i];
+		connected.addEdge(vertexMap[edge.source], vertexMap[edge.destination], edge.weight);
+	}
+
+	return connected;
+}
+
+bool symmetric(SparseMat_<double> &m) {
+	SparseMatConstIterator_<double> it;
+
+	for (it = m.begin(); it != m.end(); ++it) {
+		const SparseMat_<double>::Node* n = it.node();
+		int row = n->idx[0];
+		int col = n->idx[1];
+
+		if (abs(it.value<double>() - m.ref(col,row)) >= 10E-5) {
+			return false;
+		}
+	}
+
+	return true;
 }
 
 DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, double stop) {
 	// Compute laplacian and degrees
+	cout<<"computing laplacian"<<endl;
 	SparseMat_<double> matrix = sparseLaplacian(graph, true);
 	Mat_<double> degrees(matrix.size(0), 1);
 
@@ -33,10 +57,11 @@ DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, dou
 	minMaxLoc(degrees, NULL, NULL, NULL, &groundCoords);
 
 	int ground = groundCoords.y;
-
+	cout<<"ground vertex is "<<endl;
 	// remove the ground vertex line/column from the laplacian
 	// and its degree so the eigenvalue problem becomes a simple linear
 	// system
+	cout<<"removing ground from laplacian, degrees"<<endl;
 	int dims[] = {matrix.size(0) - 1, matrix.size(1) - 1};
 	SparseMat_<double> L0(2, dims);
 	SparseMatConstIterator_<double> it;
@@ -62,8 +87,13 @@ DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, dou
 	// solve the linear system using the conjugate gradient method
 	Mat_<double> x0 = Mat_<double>::zeros(d0.rows, 1);
 
+	cout<<"checking symmetry"<<endl;
+	assert(symmetric(L0));
+
+	cout<<"solving linear system using conjugate gradient"<<endl;
 	conjugateGradient(L0, d0, x0);
 
+	cout<<"thresholding to find the bipartition"<<endl;
 	// thresholding to find the best ratio-cut
 	Mat_<int> sortedIdx;
 
@@ -105,6 +135,8 @@ DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, dou
 			bestCut = i;
 		}
 	}
+
+	cout<<"best cut "<<bestCut<<endl;
 
 	// if the cut ratio is lower than the stopping parameter, stop the recursion and
 	// compute the disjoint set forest corresponding to the bipartition. The ground
@@ -220,20 +252,53 @@ DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, dou
 	return segmentation;
 }
 
+DisjointSetForest addIsolatedVertices(WeightedGraph &graph, DisjointSetForest &segmentation, vector<int> &vertexMap) {
+	assert(graph.numberOfVertices() == vertexMap.size());
+	DisjointSetForest result(graph.numberOfVertices());
+
+	// we first reproduce the segmentation in the larger forest, ignoring isolated vertices
+	for (int i = 0; i < graph.getEdges().size(); i++) {
+		Edge edge = graph.getEdges()[i];
+
+		if (segmentation.find(vertexMap[edge.source]) == segmentation.find(vertexMap[edge.destination])) {
+			result.setUnion(edge.source, edge.destination);
+		}
+	}
+
+	int firstIsolated = -1;
+
+	// We then fuse the isolated vertices in their own component
+	for (int i = 0; i < vertexMap.size(); i++) {
+		if (vertexMap[i] < 0) {
+			if (firstIsolated < 0) {
+				firstIsolated = i;
+			} else {
+				result.setUnion(firstIsolated, i);
+			}
+		}
+	}
+
+	return result;
+}
+
 Mat_<double> conjugateGradient(SparseMat_<double> &A, Mat_<double> &b, Mat_<double> &x) {
-	Mat_<double> 
-		r = b - sparseMul(A, x), 
-		p = r.clone();
-	double rsold = r.dot(r);
+	Mat_<double> r, p, Ap;
+	double rsold, rsnew, alpha;
+	r = b - sparseMul(A, x);
+	p = r.clone();
+	rsold = r.dot(r);
 
 	for (int i = 0; i < 10E6; i++) {
-		Mat_<double> Ap = sparseMul(A, p);
-		double alpha = rsold / (p.dot(Ap));
-		x = x + alpha * Ap;
-		double rsnew = r.dot(r);
+		Ap = sparseMul(A, p);
+		alpha = rsold/p.dot(Ap);
+		x = x + alpha * p;
+		r = r - alpha * Ap;
+		rsnew = r.dot(r);
+
+		cout<<"iteration "<<i<<", ||Ax - b|| = "<<norm(sparseMul(A, x) - b)<<endl;
 
 		if (sqrt(rsnew) < 1E-10) {
-			break;
+			return x;
 		}
 		p = r + (rsnew/rsold) * p;
 		rsold = rsnew;

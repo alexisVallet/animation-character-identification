@@ -46,7 +46,7 @@ Mat_<double> sparseMul(SparseMat_<double> A, Mat_<double> b) {
 		int row = n->idx[0];
 		int col = n->idx[1];
 
-		c(col, 0) += it.value<double>() * b(col,0);
+		c(row, 0) += it.value<double>() * b(col,0);
 	}
 
 	return c;
