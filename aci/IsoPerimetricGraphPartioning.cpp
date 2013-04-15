@@ -17,7 +17,7 @@ WeightedGraph removeIsolatedVertices(WeightedGraph &graph, vector<int> &vertexMa
 
 	WeightedGraph connected(nonIsolated);
 
-	for (int i = 0; i < graph.getEdges().size(); i++) {
+	for (int i = 0; i < (int)graph.getEdges().size(); i++) {
 		Edge edge = graph.getEdges()[i];
 		connected.addEdge(vertexMap[edge.source], vertexMap[edge.destination], edge.weight);
 	}
@@ -91,7 +91,8 @@ DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, dou
 	assert(symmetric(L0));
 
 	cout<<"solving linear system using conjugate gradient"<<endl;
-	conjugateGradient(L0, d0, x0);
+	//conjugateGradient(L0, d0, x0);
+
 
 	cout<<"thresholding to find the bipartition"<<endl;
 	// thresholding to find the best ratio-cut
@@ -128,7 +129,7 @@ DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, dou
 				currentCutSize -= 2 * edge.weight;
 			}
 		}
-		float newCutRatio = currentCutSize / currentSegmentVol;
+		double newCutRatio = currentCutSize / currentSegmentVol;
 
 		if (newCutRatio < bestCutRatio) {
 			bestCutRatio = newCutRatio;
@@ -257,7 +258,7 @@ DisjointSetForest addIsolatedVertices(WeightedGraph &graph, DisjointSetForest &s
 	DisjointSetForest result(graph.numberOfVertices());
 
 	// we first reproduce the segmentation in the larger forest, ignoring isolated vertices
-	for (int i = 0; i < graph.getEdges().size(); i++) {
+	for (int i = 0; i < (int)graph.getEdges().size(); i++) {
 		Edge edge = graph.getEdges()[i];
 
 		if (segmentation.find(vertexMap[edge.source]) == segmentation.find(vertexMap[edge.destination])) {
@@ -268,7 +269,7 @@ DisjointSetForest addIsolatedVertices(WeightedGraph &graph, DisjointSetForest &s
 	int firstIsolated = -1;
 
 	// We then fuse the isolated vertices in their own component
-	for (int i = 0; i < vertexMap.size(); i++) {
+	for (int i = 0; i < (int)vertexMap.size(); i++) {
 		if (vertexMap[i] < 0) {
 			if (firstIsolated < 0) {
 				firstIsolated = i;
@@ -282,25 +283,24 @@ DisjointSetForest addIsolatedVertices(WeightedGraph &graph, DisjointSetForest &s
 }
 
 Mat_<double> conjugateGradient(SparseMat_<double> &A, Mat_<double> &b, Mat_<double> &x) {
-	Mat_<double> r, p, Ap;
-	double rsold, rsnew, alpha;
-	r = b - sparseMul(A, x);
-	p = r.clone();
-	rsold = r.dot(r);
+	Mat_<double> r = b - sparseMul(A, x);
+	Mat_<double> p = r.clone();
+	double rsold = r.dot(r);
 
-	for (int i = 0; i < 10E6; i++) {
-		Ap = sparseMul(A, p);
-		alpha = rsold/p.dot(Ap);
+	for (int i = 0; i < 10E06; i++) {
+		Mat_<double> Ap = sparseMul(A, p);
+		double alpha = rsold / p.dot(Ap);
 		x = x + alpha * p;
 		r = r - alpha * Ap;
-		rsnew = r.dot(r);
+		double rsnew = r.dot(r);
 
-		cout<<"iteration "<<i<<", ||Ax - b|| = "<<norm(sparseMul(A, x) - b)<<endl;
+		cout<<"iteration "<<i<<" rsnew ="<<rsnew<<endl;
 
 		if (sqrt(rsnew) < 1E-10) {
-			return x;
+			break;
 		}
-		p = r + (rsnew/rsold) * p;
+
+		p = r + (rsnew/rsold)*p;
 		rsold = rsnew;
 	}
 
