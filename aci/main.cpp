@@ -66,7 +66,7 @@ static double khi2Kernel_(const Mat &h1, const Mat &h2) {
 int main(int argc, char** argv) {
 	// loads the dataset
 	cout<<"loading dataset"<<endl;
-	char *folder = "C:\\Users\\Vallet\\Documents\\Dev\\animation-character-identification\\test\\dataset\\";
+	char *folder = "../test/dataset/";
 	char *names[] = {"amuro", "asuka", "char", "chirno", "conan", "jigen", "kouji", "lupin", "majin", "miku", "ray", "rufy"};
 	vector<pair<Mat_<Vec<uchar,3> >,Mat_<float> > > dataSet;
 	Mat classes;
