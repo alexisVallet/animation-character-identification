@@ -77,7 +77,6 @@ int main(int argc, char** argv) {
 	// compute segmentation graphs
 	vector<LabeledGraph<Mat> > graphs;
 
-
 	cout<<"computing segmentation graphs"<<endl;
 	for (int i = 0; i < dataSet.size(); i++) {
 		graphs.push_back(computeGraphFrom(dataSet[i].first, dataSet[i].second));
