@@ -10,7 +10,7 @@
 #include "SpectrumDistanceClassifier.h"
 #include "Kernels.h"
 
-#define DEBUG true
+#define DEBUG false
 #define BLUR_SIGMA 0.8
 #define CONNECTIVITY CONNECTIVITY_4
 #define MAX_SEGMENTS 100
@@ -23,25 +23,7 @@
 using namespace std;
 using namespace cv;
 
-LabeledGraph<Mat> computeGraphFrom(Mat &image) {
-	cout<<"creating a mask for the background from alpha channel"<<endl;
-	// remove the alpha channel, turning to black transparent pixels.
-	Mat_<float> mask(image.rows, image.cols);
-	vector<Mat> channels(4);
-
-	split(image, channels);
-
-	mask = channels[3] / 255;
-
-	vector<Mat_<uchar> > rgbChannels(3);
-
-	for (int i = 0; i < 3; i++) {
-		rgbChannels[i] = channels[i];
-	}
-
-	Mat_<Vec<uchar, 3> > rgbImage;
-
-	merge(rgbChannels, rgbImage);
+LabeledGraph<Mat> computeGraphFrom(Mat_<Vec<uchar,3> > &rgbImage, Mat_<float> &mask) {
 	// filter the image for better segmentation
 	Mat_<Vec<uchar,3> > smoothed;
 
@@ -86,7 +68,7 @@ int main(int argc, char** argv) {
 	cout<<"loading dataset"<<endl;
 	char *folder = "C:\\Users\\Vallet\\Documents\\Dev\\animation-character-identification\\test\\dataset\\";
 	char *names[] = {"amuro", "asuka", "char", "chirno", "conan", "jigen", "kouji", "lupin", "majin", "miku", "ray", "rufy"};
-	vector<Mat> dataSet;
+	vector<pair<Mat_<Vec<uchar,3> >,Mat_<float> > > dataSet;
 	Mat classes;
 
 	loadDataSet(folder, names, 12, 5, dataSet, classes);
@@ -98,7 +80,7 @@ int main(int argc, char** argv) {
 
 	cout<<"computing segmentation graphs"<<endl;
 	for (int i = 0; i < dataSet.size(); i++) {
-		graphs.push_back(computeGraphFrom(dataSet[i]));
+		graphs.push_back(computeGraphFrom(dataSet[i].first, dataSet[i].second));
 	}
 
 	cout<<"measuring results"<<endl;
