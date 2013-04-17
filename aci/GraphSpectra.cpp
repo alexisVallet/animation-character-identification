@@ -21,6 +21,7 @@ Mat_<double> laplacian(const WeightedGraph &graph) {
 Eigen::SparseMatrix<double> sparseLaplacian(const WeightedGraph &graph, bool bidirectional, Eigen::VectorXd &degrees) {
 	// we construct the triplet list without the diagonal first, computing the degrees
 	// as we do so, then add the degree triplets.
+	degrees = Eigen::VectorXd::Zero(graph.numberOfVertices());
 	typedef Eigen::Triplet<double> T;
 	vector<T> tripletList;
 
@@ -56,7 +57,6 @@ Eigen::SparseMatrix<double> sparseLaplacian(const WeightedGraph &graph, bool bid
 	for (int i = 0; i < graph.numberOfVertices(); i++) {
 		tripletList.push_back(T(i, i, degrees(i)));
 	}
-	cout<<degrees<<endl;
 
 	Eigen::SparseMatrix<double> result(graph.numberOfVertices(), graph.numberOfVertices());
 

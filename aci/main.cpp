@@ -11,9 +11,10 @@
 #include "Kernels.h"
 #include "IsoperimetricGraphPartitioning.h"
 #include "GraphSpectraTest.h"
+#include "IsoperimetricGraphPartitioningTest.h"
 
-#define TEST false
-#define DEBUG true
+#define TEST true
+#define DEBUG false
 #define BLUR_SIGMA 0.8
 #define CONNECTIVITY CONNECTIVITY_4
 #define MAX_SEGMENTS 100
@@ -106,6 +107,7 @@ void computeRates(
 int main(int argc, char** argv) {
 	if (TEST) {
 		testGraphSpectra();
+		testIsoperimetricGraphPartitioning();
 	} else {
 		// loads the dataset
 		char *folder = "C:\\Users\\Vallet\\Documents\\Dev\\animation-character-identification\\test\\dataset\\";
