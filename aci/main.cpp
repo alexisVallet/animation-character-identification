@@ -13,8 +13,8 @@
 #include "GraphSpectraTest.h"
 #include "IsoperimetricGraphPartitioningTest.h"
 
-#define TEST true
-#define DEBUG false
+#define TEST false
+#define DEBUG true
 #define BLUR_SIGMA 0.8
 #define CONNECTIVITY CONNECTIVITY_4
 #define MAX_SEGMENTS 100

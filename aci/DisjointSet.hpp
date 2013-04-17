@@ -38,6 +38,8 @@ public:
    * corresponding to the number of singletons at initialization.
    */
   DisjointSetForest(int numberOfElements);
+
+  int constFind(int element) const;
   /**
    * Returns the representant of the set containing a specific element.
    *
@@ -64,7 +66,7 @@ public:
    *
    * @return the number of components in the partition.
    */
-  int getNumberOfComponents();
+  int getNumberOfComponents() const;
   /**
    * Map associating a linear index in [0..getNumberOfComponents]
    * to each component root. Runs in O(n) time where n is the number
@@ -78,7 +80,9 @@ public:
   /**
    * Returns the total number of elements this forest partitions.
    */
-  int getNumberOfElements();
+  int getNumberOfElements() const;
+
+  friend ostream &operator<<(ostream &os, DisjointSetForest &forest);
 };
 
 #endif
