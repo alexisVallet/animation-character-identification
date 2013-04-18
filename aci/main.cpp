@@ -36,14 +36,15 @@ LabeledGraph<Mat> computeGraphFrom(Mat_<Vec<uchar,3> > &rgbImage, Mat_<float> &m
 
 	cout<<"computing grid graph"<<endl;
 	// segment the image using Felzenszwalb's method
-	WeightedGraph basicGraph = gridGraph(smoothed, CONNECTIVITY, mask);
-	cout<<"segmenting"<<endl;
-	DisjointSetForest segmentation = felzenszwalbSegment(
-		min(rgbImage.rows,rgbImage.cols),
-		basicGraph,
-		(rgbImage.rows * rgbImage.cols) / MAX_SEGMENTS,
-		mask);
-	cout<<"computing segmentation graph"<<endl;
+	cout<<"computing grid graph"<<endl;
+	WeightedGraph basicGraph = gridGraph(smoothed, CONNECTIVITY, mask, true);
+	vector<int> vertexMap;
+	cout<<"removing isolated vertices"<<endl;
+	WeightedGraph connected = removeIsolatedVertices(basicGraph, vertexMap);
+	cout<<"computing segmentation"<<endl;
+	DisjointSetForest segmentationConn = unconnectedIGP(connected, 0.25);
+	cout<<"adding isolated vertices back"<<endl;
+	DisjointSetForest segmentation = addIsolatedVertices(basicGraph, segmentationConn, vertexMap);
 	LabeledGraph<Mat> segGraph = segmentationGraph<Mat>(
 		smoothed,
 		segmentation,
@@ -95,26 +96,21 @@ int main(int argc, char** argv) {
 		testImageGraphs();
 		testIsoperimetricGraphPartitioning();
 	} else {
-		// loads the dataset
-		char *folder = "C:\\Users\\Vallet\\Documents\\Dev\\animation-character-identification\\test\\dataset\\";
-		char *names[] = {"amuro", "asuka", "char", "chirno", "conan", "jigen", "kouji", "lupin", "majin", "miku", "ray", "rufy"};
-		vector<Mat> dataSet;
 		Mat classes;
 		// loads the dataset
 		cout<<"loading dataset"<<endl;
 		char *folder = "../test/dataset/";
 		char *names[] = {"amuro", "asuka", "char", "chirno", "conan", "jigen", "kouji", "lupin", "majin", "miku", "ray", "rufy"};
 		vector<pair<Mat_<Vec<uchar,3> >,Mat_<float> > > dataSet;
-		Mat classes;
-
+		vector<LabeledGraph<Mat> > graphs;
+		
 		loadDataSet(folder, names, 12, 5, dataSet, classes);
 
-		// compute segmentation graphs
-		vector<LabeledGraph<Mat> > graphs;
-		for (int i = 0; i < (int)dataSet.size(); i++) {
-			graphs.push_back(computeGraphFrom(dataSet[i]));
+		cout<<"computing segmentation graphs"<<endl;
+		for (int i = 0; i < dataSet.size(); i++) {
+			graphs.push_back(computeGraphFrom(dataSet[i].first, dataSet[i].second));
 		}
-
+		
 		KNearestModel knnModel;
 		BayesModel bayesModel;
 
