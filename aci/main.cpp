@@ -36,17 +36,6 @@ LabeledGraph<Mat> computeGraphFrom(Mat_<Vec<uchar,3> > &rgbImage, Mat_<float> &m
 
 	cout<<"computing grid graph"<<endl;
 	// segment the image using Felzenszwalb's method
-<<<<<<< HEAD
-	cout<<"computing grid graph"<<endl;
-	WeightedGraph basicGraph = gridGraph(smoothed, CONNECTIVITY, mask, true);
-	vector<int> vertexMap;
-	cout<<"removing isolated vertices"<<endl;
-	WeightedGraph connected = removeIsolatedVertices(basicGraph, vertexMap);
-	cout<<"computing segmentation"<<endl;
-	DisjointSetForest segmentationConn = unconnectedIGP(connected, 0.25);
-	cout<<"adding isolated vertices back"<<endl;
-	DisjointSetForest segmentation = addIsolatedVertices(basicGraph, segmentationConn, vertexMap);
-=======
 	WeightedGraph basicGraph = gridGraph(smoothed, CONNECTIVITY, mask);
 	cout<<"segmenting"<<endl;
 	DisjointSetForest segmentation = felzenszwalbSegment(
@@ -55,7 +44,6 @@ LabeledGraph<Mat> computeGraphFrom(Mat_<Vec<uchar,3> > &rgbImage, Mat_<float> &m
 		(rgbImage.rows * rgbImage.cols) / MAX_SEGMENTS,
 		mask);
 	cout<<"computing segmentation graph"<<endl;
->>>>>>> master
 	LabeledGraph<Mat> segGraph = segmentationGraph<Mat>(
 		smoothed,
 		segmentation,
@@ -102,7 +90,6 @@ void computeRates(
 }
 
 int main(int argc, char** argv) {
-<<<<<<< HEAD
 	if (TEST) {
 		testGraphSpectra();
 		testImageGraphs();
@@ -113,21 +100,17 @@ int main(int argc, char** argv) {
 		char *names[] = {"amuro", "asuka", "char", "chirno", "conan", "jigen", "kouji", "lupin", "majin", "miku", "ray", "rufy"};
 		vector<Mat> dataSet;
 		Mat classes;
-=======
-	// loads the dataset
-	cout<<"loading dataset"<<endl;
-	char *folder = "../test/dataset/";
-	char *names[] = {"amuro", "asuka", "char", "chirno", "conan", "jigen", "kouji", "lupin", "majin", "miku", "ray", "rufy"};
-	vector<pair<Mat_<Vec<uchar,3> >,Mat_<float> > > dataSet;
-	Mat classes;
->>>>>>> master
+		// loads the dataset
+		cout<<"loading dataset"<<endl;
+		char *folder = "../test/dataset/";
+		char *names[] = {"amuro", "asuka", "char", "chirno", "conan", "jigen", "kouji", "lupin", "majin", "miku", "ray", "rufy"};
+		vector<pair<Mat_<Vec<uchar,3> >,Mat_<float> > > dataSet;
+		Mat classes;
 
 		loadDataSet(folder, names, 12, 5, dataSet, classes);
 
 		// compute segmentation graphs
 		vector<LabeledGraph<Mat> > graphs;
-
-<<<<<<< HEAD
 		for (int i = 0; i < (int)dataSet.size(); i++) {
 			graphs.push_back(computeGraphFrom(dataSet[i]));
 		}
@@ -136,21 +119,6 @@ int main(int argc, char** argv) {
 		BayesModel bayesModel;
 
 		vector<pair<string, TrainableStatModel*> > models;
-=======
-	cout<<"computing segmentation graphs"<<endl;
-	for (int i = 0; i < dataSet.size(); i++) {
-		graphs.push_back(computeGraphFrom(dataSet[i].first, dataSet[i].second));
-	}
-
-	cout<<"measuring results"<<endl;
-	KNearestModel model;
-	SpectrumDistanceClassifier dpClassifier(dotProductKernel, &model, laplacian, EIG_MU);
-	float dpRate = dpClassifier.leaveOneOutRecognitionRate(graphs, classes);
-	SpectrumDistanceClassifier gaussClassifier(gaussianKernel_, &model, laplacian, EIG_MU);
-	float gaussRate = gaussClassifier.leaveOneOutRecognitionRate(graphs, classes);
-	SpectrumDistanceClassifier khi2Classifier(khi2Kernel_, &model, laplacian, EIG_MU);
-	float khi2Rate = khi2Classifier.leaveOneOutRecognitionRate(graphs, classes);
->>>>>>> master
 
 		models.push_back(pair<string,TrainableStatModel*>("Nearest neighbor", &knnModel));
 		//models.push_back(pair<string,TrainableStatModel*>("Bayes", &bayesModel));
