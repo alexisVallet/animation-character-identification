@@ -60,6 +60,9 @@
     <ClCompile Include="IsoperimetricGraphPartitioningTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ImageGraphsTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisjointSet.hpp">
@@ -105,6 +108,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IsoperimetricGraphPartitioningTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageGraphsTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

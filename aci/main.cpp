@@ -12,6 +12,7 @@
 #include "IsoperimetricGraphPartitioning.h"
 #include "GraphSpectraTest.h"
 #include "IsoperimetricGraphPartitioningTest.h"
+#include "ImageGraphsTest.h"
 
 #define TEST false
 #define DEBUG true
@@ -57,7 +58,7 @@ LabeledGraph<Mat> computeGraphFrom(Mat &image) {
 	cout<<"removing isolated vertices"<<endl;
 	WeightedGraph connected = removeIsolatedVertices(basicGraph, vertexMap);
 	cout<<"computing segmentation"<<endl;
-	DisjointSetForest segmentationConn = isoperimetricGraphPartitioning(basicGraph, 0.25);
+	DisjointSetForest segmentationConn = unconnectedIGP(connected, 0.25);
 	cout<<"adding isolated vertices back"<<endl;
 	DisjointSetForest segmentation = addIsolatedVertices(basicGraph, segmentationConn, vertexMap);
 	LabeledGraph<Mat> segGraph = segmentationGraph<Mat>(
@@ -107,6 +108,7 @@ void computeRates(
 int main(int argc, char** argv) {
 	if (TEST) {
 		testGraphSpectra();
+		testImageGraphs();
 		testIsoperimetricGraphPartitioning();
 	} else {
 		// loads the dataset

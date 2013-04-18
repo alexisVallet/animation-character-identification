@@ -23,6 +23,16 @@ using namespace std;
 WeightedGraph removeIsolatedVertices(WeightedGraph &graph, vector<int> &vertexMap = vector<int>());
 
 /**
+ * Segments a graph using the isoperimetric algorithm by Grady and Schwarz. Assumes the graph
+ * is unconnected, and computes the algorithm on each connected components.
+ *
+ * @param graph the graph to partition.
+ * @param stop maximum isoperimetric ratio for segments.
+ * @return a partition of the graph.
+ */
+DisjointSetForest unconnectedIGP(const WeightedGraph &graph, double stop);
+
+/**
  * Segments a graph using the isoperimetric algorithm by Grady and Schwarz.
  *
  * @param graph the graph to partition.

@@ -267,8 +267,37 @@ DisjointSetForest unconnectedIGP(const WeightedGraph &graph, double stop) {
 	return subgraphsIGP(graph, stop, inConnectedComponent, numberOfComponents);
 }
 
+bool symmetric(Eigen::SparseMatrix<double> M) {
+	bool res = true;
+
+	for (int k = 0; k < M.outerSize(); k++) {
+		for (Eigen::SparseMatrix<double>::InnerIterator it(M,k); it; ++it) {
+			res = res && abs(it.value() - M.coeffRef(it.col(), it.row())) <= 10E-8;
+		}
+	}
+
+	return res;
+}
+
+bool positiveDefinite(Eigen::SparseMatrix<double> M) {
+	Eigen::SimplicialLDLT<Eigen::SparseMatrix<double> > chol;
+
+	chol.compute(M);
+
+	return chol.info() == Eigen::Success;
+}
+
+bool connected(const WeightedGraph& graph) {
+	int nbCC;
+
+	connectedComponents(graph, vector<int>(), &nbCC);
+
+	return nbCC == 1;
+}
+
 DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, double stop) {
-	cout<<"partitioning graph with "<<graph.numberOfVertices()<<" vertices"<<endl;
+	cout<<"checking connectedness"<<endl;
+	assert(connected(graph));
 	//cout<<"g:"<<endl<<graph<<endl;
 
 	// If G has no vertices we cannot partition it.
@@ -311,6 +340,10 @@ DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, dou
 	//cout<<"d0:"<<endl<<d0<<endl;
 
 	cout<<"solving linear system"<<endl;
+	cout<<"checking symmetry"<<endl;
+	assert(symmetric(L0));
+	cout<<"checking positive-definiteness"<<endl;
+	assert(positiveDefinite(L0));
 	// We now solve the linear system L0 * x0 = d0 for x0
 	Eigen::ConjugateGradient<Eigen::SparseMatrix<double>> cgSolver;
 	Eigen::VectorXd x0 = cgSolver.compute(L0).solve(d0);
