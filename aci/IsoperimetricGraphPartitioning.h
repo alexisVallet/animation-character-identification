@@ -2,6 +2,7 @@
 
 #include <Eigen\Sparse>
 #include <Eigen\SparseCholesky>
+#include <Eigen\Dense>
 
 #include "WeightedGraph.hpp"
 #include "DisjointSet.hpp"
