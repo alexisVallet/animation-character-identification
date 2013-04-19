@@ -14,7 +14,7 @@
 #include "IsoperimetricGraphPartitioningTest.h"
 #include "ImageGraphsTest.h"
 
-#define TEST false
+#define TEST true
 #define DEBUG true
 #define BLUR_SIGMA 0.8
 #define CONNECTIVITY CONNECTIVITY_4
