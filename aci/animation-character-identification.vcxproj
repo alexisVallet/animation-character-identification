@@ -82,6 +82,7 @@
     <ClCompile Include="GraphSpectra.cpp" />
     <ClCompile Include="IsoPerimetricGraphPartioning.cpp" />
     <ClCompile Include="Kernels.cpp" />
+    <ClCompile Include="KuwaharaFilter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SegmentationGraph.cpp" />
     <ClCompile Include="SpectrumDistanceClassifier.cpp" />
@@ -96,6 +97,7 @@
     <ClInclude Include="GraphSpectra.h" />
     <ClInclude Include="isoperimetricGraphPartitioning.h" />
     <ClInclude Include="Kernels.h" />
+    <ClInclude Include="KuwaharaFilter.h" />
     <ClInclude Include="LabeledGraph.hpp" />
     <ClInclude Include="SegmentationGraph.hpp" />
     <ClInclude Include="SpectrumDistanceClassifier.h" />
