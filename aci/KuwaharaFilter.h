@@ -5,4 +5,4 @@
 using namespace std;
 using namespace cv;
 
-Mat_<Vec<uchar,3>> KuwaharaFilter(Mat_<Vec<uchar,3>> &image, uchar size);
+void KuwaharaFilter(Mat_<Vec<uchar,3>> &src, Mat_<Vec<uchar,3>> &dest, uchar filterSize);
