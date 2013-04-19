@@ -82,3 +82,33 @@ Mat_<double> normalizedLaplacian(const WeightedGraph &graph) {
 
 	return degrees * unnormalized * degrees;
 }
+
+Eigen::SparseMatrix<double> normalizedSparseLaplacian(const WeightedGraph &graph) {
+	typedef Eigen::Triplet<double> T;
+	vector<T> tripletList;
+
+	tripletList.reserve(graph.numberOfVertices() + graph.getEdges().size()/2);
+
+	// first we compute the degrees while initializing the diagonal
+	Eigen::VectorXd degrees(graph.numberOfVertices());
+
+	for (int i = 0; i < graph.getEdges().size(); i++) {
+		Edge edge = graph.getEdges()[i];
+
+		degrees(edge.source) += edge.weight;
+		tripletList.push_back(T(i,i,1));
+	}
+
+	// then we compute the rest of the matrix
+	for (int i = 0; i < graph.getEdges().size(); i++) {
+		Edge edge = graph.getEdges()[i];
+
+		tripletList.push_back(T(edge.source, edge.destination, -edge.weight/sqrt(degrees(edge.source) * degrees(edge.destination))));
+	}
+
+	Eigen::SparseMatrix<double> normalized(graph.numberOfVertices(), graph.numberOfVertices());
+
+	normalized.setFromTriplets(tripletList.begin(), tripletList.end());
+
+	return normalized;
+}

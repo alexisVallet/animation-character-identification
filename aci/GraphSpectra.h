@@ -48,3 +48,9 @@ Eigen::SparseMatrix<double> sparseLaplacian(const WeightedGraph &graph, bool bid
  * @return the normalized laplacian matrix of the weighted graph.
  */
 Mat_<double> normalizedLaplacian(const WeightedGraph &graph);
+
+/**
+ * Same as normalizedLaplacian, but returns a sparse matrix data structure. Assumes
+ * a bidirectional graph representation without loops.
+ */
+Eigen::SparseMatrix<double> normalizedSparseLaplacian(const WeightedGraph &graph);

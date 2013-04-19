@@ -90,6 +90,7 @@
     <ClCompile Include="IsoperimetricGraphPartitioningTest.cpp" />
     <ClCompile Include="Kernels.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NormalizedCuts.cpp" />
     <ClCompile Include="SegmentationGraph.cpp" />
     <ClCompile Include="SpectrumDistanceClassifier.cpp" />
     <ClCompile Include="GraphSpectraTest.cpp" />
@@ -109,6 +110,7 @@
     <ClInclude Include="IsoperimetricGraphPartitioningTest.h" />
     <ClInclude Include="Kernels.h" />
     <ClInclude Include="LabeledGraph.hpp" />
+    <ClInclude Include="NormalizedCuts.h" />
     <ClInclude Include="SegmentationGraph.hpp" />
     <ClInclude Include="SpectrumDistanceClassifier.h" />
     <ClInclude Include="TrainableStatModel.h" />
