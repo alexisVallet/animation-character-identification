@@ -46,7 +46,7 @@ float SpectrumDistanceClassifier::leaveOneOutRecognitionRate(vector<LabeledGraph
 	// compute the spectrum of each graph
 	Mat spectra(samples.size(), maxNumberOfVertices, CV_32F);
 
-	for (int i = 0; i < samples.size(); i++) {
+	for (int i = 0; i < (int)samples.size(); i++) {
 		WeightedGraph weighted = weighEdgesByKernel<Mat>(this->kernel, samples[i]);
 		Mat_<double> matrix = this->representation(weighted);
 		Mat_<double> largerMatrix = Mat_<double>::zeros(maxNumberOfVertices, maxNumberOfVertices);
@@ -77,9 +77,7 @@ float SpectrumDistanceClassifier::leaveOneOutRecognitionRate(vector<LabeledGraph
 	for (int i = 0; i < spectra.rows; i++) {
 		this->statModel->clear();
 		this->statModel->train(otherSamples, otherClasses);
-		int result = this->statModel->predict(spectra.row(i));
-
-		cout<<i<<" is classified in class "<<result<<endl;
+		int result = floor(this->statModel->predict(spectra.row(i)));
 
 		if (result == classes.at<int>(i,0)) {
 			totalCorrectResults++;

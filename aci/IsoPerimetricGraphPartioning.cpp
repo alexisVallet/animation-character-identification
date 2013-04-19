@@ -1,5 +1,7 @@
 #include "IsoperimetricGraphPartitioning.h"
 
+#define IGP_DEBUG false
+
 WeightedGraph removeIsolatedVertices(WeightedGraph &graph, vector<int> &vertexMap) {
 	// first we count the number of non-isolated vertices in the graph, filling
 	// vertexMap appropriately.
@@ -87,20 +89,21 @@ static int reverseVertexMap(int v0, int v) {
  * @param graphVolume the total graph volume
  * @return the best cut index in the sorted x0, along with its isoperimetric ratio.
  */
-static pair<int,double> ratioCutThreshold(const WeightedGraph &graph, int v0, Eigen::SparseMatrix<double> &L0, Eigen::VectorXd &d0, Eigen::VectorXd &x0, Mat_<int> &s, double graphVolume) {
-	// the initial best cut contains just the first vertex in the sorted x0
+static pair<int,double> ratioCutThreshold(const WeightedGraph &graph, int v0, Eigen::SparseMatrix<double> &L0, Eigen::VectorXd &d0, Eigen::VectorXd &degrees, Eigen::VectorXd &x0, Mat_<int> &s, double graphVolume) {
+	// the initial best cut contains just v0, which we arbitrarily index at the last position
 	vector<bool> isInSegment(x0.rows(), false);
-	isInSegment[0] = true;
-	double previousBoundary = d0(s(0,0));
-	double previousVolume = d0(s(0,0));
+	double previousBoundary = degrees(v0);
+	double previousVolume = degrees(v0);
 
-	for (int i = 1; i < x0.rows(); i++) {
+	for (int i = 0; i < x0.rows(); i++) {
 		double internalWeights = 0;
 
 		for (int j = 0; j < graph.getAdjacencyList(vertexMap(v0, s(i,0))).size(); j++) {
 			HalfEdge edge = graph.getAdjacencyList(vertexMap(v0, s(i,0)))[j];
 			
-			if (edge.destination != v0 && isInSegment[reverseVertexMap(v0, edge.destination)]) {
+			if (edge.destination == v0) {
+				internalWeights += edge.weight;
+			} else if (isInSegment[reverseVertexMap(v0, edge.destination)]) {
 				internalWeights += edge.weight;
 			}
 		}
@@ -121,8 +124,10 @@ static pair<int,double> ratioCutThreshold(const WeightedGraph &graph, int v0, Ei
 		previousVolume = newVolume;
 	}
 
-	//the special case where the best cut is all the vertices but the ground
-	return pair<int,double>(x0.rows() - 1, previousBoundary/previousVolume);
+	// the case where all vertices are in the segment, which should never happen because
+	// of the volume constraint.
+	cout<<"Error: all vertices are in the segment, this shouldn't happen"<<endl;
+	exit(EXIT_FAILURE);
 }
 
 /**
@@ -134,8 +139,8 @@ static pair<int,double> ratioCutThreshold(const WeightedGraph &graph, int v0, Ei
  * @param vertexIdx output map which associates to each vertex in the graph its
  * index in the associated subgraph.
  */
-void connectedComponents(const WeightedGraph &graph, vector<int> &inConnectedComponent, vector<int> &vertexIdx) {
-	int nbCC = 0;
+void connectedComponents(const WeightedGraph &graph, vector<int> &inConnectedComponent, int *nbCC) {
+	*nbCC = 0;
 	inConnectedComponent = vector<int>(graph.numberOfVertices(),-1);
 	vector<bool> discovered(graph.numberOfVertices(), false);
 	vector<int> stack;
@@ -145,7 +150,8 @@ void connectedComponents(const WeightedGraph &graph, vector<int> &inConnectedCom
 	for (int i = 0; i < graph.numberOfVertices(); i++) {
 		if (!discovered[i]) {
 			discovered[i] = true;
-			inConnectedComponent[i] = nbCC;
+
+			inConnectedComponent[i] = *nbCC;
 
 			stack.push_back(i);
 
@@ -158,13 +164,14 @@ void connectedComponents(const WeightedGraph &graph, vector<int> &inConnectedCom
 
 					if (!discovered[edge.destination]) {
 						discovered[edge.destination] = true;
-						inConnectedComponent[edge.destination] = nbCC;
+
+						inConnectedComponent[edge.destination] = *nbCC;
+
 						stack.push_back(edge.destination);
 					}
 				}
 			}
-
-			nbCC++;
+			(*nbCC)++;
 		}
 	}
 }
@@ -181,11 +188,16 @@ void connectedComponents(const WeightedGraph &graph, vector<int> &inConnectedCom
  */ 
 void inducedSubgraphs(const WeightedGraph &graph, const vector<int> &inSubgraph, int numberOfSubgraphs, vector<int> &vertexIdx, vector<WeightedGraph> &subgraphs) {
 	vector<int> subgraphSizes(numberOfSubgraphs,0);
-	vertexIdx = vector<int>(inSubgraph.size(), -1);
 
-	for (int i = 0; i < inSubgraph.size(); i++) {
-		vertexIdx[i] = subgraphSizes[i];
-		subgraphSizes[i]++;
+	vertexIdx = vector<int>(graph.numberOfVertices(), -1);
+
+	/*cout<<"vertexIdx: "<<vertexIdx.size()<<", subgraphSizes: "<<subgraphSizes.size()<<", inSubgraph: "<<inSubgraph.size()<<endl;
+
+	cout<<"computing subgraph sizes and vertices indexes"<<endl;*/
+	for (int i = 0; i < graph.numberOfVertices(); i++) {
+		//cout<<"inSubgraph["<<i<<"] = "<<inSubgraph[i]<<endl;
+		vertexIdx[i] = subgraphSizes[inSubgraph[i]];
+		subgraphSizes[inSubgraph[i]]++;
 	}
 
 	subgraphs = vector<WeightedGraph>(numberOfSubgraphs);
@@ -193,7 +205,7 @@ void inducedSubgraphs(const WeightedGraph &graph, const vector<int> &inSubgraph,
 	for (int i = 0; i < numberOfSubgraphs; i++) {
 		subgraphs[i] = WeightedGraph(subgraphSizes[i]);
 	}
-
+	
 	for (int i = 0; i < graph.getEdges().size(); i++) {
 		Edge edge = graph.getEdges()[i];
 
@@ -203,9 +215,41 @@ void inducedSubgraphs(const WeightedGraph &graph, const vector<int> &inSubgraph,
 	}
 }
 
-DisjointSetForest subgraphsIGP(const WeightedGraph &graph, vector<int> &inSubgraph, int numberOfSubgraphs, vector<int> &vertexIdx) {
+void fusePartitions(const WeightedGraph &graph, vector<int> &inSubgraph, vector<int> &vertexIdx, vector<DisjointSetForest> &partitions, DisjointSetForest &partition) {
+	for (int i = 0; i < graph.getEdges().size(); i++) {
+		Edge edge = graph.getEdges()[i];
+
+		if (inSubgraph[edge.source] == inSubgraph[edge.destination]) {
+			int subIndex = inSubgraph[edge.source];
+
+			if (partitions[subIndex].find(vertexIdx[edge.source]) == partitions[subIndex].find(vertexIdx[edge.destination])) {
+				partition.setUnion(edge.source, edge.destination);
+			}
+		}
+	}
+}
+
+DisjointSetForest subgraphsIGP(const WeightedGraph &graph, double stop, vector<int> &inSubgraph, int numberOfSubgraphs) {
 	vector<WeightedGraph> subgraphs;
+	vector<int> vertexIdx;
 	inducedSubgraphs(graph, inSubgraph, numberOfSubgraphs, vertexIdx, subgraphs);
+	
+	/*for (int i = 0; i < subgraphs.size(); i++) {
+		cout<<"induced"<<i<<":"<<endl<<subgraphs[i]<<endl;
+	}*/
+
+	vector<DisjointSetForest> partitions(numberOfSubgraphs);
+
+	for (int i = 0; i < numberOfSubgraphs; i++) {
+		//cout<<"calling ipg on induced"<<i<<endl;
+		partitions[i] = isoperimetricGraphPartitioning(subgraphs[i], stop);
+	}
+
+	DisjointSetForest partition(graph.numberOfVertices());
+
+	fusePartitions(graph, inSubgraph, vertexIdx, partitions, partition);
+
+	return partition;
 }
 
 /**
@@ -219,18 +263,33 @@ DisjointSetForest subgraphsIGP(const WeightedGraph &graph, vector<int> &inSubgra
 DisjointSetForest unconnectedIGP(const WeightedGraph &graph, double stop) {
 	vector<WeightedGraph> components;
 	vector<int> inConnectedComponent;
-	vector<int> vertexIdx;
+	int numberOfComponents;
 
-	connectedComponents(graph, components, inConnectedComponent, vertexIdx);
+	connectedComponents(graph, inConnectedComponent, &numberOfComponents);
 
-	vector<DisjointSetForest> partitions(components.size());
+	/*cout<<"g:"<<endl<<graph<<endl;
+	cout<<"detected "<<numberOfComponents<<" connected components"<<endl;*/
 
-	for (int i = 0; i < partitions.size(); i++) {
-		partitions[i] = isoperimetricGraphPartitioning(components[i], stop);
-	}
-
-	for (int i = 0; i < 
+	return subgraphsIGP(graph, stop, inConnectedComponent, numberOfComponents);
 }
+
+bool positiveDefinite(Eigen::SparseMatrix<double> M) {
+	Eigen::SimplicialLDLT<Eigen::SparseMatrix<double> > chol;
+
+	chol.compute(M);
+
+	return chol.info() == Eigen::Success;
+}
+
+bool connected(const WeightedGraph& graph) {
+	int nbCC;
+
+	connectedComponents(graph, vector<int>(), &nbCC);
+
+	return nbCC == 1;
+}
+
+
 
 DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, double stop) {
 	// If G has no vertices we cannot partition it.
@@ -240,6 +299,7 @@ DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, dou
 	}
 	// if G has only one vertex, then it's in it own segment
 	if (graph.numberOfVertices() == 1) {
+		if (IGP_DEBUG) cout<<"trivial graph"<<endl;
 		DisjointSetForest trivial(1);
 
 		return trivial;
@@ -248,17 +308,20 @@ DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, dou
 	// We compute the laplacian of the graph and its ground vertex
 	Eigen::VectorXd d;
 	Eigen::SparseMatrix<double> L = sparseLaplacian(graph, true, d);
-	cout<<"L:"<<endl<<L<<endl;
+	if (IGP_DEBUG) {
+		cout<<"L:"<<endl<<L<<endl;
+		cout<<"d:"<<endl<<d<<endl;
+	}
 	int v0;
 	d.maxCoeff(&v0);
-	cout<<"v0 = "<<v0<<endl;
+	if (IGP_DEBUG) cout<<"v0 = "<<v0<<endl;
 
 	// We remove the line and column of v0 in L to obtain L0.
 	Eigen::SparseMatrix<double> L0;
 
 	removeLineCol(L, v0, L0);
 
-	cout<<"L0:"<<endl<<L0<<endl;
+	if (IGP_DEBUG) cout<<"L0:"<<endl<<L0<<endl;
 
 	// We remove the degree of v0 from g to obtain d0
 	Eigen::VectorXd d0(d.size() - 1);
@@ -266,13 +329,18 @@ DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, dou
 	d0.head(v0) = d.head(v0);
 	d0.tail(d0.size() - v0) = d.tail(d0.size() - v0);
 
-	cout<<"d0:"<<endl<<d0<<endl;
+	if (IGP_DEBUG) cout<<"d0:"<<endl<<d0<<endl;
 
 	// We now solve the linear system L0 * x0 = d0 for x0
-	Eigen::ConjugateGradient<Eigen::SparseMatrix<double>> cgSolver;
-	Eigen::VectorXd x0 = cgSolver.compute(L0).solve(d0);
+	assert(symmetric(L0));
+	assert(positiveDefinite(L0));
+	Eigen::ConjugateGradient<Eigen::SparseMatrix<double>> solver;
 
-	cout<<"x0:"<<endl<<x0<<endl;
+	solver.compute(L0);
+
+	Eigen::VectorXd x0 = solver.solve(d0);
+
+	if (IGP_DEBUG) cout<<"x0:"<<endl<<x0<<endl;
 
 	// We threshold x0 to obtain the cut with best isoperimetric ratio
 	// First we need to sort x0 and compute the volume of the graph.
@@ -286,13 +354,64 @@ DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, dou
 
 	sortIdx(cvx0, s, CV_SORT_ASCENDING + CV_SORT_EVERY_COLUMN);
 
-	cout<<"s:"<<endl<<s<<endl;
+	pair<int,double> cut = ratioCutThreshold(graph, v0, L0, d0, d, x0, s, graphVolume);
 
-	pair<int,double> cut = ratioCutThreshold(graph, v0, L0, d0, x0, s, graphVolume);
+	//cout<<"Best cut at "<<cut.first<<" with ratio "<<cut.second<<endl;
 
-	cout<<"Best cut at "<<cut.first<<" with ratio "<<cut.second<<endl;
+	if (cut.second < stop) {
+		if (IGP_DEBUG) cout<<"good enough cut at "<<cut.second<<endl;
+		//cout<<"cut good enough, returning bipartition"<<endl;
+		DisjointSetForest bipartition(graph.numberOfVertices());
+		
+		// fuse all the elements of the first segment with the ground
+		for (int i = 0; i <= cut.first; i++) {
+			bipartition.setUnion(v0, vertexMap(v0, s(i,0)));
+		}
 
-	
+		// fuse all the others with each other
+		for (int i = cut.first + 2; i < x0.size(); i++) {
+			bipartition.setUnion(vertexMap(v0, s(cut.first + 1)), vertexMap(v0, s(i,0)));
+		}
+
+		return bipartition;
+	}
+
+	vector<int> inSegment(graph.numberOfVertices(),-1);
+
+	for (int i = 0; i <= cut.first; i++) {
+		inSegment[vertexMap(v0, s(i,0))] = 0;
+	}
+
+	for (int i = cut.first + 1; i < x0.size(); i++) {
+		inSegment[vertexMap(v0, s(i,0))] = 1;
+	}
+
+	inSegment[v0] = 0;
+
+	//cout<<"bipartition not good enough, computing subgraphs"<<endl;
+
+	vector<int> vertexIdx;
+	vector<WeightedGraph> subgraphs;
+
+	//cout<<"computing induced subgraphs"<<endl;
+	inducedSubgraphs(graph, inSegment, 2, vertexIdx, subgraphs);
+
+	//cout<<"g1:"<<endl<<subgraphs[0]<<endl;
+	//cout<<"g2:"<<endl<<subgraphs[1]<<endl;
+
+	vector<DisjointSetForest> partitions(2);
+
+	//cout<<"computing connected components and recursive calls"<<endl;
+	for (int i = 0; i < 2; i++) {
+		partitions[i] = unconnectedIGP(subgraphs[i], stop);
+	}
+
+	DisjointSetForest partition(graph.numberOfVertices());
+
+	//cout<<"fusing partitions from recursive calls"<<endl;
+	fusePartitions(graph, inSegment, vertexIdx, partitions, partition);
+
+	return partition;
 }
 
 DisjointSetForest addIsolatedVertices(WeightedGraph &graph, DisjointSetForest &segmentation, vector<int> &vertexMap) {

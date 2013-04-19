@@ -4,7 +4,7 @@ Mat_<int> computeBorderLengths(DisjointSetForest &segmentation, WeightedGraph &g
 	Mat_<int> borderLengths = Mat_<int>::zeros(segmentation.getNumberOfComponents(), segmentation.getNumberOfComponents());
 	map<int,int> rootIndexes = segmentation.getRootIndexes();
 
-	for (int i = 0; i < gridGraph.getEdges().size(); i++) {
+	for (int i = 0; i < (int)gridGraph.getEdges().size(); i++) {
 		Edge edge = gridGraph.getEdges()[i];
 		int srcRoot = segmentation.find(edge.source);
 		int dstRoot = segmentation.find(edge.destination);

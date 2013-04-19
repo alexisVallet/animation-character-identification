@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Eigen\Sparse>
 #include <opencv2\opencv.hpp>
 #include <complex>
 
@@ -25,6 +26,14 @@ typedef Mat_<double> (*MatrixRepresentation)(const WeightedGraph&);
  * @return the laplacian matrix of the weighted graph.
  */
 Mat_<double> laplacian(const WeightedGraph &graph);
+
+/**
+ * Same as laplacian, but returns a sparse matrix data structure.
+ * Useful when dealing with graphs with a lot of vertices, but
+ * relatively few edges (for instances grid graphs, nearest neighbor
+ * graphs, large planar graphs).
+ */
+Eigen::SparseMatrix<double> sparseLaplacian(const WeightedGraph &graph, bool bidirectional, Eigen::VectorXd &degrees);
 
 /**
  * Computes the normalized laplacian NL matrix of a weighted graph, defined by:

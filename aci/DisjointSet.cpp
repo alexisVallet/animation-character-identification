@@ -16,6 +16,14 @@ DisjointSetForest::DisjointSetForest(int numberOfElements)
   }
 }
 
+int DisjointSetForest::constFind(int element) const {
+	if (this->forest[element].parent == element) {
+		return element;
+	} else {
+		return this->constFind(this->forest[element].parent);
+	}
+}
+
 int DisjointSetForest::find(int element) {
   int currentParent = this->forest[element].parent;
 
@@ -78,7 +86,7 @@ Mat_<Vec<uchar, 3> > DisjointSetForest::toRegionImage(Mat_<Vec<uchar,3> > source
   return regions;
 }
 
-int DisjointSetForest::getNumberOfComponents() {
+int DisjointSetForest::getNumberOfComponents() const {
   return this->numberOfComponents;
 }
 
@@ -109,4 +117,37 @@ int DisjointSetForest::getComponentSize(int element) {
   int root = this->find(element);
 
   return this->componentSizes[root];
+}
+
+int DisjointSetForest::getNumberOfElements() const {
+	return this->forest.size();
+}
+
+ostream &operator<<(ostream &os, DisjointSetForest &forest) {
+	vector<vector<int>> comps(forest.getNumberOfComponents());
+
+	for (int i = 0; i < forest.getNumberOfElements(); i++) {
+		int root = forest.find(i);
+
+		comps[forest.getRootIndexes()[root]].push_back(i);
+	}
+
+	os<<"(";
+	for (int i = 0; i < (int)comps.size(); i++) {
+		os<<"{";
+		for (int j = 0; j < (int)comps[i].size(); j++) {
+			os<<comps[i][j];
+			if (j < (int)comps[i].size() - 1) {
+				os<<", ";
+			}
+		}
+		os<<"}";
+
+		if (i < (int)comps.size() - 1) {
+			os<<", ";
+		}
+	}
+	os<<")"<<endl;
+
+	return os;
 }

@@ -36,10 +36,42 @@ void loadDataSet(char* folderName, char** charaNames, int nbCharas, int nbImages
 
 			images[rowMajorIndex].first = imread(fullPath);
 			images[rowMajorIndex].second = Mat_<float>::ones(mask.rows, mask.cols) - (Mat_<float>(maskChannels[0]) / 255);
+			waitKey(0);
 			classes.at<int>(rowMajorIndex,0) = i;
 
 			delete[] fullPath;
 			delete[] maskPath;
 		}
 	}
+}
+
+Mat_<double> sparseMul(SparseMat_<double> A, Mat_<double> b) {
+	assert(A.size(1) == b.rows);
+	assert(b.cols == 1);
+	Mat_<double> c = Mat_<double>::zeros(b.rows, 1);
+
+	SparseMatConstIterator_<double> it;
+
+	// iterates over non zero elements
+	for (it = A.begin(); it != A.end(); ++it) {
+		const SparseMat_<double>::Node* n = it.node();
+		int row = n->idx[0];
+		int col = n->idx[1];
+
+		c(row, 0) += it.value<double>() * b(col,0);
+	}
+
+	return c;
+}
+
+bool symmetric(Eigen::SparseMatrix<double> M) {
+	bool res = true;
+
+	for (int k = 0; k < M.outerSize(); k++) {
+		for (Eigen::SparseMatrix<double>::InnerIterator it(M,k); it; ++it) {
+			res = res && abs(it.value() - M.coeffRef(it.col(), it.row())) <= 10E-8;
+		}
+	}
+
+	return res;
 }

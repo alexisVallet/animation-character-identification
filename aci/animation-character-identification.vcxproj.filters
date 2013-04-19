@@ -51,7 +51,16 @@
     <ClCompile Include="SpectrumDistanceClassifier.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="KuwaharaFilter.cpp">
+    <ClCompile Include="ImageGraphs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphSpectraTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IsoperimetricGraphPartitioningTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageGraphsTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -92,7 +101,16 @@
     <ClInclude Include="SpectrumDistanceClassifier.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="KuwaharaFilter.h">
+    <ClInclude Include="ImageGraphs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphSpectraTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IsoperimetricGraphPartitioningTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageGraphsTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
