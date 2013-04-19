@@ -14,7 +14,7 @@
 #include "IsoperimetricGraphPartitioningTest.h"
 #include "ImageGraphsTest.h"
 
-#define TEST false
+#define TEST true
 #define DEBUG true
 #define BLUR_SIGMA 0.8
 #define CONNECTIVITY CONNECTIVITY_4
@@ -42,9 +42,11 @@ LabeledGraph<Mat> computeGraphFrom(Mat_<Vec<uchar,3> > &rgbImage, Mat_<float> &m
 	cout<<"removing isolated vertices"<<endl;
 	WeightedGraph connected = removeIsolatedVertices(basicGraph, vertexMap);
 	cout<<"computing segmentation"<<endl;
-	DisjointSetForest segmentationConn = unconnectedIGP(connected, 0.25);
+	DisjointSetForest segmentationConn = unconnectedIGP(connected, 1);
+	cout<<"segmentationConn: "<<segmentationConn.getNumberOfComponents()<<" components"<<endl;
 	cout<<"adding isolated vertices back"<<endl;
 	DisjointSetForest segmentation = addIsolatedVertices(basicGraph, segmentationConn, vertexMap);
+	cout<<"segmentation: "<<segmentation.getNumberOfComponents()<<" components"<<endl;
 	LabeledGraph<Mat> segGraph = segmentationGraph<Mat>(
 		smoothed,
 		segmentation,
@@ -53,7 +55,7 @@ LabeledGraph<Mat> computeGraphFrom(Mat_<Vec<uchar,3> > &rgbImage, Mat_<float> &m
 	colorHistogramLabels(smoothed, segmentation, segGraph, BINS_PER_CHANNEL);
 	if (DEBUG) {
 		Mat regionImage = segmentation.toRegionImage(smoothed);
-		segGraph.drawGraph(segmentCenters(smoothed, segmentation), regionImage);
+		//segGraph.drawGraph(segmentCenters(smoothed, segmentation), regionImage);
 		imshow("segmentation graph", regionImage);
 		waitKey(0);
 	}

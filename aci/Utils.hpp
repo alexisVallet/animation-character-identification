@@ -3,6 +3,7 @@
 
 #include <utility>
 #include <opencv2\opencv.hpp>
+#include <Eigen\Sparse>
 
 using namespace std;
 using namespace cv;
@@ -31,5 +32,11 @@ void loadDataSet(char* folderName, char** charaNames, int nbCharas, int nbImages
  * Multiplies a sparse n by n matrix by a dense n by 1 column vector.
  */
 Mat_<double> sparseMul(SparseMat_<double> A, Mat_<double> b);
+
+/**
+ * Checks that a given sparse matrix is symmetric.
+ */
+
+bool symmetric(Eigen::SparseMatrix<double> M);
 
 #endif
