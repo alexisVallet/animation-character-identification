@@ -36,7 +36,17 @@ Mat_<double> sparseMul(SparseMat_<double> A, Mat_<double> b);
 /**
  * Checks that a given sparse matrix is symmetric.
  */
-
 bool symmetric(Eigen::SparseMatrix<double> M);
+
+/**
+ * Checks that a given sparse matrix is positive definite by attempting
+ * to compute its Cholesky decomposition.
+ */
+bool positiveDefinite(Eigen::SparseMatrix<double> M);
+
+/**
+ * Removes the line and column of a specific index in a sparse matrix.
+ */
+void removeLineCol(const Eigen::SparseMatrix<double> &L, int v0, Eigen::SparseMatrix<double> &L0);
 
 #endif

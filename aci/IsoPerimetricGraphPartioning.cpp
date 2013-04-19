@@ -27,28 +27,6 @@ WeightedGraph removeIsolatedVertices(WeightedGraph &graph, vector<int> &vertexMa
 	return connected;
 }
 
-// Remove a line and column with the same index in a sparse matrix.
-static void removeLineCol(const Eigen::SparseMatrix<double> &L, int v0, Eigen::SparseMatrix<double> &L0) {
-	typedef Eigen::Triplet<double> T;
-	vector<T> tripletList;
-	tripletList.reserve(L.nonZeros());
-
-	for (int k = 0; k < L.outerSize(); ++k) {
-		for (Eigen::SparseMatrix<double>::InnerIterator it(L,k); it; ++it) {
-			if (it.row() != v0 && it.col() != v0) {
-				int newRow = it.row() < v0 ? it.row() : it.row() - 1;
-				int newCol = it.col() < v0 ? it.col() : it.col() - 1;
-
-				tripletList.push_back(T(newRow, newCol, it.value()));
-			}
-		}
-	}
-
-	L0 = Eigen::SparseMatrix<double>(L.rows() - 1, L.cols() - 1);
-
-	L0.setFromTriplets(tripletList.begin(), tripletList.end());
-}
-
 /**
  * maps vertex index v from the space where the ground vertex v0 has been
  * removed to the space where the ground vertex is still there.
@@ -273,14 +251,6 @@ DisjointSetForest unconnectedIGP(const WeightedGraph &graph, double stop) {
 	return subgraphsIGP(graph, stop, inConnectedComponent, numberOfComponents);
 }
 
-bool positiveDefinite(Eigen::SparseMatrix<double> M) {
-	Eigen::SimplicialLDLT<Eigen::SparseMatrix<double> > chol;
-
-	chol.compute(M);
-
-	return chol.info() == Eigen::Success;
-}
-
 bool connected(const WeightedGraph& graph) {
 	int nbCC;
 
@@ -333,12 +303,19 @@ DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, dou
 
 	// We now solve the linear system L0 * x0 = d0 for x0
 	assert(symmetric(L0));
-	assert(positiveDefinite(L0));
-	Eigen::ConjugateGradient<Eigen::SparseMatrix<double>> solver;
+	/*Eigen::ConjugateGradient<Eigen::SparseMatrix<double>> solver;
 
 	solver.compute(L0);
 
-	Eigen::VectorXd x0 = solver.solve(d0);
+	Eigen::VectorXd x0 = solver.solve(d0);*/
+
+	Eigen::MatrixXd dL0 = Eigen::MatrixXd(L0);
+
+	cout<<"initializing eigensolver"<<endl;
+
+	Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> eigensolver(dL0);
+
+	Eigen::VectorXd x0 = eigensolver.eigenvectors().col(1);
 
 	if (IGP_DEBUG) cout<<"x0:"<<endl<<x0<<endl;
 
