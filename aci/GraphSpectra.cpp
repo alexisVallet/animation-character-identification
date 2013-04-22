@@ -96,6 +96,9 @@ Eigen::SparseMatrix<double> normalizedSparseLaplacian(const WeightedGraph &graph
 		Edge edge = graph.getEdges()[i];
 
 		degrees(edge.source) += edge.weight;
+	}
+
+	for (int i = 0; i < graph.numberOfVertices(); i++) {
 		tripletList.push_back(T(i,i,1));
 	}
 

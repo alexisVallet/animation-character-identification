@@ -1,6 +1,10 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include <boost\graph\boyer_myrvold_planar_test.hpp>
+#define lapack_complex_float std::complex<float>
+#define lapack_complex_double std::complex<double>
+#include <lapacke.h>
+
 #include "DisjointSet.hpp"
 #include "WeightedGraph.hpp"
 #include "Felzenszwalb.hpp"
@@ -13,6 +17,7 @@
 #include "GraphSpectraTest.h"
 #include "IsoperimetricGraphPartitioningTest.h"
 #include "ImageGraphsTest.h"
+#include "NormalizedCuts.h"
 
 #define TEST true
 #define DEBUG true
@@ -33,7 +38,6 @@ LabeledGraph<Mat> computeGraphFrom(Mat_<Vec<uchar,3> > &rgbImage, Mat_<float> &m
 	Mat_<Vec<uchar,3> > smoothed;
 
 	GaussianBlur(rgbImage, smoothed, Size(0,0), BLUR_SIGMA);
-
 	cout<<"computing grid graph"<<endl;
 	// segment the image using Felzenszwalb's method
 	cout<<"computing grid graph"<<endl;
@@ -42,10 +46,11 @@ LabeledGraph<Mat> computeGraphFrom(Mat_<Vec<uchar,3> > &rgbImage, Mat_<float> &m
 	cout<<"removing isolated vertices"<<endl;
 	WeightedGraph connected = removeIsolatedVertices(basicGraph, vertexMap);
 	cout<<"computing segmentation"<<endl;
-	DisjointSetForest segmentationConn = unconnectedIGP(connected, 1);
+	/*DisjointSetForest segmentationConn = unconnectedIGP(connected, 1);
 	cout<<"segmentationConn: "<<segmentationConn.getNumberOfComponents()<<" components"<<endl;
 	cout<<"adding isolated vertices back"<<endl;
-	DisjointSetForest segmentation = addIsolatedVertices(basicGraph, segmentationConn, vertexMap);
+	DisjointSetForest segmentation = addIsolatedVertices(basicGraph, segmentationConn, vertexMap);*/
+	DisjointSetForest segmentation = normalizedCuts(connected, 0.5);
 	cout<<"segmentation: "<<segmentation.getNumberOfComponents()<<" components"<<endl;
 	LabeledGraph<Mat> segGraph = segmentationGraph<Mat>(
 		smoothed,
@@ -94,9 +99,27 @@ void computeRates(
 
 int main(int argc, char** argv) {
 	if (TEST) {
-		testGraphSpectra();
-		testImageGraphs();
-		testIsoperimetricGraphPartitioning();
+		/* 3x3 matrix A
+	     * 76 25 11
+	     * 27 89 51
+	     * 18 60 32
+		 */
+		double A[9] = {76, 27, 18, 25, 89, 60, 11, 51, 32};
+		double b[3] = {10, 7, 43};
+
+		int N = 3;
+		int nrhs = 1;
+		int lda = 3;
+		int ipiv[3];
+		int ldb = 3;
+		int info;
+    
+		info = LAPACKE_dgesv(N, N, nrhs, A, lda, ipiv, b, ldb);
+
+		if(info == 0) /* succeed */
+		printf("The solution is %lf %lf %lf\n", b[0], b[1], b[2]);
+		else
+		fprintf(stderr, "dgesv_ fails %d\n", info);
 	} else {
 		Mat classes;
 		// loads the dataset
