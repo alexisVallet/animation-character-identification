@@ -1,221 +1,278 @@
 #include "NormalizedCuts.h"
 
-/**
- * Uses the lanczos algorithm to compute a tridiagonal matrix similar
- * to the argument.
- *
- * @param M square matrix to compute tridiagonal matrix from
- * @param alpha vector of diagonal values for the tridiagonal matrix
- * @param beta vector of out of diagonal values for the tridiagonal matrix
- * @param Vm output matrix used for eigenvector determination
- */
-void lanczosAlgorithm(SparseMatrix<double> &M, VectorXd &alpha, VectorXd &beta) {
-	alpha = VectorXd(M.rows());
-	beta = VectorXd(M.rows() - 1);
-	VectorXd beta_(M.rows() + 1);
-	beta_(0) = 0; // trick to avoid branching
-	VectorXd v[] = {VectorXd(M.rows()), VectorXd(M.rows())};
-	
-	cout<<"initializing random initial vector"<<endl;
-	for (int i = 0; i < M.rows(); i++) {
-		v[0](i) = (double)rand() / RAND_MAX;
-	}
+static SparseMatrix<double> bigMatrix;
 
-	cout<<"normalizing initial vector"<<endl;
-	v[0].normalize();
+void av(int n, double *in, double *out) {
+	cout<<"calling av"<<endl;
+	VectorXd inVec = Map<VectorXd>(in, n, 1);
+	VectorXd outVec = bigMatrix * inVec;
+	double *outData = outVec.data();
 
-	VectorXd w(M.rows());
-
-	// v[j%2] is the current vector, v[(j+1)%2] is the one from the previous iteration,
-	// or the next.
-	for (int j = 0; j < M.rows(); j++) {
-		int current = j%2;
-		int other = 1 - current;
-
-		w = M * v[current];
-
-		alpha(j) = w.dot(v[current]);
-		w = w - alpha(j) * v[current] - beta_(j) * v[other];
-
-		for (int k = 0; k < w.size(); k++) {
-			double wk = w(k);
-
-			beta_(j + 1) += wk * wk;
-		}
-
-		v[other] = w / beta_(j + 1);
-	}
-
-	cout<<"copying beta"<<endl;
-	beta = beta_.tail(M.rows()).head(M.rows() - 1);
+	memcpy(out, outData, n * sizeof(double));
 }
 
-/**
- * Computes the QR decomposition of a tridiagonal matrix. Algorithm by James Ortega and Henry Kaiser, 1963.
- *
- * @param alpha1 input vector of the diagonal elements of the input matrix
- * @param beta1 input vector of the squared off-diagonal elements of the input matrix
- * @param alpha2 output vector of the diagonal of the A' matrix such that
- * A' = R * Q where A = Q * R, A being the input matrix.
- * @param beta2 output vector of the off-diagonal elements of A'
- */
-void tridiagonalQRDecomposition(const VectorXd &alpha1, const VectorXd &beta1, VectorXd &alpha2, VectorXd &beta2) {
-	assert(alpha1.size() == beta1.size() + 1);
-	cout<<"initializing vectors a and b"<<endl;
-	VectorXd a(alpha1.size() + 2);
-	a.head(alpha1.size()) = alpha1;
-	a(alpha1.size() + 1) = 0;
-	VectorXd b(beta1.size() + 1);
-	b.head(beta1.size()) = beta1;
-	double u = 0;
-	double s = 0;
+extern "C" void dsaupd_(int *ido, char *bmat, int *n, char *which,
+			int *nev, double *tol, double *resid, int *ncv,
+			double *v, int *ldv, int *iparam, int *ipntr,
+			double *workd, double *workl, int *lworkl,
+			int *info);
 
-	alpha2 = VectorXd(alpha1.size());
-	beta2 = VectorXd(beta1.size());
+extern "C" void dseupd_(int *rvec, char *All, int *select, double *d,
+			double *v1, int *ldv1, double *sigma, 
+			char *bmat, int *n, char *which, int *nev,
+			double *tol, double *resid, int *ncv, double *v2,
+			int *ldv2, int *iparam, int *ipntr, double *workd,
+			double *workl, int *lworkl, int *ierr);
 
-	for (int i = 1; i <= alpha1.size(); i++) {
-		cout<<"iteration "<<i<<endl;
-		double gamma = a(i) - u - 1;
-		double p;
+void dsaupd(int n, int nev, double *Evals)
+{
+  int ido = 0; /* Initialization of the reverse communication
+		  parameter. */
 
-		if (s != 1) {
-			p = (gamma * gamma) / (1 - s);
-		} else {
-			p = (1 - s) * b(i-1);
-		}
+  char bmat[2] = "I"; /* Specifies that the right hand side matrix
+			 should be the identity matrix; this makes
+			 the problem a standard eigenvalue problem.
+			 Setting bmat = "G" would have us solve the
+			 problem Av = lBv (this would involve using
+			 some other programs from BLAS, however). */
 
-		if (i != 1) {
-			beta2(i - 2) = s * (p + b(i));
-		}
+  char which[3] = "SM"; /* Ask for the nev eigenvalues of smallest
+			   magnitude.  The possible options are
+			   LM: largest magnitude
+			   SM: smallest magnitude
+			   LA: largest real component
+			   SA: smallest real compoent
+			   LI: largest imaginary component
+			   SI: smallest imaginary component */
 
-		s = b(i) / (p + b(i));
-		u = s * (gamma + a(i + 1));
-		alpha2(i - 1) = gamma + u;
-	}
+  double tol = 0.0; /* Sets the tolerance; tol<=0 specifies 
+		       machine precision */
+
+  double *resid;
+  resid = new double[n];
+
+  int ncv = 4*nev; /* The largest number of basis vectors that will
+		      be used in the Implicitly Restarted Arnoldi
+		      Process.  Work per major iteration is
+		      proportional to N*NCV*NCV. */
+  if (ncv>n) ncv = n;
+
+  double *v;
+  int ldv = n;
+  v = new double[ldv*ncv];
+
+  int *iparam;
+  iparam = new int[11]; /* An array used to pass information to the routines
+			   about their functional modes. */
+  iparam[0] = 1;   // Specifies the shift strategy (1->exact)
+  iparam[2] = 3*n; // Maximum number of iterations
+  iparam[6] = 1;   /* Sets the mode of dsaupd.
+		      1 is exact shifting,
+		      2 is user-supplied shifts,
+		      3 is shift-invert mode,
+		      4 is buckling mode,
+		      5 is Cayley mode. */
+
+  int *ipntr;
+  ipntr = new int[11]; /* Indicates the locations in the work array workd
+			  where the input and output vectors in the
+			  callback routine are located. */
+
+  double *workd;
+  workd = new double[3*n];
+
+  double *workl;
+  workl = new double[ncv*(ncv+8)];
+
+  int lworkl = ncv*(ncv+8); /* Length of the workl array */
+
+  int info = 0; /* Passes convergence information out of the iteration
+		   routine. */
+
+  int rvec = 0; /* Specifies that eigenvectors should not be calculated */
+
+  int *select;
+  select = new int[ncv];
+  double *d;
+  d = new double[2*ncv]; /* This vector will return the eigenvalues from
+			    the second routine, dseupd. */
+  double sigma;
+  int ierr;
+
+  /* Here we enter the main loop where the calculations are
+     performed.  The communication parameter ido tells us when
+     the desired tolerance is reached, and at that point we exit
+     and extract the solutions. */
+
+  do {
+    dsaupd_(&ido, bmat, &n, which, &nev, &tol, resid, 
+	    &ncv, v, &ldv, iparam, ipntr, workd, workl,
+	    &lworkl, &info);
+    
+    if ((ido==1)||(ido==-1)) av(n, workd+ipntr[0]-1, workd+ipntr[1]-1);
+  } while ((ido==1)||(ido==-1));
+
+  /* From those results, the eigenvalues and vectors are
+     extracted. */
+
+  if (info<0) {
+         cout << "Error with dsaupd, info = " << info << "\n";
+         cout << "Check documentation in dsaupd\n\n";
+  } else {
+    dseupd_(&rvec, "All", select, d, v, &ldv, &sigma, bmat,
+	    &n, which, &nev, &tol, resid, &ncv, v, &ldv,
+	    iparam, ipntr, workd, workl, &lworkl, &ierr);
+
+    if (ierr!=0) {
+      cout << "Error with dseupd, info = " << ierr << "\n";
+      cout << "Check the documentation of dseupd.\n\n";
+    } else if (info==1) {
+      cout << "Maximum number of iterations reached.\n\n";
+    } else if (info==3) {
+      cout << "No shifts could be applied during implicit\n";
+      cout << "Arnoldi update, try increasing NCV.\n\n";
+    }
+    
+    /* Before exiting, we copy the solution information over to
+       the arrays of the calling program, then clean up the
+       memory used by this routine.  For some reason, when I
+       don't find the eigenvectors I need to reverse the order of
+       the values. */
+
+    int i;
+    for (i=0; i<nev; i++) Evals[i] = d[nev-1-i];
+
+    delete resid;
+    delete v;
+    delete iparam;
+    delete ipntr;
+    delete workd;
+    delete workl;
+    delete select;
+    delete d;
+  }
 }
 
-/**
- * Uses the QR algorithm to determine eigenvalues of a tridiagonal matrix.
- *
- * @param alpha input vector of diagonal values of the tridiagonal matrix.
- * @param beta input vector of the squared off-diagonal values of the tridiagonal matrix.
- * @param eigenvalues output vector of eigenvalues of the matrix.
- */
-void qrAlgorithm(const VectorXd &alpha, const VectorXd &beta, VectorXd &eigenvalues) {
-	assert(alpha.size() == beta.size() + 1);
 
-	// then we decompose until convergence
-	VectorXd beta1 = beta;
-	VectorXd alpha1 = alpha;
-	VectorXd alpha2(alpha.size());
-	VectorXd beta2(beta.size());
+void dsaupd(int n, int nev, double *Evals, double **Evecs)
+{
+  cout<<"ido"<<endl;
+  int ido = 0;
+  cout<<"bmat"<<endl;
+  char bmat[2] = "I";
+  cout<<"which"<<endl;
+  char which[3] = "SM";
+  cout<<"tol"<<endl;
+  double tol = 0.0;
+  cout<<"resid"<<endl;
+  double *resid;
+  resid = new double[n];
+  cout<<"ncv"<<endl;
+  int ncv = 4*nev;
+  if (ncv>n) ncv = n;
+  cout<<"v"<<endl;
+  double *v;
+  int ldv = n;
+  v = new double[ldv*ncv];
+  cout<<"iparam"<<endl;
+  int *iparam;
+  iparam = new int[11];
+  iparam[0] = 1;
+  iparam[2] = 3*n;
+  iparam[6] = 1;
+  cout<<"ipntr"<<endl;
+  int *ipntr;
+  ipntr = new int[11];
+  cout<<"workd"<<endl;
+  double *workd;
+  workd = new double[3*n];
+  cout<<"workl"<<endl;
+  double *workl;
+  workl = new double[ncv*(ncv+8)];
+  cout<<"lworkl"<<endl;
+  int lworkl = ncv*(ncv+8);
+  int info = 0;
+  int rvec = 1;  // Changed from above
+  cout<<"select"<<endl;
+  int *select;
+  select = new int[ncv];
+  cout<<"d"<<endl;
+  double *d;
+  d = new double[2*ncv];
+  double sigma;
+  int ierr;
 
-	do {
-		cout<<"computing tridiagonal QR decomposition"<<endl;
-		tridiagonalQRDecomposition(alpha1, beta1, alpha2, beta2);
-		cout<<"computed!"<<endl;
+  cout<<"main loop"<<endl;
+  do {
+	cout<<"calling dsaupd_"<<endl;
+    dsaupd_(&ido, bmat, &n, which, &nev, &tol, resid, 
+	    &ncv, v, &ldv, iparam, ipntr, workd, workl,
+	    &lworkl, &info);
+    cout<<"successful call"<<endl;
+    if ((ido==1)||(ido==-1)) av(n, workd+ipntr[0]-1, workd+ipntr[1]-1);
+  } while ((ido==1)||(ido==-1));
 
-		if (!(alpha1.isApprox(alpha2) && beta1.isApprox(beta2))) {
-			alpha1 = alpha2;
-			beta1 = beta2;
-		} else  {
-			break;
-		}
-	} while (1);
+  if (info<0) {
+         cout << "Error with dsaupd, info = " << info << "\n";
+         cout << "Check documentation in dsaupd\n\n";
+  } else {
+    dseupd_(&rvec, "All", select, d, v, &ldv, &sigma, bmat,
+	    &n, which, &nev, &tol, resid, &ncv, v, &ldv,
+	    iparam, ipntr, workd, workl, &lworkl, &ierr);
 
-	eigenvalues = alpha1;
-}
+    if (ierr!=0) {
+      cout << "Error with dseupd, info = " << ierr << "\n";
+      cout << "Check the documentation of dseupd.\n\n";
+    } else if (info==1) {
+      cout << "Maximum number of iterations reached.\n\n";
+    } else if (info==3) {
+      cout << "No shifts could be applied during implicit\n";
+      cout << "Arnoldi update, try increasing NCV.\n\n";
+    }
 
-static void swap(VectorXd &list, int i, int j) {
-	double tmp = list(i);
-	list(i) = list(j);
-	list(j) = tmp;
-}
+    int i, j;
+    for (i=0; i<nev; i++) Evals[i] = d[i];
+    for (i=0; i<nev; i++) for (j=0; j<n; j++) Evecs[j][i] = v[i*n+j];
 
-int selectPartition(VectorXd &list, int left, int right, int pivot) {
-	double pivotValue = list(pivot);
-	swap(list, pivot, right);
-	int storeIndex = left;
-
-	for (int i = left; i < right; i++) {
-		if (list(i) < pivotValue) {
-			swap(list, storeIndex, i);
-			storeIndex++;
-		}
-	}
-
-	swap(list, right, storeIndex);
-
-	return storeIndex;
-}
-
-/**
- * Finds the k-th smallest element within a list using Hoare's algorithm.
- */
-int select(VectorXd &list, int left, int right, int k) {
-	if (left == right) {
-		return left;
-	}
-	int pivot = (left + right) / 2;
-	int newPivot = selectPartition(list, left, right, pivot);
-	int pivotDist = newPivot - left + 1;
-
-	if (pivotDist == k) {
-		return newPivot;
-	} else if (k < pivotDist) {
-		return select(list, left, newPivot - 1, k);
-	} else {
-		return select(list, newPivot + 1, right, k - pivotDist);
-	}
-}
-
-/**
- * Returns the eigenvector corresponding to the second smallest eigenvalue of
- * a square symmetric real matrix L.
- *
- * @param L matrix to compute the eigenvector of.
- * @return the eigenvector corresponding to the second smallest eigenvalue of L.
- */
-VectorXd secondSmallestEigenvector(SparseMatrix<double> L) {
-	VectorXd alpha1, beta1, eigenvalues;
-
-	cout<<"computing tridiagonal matrix"<<endl;
-	lanczosAlgorithm(L, alpha1, beta1);
-
-	cout<<"computing eigenvalues from tridiagonal matrix"<<endl;
-	qrAlgorithm(alpha1, beta1, eigenvalues);
-
-	cout<<"extracting second smallest eigenvalue"<<endl;
-	int secondSmallestIndex = select(eigenvalues, 0, eigenvalues.size() - 1, 2);
-
-	cout<<"building matrix for linear system solving"<<endl;
-	SparseMatrix<double> diagEv2(L.rows(), L.cols());
-	vector<Triplet<double> > tripletList;
-	tripletList.reserve(L.rows());
-
-	for (int i = 0; i < L.rows(); i++) {
-		tripletList.push_back(Triplet<double>(i,i,eigenvalues(secondSmallestIndex)));
-	}
-
-	diagEv2.setFromTriplets(tripletList.begin(), tripletList.end());
-
-	SparseMatrix<double> L_ = L - diagEv2;
-
-	cout<<"initializing linear system"<<endl;
-	SparseLU<SparseMatrix<double>, COLAMDOrdering<int> > linSolver(L_);
-
-	cout<<"solving linear system"<<endl;
-	return linSolver.solve(VectorXd::Zero(L.rows()));
+    delete resid;
+    delete v;
+    delete iparam;
+    delete ipntr;
+    delete workd;
+    delete workl;
+    delete select;
+    delete d;
+  }
 }
 
 DisjointSetForest normalizedCuts(WeightedGraph &graph, double stop) {
 	cout<<"computing normalized laplacian"<<endl;
-	SparseMatrix<double> L = normalizedSparseLaplacian(graph);
+	bigMatrix = normalizedSparseLaplacian(graph);
+	cout<<"initializing eigenvalue and eigenvectors storage"<<endl;
+	double *evals = new double[2];
+	double **evecs = new double*[2];
 
-	cout<<"computing eigenvector with second smallest eigenvalue"<<endl;
-	VectorXd x = secondSmallestEigenvector(L);
+	for (int i = 0; i < 2; i++) {
+		evecs[i] = new double[graph.numberOfVertices()];
+	}
 
-	cout<<x<<endl;
+	cout<<"computing smallest eigenvalues and corresponding eigenvectors"<<endl;
+	dsaupd(graph.numberOfVertices(), 2, evals, evecs);
+
+	cout<<"eigenvalue: "<<evals[1]<<endl;
+	cout<<"eigenvector: ";
+
+	for (int i = 0; i < graph.numberOfVertices(); i++) {
+		cout<<evecs[1][i]<<", ";
+	}
+
+	cout<<endl;
+	
+	delete[] evals;
+	for (int i = 0; i < 2; i++) {
+		delete[] evecs[i];
+	}
+	delete[] evecs;
 
 	return DisjointSetForest(0);
 }

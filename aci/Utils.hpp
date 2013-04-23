@@ -49,4 +49,15 @@ bool positiveDefinite(Eigen::SparseMatrix<double> M);
  */
 void removeLineCol(const Eigen::SparseMatrix<double> &L, int v0, Eigen::SparseMatrix<double> &L0);
 
+/**
+ * Converts 2d coordinates to upper triangular packed storage column major format
+ * intended for use with LAPACK.
+ *
+ * @param rows the number of rows in the matrix
+ * @param i the row index in the matrix
+ * @param j the column index in the matrix
+ * @return the linear index of the element in upper triangular packed storage column major format.
+ */
+int toUpperTriangularPacked(int i, int j);
+
 #endif

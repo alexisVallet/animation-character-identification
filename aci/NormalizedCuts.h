@@ -3,6 +3,7 @@
 #include <Eigen/Sparse>
 #include <Eigen/SparseLU>
 #include <Eigen/Dense>
+#include <math.h>
 
 #include "WeightedGraph.hpp"
 #include "DisjointSet.hpp"

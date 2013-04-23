@@ -3,8 +3,10 @@
 #include <Eigen\Sparse>
 #include <opencv2\opencv.hpp>
 #include <complex>
+#include <limits>
 
 #include "WeightedGraph.hpp"
+#include "Utils.hpp"
 
 using namespace std;
 using namespace cv;
@@ -54,3 +56,13 @@ Mat_<double> normalizedLaplacian(const WeightedGraph &graph);
  * a bidirectional graph representation without loops.
  */
 Eigen::SparseMatrix<double> normalizedSparseLaplacian(const WeightedGraph &graph);
+
+/**
+ * Computes the normalized laplacian of the graph in a upper triangular symmetric packed 
+ * storage dense column major format intended for use with LAPACK. Expects a non bidirectional graph.
+ *
+ * @param graph graph to compute the normalized laplacian from.
+ * @param L output array storage for the normalized laplacian. Memory management is up to the
+ * caller, should be of size at least n(n + 1) / 2 where n is the number of vertices in the graph.
+ */
+void packedStorageNormalizedLaplacian(const WeightedGraph &graph, double *L);

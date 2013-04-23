@@ -1,25 +1,6 @@
-#include <iostream>
-#include <opencv2/opencv.hpp>
-#include <boost\graph\boyer_myrvold_planar_test.hpp>
-#define lapack_complex_float std::complex<float>
-#define lapack_complex_double std::complex<double>
-#include <lapacke.h>
+#include "main.h"
 
-#include "DisjointSet.hpp"
-#include "WeightedGraph.hpp"
-#include "Felzenszwalb.hpp"
-#include "SegmentationGraph.hpp"
-#include "TreeWalkKernel.hpp"
-#include "GraphSpectra.h"
-#include "SpectrumDistanceClassifier.h"
-#include "Kernels.h"
-#include "IsoperimetricGraphPartitioning.h"
-#include "GraphSpectraTest.h"
-#include "IsoperimetricGraphPartitioningTest.h"
-#include "ImageGraphsTest.h"
-#include "NormalizedCuts.h"
-
-#define TEST true
+#define TEST false
 #define DEBUG true
 #define BLUR_SIGMA 0.8
 #define CONNECTIVITY CONNECTIVITY_4
@@ -99,27 +80,6 @@ void computeRates(
 
 int main(int argc, char** argv) {
 	if (TEST) {
-		/* 3x3 matrix A
-	     * 76 25 11
-	     * 27 89 51
-	     * 18 60 32
-		 */
-		double A[9] = {76, 27, 18, 25, 89, 60, 11, 51, 32};
-		double b[3] = {10, 7, 43};
-
-		int N = 3;
-		int nrhs = 1;
-		int lda = 3;
-		int ipiv[3];
-		int ldb = 3;
-		int info;
-    
-		info = LAPACKE_dgesv(N, N, nrhs, A, lda, ipiv, b, ldb);
-
-		if(info == 0) /* succeed */
-		printf("The solution is %lf %lf %lf\n", b[0], b[1], b[2]);
-		else
-		fprintf(stderr, "dgesv_ fails %d\n", info);
 	} else {
 		Mat classes;
 		// loads the dataset

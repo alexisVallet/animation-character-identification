@@ -105,3 +105,13 @@ void removeLineCol(const Eigen::SparseMatrix<double> &L, int v0, Eigen::SparseMa
 
 	L0.setFromTriplets(tripletList.begin(), tripletList.end());
 }
+
+int toUpperTriangularPacked(int i, int j) {
+	if (i > j) {
+		return toUpperTriangularPacked(j, i);
+	} else {
+		int result = i + (j + 1) * j / 2;
+
+		return result;
+	}
+}

@@ -110,6 +110,7 @@
     <ClInclude Include="IsoperimetricGraphPartitioningTest.h" />
     <ClInclude Include="Kernels.h" />
     <ClInclude Include="LabeledGraph.hpp" />
+    <ClInclude Include="main.h" />
     <ClInclude Include="NormalizedCuts.h" />
     <ClInclude Include="SegmentationGraph.hpp" />
     <ClInclude Include="SpectrumDistanceClassifier.h" />
