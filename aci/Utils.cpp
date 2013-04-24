@@ -4,6 +4,10 @@ int toRowMajor(int width, int x, int y) {
   return x + width * y;
 }
 
+int toColumnMajor(int rows, int i, int j) {
+	return i + j * rows;
+}
+
 pair<int,int> fromRowMajor(int width, int i) {
   pair<int,int> coords(i/width, i%width);
 
@@ -65,15 +69,15 @@ Mat_<double> sparseMul(SparseMat_<double> A, Mat_<double> b) {
 }
 
 bool symmetric(Eigen::SparseMatrix<double> M) {
-	bool res = true;
-
 	for (int k = 0; k < M.outerSize(); k++) {
-		for (Eigen::SparseMatrix<double>::InnerIterator it(M,k); it; ++it) {
-			res = res && abs(it.value() - M.coeffRef(it.col(), it.row())) <= 10E-8;
+		for (Eigen::SparseMatrix<double>::InnerIterator it(M, k); it; ++it) {
+			if (abs(it.value() - M.coeffRef(it.col(), it.row())) > 0) {
+				return false;
+			}
 		}
 	}
 
-	return res;
+	return true;
 }
 
 bool positiveDefinite(Eigen::SparseMatrix<double> M) {

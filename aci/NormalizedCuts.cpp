@@ -39,7 +39,6 @@ static pair<int,double> normalizedCutThreshold(const WeightedGraph &graph, const
 		cutAB += degrees(sorting[i]) - 2 * internalWeights;
 
 		double newRatio = cutAB/assocAV + cutAB/assocBV;
-		cout<<"newRatio = "<<newRatio<<endl;
 
 		if (newRatio < bestRatio) {
 			bestRatio = newRatio;
@@ -57,19 +56,18 @@ static bool compPair(const pair<int,double> &p1, const pair<int,double> &p2) {
 }
 
 DisjointSetForest normalizedCuts(const WeightedGraph &graph, double stop) {
+	assert(connected(graph));
 	cout<<"computing normalized laplacian"<<endl;
 	VectorXd degrees;
 	SparseMatrix<double> L = normalizedSparseLaplacian(graph, degrees);
-	cout<<L<<endl;
-	cout<<degrees<<endl;
 	
 	VectorXd evalues;
 	MatrixXd evectors;
 
-	symmetricSparseEigenSolver(L, "SA", 3, evalues, evectors);
+	symmetricSparseEigenSolver(L, "SA", 2, evalues, evectors);
 
 	cout<<"evalues = "<<endl<<evalues<<endl;
-	cout<<"evectors = "<<endl<<evectors<<endl;
+	//cout<<"evectors = "<<endl<<evectors<<endl;
 
 	vector<pair<int,double> > sortedWithIndex;
 

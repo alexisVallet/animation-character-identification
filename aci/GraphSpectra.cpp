@@ -84,34 +84,39 @@ Mat_<double> normalizedLaplacian(const WeightedGraph &graph) {
 }
 
 Eigen::SparseMatrix<double> normalizedSparseLaplacian(const WeightedGraph &graph, Eigen::VectorXd &degrees) {
-	typedef Eigen::Triplet<double> T;
-	vector<T> tripletList;
-
-	tripletList.reserve(graph.numberOfVertices() + graph.getEdges().size()/2);
-
-	// first we compute the degrees while initializing the diagonal
+	assert(noLoops(graph));
+	assert(bidirectional(graph));
+	// We first compute the degree of each vertex while initializing the diagonal
+	// triplets.
 	degrees = Eigen::VectorXd::Zero(graph.numberOfVertices());
-
-	for (int i = 0; i < graph.getEdges().size(); i++) {
-		Edge edge = graph.getEdges()[i];
-
-		degrees(edge.source) += edge.weight;
-	}
+	typedef Eigen::Triplet<double> T;
+	vector<T> triplets;
+	// the diagonal is non zero + one non zero element per edge, divided by 2 because of bidirectional rep
+	triplets.reserve(graph.numberOfVertices() + graph.getEdges().size()/2);
 
 	for (int i = 0; i < graph.numberOfVertices(); i++) {
-		tripletList.push_back(T(i,i,1));
+		triplets.push_back(T(i,i,1));
+		for (int j = 0; j < graph.getAdjacencyList(i).size(); j++) {
+			HalfEdge edge = graph.getAdjacencyList(i)[j];
+
+			degrees(i) += edge.weight;
+		}
 	}
 
-	// then we compute the rest of the matrix
+	// Then we compute the coefficient for each edge
 	for (int i = 0; i < graph.getEdges().size(); i++) {
 		Edge edge = graph.getEdges()[i];
 
-		tripletList.push_back(T(edge.source, edge.destination, -edge.weight/sqrt(degrees(edge.source) * degrees(edge.destination))));
+		triplets.push_back(T(edge.source, edge.destination, -edge.weight/sqrt(degrees(edge.source) * degrees(edge.destination))));
 	}
 
 	Eigen::SparseMatrix<double> normalized(graph.numberOfVertices(), graph.numberOfVertices());
 
-	normalized.setFromTriplets(tripletList.begin(), tripletList.end());
+	normalized.setFromTriplets(triplets.begin(), triplets.end());
+
+	cout<<"checking symmetry"<<endl;
+	assert(symmetric(normalized));
+	cout<<"symmetry checked"<<endl;
 
 	return normalized;
 }
@@ -174,14 +179,12 @@ extern "C" void dseupd_(int *rvec, char *All, int *select, double *d,
 // sparse matrix by vector multiplication: Y = LX where L is an n by n
 // sparse matrix, Y and X n sized column vectors.
 static void mult(const Eigen::SparseMatrix<double> &L, double *X, double *Y) {
-	Eigen::Map<Eigen::VectorXd> VY(Y,L.rows());
-	Eigen::Map<Eigen::VectorXd> VX(X,L.rows());
+	Eigen::Map<Eigen::VectorXd> VX(X, L.rows());
+	Eigen::Map<Eigen::VectorXd> VY(Y, L.rows());
 
 	VY = L * VX;
 
-	for (int i = 0; i < L.rows(); i++) {
-		Y[i] = VY(i);
-	}
+
 }
 
 void symmetricSparseEigenSolver(const Eigen::SparseMatrix<double> &L, char *which, int nev, Eigen::VectorXd &evalues, Eigen::MatrixXd &evectors) {
@@ -260,9 +263,17 @@ void symmetricSparseEigenSolver(const Eigen::SparseMatrix<double> &L, char *whic
 		cout<<"dseupd error "<<ierr<<endl;
 		exit(EXIT_FAILURE);
 	}
+	// copying values to output arrays
+	evalues = Eigen::VectorXd(nev);
+	evectors = Eigen::MatrixXd(L.rows(), nev);
 
-	evalues = Eigen::Map<Eigen::VectorXd>(d,nev);
-	evectors = Eigen::Map<Eigen::MatrixXd>(v, L.rows(), nev);
+	for (int i = 0; i < nev; i++) {
+		evalues(i) = d[i];
+
+		for (int j = 0; j < L.rows(); j++) {
+			evectors(j,i) = v[toColumnMajor(L.rows(), j, i)];
+		}
+	}
 
 	delete[] resid;
 	delete[] v;

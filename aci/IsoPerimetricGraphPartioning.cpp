@@ -108,51 +108,7 @@ static pair<int,double> ratioCutThreshold(const WeightedGraph &graph, int v0, Ei
 	exit(EXIT_FAILURE);
 }
 
-/**
- * Computes the connected components of a graph using a simple DFS procedure.
- *
- * @param graph the graph to compute connected components from.
- * @param inConnectedComponent output vector which associates to each vertex the
- * index of the connected component if belongs to.
- * @param vertexIdx output map which associates to each vertex in the graph its
- * index in the associated subgraph.
- */
-void connectedComponents(const WeightedGraph &graph, vector<int> &inConnectedComponent, int *nbCC) {
-	*nbCC = 0;
-	inConnectedComponent = vector<int>(graph.numberOfVertices(),-1);
-	vector<bool> discovered(graph.numberOfVertices(), false);
-	vector<int> stack;
 
-	stack.reserve(graph.numberOfVertices());
-
-	for (int i = 0; i < graph.numberOfVertices(); i++) {
-		if (!discovered[i]) {
-			discovered[i] = true;
-
-			inConnectedComponent[i] = *nbCC;
-
-			stack.push_back(i);
-
-			while (!stack.empty()) {
-				int t = stack.back();
-				stack.pop_back();
-
-				for (int j = 0; j < graph.getAdjacencyList(t).size(); j++) {
-					HalfEdge edge = graph.getAdjacencyList(t)[j];
-
-					if (!discovered[edge.destination]) {
-						discovered[edge.destination] = true;
-
-						inConnectedComponent[edge.destination] = *nbCC;
-
-						stack.push_back(edge.destination);
-					}
-				}
-			}
-			(*nbCC)++;
-		}
-	}
-}
 
 /** 
  * Computes the subgraphs induced by a specific partition.
@@ -251,13 +207,7 @@ DisjointSetForest unconnectedIGP(const WeightedGraph &graph, double stop) {
 	return subgraphsIGP(graph, stop, inConnectedComponent, numberOfComponents);
 }
 
-bool connected(const WeightedGraph& graph) {
-	int nbCC;
 
-	connectedComponents(graph, vector<int>(), &nbCC);
-
-	return nbCC == 1;
-}
 
 
 

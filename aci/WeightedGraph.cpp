@@ -101,3 +101,88 @@ ostream &operator<<(ostream &os, const WeightedGraph &graph) {
 
 	return os;
 }
+
+void connectedComponents(const WeightedGraph &graph, vector<int> &inConnectedComponent, int *nbCC) {
+	*nbCC = 0;
+	inConnectedComponent = vector<int>(graph.numberOfVertices(),-1);
+	vector<bool> discovered(graph.numberOfVertices(), false);
+	vector<int> stack;
+
+	stack.reserve(graph.numberOfVertices());
+
+	for (int i = 0; i < graph.numberOfVertices(); i++) {
+		if (!discovered[i]) {
+			discovered[i] = true;
+
+			inConnectedComponent[i] = *nbCC;
+
+			stack.push_back(i);
+
+			while (!stack.empty()) {
+				int t = stack.back();
+				stack.pop_back();
+
+				for (int j = 0; j < graph.getAdjacencyList(t).size(); j++) {
+					HalfEdge edge = graph.getAdjacencyList(t)[j];
+
+					if (!discovered[edge.destination]) {
+						discovered[edge.destination] = true;
+
+						inConnectedComponent[edge.destination] = *nbCC;
+
+						stack.push_back(edge.destination);
+					}
+				}
+			}
+			(*nbCC)++;
+		}
+	}
+}
+
+bool connected(const WeightedGraph& graph) {
+	int nbCC;
+
+	connectedComponents(graph, vector<int>(), &nbCC);
+
+	return nbCC == 1;
+}
+
+bool noLoops(const WeightedGraph& graph) {
+	for (int i = 0; i < graph.getEdges().size(); i++) {
+		Edge edge = graph.getEdges()[i];
+
+		if (edge.source == edge.destination) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool bidirectional(const WeightedGraph& graph) {
+	for (int i = 0; i < graph.numberOfVertices(); i++) {
+		for (int j = 0; j < graph.getAdjacencyList(i).size(); j++) {
+			HalfEdge edge = graph.getAdjacencyList(i)[j];
+
+			bool inOtherDir = false;
+
+			for (int k = 0; k < graph.getAdjacencyList(edge.destination).size(); k++) {
+				HalfEdge other = graph.getAdjacencyList(edge.destination)[k];
+
+				if (other.destination == i && abs(other.weight - edge.weight) <= 10E-8) {
+					if (inOtherDir) {
+						return false;
+					} else {
+						inOtherDir = true;
+					}
+				}
+			}
+
+			if (!inOtherDir) {
+				return false;
+			}
+		}
+	}
+
+	return true;
+}

@@ -37,10 +37,10 @@ WeightedGraph gridGraph(Mat_<Vec<uchar,3> > &image, ConnectivityType connectivit
 						
 						float weight = euclDist(centerIntensity, neighborIntensity);
 
-						grid.addEdge(centerIndex, neighborIndex, weight);
+						grid.addEdge(centerIndex, neighborIndex, weight + 1);
 
 						if (bidirectional) {
-							grid.addEdge(neighborIndex, centerIndex, weight);
+							grid.addEdge(neighborIndex, centerIndex, weight + 1);
 						}
 					}
 				}
