@@ -1,6 +1,6 @@
 #include "main.h"
 
-#define TEST false
+#define TEST true
 #define DEBUG true
 #define BLUR_SIGMA 0.8
 #define CONNECTIVITY CONNECTIVITY_4
@@ -80,6 +80,15 @@ void computeRates(
 
 int main(int argc, char** argv) {
 	if (TEST) {
+		WeightedGraph graph(4);
+		int edges[4][2] = {{0,1},{0,3},{0,2},{2,3}};
+
+		for (int i = 0; i < 4; i++) {
+			graph.addEdge(edges[i][0], edges[i][1], 1);
+			graph.addEdge(edges[i][1], edges[i][0], 1);
+		}
+
+		normalizedCuts(graph, 0.25);
 	} else {
 		Mat classes;
 		// loads the dataset

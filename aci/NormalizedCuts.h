@@ -18,4 +18,4 @@ using namespace Eigen;
  * @param graph graph to partition.
  * @param stop minimal normalized ratio acting a stopping criteria.
  */
-DisjointSetForest normalizedCuts(WeightedGraph &graph, double stop);
+DisjointSetForest normalizedCuts(const WeightedGraph &graph, double stop);

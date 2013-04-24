@@ -55,7 +55,7 @@ Mat_<double> normalizedLaplacian(const WeightedGraph &graph);
  * Same as normalizedLaplacian, but returns a sparse matrix data structure. Assumes
  * a bidirectional graph representation without loops.
  */
-Eigen::SparseMatrix<double> normalizedSparseLaplacian(const WeightedGraph &graph);
+Eigen::SparseMatrix<double> normalizedSparseLaplacian(const WeightedGraph &graph, Eigen::VectorXd &degrees = Eigen::VectorXd(1));
 
 /**
  * Computes the normalized laplacian of the graph in a upper triangular symmetric packed 
@@ -66,3 +66,20 @@ Eigen::SparseMatrix<double> normalizedSparseLaplacian(const WeightedGraph &graph
  * caller, should be of size at least n(n + 1) / 2 where n is the number of vertices in the graph.
  */
 void packedStorageNormalizedLaplacian(const WeightedGraph &graph, double *L);
+
+/**
+ * Solves a sparse, symmetric eigen system, computing a specific number of largest or smallest
+ * eigenvalues and eigenvectors. Internally uses ARPACK's routines.
+ *
+ * @param L n by n square symmetric matrix to compute eigenvalues/eigenvectors from.
+ * @param which string indicating which eigenvalues/eigenvectors to compute:
+ * "LA" for the nev largest (algebraic) eigenvalues
+ * "SA" for the nev smallest (algebraic) eigenvalues
+ * "LM" for the nev largest (in magnitude) eigenvalues
+ * "SM" for the nev smalles (in magnitude) eigenvalues
+ * "BE" for nev eigenvalues, half from each end of the spectrum.
+ * @param nev the number of eigenvalues/eigenvectors to compute.
+ * @param evalues output nev-sized vector of eigenvalus of L.
+ * @param evectors output n by nev sized matrix of eigenvectors of L.
+ */
+void symmetricSparseEigenSolver(const Eigen::SparseMatrix<double> &L, char *which, int nev, Eigen::VectorXd &evalues, Eigen::MatrixXd &evectors);
