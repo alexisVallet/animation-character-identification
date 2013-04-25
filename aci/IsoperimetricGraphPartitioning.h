@@ -31,7 +31,7 @@ WeightedGraph removeIsolatedVertices(WeightedGraph &graph, vector<int> &vertexMa
  * @param stop maximum isoperimetric ratio for segments.
  * @return a partition of the graph.
  */
-DisjointSetForest unconnectedIGP(const WeightedGraph &graph, double stop);
+DisjointSetForest unconnectedIGP(const WeightedGraph &graph, double stop, int maxRecursions);
 
 /**
  * Segments a graph using the isoperimetric algorithm by Grady and Schwarz.

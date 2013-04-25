@@ -190,24 +190,13 @@ extern "C" void dseupd_(int *rvec, char *All, int *select, double *d,
 // sparse matrix by vector multiplication: Y = LX where L is an n by n
 // sparse matrix, Y and X n sized column vectors.
 static void mult(const Eigen::SparseMatrix<double> &L, double *X, double *Y) {
-	/* Eigen::Map<Eigen::VectorXd> VX(X, L.rows());
+	Eigen::Map<Eigen::VectorXd> VX(X, L.rows());
 	Eigen::Map<Eigen::VectorXd> VY(Y, L.rows());
 
 	VY = L * VX;
-
-	for (int i = 0; i < L.rows(); i++) {
-		Y[i] = VY(i);
-	} */
-	memset(Y, 0, L.rows() * sizeof(double));
-
-	for (int k = 0; k < L.outerSize(); k++) {
-		for (Eigen::SparseMatrix<double>::InnerIterator it(L, k); it; ++it) {
-			Y[it.row()] += it.value() * X[it.col()];
-		}
-	}
 }
 
-void symmetricSparseEigenSolver(const Eigen::SparseMatrix<double> &L, char *which, int nev, Eigen::VectorXd &evalues, Eigen::MatrixXd &evectors) {
+void symmetricSparseEigenSolver(const Eigen::SparseMatrix<double> &L, char *which, int nev, int maxIterations, Eigen::VectorXd &evalues, Eigen::MatrixXd &evectors) {
 	// checking preconditions in debug mode
 	assert(L.rows() == L.cols());
 	assert(symmetric(L));
@@ -234,7 +223,7 @@ void symmetricSparseEigenSolver(const Eigen::SparseMatrix<double> &L, char *whic
 	int ncv = min(4*nev,n);
 	int ldv = n;
 	double *v = new double[ldv * ncv];
-	int iparam[11] = {1, 0, 3*n, 1, 2, 0, 1, 0};
+	int iparam[11] = {1, 0, maxIterations, 1, 2, 0, 1, 0};
 	int ipntr[11];
 	double *workd = new double[3*n];
 	int lworkl = (8 + ncv) * ncv;
@@ -246,7 +235,7 @@ void symmetricSparseEigenSolver(const Eigen::SparseMatrix<double> &L, char *whic
 		dsaupd_(&ido, bmat, &n, which, &nev, &tol, resid, &ncv, v, &ldv, iparam, ipntr, workd, workl, &lworkl, &info);
 
 		// checking for errors
-		if (info != 0) {
+		if (info != 0 && info != 1) {
 			cout<<"dsaupd failed, info = "<<info<<endl;
 			exit(EXIT_FAILURE);
 		}

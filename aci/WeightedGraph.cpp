@@ -186,3 +186,32 @@ bool bidirectional(const WeightedGraph& graph) {
 
 	return true;
 }
+
+void inducedSubgraphs(const WeightedGraph &graph, const vector<int> &inSubgraph, int numberOfSubgraphs, vector<int> &vertexIdx, vector<WeightedGraph> &subgraphs) {
+	vector<int> subgraphSizes(numberOfSubgraphs,0);
+
+	vertexIdx = vector<int>(graph.numberOfVertices(), -1);
+
+	/*cout<<"vertexIdx: "<<vertexIdx.size()<<", subgraphSizes: "<<subgraphSizes.size()<<", inSubgraph: "<<inSubgraph.size()<<endl;
+
+	cout<<"computing subgraph sizes and vertices indexes"<<endl;*/
+	for (int i = 0; i < graph.numberOfVertices(); i++) {
+		//cout<<"inSubgraph["<<i<<"] = "<<inSubgraph[i]<<endl;
+		vertexIdx[i] = subgraphSizes[inSubgraph[i]];
+		subgraphSizes[inSubgraph[i]]++;
+	}
+
+	subgraphs = vector<WeightedGraph>(numberOfSubgraphs);
+
+	for (int i = 0; i < numberOfSubgraphs; i++) {
+		subgraphs[i] = WeightedGraph(subgraphSizes[i]);
+	}
+	
+	for (int i = 0; i < graph.getEdges().size(); i++) {
+		Edge edge = graph.getEdges()[i];
+
+		if (inSubgraph[edge.source] == inSubgraph[edge.destination]) {
+			subgraphs[inSubgraph[edge.source]].addEdge(vertexIdx[edge.source], vertexIdx[edge.destination], edge.weight);
+		}
+	}
+}

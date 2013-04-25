@@ -75,7 +75,7 @@ void testSparseEigenSolver(WeightedGraph &graph) {
 	VectorXd actualEval;
 	MatrixXd actualEvec;
 
-	symmetricSparseEigenSolver(L, "SA", graph.numberOfVertices() - 1, actualEval, actualEvec);
+	symmetricSparseEigenSolver(L, "SA", graph.numberOfVertices() - 1, graph.numberOfVertices(), actualEval, actualEvec);
 
 	SelfAdjointEigenSolver<MatrixXd> solver(dense);
 

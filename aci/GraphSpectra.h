@@ -82,4 +82,4 @@ void packedStorageNormalizedLaplacian(const WeightedGraph &graph, double *L);
  * @param evalues output nev-sized vector of eigenvalus of L.
  * @param evectors output n by nev sized matrix of eigenvectors of L.
  */
-void symmetricSparseEigenSolver(const Eigen::SparseMatrix<double> &L, char *which, int nev, Eigen::VectorXd &evalues, Eigen::MatrixXd &evectors);
+void symmetricSparseEigenSolver(const Eigen::SparseMatrix<double> &L, char *which, int nev, int maxIterations, Eigen::VectorXd &evalues, Eigen::MatrixXd &evectors);

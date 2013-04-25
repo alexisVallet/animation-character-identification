@@ -14,8 +14,8 @@
  */
 static pair<int,double> normalizedCutThreshold(const WeightedGraph &graph, const VectorXd &degrees, const VectorXd &evector, const vector<int> sorting) {
 	// keeps track of cut(A,B), assoc(A,V), assoc(B,V)
-	vector<bool> inA(graph.numberOfVertices(), false);
-	inA[sorting[0]] = true;
+	inA = vector<int>(graph.numberOfVertices(), 0);
+	inA[sorting[0]] = 1;
 	double cutAB = degrees(sorting[0]);
 	double assocAV = degrees(sorting[0]);
 	double assocBV = degrees.sum() - degrees(sorting[0]);
@@ -64,7 +64,7 @@ DisjointSetForest normalizedCuts(const WeightedGraph &graph, double stop) {
 	VectorXd evalues;
 	MatrixXd evectors;
 
-	symmetricSparseEigenSolver(L, "SA", 2, evalues, evectors);
+	symmetricSparseEigenSolver(L, "SA", 2, 1000, evalues, evectors);
 
 	cout<<"evalues = "<<endl<<evalues<<endl;
 	//cout<<"evectors = "<<endl<<evectors<<endl;
@@ -91,5 +91,22 @@ DisjointSetForest normalizedCuts(const WeightedGraph &graph, double stop) {
 
 	cout<<"best cut at "<<bestCut.first<<" of "<<graph.numberOfVertices()<<" with ratio "<<bestCut.second<<endl;
 
-	return DisjointSetForest(0);
+	// if the cut is good enough, compute bipartition
+	if (bestCut.second <= stop) {
+		DisjointSetForest bipartition(graph.numberOfVertices());
+
+		for (int i = 1; i <= bestCut.first; i++) {
+			bipartition.setUnion(sorting[0], sorting[i]);
+		}
+
+		for (int j = bestCut.first + 2; j < graph.numberOfVertices(); j++) {
+			bipartition.setUnion(sorting[bestCut.first + 1], sorting[j]);
+		}
+
+		return bipartition;
+	} else {
+		// otherwise, call the algorithm recursively on the subgraphs induced by
+		// the bipartition.
+
+	}
 }
