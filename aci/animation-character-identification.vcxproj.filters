@@ -54,13 +54,7 @@
     <ClCompile Include="ImageGraphs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GraphSpectraTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="IsoperimetricGraphPartitioningTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageGraphsTest.cpp">
+    <ClCompile Include="KuwaharaFilter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="NormalizedCuts.cpp">
@@ -107,13 +101,7 @@
     <ClInclude Include="ImageGraphs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GraphSpectraTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IsoperimetricGraphPartitioningTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageGraphsTest.h">
+    <ClInclude Include="KuwaharaFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NormalizedCuts.h">
