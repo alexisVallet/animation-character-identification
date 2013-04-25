@@ -106,8 +106,19 @@ Eigen::SparseMatrix<double> normalizedSparseLaplacian(const WeightedGraph &graph
 	// Then we compute the coefficient for each edge
 	for (int i = 0; i < graph.getEdges().size(); i++) {
 		Edge edge = graph.getEdges()[i];
+		double denominator = sqrt(degrees(edge.source) * degrees(edge.destination));
 
-		triplets.push_back(T(edge.source, edge.destination, -edge.weight/sqrt(degrees(edge.source) * degrees(edge.destination))));
+		// only adds a triplet if the weights and degrees are non zero
+		// to avoid NaN due to 0/0. This may happen in weighted graphs with
+		// edges weighted to 0 or very close to 0.
+		if (edge.weight > 0 && denominator > 0) {
+			// only add coeff if it is absolutely greater than an arbitrary epsilon
+			double coeff = -edge.weight / denominator;
+
+			if (abs(coeff) > 10E-8) {
+				triplets.push_back(T(edge.source, edge.destination, coeff));
+			}
+		}
 	}
 
 	Eigen::SparseMatrix<double> normalized(graph.numberOfVertices(), graph.numberOfVertices());
@@ -179,12 +190,21 @@ extern "C" void dseupd_(int *rvec, char *All, int *select, double *d,
 // sparse matrix by vector multiplication: Y = LX where L is an n by n
 // sparse matrix, Y and X n sized column vectors.
 static void mult(const Eigen::SparseMatrix<double> &L, double *X, double *Y) {
-	Eigen::Map<Eigen::VectorXd> VX(X, L.rows());
+	/* Eigen::Map<Eigen::VectorXd> VX(X, L.rows());
 	Eigen::Map<Eigen::VectorXd> VY(Y, L.rows());
 
 	VY = L * VX;
 
+	for (int i = 0; i < L.rows(); i++) {
+		Y[i] = VY(i);
+	} */
+	memset(Y, 0, L.rows() * sizeof(double));
 
+	for (int k = 0; k < L.outerSize(); k++) {
+		for (Eigen::SparseMatrix<double>::InnerIterator it(L, k); it; ++it) {
+			Y[it.row()] += it.value() * X[it.col()];
+		}
+	}
 }
 
 void symmetricSparseEigenSolver(const Eigen::SparseMatrix<double> &L, char *which, int nev, Eigen::VectorXd &evalues, Eigen::MatrixXd &evectors) {

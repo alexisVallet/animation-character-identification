@@ -27,11 +27,11 @@ LabeledGraph<Mat> computeGraphFrom(Mat_<Vec<uchar,3> > &rgbImage, Mat_<float> &m
 	cout<<"removing isolated vertices"<<endl;
 	WeightedGraph connected = removeIsolatedVertices(basicGraph, vertexMap);
 	cout<<"computing segmentation"<<endl;
-	/*DisjointSetForest segmentationConn = unconnectedIGP(connected, 1);
+	DisjointSetForest segmentationConn = unconnectedIGP(connected, 0.95, 4);
 	cout<<"segmentationConn: "<<segmentationConn.getNumberOfComponents()<<" components"<<endl;
 	cout<<"adding isolated vertices back"<<endl;
-	DisjointSetForest segmentation = addIsolatedVertices(basicGraph, segmentationConn, vertexMap);*/
-	DisjointSetForest segmentation = normalizedCuts(connected, 0.5);
+	DisjointSetForest segmentation = addIsolatedVertices(basicGraph, segmentationConn, vertexMap);
+	//DisjointSetForest segmentation = normalizedCuts(connected, 0.5);
 	cout<<"segmentation: "<<segmentation.getNumberOfComponents()<<" components"<<endl;
 	LabeledGraph<Mat> segGraph = segmentationGraph<Mat>(
 		smoothed,

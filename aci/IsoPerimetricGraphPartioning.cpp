@@ -163,7 +163,7 @@ void fusePartitions(const WeightedGraph &graph, vector<int> &inSubgraph, vector<
 	}
 }
 
-DisjointSetForest subgraphsIGP(const WeightedGraph &graph, double stop, vector<int> &inSubgraph, int numberOfSubgraphs) {
+DisjointSetForest subgraphsIGP(const WeightedGraph &graph, double stop, vector<int> &inSubgraph, int numberOfSubgraphs, int maxRecursions) {
 	vector<WeightedGraph> subgraphs;
 	vector<int> vertexIdx;
 	inducedSubgraphs(graph, inSubgraph, numberOfSubgraphs, vertexIdx, subgraphs);
@@ -176,7 +176,7 @@ DisjointSetForest subgraphsIGP(const WeightedGraph &graph, double stop, vector<i
 
 	for (int i = 0; i < numberOfSubgraphs; i++) {
 		//cout<<"calling ipg on induced"<<i<<endl;
-		partitions[i] = isoperimetricGraphPartitioning(subgraphs[i], stop);
+		partitions[i] = isoperimetricGraphPartitioning(subgraphs[i], stop, maxRecursions);
 	}
 
 	DisjointSetForest partition(graph.numberOfVertices());
@@ -194,7 +194,7 @@ DisjointSetForest subgraphsIGP(const WeightedGraph &graph, double stop, vector<i
  * @param stop stopping parameter.
  * @return a partition of the graph.
  */
-DisjointSetForest unconnectedIGP(const WeightedGraph &graph, double stop) {
+DisjointSetForest unconnectedIGP(const WeightedGraph &graph, double stop, int maxRecursions) {
 	vector<WeightedGraph> components;
 	vector<int> inConnectedComponent;
 	int numberOfComponents;
@@ -204,14 +204,23 @@ DisjointSetForest unconnectedIGP(const WeightedGraph &graph, double stop) {
 	/*cout<<"g:"<<endl<<graph<<endl;
 	cout<<"detected "<<numberOfComponents<<" connected components"<<endl;*/
 
-	return subgraphsIGP(graph, stop, inConnectedComponent, numberOfComponents);
+	return subgraphsIGP(graph, stop, inConnectedComponent, numberOfComponents, maxRecursions);
 }
 
 
 
 
 
-DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, double stop) {
+DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, double stop, int maxRecursions) {
+	if (maxRecursions == 0) {
+		DisjointSetForest entireSegment(graph.numberOfVertices());
+
+		for (int i = 1; i < graph.numberOfVertices(); i++) {
+			entireSegment.setUnion(0, i);
+		}
+
+		return entireSegment;
+	}
 	// If G has no vertices we cannot partition it.
 	if (graph.numberOfVertices() == 0) {
 		cout<<"Cannot partition an empty graph."<<endl;
@@ -253,19 +262,11 @@ DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, dou
 
 	// We now solve the linear system L0 * x0 = d0 for x0
 	assert(symmetric(L0));
-	/*Eigen::ConjugateGradient<Eigen::SparseMatrix<double>> solver;
+	Eigen::ConjugateGradient<Eigen::SparseMatrix<double>> solver;
 
 	solver.compute(L0);
 
-	Eigen::VectorXd x0 = solver.solve(d0);*/
-
-	Eigen::MatrixXd dL0 = Eigen::MatrixXd(L0);
-
-	cout<<"initializing eigensolver"<<endl;
-
-	Eigen::SelfAdjointEigenSolver<Eigen::MatrixXd> eigensolver(dL0);
-
-	Eigen::VectorXd x0 = eigensolver.eigenvectors().col(1);
+	Eigen::VectorXd x0 = solver.solve(d0);
 
 	if (IGP_DEBUG) cout<<"x0:"<<endl<<x0<<endl;
 
@@ -330,7 +331,7 @@ DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, dou
 
 	//cout<<"computing connected components and recursive calls"<<endl;
 	for (int i = 0; i < 2; i++) {
-		partitions[i] = unconnectedIGP(subgraphs[i], stop);
+		partitions[i] = unconnectedIGP(subgraphs[i], stop, maxRecursions - 1);
 	}
 
 	DisjointSetForest partition(graph.numberOfVertices());

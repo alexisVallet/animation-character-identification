@@ -1,5 +1,7 @@
 #include "ImageGraphs.h"
 
+#define MIN_EDGE_WEIGHT 5
+
 static float euclDist(Vec<uchar,3> v1, Vec<uchar,3> v2) {
   float dr = ((float)v1[0]) - ((float)v2[0]);
   float dg = ((float)v1[1]) - ((float)v2[1]);
@@ -37,10 +39,10 @@ WeightedGraph gridGraph(Mat_<Vec<uchar,3> > &image, ConnectivityType connectivit
 						
 						float weight = euclDist(centerIntensity, neighborIntensity);
 
-						grid.addEdge(centerIndex, neighborIndex, weight + 1);
+						grid.addEdge(centerIndex, neighborIndex, weight + MIN_EDGE_WEIGHT);
 
 						if (bidirectional) {
-							grid.addEdge(neighborIndex, centerIndex, weight + 1);
+							grid.addEdge(neighborIndex, centerIndex, weight + MIN_EDGE_WEIGHT);
 						}
 					}
 				}

@@ -40,7 +40,7 @@ DisjointSetForest unconnectedIGP(const WeightedGraph &graph, double stop);
  * @param stop maximum isoperimetric ratio for segments.
  * @return a partition of the graph.
  */
-DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, double stop);
+DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, double stop, int maxRecursion);
 
 /**
  * Performs the inverse transformation to removeIsolatedVertices, for post-processing to
