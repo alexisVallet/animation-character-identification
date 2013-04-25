@@ -53,20 +53,23 @@ WeightedGraph gridGraph(Mat_<Vec<uchar,3> > &image, ConnectivityType connectivit
 	return grid;
 }
 
-WeightedGraph nearestNeighborGraph(Mat_<Vec<uchar,3> > &image, int k) {
+WeightedGraph nearestNeighborGraph(const Mat_<Vec<uchar,3> > &image, const Mat_<float> mask, int k) {
 	// computes the set of features of the image
-	Mat features(image.rows * image.cols, 5, CV_32F);
+	Mat features(countNonZero(mask), 5, CV_32F);
+	int index = 0;
 	
 	for (int i = 0; i < image.rows; i++) {
 		for (int j = 0; j < image.cols; j++) {
-			int index = toRowMajor(image.cols, j, i);
-			Vec<uchar,3> color = image(i,j);
+			if (mask(i,j) > 0.5) {
+				Vec<uchar,3> color = image(i,j);
 
-			features.at<float>(index,0) = (float)j;
-			features.at<float>(index,1) = (float)i;
-			features.at<float>(index,2) = color[0];
-			features.at<float>(index,3) = color[1];
-			features.at<float>(index,4) = color[2];
+				features.at<float>(index,0) = (float)j;
+				features.at<float>(index,1) = (float)i;
+				features.at<float>(index,2) = color[0];
+				features.at<float>(index,3) = color[1];
+				features.at<float>(index,4) = color[2];
+				index++;
+			}
 		}
 	}
 

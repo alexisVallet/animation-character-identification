@@ -125,10 +125,6 @@ Eigen::SparseMatrix<double> normalizedSparseLaplacian(const WeightedGraph &graph
 
 	normalized.setFromTriplets(triplets.begin(), triplets.end());
 
-	cout<<"checking symmetry"<<endl;
-	assert(symmetric(normalized));
-	cout<<"symmetry checked"<<endl;
-
 	return normalized;
 }
 

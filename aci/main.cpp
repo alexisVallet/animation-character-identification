@@ -29,20 +29,6 @@ void resizeImage(const Mat_<Vec<uchar,3> > &image, const Mat_<float> &mask, Mat_
 	}
 }
 
-DisjointSetForest normalizedCutsSegmentation(Mat_<Vec<uchar,3> > &image, Mat_<float> mask, WeightedGraph &graph, Mat_<Vec<uchar,3> > &resizedImage) {
-	Mat_<float> resizedMask;
-	resizeImage(image, mask, resizedImage, resizedMask);
-	graph = gridGraph(resizedImage, CONNECTIVITY, resizedMask, true);
-
-	vector<int> vertexMap;
-
-	WeightedGraph connected = removeIsolatedVertices(graph, vertexMap);
-	DisjointSetForest segmentationConn = normalizedCuts(connected, 0.5);
-	DisjointSetForest segmentation = addIsolatedVertices(graph, segmentationConn, vertexMap);
-
-	return segmentation;
-}
-
 DisjointSetForest isoperimetricGraphPartitioningSegmentation(Mat_<Vec<uchar,3> > &image, Mat_<float> mask, WeightedGraph &graph, Mat_<Vec<uchar,3> > &resizedImage) {
 	Mat_<float> resizedMask;
 	resizeImage(image, mask, resizedImage, resizedMask);

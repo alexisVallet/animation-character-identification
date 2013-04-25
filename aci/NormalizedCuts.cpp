@@ -12,10 +12,10 @@
  * @param sorting specifies the original index of values before evector was sorted.
  * @return index of the best cut in the sorted vector, inclusive.
  */
-static pair<int,double> normalizedCutThreshold(const WeightedGraph &graph, const VectorXd &degrees, const VectorXd &evector, const vector<int> sorting) {
+static pair<int,double> normalizedCutThreshold(const WeightedGraph &graph, const VectorXd &degrees, const VectorXd &evector, const vector<int> sorting, vector<int> &inSubgraph) {
 	// keeps track of cut(A,B), assoc(A,V), assoc(B,V)
-	inA = vector<int>(graph.numberOfVertices(), 0);
-	inA[sorting[0]] = 1;
+	inSubgraph = vector<int>(graph.numberOfVertices(), 1);
+	inSubgraph[sorting[0]] = 0;
 	double cutAB = degrees(sorting[0]);
 	double assocAV = degrees(sorting[0]);
 	double assocBV = degrees.sum() - degrees(sorting[0]);
@@ -31,7 +31,7 @@ static pair<int,double> normalizedCutThreshold(const WeightedGraph &graph, const
 		for (int j = 0; j < graph.getAdjacencyList(sorting[i]).size() - 1; j++) { // -1 because we don't want the entire graph
 			HalfEdge edge = graph.getAdjacencyList(sorting[i])[j];
 
-			if (inA[edge.destination]) {
+			if (inSubgraph[edge.destination] == 0) {
 				internalWeights += edge.weight;
 			}
 		}
@@ -45,7 +45,7 @@ static pair<int,double> normalizedCutThreshold(const WeightedGraph &graph, const
 			bestCut = i;
 		}
 
-		inA[sorting[i]] = true;
+		inSubgraph[sorting[i]] = 0;
 	}
 
 	return pair<int,double>(bestCut,bestRatio);
@@ -64,7 +64,7 @@ DisjointSetForest normalizedCuts(const WeightedGraph &graph, double stop) {
 	VectorXd evalues;
 	MatrixXd evectors;
 
-	symmetricSparseEigenSolver(L, "SA", 2, 1000, evalues, evectors);
+	symmetricSparseEigenSolver(L, "SA", 2, 3 * graph.numberOfVertices(), evalues, evectors);
 
 	cout<<"evalues = "<<endl<<evalues<<endl;
 	//cout<<"evectors = "<<endl<<evectors<<endl;
@@ -87,7 +87,9 @@ DisjointSetForest normalizedCuts(const WeightedGraph &graph, double stop) {
 		sorting[i] = sortedWithIndex[i].first;
 	}
 
-	pair<int,double> bestCut = normalizedCutThreshold(graph, degrees, sortedEvec, sorting);
+	vector<int> inSubgraph;
+
+	pair<int,double> bestCut = normalizedCutThreshold(graph, degrees, sortedEvec, sorting, inSubgraph);
 
 	cout<<"best cut at "<<bestCut.first<<" of "<<graph.numberOfVertices()<<" with ratio "<<bestCut.second<<endl;
 
@@ -105,8 +107,56 @@ DisjointSetForest normalizedCuts(const WeightedGraph &graph, double stop) {
 
 		return bipartition;
 	} else {
-		// otherwise, call the algorithm recursively on the subgraphs induced by
-		// the bipartition.
+		// otherwise, call the algorithm recursively on the connected components of
+		// the subgraphs induced by each partition
+		vector<WeightedGraph> subgraphs;
+		vector<int> vertexIdx;
 
+		inducedSubgraphs(graph, inSubgraph, 2, vertexIdx, subgraphs);
+
+		vector<DisjointSetForest> subgraphPartitions(2);
+
+		for (int i = 0; i < 2; i++) {
+			// recursive call on each connected components of both subgraphs
+			vector<int> inConnectedComponents;
+			int nbCC;
+
+			connectedComponents(subgraphs[i], inConnectedComponents, &nbCC);
+
+			vector<DisjointSetForest> partitions(nbCC);
+
+			vector<WeightedGraph> components;
+			vector<int> subgraphVertexIdx;
+
+			inducedSubgraphs(subgraphs[i], inConnectedComponents, nbCC, subgraphVertexIdx, components);
+
+			for (int j = 0; j < nbCC; j++) {
+				partitions[j] = normalizedCuts(components[j], stop);
+			}
+
+			// fuse the partitions of each connected component in the subgraph
+
+			subgraphPartitions[i] = DisjointSetForest(subgraphs[i].numberOfVertices());
+
+			fusePartitions(subgraphs[i], inConnectedComponents, subgraphVertexIdx, partitions, subgraphPartitions[i]);
+		}
+
+		DisjointSetForest partition(graph.numberOfVertices());
+
+		fusePartitions(graph, inSubgraph, vertexIdx, subgraphPartitions, partition);
+
+		return partition;
 	}
+}
+
+DisjointSetForest normalizedCutsSegmentation(const Mat_<Vec<uchar,3> > &image, const Mat_<float> &mask, double stop) {
+	WeightedGraph &graph = nearestNeighborGraph(image, 5);
+
+	vector<int> vertexMap;
+
+	WeightedGraph connected = removeIsolatedVertices(graph, vertexMap);
+	DisjointSetForest segmentationConn = normalizedCuts(connected, 0.1);
+	DisjointSetForest segmentation = addIsolatedVertices(graph, segmentationConn, vertexMap);
+
+	return segmentation;
 }

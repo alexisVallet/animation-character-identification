@@ -7,6 +7,7 @@
 #include "WeightedGraph.hpp"
 #include "DisjointSet.hpp"
 #include "GraphSpectra.h"
+#include "GraphPartitions.h"
 
 using namespace cv;
 using namespace std;
