@@ -35,9 +35,24 @@ WeightedGraph gridGraph(Mat_<Vec<uchar,3> > &image, ConnectivityType connectivit
  * nearest neighbor search.
  *
  * @param image image to compute the nearest neighbor graph from.
+ * @param mask mask indicating pixels to take into account.
  * @param k the number of nearest neighbors each pixel should have an edge
  * towards. Note that this does not mean that the graph is k-regular (seen as an
  * undirected graph) as the k nearest neighbor relation is not symmetric.
  * @return the nearest neighbor graph of the image.
  */
 WeightedGraph nearestNeighborGraph(const Mat_<Vec<uchar,3> > &image, int k);
+
+/**
+ * Returns a graph where vertices are pixels in the image, and every vertes has an
+ * edge to each neighbor within a given radius r in feature space, up to a maximum 
+ * of k neighbors. Feature space is defined similarly to nearestNeighborGraph.
+ *
+ * @param image image to compute the nearest neighbor graph from.
+ * @param mask mask indicating pixels to take into account.
+ * @param r radius to look for neighbors in.
+ * @param k the maximum number of nearest neighbors each pixel should have an edge
+ * towards.
+ * @return the nearest neighbor graph of the image.
+ */
+WeightedGraph radiusGraph(const Mat_<Vec<uchar,3> > &image, const Mat_<float> mask, int k, double r);

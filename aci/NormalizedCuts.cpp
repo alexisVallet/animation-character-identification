@@ -150,7 +150,7 @@ DisjointSetForest normalizedCuts(const WeightedGraph &graph, double stop) {
 }
 
 DisjointSetForest normalizedCutsSegmentation(const Mat_<Vec<uchar,3> > &image, const Mat_<float> &mask, double stop) {
-	WeightedGraph &graph = nearestNeighborGraph(image, 5);
+	WeightedGraph &graph = nearestNeighborGraph(image, mask, 4);
 
 	vector<int> vertexMap;
 

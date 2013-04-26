@@ -53,7 +53,7 @@ WeightedGraph gridGraph(Mat_<Vec<uchar,3> > &image, ConnectivityType connectivit
 	return grid;
 }
 
-WeightedGraph nearestNeighborGraph(const Mat_<Vec<uchar,3> > &image, const Mat_<float> mask, int k) {
+Mat pixelFeatures(const Mat_<Vec<uchar,3> > &image, const Mat_<float> &mask) {
 	// computes the set of features of the image
 	Mat features(countNonZero(mask), 5, CV_32F);
 	int index = 0;
@@ -73,6 +73,40 @@ WeightedGraph nearestNeighborGraph(const Mat_<Vec<uchar,3> > &image, const Mat_<
 		}
 	}
 
+	return features;
+}
+
+WeightedGraph radiusGraph(const Mat_<Vec<uchar,3> > &image, const Mat_<float> mask, int k, double r) {
+	Mat features = pixelFeatures(image, mask);
+	flann::Index flannIndex(features, flann::KMeansIndexParams(16, 5));
+	WeightedGraph nnGraph(image.rows * image.cols);
+
+	// for each feature, determine the k nearest neighbors and add them
+	// as edges to the graph.
+	for (int i = 0; i < features.rows; i++) {
+		vector<int> indices(k);
+		vector<float> distances(k);
+		set<pair<int,int>> edges;
+
+		flannIndex.radiusSearch(features.row(i), indices, distances, r, k);
+
+		for (int j = 0; j < k; j++) {
+			int source = (int)features.at<float>(indices[j], 0);
+			int destination = (int)features.at<float>(indices[j], 1);
+
+			// if there isn't already an edge the other way, add an edge
+			if (edges.find(pair<int,int>(source, destination)) == edges.end()) {
+				nnGraph.addEdge(source, destination, distances[j]);
+				edges.insert(pair<int,int>(source, destination));
+			}
+		}
+	}
+
+	return nnGraph;
+}
+
+WeightedGraph kNearestGraph(const Mat_<Vec<uchar,3> > &image, const Mat_<float> mask, int k) {
+	Mat features = pixelFeatures(image, mask);
 	flann::Index flannIndex(features, flann::KMeansIndexParams(16, 5));
 	WeightedGraph nnGraph(image.rows * image.cols);
 
@@ -86,10 +120,13 @@ WeightedGraph nearestNeighborGraph(const Mat_<Vec<uchar,3> > &image, const Mat_<
 		flannIndex.knnSearch(features.row(i), indices, distances, k);
 
 		for (int j = 0; j < k; j++) {
+			int source = (int)features.at<float>(indices[j], 0);
+			int destination = (int)features.at<float>(indices[j], 1);
+
 			// if there isn't already an edge the other way, add an edge
-			if (edges.find(pair<int,int>(indices[j], i)) == edges.end()) {
-				nnGraph.addEdge(i, indices[j], distances[j]);
-				edges.insert(pair<int,int>(i, indices[j]));
+			if (edges.find(pair<int,int>(source, destination)) == edges.end()) {
+				nnGraph.addEdge(source, destination, distances[j]);
+				edges.insert(pair<int,int>(source, destination));
 			}
 		}
 	}
