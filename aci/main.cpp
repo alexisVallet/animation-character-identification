@@ -10,7 +10,7 @@
 #define GAUSS_SIGMA 100
 #define KHI_MU 0.01
 #define KHI_LAMBDA 0.75
-#define MAX_NB_PIXELS 5000
+#define MAX_NB_PIXELS 2500
 
 using namespace std;
 using namespace cv;
@@ -52,7 +52,7 @@ LabeledGraph<Mat> computeGraphFrom(Mat_<Vec<uchar,3> > &rgbImage, Mat_<float> &m
 	WeightedGraph graph;
 	Mat_<Vec<uchar,3> > resized;
 
-	DisjointSetForest segmentation = normalizedCutsSegmentation(smoothed, mask, graph, resized);
+	DisjointSetForest segmentation = normalizedCutsSegmentation(smoothed, mask, 0.25);
 	LabeledGraph<Mat> segGraph = segmentationGraph<Mat>(
 		resized,
 		segmentation,

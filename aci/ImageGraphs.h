@@ -41,7 +41,7 @@ WeightedGraph gridGraph(Mat_<Vec<uchar,3> > &image, ConnectivityType connectivit
  * undirected graph) as the k nearest neighbor relation is not symmetric.
  * @return the nearest neighbor graph of the image.
  */
-WeightedGraph nearestNeighborGraph(const Mat_<Vec<uchar,3> > &image, int k);
+WeightedGraph kNearestGraph(const Mat_<Vec<uchar,3> > &image, const Mat_<float> mask, int k);
 
 /**
  * Returns a graph where vertices are pixels in the image, and every vertes has an

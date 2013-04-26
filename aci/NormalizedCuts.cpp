@@ -64,9 +64,9 @@ DisjointSetForest normalizedCuts(const WeightedGraph &graph, double stop) {
 	VectorXd evalues;
 	MatrixXd evectors;
 
-	symmetricSparseEigenSolver(L, "SA", 2, 3 * graph.numberOfVertices(), evalues, evectors);
+	symmetricSparseEigenSolver(L, "SA", 2, graph.numberOfVertices(), evalues, evectors);
 
-	cout<<"evalues = "<<endl<<evalues<<endl;
+	//cout<<"evalues = "<<endl<<evalues<<endl;
 	//cout<<"evectors = "<<endl<<evectors<<endl;
 
 	vector<pair<int,double> > sortedWithIndex;
@@ -150,7 +150,7 @@ DisjointSetForest normalizedCuts(const WeightedGraph &graph, double stop) {
 }
 
 DisjointSetForest normalizedCutsSegmentation(const Mat_<Vec<uchar,3> > &image, const Mat_<float> &mask, double stop) {
-	WeightedGraph &graph = nearestNeighborGraph(image, mask, 4);
+	WeightedGraph &graph = kNearestGraph(image, mask, 4);
 
 	vector<int> vertexMap;
 
