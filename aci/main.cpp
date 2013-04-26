@@ -13,6 +13,7 @@
 #include "GraphSpectraTest.h"
 #include "IsoperimetricGraphPartitioningTest.h"
 #include "ImageGraphsTest.h"
+#include "KuwaharaFilter.h"
 
 #define TEST true
 #define DEBUG true
@@ -94,9 +95,25 @@ void computeRates(
 
 int main(int argc, char** argv) {
 	if (TEST) {
-		testGraphSpectra();
-		testImageGraphs();
-		testIsoperimetricGraphPartitioning();
+		
+		Mat classes;
+
+		// loads the dataset
+		cout<<"loading dataset"<<endl;
+		char *folder = "../test/dataset/";
+		char *names[] = {"amuro", "asuka", "char", "chirno", "conan", "jigen", "kouji", "lupin", "majin", "miku", "ray", "rufy"};
+		vector<pair<Mat_<Vec<uchar,3> >,Mat_<float> > > dataSet;
+		vector<LabeledGraph<Mat> > graphs;
+		
+		loadDataSet(folder, names, 12, 5, dataSet, classes);
+
+		Mat_<Vec3b> dest;
+
+		KuwaharaFilter(dataSet[3].first,dest,5);
+
+		imshow("window", dest);
+		waitKey(0);
+
 	} else {
 		Mat classes;
 		// loads the dataset

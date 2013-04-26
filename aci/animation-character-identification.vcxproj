@@ -84,8 +84,11 @@
     <ClCompile Include="DisjointSet.cpp" />
     <ClCompile Include="Felzenszwalb.cpp" />
     <ClCompile Include="GraphSpectra.cpp" />
+    <ClCompile Include="GraphSpectraTest.cpp" />
     <ClCompile Include="ImageGraphs.cpp" />
+    <ClCompile Include="ImageGraphsTest.cpp" />
     <ClCompile Include="IsoPerimetricGraphPartioning.cpp" />
+    <ClCompile Include="IsoperimetricGraphPartitioningTest.cpp" />
     <ClCompile Include="Kernels.cpp" />
     <ClCompile Include="KuwaharaFilter.cpp" />
     <ClCompile Include="main.cpp" />
@@ -100,8 +103,11 @@
     <ClInclude Include="DisjointSet.hpp" />
     <ClInclude Include="Felzenszwalb.hpp" />
     <ClInclude Include="GraphSpectra.h" />
+    <ClInclude Include="GraphSpectraTest.h" />
     <ClInclude Include="ImageGraphs.h" />
+    <ClInclude Include="ImageGraphsTest.h" />
     <ClInclude Include="isoperimetricGraphPartitioning.h" />
+    <ClInclude Include="IsoperimetricGraphPartitioningTest.h" />
     <ClInclude Include="Kernels.h" />
     <ClInclude Include="KuwaharaFilter.h" />
     <ClInclude Include="LabeledGraph.hpp" />

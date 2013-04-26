@@ -1,106 +1,132 @@
 #include "KuwaharaFilter.h"
 
-Vec<uchar,3> MatRGBaverage(Mat_<Vec<uchar,3>> &image, unsigned int x_start,unsigned int x_end,unsigned int y_start,unsigned int y_end){
+
+					  
+class lab : Vec3f{
+	double operator-(lab& lab){
 	
-	assert(x_start < x_end && y_start < y_end);
-	assert(x_start > 0 && x_end > 0 && y_start > 0 && y_end > 0);
+	};
+};
 
-	Vec<float,3> sum;
+template <typename T>
+T matAverage(Mat_<T> &mat){
 
-	for(unsigned int i = x_start; i <= x_end ;i++){
-		for(unsigned int j = y_start; j <= y_end ;j++){
-			sum += image(i,j);
+	T sum;
+
+	for(unsigned int i = 0; i < mat.rows ;i++){
+		for(unsigned int j = 0; j < mat.cols ;j++){
+			sum += mat(i,j);
 		}
 	}
 
-    unsigned int pixel_num = ((x_end - x_start) * (y_end - y_start));
-	
-	Vec<uchar,3> average(sum[0] / pixel_num,
-						sum[1] / pixel_num,
-						sum[2] / pixel_num);
+	int  elements_num = (mat.rows * mat.cols);
 
-	assert(average[0] >= 0 && average[0] < 256 && average[1] >= 0 && average[1] < 256 && average[2] >= 0 && average[2] < 256 );
+	//Range of L*a*b* is not knowing...
+	//assert(average[0] >= 0 && average[0] < 256 && average[1] >= 0 && average[1] < 256 && average[2] >= 0 && average[2] < 256 );
 
-	return average;
+	return  sum / elements_num;
 }
 
-float MatRGBvariance(Mat_<Vec<uchar,3>> &image, Vec<uchar,3> averageColor, unsigned int x_start,unsigned int x_end,unsigned int y_start,unsigned int y_end){
+float matLabVariance(Mat_<Vec3f> &mat, Vec3f average){
 	
-	Vec<float,3> HSV,averageHSV;
-
-	cvtColor(averageColor,averageHSV,CV_RGB2HSV);
 	float sum = 0;
 	
-	for(unsigned int i = x_start; i <= x_end ;i++){
-		for(unsigned int j = y_start; j <= y_end ;j++){
-			cvtColor(image(i,j),HSV,CV_RGB2HSV);
-			sum += pow((HSV[2] - averageHSV[2]),2);
+	for(unsigned int i = 0; i < mat.rows ;i++){
+		for(unsigned int j = 0; j < mat.cols ;j++){
+			sum += sqrt( pow(average[0] - mat(i,j)[0],2) + pow(average[1] - mat(i,j)[1],2) +  pow(average[2] - mat(i,j)[2],2));
 		}
 	}
 
-	unsigned int pixel_num = ((x_end - x_start) * (y_end - y_start));
-
-	return sum / pixel_num;
+	return sum / (mat.rows * mat.cols);
 }
 
-void KuwaharaFilter(Mat_<Vec<uchar,3>> &src, Mat_<Vec<uchar,3>> &dest, uchar filterSize){
+void KuwaharaFilter(Mat_<Vec<uchar,3>> &rgbSrc, Mat_<Vec<uchar,3>> &dest, uchar filterSize){
 
-	assert(filterSize % 2 == 0);
+	assert(filterSize % 2 == 1);
 
-	Mat_<Vec<uchar,3>> Filtered(src.rows, src.cols);
-	Vec<uchar,3> min_averageRGB;
-	float min_variance = 65536;
-	uchar halfSize = filterSize / 2;
+	Mat_<Vec3f> labSrc(rgbSrc.rows,rgbSrc.cols), labDest(rgbSrc.rows,rgbSrc.cols);
+	Mat_<Vec3f> rgb3f = rgbSrc / 255.;
 
-	for(unsigned int i = 0; i < src.rows ; i++){
-		for(unsigned int j = 0; i < dest.cols ; j++){							 
+	cvtColor(rgb3f, labSrc,  CV_RGB2Lab);
+
+
+
+	Vec3f min_average;
+	float min_variance;
+
+	int halfSize = filterSize / 2;
+
+	for(int i = 0; i < labSrc.rows ; i++){
+		for(int j = 0; j < labSrc.cols ; j++){							 
 	
 			/*
 			* Should take into account if variances are same in multiple regions.
 			*/
+			//cout<<"i:"<< i <<" j:"<< j << endl;
+			//cout<<"halfSize:"<< halfSize << endl;
+
+			min_variance = FLT_MAX;
 
 			// top left region
 			if((i - halfSize) >= 0 && (j - halfSize) >= 0){ 
-				Vec<uchar,3> averageRGB = MatRGBaverage(src, i - halfSize, i, j - halfSize, j);
-				float variance = MatRGBvariance(src,averageRGB,i - halfSize, i, j - halfSize, j);
+				
+				Mat_ <Vec3f> croppedSrc = labSrc.rowRange(i - halfSize, i).colRange(j - halfSize, j);
+				Vec3f average = matAverage<Vec3f>(croppedSrc);
+				float variance = matLabVariance(croppedSrc,average);
+
 				if(variance < min_variance){
 					min_variance = variance;
-					min_averageRGB = averageRGB;
+					min_average = average;
 				}
 			}
 
 			// top right region
-			if((i + halfSize) < src.rows && (j - halfSize) >= 0){
-				Vec<uchar,3> averageRGB = MatRGBaverage(src, i , i + halfSize, j - halfSize, j);
-				float variance = MatRGBvariance(src,averageRGB,i , i + halfSize, j - halfSize, j);
+			if((i + halfSize) < labSrc.rows && (j - halfSize) >= 0){ 
+				
+				Mat_ <Vec3f> croppedSrc = labSrc.rowRange(i, i + halfSize ).colRange(j - halfSize, j);
+				Vec3f average = matAverage<Vec3f>(croppedSrc);
+				float variance = matLabVariance(croppedSrc,average);
+
 				if(variance < min_variance){
 					min_variance = variance;
-					min_averageRGB = averageRGB;
+					min_average = average;
 				}
 			}
-
+			
 			// bottom left region
-			if((i - halfSize) >= 0 && (j + halfSize) < src.cols){ 
-				Vec<uchar,3> averageRGB = MatRGBaverage(src, i - halfSize, i, j , j + halfSize);
-				float variance = MatRGBvariance(src,averageRGB,i - halfSize, i, j , j + halfSize);
+			if((i - halfSize) >= 0 && (j + halfSize) < labSrc.cols){ 
+				
+				Mat_ <Vec3f> croppedSrc = labSrc.rowRange(i - halfSize, i).colRange(j , j + halfSize);
+				Vec3f average = matAverage<Vec3f>(croppedSrc);
+				float variance = matLabVariance(croppedSrc,average);
+
 				if(variance < min_variance){
 					min_variance = variance;
-					min_averageRGB = averageRGB;
+					min_average = average;
 				}
 			}
 
 			// bottom right region
-			if((i + halfSize) < src.rows && (j + halfSize) < src.cols){ 
-				Vec<uchar,3> averageRGB = MatRGBaverage(src, i , i + halfSize, j, j + halfSize);
-				float variance = MatRGBvariance(src,averageRGB,i , i + halfSize, j, j + halfSize);
+			if((i + halfSize) < labSrc.rows && (j + halfSize) < labSrc.cols){ 
+				
+				Mat_ <Vec3f> croppedSrc = labSrc.rowRange(i, i + halfSize ).colRange(j, j + halfSize);
+				Vec3f average = matAverage<Vec3f>(croppedSrc);
+				float variance = matLabVariance(croppedSrc,average);
+
 				if(variance < min_variance){
 					min_variance = variance;
-					min_averageRGB = averageRGB;
+					min_average = average;
 				}
 			}
 
-			dest(i,j) = min_averageRGB;
-
+			//cout<<" checked. " << endl;
+			labDest(i,j) = min_average;
+			
 		}
 	}
+	cvtColor(labDest,rgb3f,CV_Lab2RGB);
+	rgb3f = rgb3f * 255;
+
+	dest = Mat_<Vec3b>(rgb3f);
+
 }
