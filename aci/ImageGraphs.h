@@ -2,6 +2,7 @@
 
 #include <opencv2\opencv.hpp>
 
+#include "Kernels.h"
 #include "WeightedGraph.hpp"
 #include "Utils.hpp"
 
@@ -13,8 +14,8 @@ using namespace std;
  * as the graph where vertices are pixels of the image and vertices have an
  * edge (undirected) between them iff they are neighbor in an N-connectivity
  * sense. Does not repeat edges in both directions, every edge only appears
- * on the first pixel's adjacency list in row major order. Every edge is
- * weighted by euclidean distance between pixel values.
+ * on the first pixel's adjacency list in row major order. Every edge is weighted
+ * by an appropriate similarity function.
  *
  * @param image image to compute the grid graph from.
  * @param connectivity the type of connectivity to search for neighboring pixels,
@@ -26,7 +27,7 @@ using namespace std;
  * adjacency list representation. This is useful for more efficient listing of vertices
  * neighbors, but consumes more space.
  */
-WeightedGraph gridGraph(Mat_<Vec<uchar,3> > &image, ConnectivityType connectivity, Mat_<float> mask, bool bidirectional = false);
+WeightedGraph gridGraph(const Mat_<Vec<uchar,3> > &image, ConnectivityType connectivity, Mat_<float> mask, MatKernel simFunc, bool bidirectional = false);
 
 /**
  * Returns a graph where vertices are pixels in the image, and every vertex has an edge
@@ -41,18 +42,19 @@ WeightedGraph gridGraph(Mat_<Vec<uchar,3> > &image, ConnectivityType connectivit
  * undirected graph) as the k nearest neighbor relation is not symmetric.
  * @return the nearest neighbor graph of the image.
  */
-WeightedGraph kNearestGraph(const Mat_<Vec<uchar,3> > &image, const Mat_<float> mask, int k);
+WeightedGraph kNearestGraph(const Mat_<Vec<uchar,3> > &image, const Mat_<float> mask, int k, MatKernel simFunc, bool bidirectional = false);
 
 /**
- * Returns a graph where vertices are pixels in the image, and every vertes has an
- * edge to each neighbor within a given radius r in feature space, up to a maximum 
- * of k neighbors. Feature space is defined similarly to nearestNeighborGraph.
+ * Returns a graph where vertices are pixels in the image, and every vertex has an edge
+ * to its neighbors in a specific radius in pixel coordinate space (up to a maximum of k
+ * neighbors), weighted by color similarity and distance in coordinate space.
  *
- * @param image image to compute the nearest neighbor graph from.
+ * @param image the image to compute the radius graph from.
  * @param mask mask indicating pixels to take into account.
- * @param r radius to look for neighbors in.
  * @param k the maximum number of nearest neighbors each pixel should have an edge
- * towards.
- * @return the nearest neighbor graph of the image.
+ * towards. Note that this does not mean that the graph is k-regular (seen as an
+ * undirected graph) as the k nearest neighbor relation is not symmetric.
+ * @double r maximum radius of pixels to consider as neighbor.
+ * @return the radius graph of the image.
  */
-WeightedGraph radiusGraph(const Mat_<Vec<uchar,3> > &image, const Mat_<float> mask, int k, double r);
+WeightedGraph radiusGraph(const Mat_<Vec3b> &image, const Mat_<float> &mask, int k, double r, MatKernel simFunc, bool bidirectional = false);

@@ -95,12 +95,19 @@ Eigen::SparseMatrix<double> normalizedSparseLaplacian(const WeightedGraph &graph
 	triplets.reserve(graph.numberOfVertices() + graph.getEdges().size()/2);
 
 	for (int i = 0; i < graph.numberOfVertices(); i++) {
-		triplets.push_back(T(i,i,1));
+		double selfLoopWeight = 0;
+
 		for (int j = 0; j < graph.getAdjacencyList(i).size(); j++) {
 			HalfEdge edge = graph.getAdjacencyList(i)[j];
 
 			degrees(i) += edge.weight;
+
+			if (i == edge.destination) {
+				selfLoopWeight += edge.weight;
+			}
 		}
+
+		triplets.push_back(T(i,i,1 - (degrees(i) != 0 ? selfLoopWeight / degrees(i) : 0)));
 	}
 
 	// Then we compute the coefficient for each edge

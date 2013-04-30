@@ -4,13 +4,13 @@
 #define DEBUG true
 #define BLUR_SIGMA 0.8
 #define CONNECTIVITY CONNECTIVITY_4
-#define MAX_SEGMENTS 100
+#define MAX_SEGMENTS 200
 #define BINS_PER_CHANNEL 16
 #define EIG_MU 1
 #define GAUSS_SIGMA 100
 #define KHI_MU 0.01
 #define KHI_LAMBDA 0.75
-#define MAX_NB_PIXELS 2500
+#define MAX_NB_PIXELS 5000
 
 using namespace std;
 using namespace cv;
@@ -29,20 +29,6 @@ void resizeImage(const Mat_<Vec<uchar,3> > &image, const Mat_<float> &mask, Mat_
 	}
 }
 
-DisjointSetForest isoperimetricGraphPartitioningSegmentation(Mat_<Vec<uchar,3> > &image, Mat_<float> mask, WeightedGraph &graph, Mat_<Vec<uchar,3> > &resizedImage) {
-	Mat_<float> resizedMask;
-	resizeImage(image, mask, resizedImage, resizedMask);
-	graph = gridGraph(resizedImage, CONNECTIVITY, resizedMask, true);
-
-	vector<int> vertexMap;
-
-	WeightedGraph connected = removeIsolatedVertices(graph, vertexMap);
-	DisjointSetForest segmentationConn = unconnectedIGP(connected, 1, 1);
-	DisjointSetForest segmentation = addIsolatedVertices(graph, segmentationConn, vertexMap);
-
-	return segmentation;
-}
-
 LabeledGraph<Mat> computeGraphFrom(Mat_<Vec<uchar,3> > &rgbImage, Mat_<float> &mask) {
 	// filter the image for better segmentation
 	Mat_<Vec<uchar,3> > smoothed;
@@ -51,8 +37,11 @@ LabeledGraph<Mat> computeGraphFrom(Mat_<Vec<uchar,3> > &rgbImage, Mat_<float> &m
 
 	WeightedGraph graph;
 	Mat_<Vec<uchar,3> > resized;
+	Mat_<float> resizedMask;
 
-	DisjointSetForest segmentation = normalizedCutsSegmentation(smoothed, mask, 0.25);
+	resizeImage(smoothed, mask, resized, resizedMask);
+
+	DisjointSetForest segmentation = normalizedCutsSegmentation(resized, resizedMask, 0.2, resized.rows * resized.cols / MAX_SEGMENTS);
 	LabeledGraph<Mat> segGraph = segmentationGraph<Mat>(
 		resized,
 		segmentation,
