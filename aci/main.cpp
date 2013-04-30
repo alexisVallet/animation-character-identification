@@ -1,33 +1,34 @@
-#include <iostream>
-#include <opencv2/opencv.hpp>
-#include <boost\graph\boyer_myrvold_planar_test.hpp>
-#include "DisjointSet.hpp"
-#include "WeightedGraph.hpp"
-#include "Felzenszwalb.hpp"
-#include "SegmentationGraph.hpp"
-#include "TreeWalkKernel.hpp"
-#include "GraphSpectra.h"
-#include "SpectrumDistanceClassifier.h"
-#include "Kernels.h"
-#include "IsoperimetricGraphPartitioning.h"
-#include "GraphSpectraTest.h"
-#include "IsoperimetricGraphPartitioningTest.h"
-#include "ImageGraphsTest.h"
+#include "main.h"
 #include "KuwaharaFilter.h"
 
-#define TEST true
+#define TEST false
 #define DEBUG true
 #define BLUR_SIGMA 0.8
 #define CONNECTIVITY CONNECTIVITY_4
-#define MAX_SEGMENTS 100
+#define MAX_SEGMENTS 200
 #define BINS_PER_CHANNEL 16
 #define EIG_MU 1
 #define GAUSS_SIGMA 100
 #define KHI_MU 0.01
 #define KHI_LAMBDA 0.75
+#define MAX_NB_PIXELS 5000
 
 using namespace std;
 using namespace cv;
+
+void resizeImage(const Mat_<Vec<uchar,3> > &image, const Mat_<float> &mask, Mat_<Vec<uchar,3> > &resizedImage, Mat_<float> &resizedMask) {
+	int nbPixels = countNonZero(mask);
+
+	if (nbPixels > MAX_NB_PIXELS) {
+		double ratio = sqrt((double)MAX_NB_PIXELS / (double)nbPixels);
+
+		resize(image, resizedImage, Size(), ratio, ratio);
+		resize(mask, resizedMask, Size(), ratio, ratio, INTER_NEAREST);
+	} else {
+		resizedImage = image;
+		resizedMask = mask;
+	}
+}
 
 LabeledGraph<Mat> computeGraphFrom(Mat_<Vec<uchar,3> > &rgbImage, Mat_<float> &mask) {
 	// filter the image for better segmentation
@@ -35,27 +36,21 @@ LabeledGraph<Mat> computeGraphFrom(Mat_<Vec<uchar,3> > &rgbImage, Mat_<float> &m
 
 	GaussianBlur(rgbImage, smoothed, Size(0,0), BLUR_SIGMA);
 
-	cout<<"computing grid graph"<<endl;
-	// segment the image using Felzenszwalb's method
-	cout<<"computing grid graph"<<endl;
-	WeightedGraph basicGraph = gridGraph(smoothed, CONNECTIVITY, mask, true);
-	vector<int> vertexMap;
-	cout<<"removing isolated vertices"<<endl;
-	WeightedGraph connected = removeIsolatedVertices(basicGraph, vertexMap);
-	cout<<"computing segmentation"<<endl;
-	DisjointSetForest segmentationConn = unconnectedIGP(connected, 1);
-	cout<<"segmentationConn: "<<segmentationConn.getNumberOfComponents()<<" components"<<endl;
-	cout<<"adding isolated vertices back"<<endl;
-	DisjointSetForest segmentation = addIsolatedVertices(basicGraph, segmentationConn, vertexMap);
-	cout<<"segmentation: "<<segmentation.getNumberOfComponents()<<" components"<<endl;
+	WeightedGraph graph;
+	Mat_<Vec<uchar,3> > resized;
+	Mat_<float> resizedMask;
+
+	resizeImage(smoothed, mask, resized, resizedMask);
+
+	DisjointSetForest segmentation = normalizedCutsSegmentation(resized, resizedMask, 0.2, resized.rows * resized.cols / MAX_SEGMENTS);
 	LabeledGraph<Mat> segGraph = segmentationGraph<Mat>(
-		smoothed,
+		resized,
 		segmentation,
-		basicGraph);
+		graph);
 	cout<<"computing color histograms"<<endl;
-	colorHistogramLabels(smoothed, segmentation, segGraph, BINS_PER_CHANNEL);
+	colorHistogramLabels(resized, segmentation, segGraph, BINS_PER_CHANNEL);
 	if (DEBUG) {
-		Mat regionImage = segmentation.toRegionImage(smoothed);
+		Mat regionImage = segmentation.toRegionImage(resized);
 		//segGraph.drawGraph(segmentCenters(smoothed, segmentation), regionImage);
 		imshow("segmentation graph", regionImage);
 		waitKey(0);

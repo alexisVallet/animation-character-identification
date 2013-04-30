@@ -32,15 +32,7 @@ DisjointSetForest felzenszwalbSegment(int k, WeightedGraph graph, int minCompSiz
 		}
 	}
 
-	// Post processing phase which fuses components below a certain size
-	for (int i = 0; i < (int)edges.size(); i++) {
-		int srcRoot = segmentation.find(edges[i].source);
-		int dstRoot = segmentation.find(edges[i].destination);
-
-		if (srcRoot != dstRoot && (segmentation.getComponentSize(srcRoot) <= minCompSize || segmentation.getComponentSize(dstRoot) <= minCompSize)) {
-			segmentation.setUnion(srcRoot, dstRoot);
-		}
-	}
+	segmentation.fuseSmallComponents(graph, minCompSize);
 
 	bool firstBgPixelFound = false;
 	int bgSegment;

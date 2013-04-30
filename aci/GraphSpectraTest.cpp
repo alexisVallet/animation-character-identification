@@ -68,25 +68,34 @@ void randomBidirectional(WeightedGraph& graph, WeightedGraph& bidir, int nbEdges
 	}
 }
 
-void testGraphSpectra() {
-	WeightedGraph testGraph(4);
+void testSparseEigenSolver(WeightedGraph &graph) {
+	SparseMatrix<double> L = normalizedSparseLaplacian(graph);
+	MatrixXd dense(L);
 
-	testGraph.addEdge(0,1,1);
-	testGraph.addEdge(0,3,5);
-	testGraph.addEdge(0,2,5);
-	testGraph.addEdge(2,3,5);
+	VectorXd actualEval;
+	MatrixXd actualEvec;
 
-	cout<<"testing function sparseLaplacian"<<endl;
-	testSparseLaplacian(testGraph);
+	symmetricSparseEigenSolver(L, "SA", graph.numberOfVertices() - 1, graph.numberOfVertices(), actualEval, actualEvec);
+
+	SelfAdjointEigenSolver<MatrixXd> solver(dense);
+
+	VectorXd expectedEval = solver.eigenvalues();
 	
-	// tests sparse laplacian from bidirectional graph for randomly
-	// generated large graphs without loops
-	for (int i = 0; i < 100; i++) {
-		WeightedGraph graph(10);
-		WeightedGraph biDir(10);
+	cout<<"expected evalues:"<<endl<<expectedEval<<endl;
+	cout<<"actual:"<<endl<<actualEval<<endl;
+	cout<<"expected evectors:"<<endl<<solver.eigenvectors()<<endl;
+	cout<<"actual:"<<endl<<actualEvec<<endl;
+}
 
-		randomBidirectional(graph, biDir, 30);
+void testGraphSpectra() {
+	WeightedGraph graph(4);
 
-		testSparseLaplacianBidirectional(graph, biDir);
+	int edges[4][2] = {{0,1},{0,2},{0,3},{2,3}};
+
+	for (int i = 0; i < 4; i++) {
+		graph.addEdge(edges[i][0], edges[i][1], 1);
+		graph.addEdge(edges[i][1], edges[i][0], 1);
 	}
+
+	testSparseEigenSolver(graph);
 }

@@ -19,6 +19,11 @@ enum ConnectivityType {CONNECTIVITY_4 = 0, CONNECTIVITY_8 = 1};
 int toRowMajor(int width, int x, int y);
 
 /**
+ * Converts coordinates in 2D array to column major format.
+ */
+int toColumnMajor(int rows, int i, int j);
+
+/**
  * Converts a row major index to coordinates in a 2D array.
  */
 pair<int,int> fromRowMajor(int width, int i);
@@ -48,5 +53,16 @@ bool positiveDefinite(Eigen::SparseMatrix<double> M);
  * Removes the line and column of a specific index in a sparse matrix.
  */
 void removeLineCol(const Eigen::SparseMatrix<double> &L, int v0, Eigen::SparseMatrix<double> &L0);
+
+/**
+ * Converts 2d coordinates to upper triangular packed storage column major format
+ * intended for use with LAPACK.
+ *
+ * @param rows the number of rows in the matrix
+ * @param i the row index in the matrix
+ * @param j the column index in the matrix
+ * @return the linear index of the element in upper triangular packed storage column major format.
+ */
+int toUpperTriangularPacked(int i, int j);
 
 #endif

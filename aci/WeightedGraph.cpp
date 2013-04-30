@@ -101,3 +101,117 @@ ostream &operator<<(ostream &os, const WeightedGraph &graph) {
 
 	return os;
 }
+
+void connectedComponents(const WeightedGraph &graph, vector<int> &inConnectedComponent, int *nbCC) {
+	*nbCC = 0;
+	inConnectedComponent = vector<int>(graph.numberOfVertices(),-1);
+	vector<bool> discovered(graph.numberOfVertices(), false);
+	vector<int> stack;
+
+	stack.reserve(graph.numberOfVertices());
+
+	for (int i = 0; i < graph.numberOfVertices(); i++) {
+		if (!discovered[i]) {
+			discovered[i] = true;
+
+			inConnectedComponent[i] = *nbCC;
+
+			stack.push_back(i);
+
+			while (!stack.empty()) {
+				int t = stack.back();
+				stack.pop_back();
+
+				for (int j = 0; j < graph.getAdjacencyList(t).size(); j++) {
+					HalfEdge edge = graph.getAdjacencyList(t)[j];
+
+					if (!discovered[edge.destination]) {
+						discovered[edge.destination] = true;
+
+						inConnectedComponent[edge.destination] = *nbCC;
+
+						stack.push_back(edge.destination);
+					}
+				}
+			}
+			(*nbCC)++;
+		}
+	}
+}
+
+bool connected(const WeightedGraph& graph) {
+	int nbCC;
+
+	connectedComponents(graph, vector<int>(), &nbCC);
+
+	return nbCC == 1;
+}
+
+bool noLoops(const WeightedGraph& graph) {
+	for (int i = 0; i < graph.getEdges().size(); i++) {
+		Edge edge = graph.getEdges()[i];
+
+		if (edge.source == edge.destination) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool bidirectional(const WeightedGraph& graph) {
+	for (int i = 0; i < graph.numberOfVertices(); i++) {
+		for (int j = 0; j < graph.getAdjacencyList(i).size(); j++) {
+			HalfEdge edge = graph.getAdjacencyList(i)[j];
+
+			bool inOtherDir = false;
+
+			for (int k = 0; k < graph.getAdjacencyList(edge.destination).size(); k++) {
+				HalfEdge other = graph.getAdjacencyList(edge.destination)[k];
+
+				if (other.destination == i && abs(other.weight - edge.weight) <= 10E-8) {
+					if (inOtherDir) {
+						return false;
+					} else {
+						inOtherDir = true;
+					}
+				}
+			}
+
+			if (!inOtherDir) {
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
+
+void inducedSubgraphs(const WeightedGraph &graph, const vector<int> &inSubgraph, int numberOfSubgraphs, vector<int> &vertexIdx, vector<WeightedGraph> &subgraphs) {
+	vector<int> subgraphSizes(numberOfSubgraphs,0);
+
+	vertexIdx = vector<int>(graph.numberOfVertices(), -1);
+
+	/*cout<<"vertexIdx: "<<vertexIdx.size()<<", subgraphSizes: "<<subgraphSizes.size()<<", inSubgraph: "<<inSubgraph.size()<<endl;
+
+	cout<<"computing subgraph sizes and vertices indexes"<<endl;*/
+	for (int i = 0; i < graph.numberOfVertices(); i++) {
+		//cout<<"inSubgraph["<<i<<"] = "<<inSubgraph[i]<<endl;
+		vertexIdx[i] = subgraphSizes[inSubgraph[i]];
+		subgraphSizes[inSubgraph[i]]++;
+	}
+
+	subgraphs = vector<WeightedGraph>(numberOfSubgraphs);
+
+	for (int i = 0; i < numberOfSubgraphs; i++) {
+		subgraphs[i] = WeightedGraph(subgraphSizes[i]);
+	}
+	
+	for (int i = 0; i < graph.getEdges().size(); i++) {
+		Edge edge = graph.getEdges()[i];
+
+		if (inSubgraph[edge.source] == inSubgraph[edge.destination]) {
+			subgraphs[inSubgraph[edge.source]].addEdge(vertexIdx[edge.source], vertexIdx[edge.destination], edge.weight);
+		}
+	}
+}

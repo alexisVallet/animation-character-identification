@@ -118,4 +118,42 @@ public:
   friend ostream &operator<<(ostream &os, const WeightedGraph &graph);
 };
 
+/**
+ * Computes the connected components of a graph using a simple DFS procedure.
+ *
+ * @param graph the graph to compute connected components from.
+ * @param inConnectedComponent output vector which associates to each vertex the
+ * index of the connected component if belongs to.
+ * @param vertexIdx output map which associates to each vertex in the graph its
+ * index in the associated subgraph.
+ */
+void connectedComponents(const WeightedGraph &graph, vector<int> &inConnectedComponent, int *nbCC);
+
+/**
+ * Checks that a graph is connected.
+ */
+bool connected(const WeightedGraph& graph);
+
+/**
+ * Checks that a graph contains no loops.
+ */
+bool noLoops(const WeightedGraph& graph);
+
+/**
+ * Checks that a graph has a bidirectional representation.
+ */
+bool bidirectional(const WeightedGraph& graph);
+
+/** 
+ * Computes the subgraphs induced by a specific partition.
+ *
+ * @param graph the graph to compute the subgraphs from
+ * @param inSubgraph a graph.numberOfVertices() sized vector which associates to each vertex in the larger
+ * graph the index of the subgraph it belongs to.
+ * @param vertexIdx output vector containing a mapping from vertices in the graph to vertices in the corresponding
+ * subgraph.
+ * @param subgraphs output graphs which will be populated with the subgraphs.
+ */ 
+void inducedSubgraphs(const WeightedGraph &graph, const vector<int> &inSubgraph, int numberOfSubgraphs, vector<int> &vertexIdx, vector<WeightedGraph> &subgraphs);
+
 #endif

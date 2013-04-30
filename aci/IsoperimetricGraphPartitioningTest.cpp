@@ -25,7 +25,7 @@ void testIsoperimetricGraphPartitioning() {
 	WeightedGraph connected = removeIsolatedVertices(testBidirectional, vertexMap);
 
 	cout<<"testing isoperimetric graph partitioning"<<endl;
-	DisjointSetForest partition = isoperimetricGraphPartitioning(connected, 0.5);
+	DisjointSetForest partition = isoperimetricGraphPartitioning(connected, 0.5, 4);
 	cout<<"passed"<<endl;
 	cout<<partition<<endl;
 }

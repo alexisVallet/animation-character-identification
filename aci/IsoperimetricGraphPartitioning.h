@@ -7,6 +7,7 @@
 #include "WeightedGraph.hpp"
 #include "DisjointSet.hpp"
 #include "GraphSpectra.h"
+#include "GraphPartitions.h"
 
 using namespace cv;
 using namespace std;
@@ -31,7 +32,7 @@ WeightedGraph removeIsolatedVertices(WeightedGraph &graph, vector<int> &vertexMa
  * @param stop maximum isoperimetric ratio for segments.
  * @return a partition of the graph.
  */
-DisjointSetForest unconnectedIGP(const WeightedGraph &graph, double stop);
+DisjointSetForest unconnectedIGP(const WeightedGraph &graph, double stop, int maxRecursions);
 
 /**
  * Segments a graph using the isoperimetric algorithm by Grady and Schwarz.
@@ -40,7 +41,7 @@ DisjointSetForest unconnectedIGP(const WeightedGraph &graph, double stop);
  * @param stop maximum isoperimetric ratio for segments.
  * @return a partition of the graph.
  */
-DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, double stop);
+DisjointSetForest isoperimetricGraphPartitioning(const WeightedGraph &graph, double stop, int maxRecursion);
 
 /**
  * Performs the inverse transformation to removeIsolatedVertices, for post-processing to

@@ -35,7 +35,7 @@ Mat_<int> computeBorderLengths(DisjointSetForest &segmentation, WeightedGraph &g
  * (the default constructor is called).
  */
 template < typename T >
-LabeledGraph<T> segmentationGraph(Mat_<Vec<uchar,3> > &image, DisjointSetForest &segmentation, WeightedGraph &grid) {
+LabeledGraph<T> segmentationGraph(const Mat_<Vec<uchar,3> > &image, DisjointSetForest &segmentation, WeightedGraph &grid) {
   int numberOfComponents = segmentation.getNumberOfComponents();
   LabeledGraph<T> graph(numberOfComponents);
   vector<vector<bool> > adjMatrix(numberOfComponents, vector<bool>(numberOfComponents, false));

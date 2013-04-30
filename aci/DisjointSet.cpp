@@ -151,3 +151,16 @@ ostream &operator<<(ostream &os, DisjointSetForest &forest) {
 
 	return os;
 }
+
+void DisjointSetForest::fuseSmallComponents(WeightedGraph &segmentedGraph, int minSize) {
+	for (int i = 0; i < segmentedGraph.getEdges().size(); i++) {
+		Edge edge = segmentedGraph.getEdges()[i];
+		int srcRoot = this->find(edge.source);
+		int dstRoot = this->find(edge.destination);
+
+		if (srcRoot != dstRoot 
+			&& (this->getComponentSize(srcRoot) < minSize || this->getComponentSize(dstRoot) < minSize)) {
+			this->setUnion(srcRoot, dstRoot);
+		}
+	}
+}

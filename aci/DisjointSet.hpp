@@ -10,6 +10,7 @@
 #include <map>
 #include <opencv2/opencv.hpp>
 
+#include "WeightedGraph.hpp"
 #include "Utils.hpp"
 
 using namespace std;
@@ -83,6 +84,15 @@ public:
   int getNumberOfElements() const;
 
   friend ostream &operator<<(ostream &os, DisjointSetForest &forest);
+
+  /**
+   * Fuses components below a minimum size with their neighbors.
+   *
+   * @param segmentedGraph graph indicating neighborhoods between elements.
+   * (e.g. a grid graph or nearest neighbor graph, in many cases).
+   * @param minSize size below which components will get fused out.
+   */
+  void fuseSmallComponents(WeightedGraph &segmentedGraph, int minSize);
 };
 
 #endif
