@@ -141,8 +141,9 @@ void connectedComponents(const WeightedGraph &graph, vector<int> &inConnectedCom
 
 bool connected(const WeightedGraph& graph) {
 	int nbCC;
+    vector<int> v;
 
-	connectedComponents(graph, vector<int>(), &nbCC);
+	connectedComponents(graph, v, &nbCC);
 
 	return nbCC == 1;
 }

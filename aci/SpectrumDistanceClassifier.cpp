@@ -75,9 +75,10 @@ float SpectrumDistanceClassifier::leaveOneOutRecognitionRate(vector<LabeledGraph
 	int totalCorrectResults = 0;
 
 	for (int i = 0; i < spectra.rows; i++) {
+        Mat characteristicvector = spectra.row(i);
 		this->statModel->clear();
 		this->statModel->train(otherSamples, otherClasses);
-		int result = floor(this->statModel->predict(spectra.row(i)));
+		int result = floor(this->statModel->predict(characteristicvector));
 
 		if (result == classes.at<int>(i,0)) {
 			totalCorrectResults++;

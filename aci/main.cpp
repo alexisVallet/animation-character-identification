@@ -1,7 +1,7 @@
 #include "main.h"
 #include "KuwaharaFilter.h"
 
-#define TEST false
+#define TEST true
 #define DEBUG true
 #define BLUR_SIGMA 0.8
 #define CONNECTIVITY CONNECTIVITY_4
@@ -103,7 +103,7 @@ int main(int argc, char** argv) {
 
 		// loads the dataset
 		cout<<"loading dataset"<<endl;
-		char *folder = "../test/dataset/";
+		char *folder = "/Users/Yuki_N/Public Repositry Clones/animation-charactor-identification by Alexis/test/dataset/";
 		char *names[] = {"amuro", "asuka", "char", "chirno", "conan", "jigen", "kouji", "lupin", "majin", "miku", "ray", "rufy"};
 		vector<pair<Mat_<Vec<uchar,3> >,Mat_<float> > > dataSet;
 		vector<LabeledGraph<Mat> > graphs;
@@ -121,7 +121,7 @@ int main(int argc, char** argv) {
 		Mat classes;
 		// loads the dataset
 		cout<<"loading dataset"<<endl;
-		char *folder = "../test/dataset/";
+		char *folder = "/Users/Yuki_N/Public Repositry Clones/animation-charactor-identification by Alexis/test/dataset/";
 		char *names[] = {"amuro", "asuka", "char", "chirno", "conan", "jigen", "kouji", "lupin", "majin", "miku", "ray", "rufy"};
 		vector<pair<Mat_<Vec<uchar,3> >,Mat_<float> > > dataSet;
 		vector<LabeledGraph<Mat> > graphs;
