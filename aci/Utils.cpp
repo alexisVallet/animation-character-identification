@@ -68,48 +68,6 @@ Mat_<double> sparseMul(SparseMat_<double> A, Mat_<double> b) {
 	return c;
 }
 
-bool symmetric(Eigen::SparseMatrix<double> M) {
-	for (int k = 0; k < M.outerSize(); k++) {
-		for (Eigen::SparseMatrix<double>::InnerIterator it(M, k); it; ++it) {
-			if (abs(it.value() - M.coeffRef(it.col(), it.row())) > 0) {
-				return false;
-			}
-		}
-	}
-
-	return true;
-}
-
-bool positiveDefinite(Eigen::SparseMatrix<double> M) {
-	Eigen::SimplicialLDLT<Eigen::SparseMatrix<double> > chol;
-
-	chol.compute(M);
-
-	return chol.info() == Eigen::Success;
-}
-
-// Remove a line and column with the same index in a sparse matrix.
-void removeLineCol(const Eigen::SparseMatrix<double> &L, int v0, Eigen::SparseMatrix<double> &L0) {
-	typedef Eigen::Triplet<double> T;
-	vector<T> tripletList;
-	tripletList.reserve(L.nonZeros());
-
-	for (int k = 0; k < L.outerSize(); ++k) {
-		for (Eigen::SparseMatrix<double>::InnerIterator it(L,k); it; ++it) {
-			if (it.row() != v0 && it.col() != v0) {
-				int newRow = it.row() < v0 ? it.row() : it.row() - 1;
-				int newCol = it.col() < v0 ? it.col() : it.col() - 1;
-
-				tripletList.push_back(T(newRow, newCol, it.value()));
-			}
-		}
-	}
-
-	L0 = Eigen::SparseMatrix<double>(L.rows() - 1, L.cols() - 1);
-
-	L0.setFromTriplets(tripletList.begin(), tripletList.end());
-}
-
 int toUpperTriangularPacked(int i, int j) {
 	if (i > j) {
 		return toUpperTriangularPacked(j, i);
