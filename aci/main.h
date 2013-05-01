@@ -11,8 +11,3 @@
 #include "GraphSpectra.h"
 #include "SpectrumDistanceClassifier.h"
 #include "Kernels.h"
-#include "IsoperimetricGraphPartitioning.h"
-#include "GraphSpectraTest.h"
-#include "IsoperimetricGraphPartitioningTest.h"
-#include "ImageGraphsTest.h"
-#include "NormalizedCuts.h"
