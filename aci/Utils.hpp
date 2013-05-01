@@ -2,8 +2,7 @@
 #define _UTILS_HPP_
 
 #include <utility>
-#include <opencv2\opencv.hpp>
-#include <Eigen\Sparse>
+#include <opencv2/opencv.hpp>
 
 using namespace std;
 using namespace cv;
@@ -39,22 +38,6 @@ void loadDataSet(char* folderName, char** charaNames, int nbCharas, int nbImages
  * Multiplies a sparse n by n matrix by a dense n by 1 column vector.
  */
 Mat_<double> sparseMul(SparseMat_<double> A, Mat_<double> b);
-
-/**
- * Checks that a given sparse matrix is symmetric.
- */
-bool symmetric(Eigen::SparseMatrix<double> M);
-
-/**
- * Checks that a given sparse matrix is positive definite by attempting
- * to compute its Cholesky decomposition.
- */
-bool positiveDefinite(Eigen::SparseMatrix<double> M);
-
-/**
- * Removes the line and column of a specific index in a sparse matrix.
- */
-void removeLineCol(const Eigen::SparseMatrix<double> &L, int v0, Eigen::SparseMatrix<double> &L0);
 
 /**
  * Converts 2d coordinates to upper triangular packed storage column major format
