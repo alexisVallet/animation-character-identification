@@ -1,7 +1,7 @@
 #include "ImageGraphsTest.h"
 
 void testGridGraphBidirectional(Mat_<Vec<uchar,3> > &image, Mat_<float> &mask) {
-	WeightedGraph grid = gridGraph(image, CONNECTIVITY_4, mask, true);
+	WeightedGraph grid = gridGraph(image, CONNECTIVITY_4, mask, euclidDistance, true);
 	WeightedGraph connectedGrid = removeIsolatedVertices(grid);
 	set<pair<int,int> > edges;
 

@@ -1,14 +1,6 @@
 #include "ImageGraphs.h"
 
-#define MIN_EDGE_WEIGHT 5
-
-static float euclDist(Vec<uchar,3> v1, Vec<uchar,3> v2) {
-  float dr = ((float)v1[0]) - ((float)v2[0]);
-  float dg = ((float)v1[1]) - ((float)v2[1]);
-  float db = ((float)v1[2]) - ((float)v2[2]);
-
-  return sqrt(dr*dr + dg*dg + db*db);
-}
+#define MIN_EDGE_WEIGHT 0
 
 WeightedGraph gridGraph(const Mat_<Vec<uchar,3> > &image, ConnectivityType connectivity, Mat_<float> mask, MatKernel simFunc, bool bidirectional) {
 	assert(image.size() == mask.size());

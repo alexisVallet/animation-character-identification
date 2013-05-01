@@ -8,6 +8,8 @@
 using namespace std;
 using namespace cv;
 
+typedef double (*MatKernel)(const Mat&, const Mat&);
+
 /**
  * Datatype indicating pixel connectivity.
  */
@@ -64,5 +66,23 @@ void removeLineCol(const Eigen::SparseMatrix<double> &L, int v0, Eigen::SparseMa
  * @return the linear index of the element in upper triangular packed storage column major format.
  */
 int toUpperTriangularPacked(int i, int j);
+
+/**
+* Draws an histogram. Taken from
+* http://laconsigna.wordpress.com/2011/04/29/1d-histogram-on-opencv/
+*
+* @param hist histogram to draw
+* @param scaleX horizontal scaling factor
+* @param scaleY vertical scaling factor
+* @return histogram image
+*/
+Mat imHist(Mat hist, float scaleX=1, float scaleY=1);
+
+/**
+ * Computes and displays histograms for each channel of a color image.
+ *
+ * @param image the image to compute histograms from.
+ */
+void showHistograms(const Mat_<Vec3b> &image, const Mat_<float> &mask, int nbBins);
 
 #endif

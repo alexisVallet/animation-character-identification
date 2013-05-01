@@ -5,13 +5,13 @@
 #define DEBUG true
 #define BLUR_SIGMA 0.8
 #define CONNECTIVITY CONNECTIVITY_4
-#define MAX_SEGMENTS 200
+#define MAX_SEGMENTS 50
 #define BINS_PER_CHANNEL 16
 #define EIG_MU 1
 #define GAUSS_SIGMA 100
 #define KHI_MU 0.01
 #define KHI_LAMBDA 0.75
-#define MAX_NB_PIXELS 5000
+#define MAX_NB_PIXELS 15000
 
 using namespace std;
 using namespace cv;
@@ -32,23 +32,31 @@ void resizeImage(const Mat_<Vec<uchar,3> > &image, const Mat_<float> &mask, Mat_
 
 LabeledGraph<Mat> computeGraphFrom(Mat_<Vec<uchar,3> > &rgbImage, Mat_<float> &mask) {
 	// filter the image for better segmentation
-	Mat_<Vec<uchar,3> > smoothed;
+	Mat_<Vec<uchar,3> > smoothedRgb;
 
-	GaussianBlur(rgbImage, smoothed, Size(0,0), BLUR_SIGMA);
+	KuwaharaFilter(rgbImage, smoothedRgb, 11);
+	Mat_<Vec3b> smoothed;
 
-	WeightedGraph graph;
-	Mat_<Vec<uchar,3> > resized;
+	cvtColor(smoothedRgb, smoothed, CV_RGB2Lab);
+
+	showHistograms(smoothed, mask, 255);
+	imshow("filtered", smoothed);
+	waitKey(0);
+	Mat_<Vec3b> resized;
 	Mat_<float> resizedMask;
 
 	resizeImage(smoothed, mask, resized, resizedMask);
 
-	DisjointSetForest segmentation = normalizedCutsSegmentation(resized, resizedMask, 0.2, resized.rows * resized.cols / MAX_SEGMENTS);
+	WeightedGraph graph = kNearestGraph(resized, resizedMask, 4, euclidDistance, false);
+	WeightedGraph grid = gridGraph(resized, CONNECTIVITY_4, resizedMask, euclidDistance, false);
+	int minCompSize = countNonZero(resizedMask) / MAX_SEGMENTS;
+	DisjointSetForest segmentation = felzenszwalbSegment(100, graph, minCompSize, resizedMask);
 	LabeledGraph<Mat> segGraph = segmentationGraph<Mat>(
 		resized,
 		segmentation,
-		graph);
-	cout<<"computing color histograms"<<endl;
-	colorHistogramLabels(resized, segmentation, segGraph, BINS_PER_CHANNEL);
+		grid);
+	cout<<"computing average color labels"<<endl;
+	averageColorLabels(resized, resizedMask, segmentation, segGraph);
 	if (DEBUG) {
 		Mat regionImage = segmentation.toRegionImage(resized);
 		//segGraph.drawGraph(segmentCenters(smoothed, segmentation), regionImage);

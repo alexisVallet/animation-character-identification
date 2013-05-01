@@ -1,5 +1,9 @@
 #include "Kernels.h"
 
+double euclidDistance(const Mat &h1, const Mat &h2) {
+	return norm(h1, h2);
+}
+
 static int uniformMap(int binsPerChannel, unsigned char channelValue) {
 	return floor(((float)channelValue/255.0)*(binsPerChannel-1));
 }
@@ -70,5 +74,31 @@ void colorHistogramLabels(
 
 	for (int i = 0; i < numberOfComponents; i++) {
 		segmentationGraph.addLabel(i, histograms[i]);
+	}
+}
+
+void averageColorLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph) {
+	assert(image.rows == mask.rows && image.cols == mask.cols);
+	vector<Vec3f> averageColor;
+	averageColor.reserve(segmentation.getNumberOfComponents());
+
+	for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
+		averageColor.push_back(Vec3f(0,0,0));
+	}
+	map<int,int> rootIndexes = segmentation.getRootIndexes();
+
+	for (int i = 0; i < image.rows; i++) {
+		for (int j = 0; j < image.cols; j++) {
+			if (mask(i,j) > 0) {
+				int root = rootIndexes[segmentation.find(toRowMajor(image.cols, j, i))];
+				Vec3f pixColor = Vec3f(image(i,j));
+
+				averageColor[root] += pixColor / (float)segmentation.getComponentSize(root);
+			}
+		}
+	}
+
+	for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
+		segmentationGraph.addLabel(i, Mat(averageColor[i]));
 	}
 }

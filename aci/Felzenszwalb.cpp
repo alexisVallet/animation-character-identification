@@ -32,7 +32,7 @@ DisjointSetForest felzenszwalbSegment(int k, WeightedGraph graph, int minCompSiz
 		}
 	}
 
-	segmentation.fuseSmallComponents(graph, minCompSize);
+	segmentation.fuseSmallComponents(graph, minCompSize, mask);
 
 	bool firstBgPixelFound = false;
 	int bgSegment;
@@ -40,7 +40,7 @@ DisjointSetForest felzenszwalbSegment(int k, WeightedGraph graph, int minCompSiz
 	// Fuses background into a single, unconnected component
 	for (int i = 0; i < mask.rows; i++) {
 		for (int j = 0; j < mask.cols; j++) {
-			if (mask(i,j) < 0.5) {
+			if (mask(i,j) == 0) {
 				if (!firstBgPixelFound) {
 					bgSegment = toRowMajor(mask.cols, j, i);
 					firstBgPixelFound = true;

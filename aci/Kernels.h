@@ -7,7 +7,12 @@
 
 using namespace cv;
 
-typedef double (*MatKernel)(const Mat&, const Mat&);
+class DisjointSetForest;
+
+/**
+ * Euclidean distance between two matrices seen s vectors.
+ */
+double euclidDistance(const Mat &h1, const Mat &h2);
 
 /**
  * Dot product between 2 color histograms seen as vectors.
@@ -38,6 +43,15 @@ void colorHistogramLabels(
   DisjointSetForest &segmentation, 
   LabeledGraph<Mat> &segmentationGraph,
   int binsPerChannel);
+
+/**
+ * Labels vertices of a segmentation graph by the average color of the segment.
+ *
+ * @param image image to compute average colors from.
+ * @param segmentation a segmentation of the image.
+ * @param segmentationGraph graph to add labels to.
+ */
+void averageColorLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph);
 
 /**
  * Weighs the edges of a graph by the result of a kernel function on the source

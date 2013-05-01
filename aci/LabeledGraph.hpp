@@ -42,7 +42,7 @@ public:
    * @param vertex a vertex in the graph.
    * @return the label of the vertex.
    */
-  T getLabel(int vertex) {
+  T getLabel(int vertex) const {
     return this->labels[vertex];
   }
 };

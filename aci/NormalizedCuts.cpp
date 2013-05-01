@@ -268,7 +268,7 @@ DisjointSetForest normalizedCutsSegmentation(const Mat_<Vec<uchar,3> > &image, c
 	cout<<"inserting isolated vertices"<<endl;
 	DisjointSetForest segmentation = addIsolatedVertices(graph, segmentationConn, vertexMap);
 	cout<<"before fusion: "<<segmentation.getNumberOfComponents()<<endl;
-	segmentation.fuseSmallComponents(grid, minCompSize);
+	segmentation.fuseSmallComponents(grid, minCompSize, mask);
 	cout<<"after fusion: "<<segmentation.getNumberOfComponents()<<endl;
 
 	return segmentation;

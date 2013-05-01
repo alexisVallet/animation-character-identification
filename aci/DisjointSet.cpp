@@ -152,15 +152,38 @@ ostream &operator<<(ostream &os, DisjointSetForest &forest) {
 	return os;
 }
 
-void DisjointSetForest::fuseSmallComponents(WeightedGraph &segmentedGraph, int minSize) {
+void DisjointSetForest::fuseSmallComponents(WeightedGraph &segmentedGraph, int minSize, const Mat_<float> &mask) {
 	for (int i = 0; i < segmentedGraph.getEdges().size(); i++) {
 		Edge edge = segmentedGraph.getEdges()[i];
 		int srcRoot = this->find(edge.source);
 		int dstRoot = this->find(edge.destination);
+		pair<int,int> srcCoords = fromRowMajor(mask.cols, srcRoot);
+		pair<int,int> dstCoords = fromRowMajor(mask.cols, dstRoot);
 
-		if (srcRoot != dstRoot 
+		if (mask(srcCoords.first, srcCoords.second) != 0
+			&& mask(dstCoords.first, dstCoords.second) != 0
+			&& srcRoot != dstRoot 
 			&& (this->getComponentSize(srcRoot) < minSize || this->getComponentSize(dstRoot) < minSize)) {
 			this->setUnion(srcRoot, dstRoot);
+		}
+	}
+}
+
+void DisjointSetForest::fuseCloseComponents(const LabeledGraph<Mat> &segmentationGraph, MatKernel distFunc, double threshold) {
+	map<int,int> rootIndexes_ = this->getRootIndexes();
+	vector<int> reverseIndexes(this->getNumberOfComponents());
+
+	for (map<int,int>::iterator it = rootIndexes_.begin(); it != rootIndexes_.end(); it++) {
+		reverseIndexes[it->second] = it->first;
+	}
+
+	for (int i = 0; i < segmentationGraph.getEdges().size(); i++) {
+		Edge edge = segmentationGraph.getEdges()[i];
+
+		if (distFunc(segmentationGraph.getLabel(edge.source), segmentationGraph.getLabel(edge.destination)) < threshold) {
+			int newRoot = this->setUnion(reverseIndexes[edge.source], reverseIndexes[edge.destination]);
+			reverseIndexes[edge.source] = newRoot;
+			reverseIndexes[edge.destination] = newRoot;
 		}
 	}
 }
