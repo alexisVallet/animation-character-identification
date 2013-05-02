@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1"/>
-<title>My Project: Felzenszwalb.hpp Source File</title>
+<title>Animation character identification: Felzenszwalb.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -22,7 +22,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">My Project
+   <div id="projectname">Animation character identification
    </div>
   </td>
  </tr>
@@ -84,32 +84,28 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <a href="_felzenszwalb_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#ifndef _FELZENSZWALB_HPP_</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _FELZENSZWALB_HPP_</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;opencv2/opencv.hpp&gt;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_weighted_graph_8hpp.html">WeightedGraph.hpp</a>&quot;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_disjoint_set_8hpp.html">DisjointSet.hpp</a>&quot;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_graph_partitions_8h.html">GraphPartitions.h</a>&quot;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_utils_8hpp.html">Utils.hpp</a>&quot;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_image_graphs_8h.html">ImageGraphs.h</a>&quot;</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">using namespace </span>cv;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<a class="code" href="class_disjoint_set_forest.html">DisjointSetForest</a> felzenszwalbSegment(<span class="keywordtype">int</span> k, <a class="code" href="class_weighted_graph.html">WeightedGraph</a> graph, <span class="keywordtype">int</span> minCompSize, Mat_&lt;float&gt; mask);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<a class="code" href="class_disjoint_set_forest.html">DisjointSetForest</a> combineSegmentations(<span class="keyword">const</span> <a class="code" href="class_weighted_graph.html">WeightedGraph</a> &amp;imageGraph, vector&lt;DisjointSetForest&gt; &amp;segmentations);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;opencv2/opencv.hpp&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_weighted_graph_8hpp.html">WeightedGraph.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_disjoint_set_8hpp.html">DisjointSet.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_utils_8hpp.html">Utils.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_image_graphs_8h.html">ImageGraphs.h</a>&quot;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">using namespace </span>cv;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<a class="code" href="class_disjoint_set_forest.html">DisjointSetForest</a> felzenszwalbSegment(<span class="keywordtype">int</span> k, <a class="code" href="class_weighted_graph.html">WeightedGraph</a> graph, <span class="keywordtype">int</span> minCompSize, Mat_&lt;float&gt; mask);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<a class="code" href="class_disjoint_set_forest.html">DisjointSetForest</a> combineSegmentations(<span class="keyword">const</span> <a class="code" href="class_weighted_graph.html">WeightedGraph</a> &amp;imageGraph, vector&lt;DisjointSetForest&gt; &amp;segmentations);</div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu May 2 2013 13:47:25 for My Project by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu May 2 2013 16:56:48 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

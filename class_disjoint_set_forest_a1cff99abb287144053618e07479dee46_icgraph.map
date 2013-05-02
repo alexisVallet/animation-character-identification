@@ -1,6 +1,0 @@
-<map id="DisjointSetForest::getComponentSize" name="DisjointSetForest::getComponentSize">
-<area shape="rect" id="node2" href="$_graph_partitions_8h.html#a3a4eb5f0ae5bada6a98000d0cf265de0" title="fuseSmallComponents" alt="" coords="187,5,339,32"/>
-<area shape="rect" id="node3" href="$_segment_attributes_8h.html#af165c53dcde81dbce767169065f229ab" title="averageColorLabels" alt="" coords="195,56,330,83"/>
-<area shape="rect" id="node4" href="$_segment_attributes_8h.html#a9446d95cbc2d5164a9b4cdad16362388" title="gravityCenterLabels" alt="" coords="195,107,330,133"/>
-<area shape="rect" id="node5" href="$_tree_walk_kernel_8hpp.html#a93667d074017e3d009117524d6260205" title="treeWalkKernel" alt="" coords="207,157,318,184"/>
-</map>

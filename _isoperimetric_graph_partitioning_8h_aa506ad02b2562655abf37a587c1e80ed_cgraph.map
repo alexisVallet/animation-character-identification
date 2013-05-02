@@ -1,6 +1,0 @@
-<map id="removeIsolatedVertices" name="removeIsolatedVertices">
-<area shape="rect" id="node2" href="$class_weighted_graph.html#ac6c8807a6c023525baec8525553c03eb" title="WeightedGraph::numberOfVertices" alt="" coords="480,56,704,82"/>
-<area shape="rect" id="node3" href="$class_weighted_graph.html#ab6952debe4a19bdfadce2f31c229107d" title="WeightedGraph::getAdjacencyList" alt="" coords="211,30,431,57"/>
-<area shape="rect" id="node4" href="$class_weighted_graph.html#aa7298cc529e17edcb37672f8a99d6b9d" title="WeightedGraph::getEdges" alt="" coords="234,81,409,108"/>
-<area shape="rect" id="node5" href="$class_weighted_graph.html#a3bf3d91dd58ff3fc39fdb82034a7aa51" title="WeightedGraph::addEdge" alt="" coords="236,132,407,158"/>
-</map>

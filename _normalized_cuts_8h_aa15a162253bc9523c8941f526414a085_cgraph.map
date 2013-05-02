@@ -1,6 +1,0 @@
-<map id="normalizedCuts" name="normalizedCuts">
-<area shape="rect" id="node2" href="$class_weighted_graph.html#ac6c8807a6c023525baec8525553c03eb" title="WeightedGraph::numberOfVertices" alt="" coords="165,5,389,32"/>
-<area shape="rect" id="node3" href="$class_weighted_graph.html#aa7298cc529e17edcb37672f8a99d6b9d" title="WeightedGraph::getEdges" alt="" coords="190,56,365,83"/>
-<area shape="rect" id="node4" href="$class_disjoint_set_forest.html#a8910794cfdf7a6d014e9d9d0faab222c" title="DisjointSetForest::\lsetUnion" alt="" coords="212,107,343,149"/>
-<area shape="rect" id="node5" href="$class_disjoint_set_forest.html#ab2343dd6ea1c02409e5bef492bf0d515" title="DisjointSetForest::find" alt="" coords="438,115,589,141"/>
-</map>

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1"/>
-<title>My Project: SegmentationGraph.hpp File Reference</title>
+<title>Animation character identification: SegmentationGraph.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -22,7 +22,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">My Project
+   <div id="projectname">Animation character identification
    </div>
   </td>
  </tr>
@@ -95,14 +95,14 @@ Include dependency graph for SegmentationGraph.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="_segmentation_graph_8hpp__incl.png" border="0" usemap="#_segmentation_graph_8hpp" alt=""/></div>
 <map name="_segmentation_graph_8hpp" id="_segmentation_graph_8hpp">
-<area shape="rect" id="node5" href="_labeled_graph_8hpp.html" title="LabeledGraph.hpp" alt="" coords="209,80,335,107"/><area shape="rect" id="node16" href="_disjoint_set_8hpp.html" title="DisjointSet.hpp" alt="" coords="359,80,469,107"/><area shape="rect" id="node7" href="_weighted_graph_8hpp.html" title="WeightedGraph.hpp" alt="" coords="461,155,597,181"/><area shape="rect" id="node17" href="_utils_8hpp.html" title="Utils.hpp" alt="" coords="1302,155,1375,181"/></map>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="_segmentation_graph_8hpp__dep__incl.png" border="0" usemap="#_segmentation_graph_8hppdep" alt=""/></div>
 <map name="_segmentation_graph_8hppdep" id="_segmentation_graph_8hppdep">
-<area shape="rect" id="node2" href="main_8h_source.html" title="main.h" alt="" coords="56,155,117,181"/><area shape="rect" id="node3" href="_normalized_cuts_8h.html" title="NormalizedCuts.h" alt="" coords="75,80,200,107"/></map>
+</map>
 </div>
 </div>
 <p><a href="_segmentation_graph_8hpp_source.html">Go to the source code of this file.</a></p>
@@ -152,15 +152,6 @@ vector&lt; Vec&lt; float, 2 &gt; &gt;&#160;</td><td class="memItemRight" valign=
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>an n by n matrix, where n is the number of segments, and the (i,j) entry contains the border length between segments i and j. </dd></dl>
 
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="_segmentation_graph_8hpp_a40f67f35ace1cb18b27c99831e79bd16_cgraph.png" border="0" usemap="#_segmentation_graph_8hpp_a40f67f35ace1cb18b27c99831e79bd16_cgraph" alt=""/></div>
-<map name="_segmentation_graph_8hpp_a40f67f35ace1cb18b27c99831e79bd16_cgraph" id="_segmentation_graph_8hpp_a40f67f35ace1cb18b27c99831e79bd16_cgraph">
-<area shape="rect" id="node2" href="class_disjoint_set_forest.html#a6eb268df6da7cb4f003307e6b2acd08a" title="DisjointSetForest::\lgetNumberOfComponents" alt="" coords="213,5,384,46"/><area shape="rect" id="node3" href="class_disjoint_set_forest.html#a6a1edb88b34acf06cf214c97ff4ad473" title="DisjointSetForest::\lgetRootIndexes" alt="" coords="233,70,364,111"/><area shape="rect" id="node5" href="class_weighted_graph.html#aa7298cc529e17edcb37672f8a99d6b9d" title="WeightedGraph::getEdges" alt="" coords="211,136,386,163"/><area shape="rect" id="node4" href="class_disjoint_set_forest.html#ab2343dd6ea1c02409e5bef492bf0d515" title="DisjointSetForest::find" alt="" coords="435,132,586,159"/></map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a011e891ef6e5cd300f91c7be49c4046e"></a>
@@ -205,30 +196,12 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the segmentation graph of this image, with empty labels (the default constructor is called). </dd></dl>
 
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="_segmentation_graph_8hpp_a011e891ef6e5cd300f91c7be49c4046e_cgraph.png" border="0" usemap="#_segmentation_graph_8hpp_a011e891ef6e5cd300f91c7be49c4046e_cgraph" alt=""/></div>
-<map name="_segmentation_graph_8hpp_a011e891ef6e5cd300f91c7be49c4046e_cgraph" id="_segmentation_graph_8hpp_a011e891ef6e5cd300f91c7be49c4046e_cgraph">
-<area shape="rect" id="node2" href="class_disjoint_set_forest.html#a6eb268df6da7cb4f003307e6b2acd08a" title="DisjointSetForest::\lgetNumberOfComponents" alt="" coords="192,5,363,46"/><area shape="rect" id="node3" href="class_disjoint_set_forest.html#a6a1edb88b34acf06cf214c97ff4ad473" title="DisjointSetForest::\lgetRootIndexes" alt="" coords="212,70,343,111"/><area shape="rect" id="node5" href="class_weighted_graph.html#aa7298cc529e17edcb37672f8a99d6b9d" title="WeightedGraph::getEdges" alt="" coords="190,136,365,163"/><area shape="rect" id="node4" href="class_disjoint_set_forest.html#ab2343dd6ea1c02409e5bef492bf0d515" title="DisjointSetForest::find" alt="" coords="450,132,601,159"/><area shape="rect" id="node6" href="class_weighted_graph.html#a3bf3d91dd58ff3fc39fdb82034a7aa51" title="WeightedGraph::addEdge" alt="" coords="192,237,363,264"/><area shape="rect" id="node7" href="class_weighted_graph.html#ac6c8807a6c023525baec8525553c03eb" title="WeightedGraph::numberOfVertices" alt="" coords="413,237,637,264"/></map>
-</div>
-</p>
-
-<p><div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="_segmentation_graph_8hpp_a011e891ef6e5cd300f91c7be49c4046e_icgraph.png" border="0" usemap="#_segmentation_graph_8hpp_a011e891ef6e5cd300f91c7be49c4046e_icgraph" alt=""/></div>
-<map name="_segmentation_graph_8hpp_a011e891ef6e5cd300f91c7be49c4046e_icgraph" id="_segmentation_graph_8hpp_a011e891ef6e5cd300f91c7be49c4046e_icgraph">
-<area shape="rect" id="node2" href="_segment_attributes_8h.html#a67f69c5a580b190fb144e79b8d0c8267" title="concatenateLabelings" alt="" coords="190,5,338,32"/></map>
-</div>
-</p>
-
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu May 2 2013 13:47:26 for My Project by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu May 2 2013 16:56:49 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

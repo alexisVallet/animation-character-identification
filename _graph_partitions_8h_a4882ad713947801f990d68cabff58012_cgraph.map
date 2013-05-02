@@ -1,8 +1,0 @@
-<map id="fuseCloseComponents" name="fuseCloseComponents">
-<area shape="rect" id="node2" href="$class_disjoint_set_forest.html#a6a1edb88b34acf06cf214c97ff4ad473" title="DisjointSetForest::\lgetRootIndexes" alt="" coords="228,5,359,46"/>
-<area shape="rect" id="node4" href="$class_disjoint_set_forest.html#a6eb268df6da7cb4f003307e6b2acd08a" title="DisjointSetForest::\lgetNumberOfComponents" alt="" coords="208,70,379,111"/>
-<area shape="rect" id="node5" href="$class_weighted_graph.html#aa7298cc529e17edcb37672f8a99d6b9d" title="WeightedGraph::getEdges" alt="" coords="206,136,381,163"/>
-<area shape="rect" id="node6" href="$class_labeled_graph.html#a4493f08c6e5e981a5b477a61246c26ff" title="LabeledGraph::getLabel" alt="" coords="214,187,373,213"/>
-<area shape="rect" id="node7" href="$class_disjoint_set_forest.html#a8910794cfdf7a6d014e9d9d0faab222c" title="DisjointSetForest::\lsetUnion" alt="" coords="228,238,359,279"/>
-<area shape="rect" id="node3" href="$class_disjoint_set_forest.html#ab2343dd6ea1c02409e5bef492bf0d515" title="DisjointSetForest::find" alt="" coords="430,129,581,156"/>
-</map>

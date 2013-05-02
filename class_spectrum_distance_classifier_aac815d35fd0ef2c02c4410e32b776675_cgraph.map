@@ -1,5 +1,0 @@
-<map id="SpectrumDistanceClassifier::leaveOneOutRecognitionRate" name="SpectrumDistanceClassifier::leaveOneOutRecognitionRate">
-<area shape="rect" id="node2" href="$class_trainable_stat_model.html#af5ea7723d71f07101d561a061e3f0226" title="TrainableStatModel\l::clear" alt="" coords="253,5,387,46"/>
-<area shape="rect" id="node3" href="$class_trainable_stat_model.html#af7720a59cc29ad05d14ae49d56c63c5c" title="TrainableStatModel\l::train" alt="" coords="253,70,387,111"/>
-<area shape="rect" id="node4" href="$class_trainable_stat_model.html#abda9604353393e6f6596744e79599c58" title="TrainableStatModel\l::predict" alt="" coords="253,135,387,177"/>
-</map>

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1"/>
-<title>My Project: GraphPartitions.h File Reference</title>
+<title>Animation character identification: GraphPartitions.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -22,7 +22,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">My Project
+   <div id="projectname">Animation character identification
    </div>
   </td>
  </tr>
@@ -86,22 +86,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="_weighted_graph_8hpp_source.html">WeightedGraph.hpp</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_labeled_graph_8hpp_source.html">LabeledGraph.hpp</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_disjoint_set_8hpp_source.html">DisjointSet.hpp</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_kernels_8h_source.html">Kernels.h</a>&quot;</code><br/>
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for GraphPartitions.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="_graph_partitions_8h__incl.png" border="0" usemap="#_graph_partitions_8h" alt=""/></div>
 <map name="_graph_partitions_8h" id="_graph_partitions_8h">
-<area shape="rect" id="node2" href="_weighted_graph_8hpp.html" title="WeightedGraph.hpp" alt="" coords="950,304,1087,331"/><area shape="rect" id="node14" href="_labeled_graph_8hpp.html" title="LabeledGraph.hpp" alt="" coords="1083,229,1209,256"/><area shape="rect" id="node15" href="_disjoint_set_8hpp.html" title="DisjointSet.hpp" alt="" coords="1315,229,1425,256"/><area shape="rect" id="node19" href="_kernels_8h.html" title="Kernels.h" alt="" coords="1237,80,1315,107"/><area shape="rect" id="node17" href="_utils_8hpp.html" title="Utils.hpp" alt="" coords="1286,304,1359,331"/><area shape="rect" id="node20" href="_segment_attributes_8h.html" title="SegmentAttributes.h" alt="" coords="1205,155,1347,181"/></map>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="_graph_partitions_8h__dep__incl.png" border="0" usemap="#_graph_partitions_8hdep" alt=""/></div>
 <map name="_graph_partitions_8hdep" id="_graph_partitions_8hdep">
-<area shape="rect" id="node2" href="_felzenszwalb_8hpp.html" title="Felzenszwalb.hpp" alt="" coords="5,80,131,107"/><area shape="rect" id="node5" href="_isoperimetric_graph_partitioning_8h.html" title="IsoperimetricGraphPartitioning.h" alt="" coords="213,80,419,107"/><area shape="rect" id="node4" href="_normalized_cuts_8h.html" title="NormalizedCuts.h" alt="" coords="52,163,177,189"/><area shape="rect" id="node3" href="main_8h_source.html" title="main.h" alt="" coords="239,245,300,272"/><area shape="rect" id="node6" href="_image_graphs_test_8h_source.html" title="ImageGraphsTest.h" alt="" coords="202,163,336,189"/><area shape="rect" id="node7" href="_isoperimetric_graph_partitioning_test_8h_source.html" title="IsoperimetricGraphPartitioning\lTest.h" alt="" coords="361,155,556,197"/></map>
+</map>
 </div>
 </div>
 <p><a href="_graph_partitions_8h_source.html">Go to the source code of this file.</a></p>
@@ -114,10 +112,6 @@ Functions</h2></td></tr>
 <tr class="separator:a4be1eaf529e9d14a9484347f407174f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a528379cb0fb73eec887404a2d0b8ad60"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_graph_partitions_8h.html#a528379cb0fb73eec887404a2d0b8ad60">addIsolatedVertices</a> (<a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, vector&lt; int &gt; &amp;vertexMap)</td></tr>
 <tr class="separator:a528379cb0fb73eec887404a2d0b8ad60"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a4eb5f0ae5bada6a98000d0cf265de0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_graph_partitions_8h.html#a3a4eb5f0ae5bada6a98000d0cf265de0">fuseSmallComponents</a> (<a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;segmentedGraph, int minSize, const Mat_&lt; float &gt; &amp;mask)</td></tr>
-<tr class="separator:a3a4eb5f0ae5bada6a98000d0cf265de0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4882ad713947801f990d68cabff58012"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_graph_partitions_8h.html#a4882ad713947801f990d68cabff58012">fuseCloseComponents</a> (<a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, const <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; &amp;<a class="el" href="_segmentation_graph_8hpp.html#a011e891ef6e5cd300f91c7be49c4046e">segmentationGraph</a>, MatKernel distFunc, double threshold)</td></tr>
-<tr class="separator:a4882ad713947801f990d68cabff58012"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="a528379cb0fb73eec887404a2d0b8ad60"></a>
@@ -159,62 +153,6 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>segmentation with additional isolated vertices added and fused into a single background segment. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a4882ad713947801f990d68cabff58012"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void fuseCloseComponents </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;&#160;</td>
-          <td class="paramname"><em>segmentation</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; &amp;&#160;</td>
-          <td class="paramname"><em>segmentationGraph</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">MatKernel&#160;</td>
-          <td class="paramname"><em>distFunc</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>threshold</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Fuses components which are close enough according to an arbitrary distance function.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">segmentationGraph</td><td>graph where vertices are components of the partition, and edges indicate neighboring components. </td></tr>
-    <tr><td class="paramname">distFunc</td><td>distance function between labels in the graph. </td></tr>
-    <tr><td class="paramname">threshold</td><td>threshold below which 2 components get fused, e.g. if distFunc(S1, S2) &lt; threshold then S1 and S2 are fused. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="_graph_partitions_8h_a4882ad713947801f990d68cabff58012_cgraph.png" border="0" usemap="#_graph_partitions_8h_a4882ad713947801f990d68cabff58012_cgraph" alt=""/></div>
-<map name="_graph_partitions_8h_a4882ad713947801f990d68cabff58012_cgraph" id="_graph_partitions_8h_a4882ad713947801f990d68cabff58012_cgraph">
-<area shape="rect" id="node2" href="class_disjoint_set_forest.html#a6a1edb88b34acf06cf214c97ff4ad473" title="DisjointSetForest::\lgetRootIndexes" alt="" coords="228,5,359,46"/><area shape="rect" id="node4" href="class_disjoint_set_forest.html#a6eb268df6da7cb4f003307e6b2acd08a" title="DisjointSetForest::\lgetNumberOfComponents" alt="" coords="208,70,379,111"/><area shape="rect" id="node5" href="class_weighted_graph.html#aa7298cc529e17edcb37672f8a99d6b9d" title="WeightedGraph::getEdges" alt="" coords="206,136,381,163"/><area shape="rect" id="node6" href="class_labeled_graph.html#a4493f08c6e5e981a5b477a61246c26ff" title="LabeledGraph::getLabel" alt="" coords="214,187,373,213"/><area shape="rect" id="node7" href="class_disjoint_set_forest.html#a8910794cfdf7a6d014e9d9d0faab222c" title="DisjointSetForest::\lsetUnion" alt="" coords="228,238,359,279"/><area shape="rect" id="node3" href="class_disjoint_set_forest.html#ab2343dd6ea1c02409e5bef492bf0d515" title="DisjointSetForest::find" alt="" coords="430,129,581,156"/></map>
-</div>
-</p>
 
 </div>
 </div>
@@ -270,70 +208,6 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="_graph_partitions_8h_ae80494b0e472dc4a3e49205f6e90c201_cgraph.png" border="0" usemap="#_graph_partitions_8h_ae80494b0e472dc4a3e49205f6e90c201_cgraph" alt=""/></div>
-<map name="_graph_partitions_8h_ae80494b0e472dc4a3e49205f6e90c201_cgraph" id="_graph_partitions_8h_ae80494b0e472dc4a3e49205f6e90c201_cgraph">
-<area shape="rect" id="node2" href="class_weighted_graph.html#aa7298cc529e17edcb37672f8a99d6b9d" title="WeightedGraph::getEdges" alt="" coords="155,5,330,32"/><area shape="rect" id="node3" href="class_disjoint_set_forest.html#a8910794cfdf7a6d014e9d9d0faab222c" title="DisjointSetForest::\lsetUnion" alt="" coords="177,57,308,98"/><area shape="rect" id="node4" href="class_disjoint_set_forest.html#ab2343dd6ea1c02409e5bef492bf0d515" title="DisjointSetForest::find" alt="" coords="379,64,530,91"/></map>
-</div>
-</p>
-
-</div>
-</div>
-<a class="anchor" id="a3a4eb5f0ae5bada6a98000d0cf265de0"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void fuseSmallComponents </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;&#160;</td>
-          <td class="paramname"><em>segmentation</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;&#160;</td>
-          <td class="paramname"><em>segmentedGraph</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>minSize</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Mat_&lt; float &gt; &amp;&#160;</td>
-          <td class="paramname"><em>mask</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Fuses components below a minimum size with their neighbors.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">segmentedGraph</td><td>graph indicating neighborhoods between elements. (e.g. a grid graph or nearest neighbor graph, in many cases). </td></tr>
-    <tr><td class="paramname">minSize</td><td>size below which components will get fused out. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p><div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="_graph_partitions_8h_a3a4eb5f0ae5bada6a98000d0cf265de0_cgraph.png" border="0" usemap="#_graph_partitions_8h_a3a4eb5f0ae5bada6a98000d0cf265de0_cgraph" alt=""/></div>
-<map name="_graph_partitions_8h_a3a4eb5f0ae5bada6a98000d0cf265de0_cgraph" id="_graph_partitions_8h_a3a4eb5f0ae5bada6a98000d0cf265de0_cgraph">
-<area shape="rect" id="node2" href="class_weighted_graph.html#aa7298cc529e17edcb37672f8a99d6b9d" title="WeightedGraph::getEdges" alt="" coords="206,5,381,32"/><area shape="rect" id="node3" href="class_disjoint_set_forest.html#ab2343dd6ea1c02409e5bef492bf0d515" title="DisjointSetForest::find" alt="" coords="430,115,581,141"/><area shape="rect" id="node4" href="class_disjoint_set_forest.html#a1cff99abb287144053618e07479dee46" title="DisjointSetForest::\lgetComponentSize" alt="" coords="227,107,359,149"/><area shape="rect" id="node5" href="class_disjoint_set_forest.html#a8910794cfdf7a6d014e9d9d0faab222c" title="DisjointSetForest::\lsetUnion" alt="" coords="228,173,359,214"/></map>
-</div>
-</p>
-
 </div>
 </div>
 <a class="anchor" id="a4be1eaf529e9d14a9484347f407174f4"></a>
@@ -374,7 +248,7 @@ Here is the call graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu May 2 2013 13:47:25 for My Project by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu May 2 2013 16:56:48 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>
