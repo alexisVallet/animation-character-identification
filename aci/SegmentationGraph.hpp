@@ -1,5 +1,5 @@
-#ifndef _SEGMENTATIONGRAPH_HPP_
-#define _SEGMENTATIONGRAPH_HPP_
+/** @file */
+#pragma once
 
 #include <map>
 #include <iostream>
@@ -63,5 +63,3 @@ LabeledGraph<T> segmentationGraph(const Mat_<Vec<uchar,3> > &image, DisjointSetF
 }
 
 vector<Vec<float,2> > segmentCenters(Mat_<Vec<uchar,3> > &image, DisjointSetForest &segmentation);
-
-#endif

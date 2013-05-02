@@ -1,5 +1,5 @@
-#ifndef _TREEWALK_KERNEL_
-#define _TREEWALK_KERNEL_
+/** @file */
+#pragma once
 
 #include <opencv2/opencv.hpp>
 #include <boost/graph/boyer_myrvold_planar_test.hpp>
@@ -167,5 +167,3 @@ double treeWalkKernel(
 	// sum and return the results of the last iteration
 	return result[0];
 }
-
-#endif

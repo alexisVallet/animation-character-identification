@@ -1,3 +1,4 @@
+/** @file */
 #pragma once
 /**
  * Implementation of a disjoint set forest data structure with rank

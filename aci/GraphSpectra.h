@@ -1,7 +1,8 @@
+/** @file */
 #pragma once
 
-#include <Eigen\Sparse>
-#include <opencv2\opencv.hpp>
+#include <Eigen/Sparse>
+#include <opencv2/opencv.hpp>
 #include <complex>
 #include <limits>
 

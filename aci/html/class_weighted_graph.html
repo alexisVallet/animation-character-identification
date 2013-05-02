@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1"/>
-<title>My Project: WeightedGraph Class Reference</title>
+<title>Animation character identification: WeightedGraph Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -22,7 +22,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">My Project
+   <div id="projectname">Animation character identification
    </div>
   </td>
  </tr>
@@ -61,7 +61,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -70,7 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -92,12 +92,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="dynheader">
 Inheritance diagram for WeightedGraph:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="class_weighted_graph.png" usemap="#WeightedGraph_map" alt=""/>
-  <map id="WeightedGraph_map" name="WeightedGraph_map">
-<area href="class_labeled_graph.html" alt="LabeledGraph&lt; T &gt;" shape="rect" coords="0,56,123,80"/>
+<div class="center"><img src="class_weighted_graph__inherit__graph.png" border="0" usemap="#_weighted_graph_inherit__map" alt="Inheritance graph"/></div>
+<map name="_weighted_graph_inherit__map" id="_weighted_graph_inherit__map">
 </map>
- </div></div>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -115,6 +113,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a22567ab413fdf04c2012465696b6dadd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adeea80029e36859b8ff567eaa1d02ef4"><td class="memItemLeft" align="right" valign="top">graph_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_weighted_graph.html#adeea80029e36859b8ff567eaa1d02ef4">toBoostGraph</a> ()</td></tr>
 <tr class="separator:adeea80029e36859b8ff567eaa1d02ef4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6952debe4a19bdfadce2f31c229107d"><td class="memItemLeft" align="right" valign="top">const vector&lt; <a class="el" href="struct_half_edge.html">HalfEdge</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_weighted_graph.html#ab6952debe4a19bdfadce2f31c229107d">getAdjacencyList</a> (int vertex) const </td></tr>
+<tr class="separator:ab6952debe4a19bdfadce2f31c229107d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -280,6 +280,23 @@ ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;
 
 </div>
 </div>
+<a class="anchor" id="ab6952debe4a19bdfadce2f31c229107d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const vector&lt; <a class="el" href="struct_half_edge.html">HalfEdge</a> &gt; &amp; WeightedGraph::getAdjacencyList </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>vertex</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the adjacency list of a specific vertex. In the case of unidirectional representation, this does not return all adjacent vertices. Use a bidirectional representation for this. </p>
+
+</div>
+</div>
 <a class="anchor" id="aa7298cc529e17edcb37672f8a99d6b9d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -338,7 +355,7 @@ ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 17 2013 14:32:41 for My Project by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu May 2 2013 16:56:49 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

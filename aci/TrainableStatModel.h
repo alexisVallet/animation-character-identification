@@ -1,3 +1,4 @@
+/** @file */
 /* 
  * File:   TrainableStatModel.h
  * Author: Alexis

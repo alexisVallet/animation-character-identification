@@ -1,3 +1,4 @@
+/** @file */
 /**
  * Weighted graph data structure represented as adjacency
  * lists. Lists are stored as vectors for efficiency, as our
@@ -5,8 +6,7 @@
  * degree. Also keeps an edge list data structure for efficiently
  * listing edges in the graph.
  */
-#ifndef _WEIGHTEDGRAPH_HPP_
-#define _WEIGHTEDGRAPH_HPP_
+#pragma once
 
 #include <cmath>
 #include <assert.h>
@@ -155,5 +155,3 @@ bool bidirectional(const WeightedGraph& graph);
  * @param subgraphs output graphs which will be populated with the subgraphs.
  */ 
 void inducedSubgraphs(const WeightedGraph &graph, const vector<int> &inSubgraph, int numberOfSubgraphs, vector<int> &vertexIdx, vector<WeightedGraph> &subgraphs);
-
-#endif

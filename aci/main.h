@@ -16,3 +16,4 @@
 #include "IsoperimetricGraphPartitioningTest.h"
 #include "ImageGraphsTest.h"
 #include "NormalizedCuts.h"
+#include "SegmentAttributes.h"

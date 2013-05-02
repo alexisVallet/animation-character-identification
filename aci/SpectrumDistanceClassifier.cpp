@@ -79,6 +79,8 @@ float SpectrumDistanceClassifier::leaveOneOutRecognitionRate(vector<LabeledGraph
 		this->statModel->train(otherSamples, otherClasses);
 		int result = floor(this->statModel->predict(spectra.row(i)));
 
+		cout<<"actual = "<<result<<", expected = "<<classes.at<int>(i,0)<<endl;
+
 		if (result == classes.at<int>(i,0)) {
 			totalCorrectResults++;
 		}

@@ -1,9 +1,9 @@
-#ifndef _UTILS_HPP_
-#define _UTILS_HPP_
+/** @file */
+#pragma once
 
 #include <utility>
-#include <opencv2\opencv.hpp>
-#include <Eigen\Sparse>
+#include <opencv2/opencv.hpp>
+#include <Eigen/Sparse>
 
 using namespace std;
 using namespace cv;
@@ -84,5 +84,3 @@ Mat imHist(Mat hist, float scaleX=1, float scaleY=1);
  * @param image the image to compute histograms from.
  */
 void showHistograms(const Mat_<Vec3b> &image, const Mat_<float> &mask, int nbBins);
-
-#endif

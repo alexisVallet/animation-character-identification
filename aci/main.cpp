@@ -2,7 +2,7 @@
 #include "KuwaharaFilter.h"
 
 #define TEST false
-#define DEBUG true
+#define DEBUG false
 #define BLUR_SIGMA 0.8
 #define CONNECTIVITY CONNECTIVITY_4
 #define MAX_SEGMENTS 50
@@ -38,10 +38,6 @@ LabeledGraph<Mat> computeGraphFrom(Mat_<Vec<uchar,3> > &rgbImage, Mat_<float> &m
 	Mat_<Vec3b> smoothed;
 
 	cvtColor(smoothedRgb, smoothed, CV_RGB2Lab);
-
-	showHistograms(smoothed, mask, 255);
-	imshow("filtered", smoothed);
-	waitKey(0);
 	Mat_<Vec3b> resized;
 	Mat_<float> resizedMask;
 
@@ -54,10 +50,20 @@ LabeledGraph<Mat> computeGraphFrom(Mat_<Vec<uchar,3> > &rgbImage, Mat_<float> &m
 	LabeledGraph<Mat> segGraph = segmentationGraph<Mat>(
 		resized,
 		segmentation,
-		grid);
+		graph);
 	cout<<"computing average color labels"<<endl;
-	averageColorLabels(resized, resizedMask, segmentation, segGraph);
+	
+	vector<Labeling> labelings;
+
+	labelings.push_back(gravityCenterLabels);
+	labelings.push_back(averageColorLabels);
+
+	concatenateLabelings(labelings, resized, resizedMask, segmentation, segGraph);
+
 	if (DEBUG) {
+		showHistograms(smoothed, mask, 255);
+		imshow("filtered", smoothed);
+		waitKey(0);
 		Mat regionImage = segmentation.toRegionImage(resized);
 		//segGraph.drawGraph(segmentCenters(smoothed, segmentation), regionImage);
 		imshow("segmentation graph", regionImage);
@@ -68,11 +74,10 @@ LabeledGraph<Mat> computeGraphFrom(Mat_<Vec<uchar,3> > &rgbImage, Mat_<float> &m
 }
 
 static double gaussianKernel_(const Mat &h1, const Mat &h2) {
-	return gaussianKernel(GAUSS_SIGMA, h1, h2);
-}
+	const double sigmaC = 0.5;
+	const double sigmaX = 0.8;
 
-static double khi2Kernel_(const Mat &h1, const Mat &h2) {
-	return khi2Kernel(BINS_PER_CHANNEL, KHI_LAMBDA, KHI_MU, 1, 1, h1, 1, h2);
+	return gaussianKernel(sigmaC, h1.rowRange(0,3), h2.rowRange(0,3)) * gaussianKernel(sigmaX, h1.rowRange(3,5), h2.rowRange(3,5));
 }
 
 void computeRates(
@@ -143,14 +148,14 @@ int main(int argc, char** argv) {
 	
 		vector<pair<string, MatKernel> > kernels;
 
-		kernels.push_back(pair<string, MatKernel>("Dot product", dotProductKernel));
+		//kernels.push_back(pair<string, MatKernel>("Dot product", dotProductKernel));
 		kernels.push_back(pair<string, MatKernel>("Gaussian kernel", gaussianKernel_));
-		kernels.push_back(pair<string, MatKernel>("Khi2 kernel", khi2Kernel_));
+		//kernels.push_back(pair<string, MatKernel>("Khi2 kernel", khi2Kernel_));
 
 		vector<pair<string, MatrixRepresentation> > representations;
 
 		representations.push_back(pair<string, MatrixRepresentation>("Combinatorial Laplacian", laplacian));
-		representations.push_back(pair<string, MatrixRepresentation>("Normalized Laplacian", normalizedLaplacian));
+		//representations.push_back(pair<string, MatrixRepresentation>("Normalized Laplacian", normalizedLaplacian));
 
 		computeRates(graphs, classes, models, kernels, representations);
 	}

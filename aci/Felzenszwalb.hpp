@@ -1,8 +1,8 @@
+/** @file */
 /**
  * Implemtnation of Felzenszwalb's segmentation method.
  */
-#ifndef _FELZENSZWALB_HPP_
-#define _FELZENSZWALB_HPP_
+#pragma once
 
 #include <iostream>
 #include <vector>
@@ -42,6 +42,3 @@ DisjointSetForest felzenszwalbSegment(int k, WeightedGraph graph, int minCompSiz
  * @param segmentations segmentations of sourceImage to combine.
  */
 DisjointSetForest combineSegmentations(const WeightedGraph &imageGraph, vector<DisjointSetForest> &segmentations);
-
-
-#endif

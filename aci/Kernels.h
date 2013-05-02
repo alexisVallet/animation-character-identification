@@ -1,6 +1,7 @@
+/** @file */
 #pragma once
 
-#include <opencv2\opencv.hpp>
+#include <opencv2/opencv.hpp>
 
 #include "LabeledGraph.hpp"
 #include "DisjointSet.hpp"
@@ -29,29 +30,6 @@ double gaussianKernel(float sigma, const Mat &h1, const Mat &h2);
  * distributions.
  */
 double khi2Kernel(int binsPerChannel, float lambda, float mu, float gamma, int area1, const Mat &h1, int area2, const Mat &h2);
-
-/**
- * Adds color histogram labels to a segmentation graph.
- * 
- * @param image image to compute hitograms from
- * @param segmentation a segmentation of the image
- * @param segmentationGraph segmentation graph to add labels to
- * @param binsPerChannel the number of histogram bins per color channel
- */
-void colorHistogramLabels(
-  Mat_<Vec<uchar,3> > &image, 
-  DisjointSetForest &segmentation, 
-  LabeledGraph<Mat> &segmentationGraph,
-  int binsPerChannel);
-
-/**
- * Labels vertices of a segmentation graph by the average color of the segment.
- *
- * @param image image to compute average colors from.
- * @param segmentation a segmentation of the image.
- * @param segmentationGraph graph to add labels to.
- */
-void averageColorLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph);
 
 /**
  * Weighs the edges of a graph by the result of a kernel function on the source

@@ -58,6 +58,9 @@
     <ClCompile Include="Utils.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="SegmentAttributes.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisjointSet.hpp">
@@ -120,13 +123,18 @@
     <ClInclude Include="WeightedGraph.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="SegmentAttributes.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Headers">
       <UniqueIdentifier>{f4ffbab5-6e8c-443a-a593-a52854777b7e}</UniqueIdentifier>
+      <Extensions>h;hpp</Extensions>
     </Filter>
     <Filter Include="Sources">
       <UniqueIdentifier>{368665b2-5ec7-4b35-9a6b-a826c15771b6}</UniqueIdentifier>
+      <Extensions>cpp</Extensions>
     </Filter>
   </ItemGroup>
 </Project>

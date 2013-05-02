@@ -1,9 +1,9 @@
+/** @file */
 /**
  * Adjacency list implementation of a labeled weighted graph. Subclass
  * of WeightedGraph.
  */
-#ifndef _LABELEDGRAPH_HPP_
-#define _LABELEDGRAPH_HPP_
+#pragma once
 
 #include <vector>
 
@@ -46,5 +46,3 @@ public:
     return this->labels[vertex];
   }
 };
-
-#endif

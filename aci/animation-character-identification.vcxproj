@@ -95,6 +95,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NormalizedCuts.cpp" />
     <ClCompile Include="SegmentationGraph.cpp" />
+    <ClCompile Include="SegmentAttributes.cpp" />
     <ClCompile Include="SpectrumDistanceClassifier.cpp" />
     <ClCompile Include="TrainableStatModel.cpp" />
     <ClCompile Include="TreeWalkKernel.cpp" />
@@ -117,6 +118,7 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="NormalizedCuts.h" />
     <ClInclude Include="SegmentationGraph.hpp" />
+    <ClInclude Include="SegmentAttributes.h" />
     <ClInclude Include="SpectrumDistanceClassifier.h" />
     <ClInclude Include="TrainableStatModel.h" />
     <ClInclude Include="TreeWalkKernel.hpp" />
