@@ -25,3 +25,10 @@ Usage
 In the command line, the following computes a recognition rate from the dataset in test/dataset using leave one out cross validation with various parameters:
 
 	animation-character-identification.exe
+
+Documentation
+-------------
+
+Source code documentation is available at:
+
+http://alexisvallet.github.io/animation-character-identification/index.html
