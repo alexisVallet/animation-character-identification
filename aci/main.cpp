@@ -74,10 +74,16 @@ LabeledGraph<Mat> computeGraphFrom(Mat_<Vec<uchar,3> > &rgbImage, Mat_<float> &m
 }
 
 static double gaussianKernel_(const Mat &h1, const Mat &h2) {
-	const double sigmaC = 0.5;
-	const double sigmaX = 0.8;
+	const double sigmaC = 5;
+	const double sigmaX = 10;
 
-	return gaussianKernel(sigmaC, h1.rowRange(0,3), h2.rowRange(0,3)) * gaussianKernel(sigmaX, h1.rowRange(3,5), h2.rowRange(3,5));
+	double cres = gaussianKernel(sigmaC, h1.rowRange(0,3), h2.rowRange(0,3));
+	double xres = gaussianKernel(sigmaX, h1.rowRange(3,5), h2.rowRange(3,5));
+
+	cout<<"cres = "<<cres<<endl;
+	cout<<"xres = "<<xres<<endl;
+
+	return cres*xres;
 }
 
 void computeRates(
