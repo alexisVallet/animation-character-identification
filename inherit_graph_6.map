@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$class_trainable_stat_model.html" title="TrainableStatModel" alt="" coords="5,56,139,83"/>
+<area shape="rect" id="node2" href="$class_a_n_n_model.html" title="ANNModel" alt="" coords="201,5,285,32"/>
+<area shape="rect" id="node3" href="$class_bayes_model.html" title="BayesModel" alt="" coords="195,56,290,83"/>
+<area shape="rect" id="node4" href="$class_k_nearest_model.html" title="KNearestModel" alt="" coords="187,107,298,133"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="DisjointSetForest::setUnion" name="DisjointSetForest::setUnion">
+<area shape="rect" id="node2" href="$_graph_partitions_8h.html#ae80494b0e472dc4a3e49205f6e90c201" title="fusePartitions" alt="" coords="232,5,333,32"/>
+<area shape="rect" id="node3" href="$_graph_partitions_8h.html#a3a4eb5f0ae5bada6a98000d0cf265de0" title="fuseSmallComponents" alt="" coords="207,56,359,83"/>
+<area shape="rect" id="node4" href="$_graph_partitions_8h.html#a4882ad713947801f990d68cabff58012" title="fuseCloseComponents" alt="" coords="207,107,359,133"/>
+<area shape="rect" id="node5" href="$_isoperimetric_graph_partitioning_8h.html#ab1364a17a45e4fc0de77c216eb27aa49" title="isoperimetricGraphPartitioning" alt="" coords="185,157,381,184"/>
+<area shape="rect" id="node6" href="$_normalized_cuts_8h.html#aa15a162253bc9523c8941f526414a085" title="normalizedCuts" alt="" coords="227,208,339,235"/>
+</map>

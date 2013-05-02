@@ -1,0 +1,6 @@
+<map id="LabeledGraph::getLabel" name="LabeledGraph::getLabel">
+<area shape="rect" id="node2" href="$_graph_partitions_8h.html#a4882ad713947801f990d68cabff58012" title="fuseCloseComponents" alt="" coords="213,5,365,32"/>
+<area shape="rect" id="node3" href="$_kernels_8h.html#a4e29d87aac671619cbf267f10c048e76" title="weighEdgesByKernel" alt="" coords="217,56,362,83"/>
+<area shape="rect" id="node4" href="$_segment_attributes_8h.html#a67f69c5a580b190fb144e79b8d0c8267" title="concatenateLabelings" alt="" coords="215,107,363,133"/>
+<area shape="rect" id="node5" href="$_tree_walk_kernel_8hpp.html#a93667d074017e3d009117524d6260205" title="treeWalkKernel" alt="" coords="234,157,345,184"/>
+</map>

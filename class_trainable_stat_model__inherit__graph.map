@@ -1,0 +1,5 @@
+<map id="TrainableStatModel" name="TrainableStatModel">
+<area shape="rect" id="node2" href="$class_a_n_n_model.html" title="ANNModel" alt="" coords="5,80,88,107"/>
+<area shape="rect" id="node3" href="$class_bayes_model.html" title="BayesModel" alt="" coords="113,80,207,107"/>
+<area shape="rect" id="node4" href="$class_k_nearest_model.html" title="KNearestModel" alt="" coords="231,80,341,107"/>
+</map>

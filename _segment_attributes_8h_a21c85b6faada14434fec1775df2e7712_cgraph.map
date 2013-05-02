@@ -1,0 +1,6 @@
+<map id="colorHistogramLabels" name="colorHistogramLabels">
+<area shape="rect" id="node2" href="$class_disjoint_set_forest.html#a6eb268df6da7cb4f003307e6b2acd08a" title="DisjointSetForest::\lgetNumberOfComponents" alt="" coords="200,5,371,46"/>
+<area shape="rect" id="node3" href="$class_disjoint_set_forest.html#a6a1edb88b34acf06cf214c97ff4ad473" title="DisjointSetForest::\lgetRootIndexes" alt="" coords="220,70,351,111"/>
+<area shape="rect" id="node4" href="$class_disjoint_set_forest.html#ab2343dd6ea1c02409e5bef492bf0d515" title="DisjointSetForest::find" alt="" coords="419,107,570,133"/>
+<area shape="rect" id="node5" href="$class_labeled_graph.html#a822c3e3e1a2919cb1cec164c6f04be76" title="LabeledGraph::addLabel" alt="" coords="204,187,367,213"/>
+</map>
