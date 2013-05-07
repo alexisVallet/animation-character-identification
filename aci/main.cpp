@@ -67,35 +67,6 @@ LabeledGraph<Mat> computeGraphFrom(Mat_<Vec<uchar,3> > &rgbImage, Mat_<float> &m
 	cout<<"labelings computed"<<endl;
 
 	if (DEBUG) {
-		vector<int> reverseIndex(segmentation.getNumberOfComponents(), -1);
-		map<int,int> rootIndexes = segmentation.getRootIndexes();
-
-		for (map<int,int>::iterator it = rootIndexes.begin(); it != rootIndexes.end(); it++) {
-			reverseIndex[it->second] = it->first;
-		}
-
-		int nbSmallComps = 0;
-
-		for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
-			if (segmentation.getComponentSize(reverseIndex[i]) < 5) {
-				nbSmallComps++;
-			}
-		}
-
-		cout<<"there are "<<nbSmallComps<<" small components."<<endl;
-		cout<<"there are "<<segGraph.numberOfVertices()<<" vertices"<<endl;
-
-		Mat_<float> maskedOriginal[3];
-
-		split(rgbImage, maskedOriginal);
-
-		multiply(maskedOriginal[0], mask, maskedOriginal[0]);
-
-		imshow("masked original", maskedOriginal[0]);
-
-		Mat dst, dst_norm, dst_norm_scaled;
-		dst = Mat::zeros( mask.size(), CV_32FC1 );
-
 		showHistograms(smoothed, mask, 255);
 		imshow("filtered", smoothed);
 		waitKey(0);
@@ -117,6 +88,8 @@ static double gaussianKernel_(const Mat &h1, const Mat &h2) {
 	double cres = gaussianKernel(sigmaC, h1.rowRange(0,3), h2.rowRange(0,3));
 	double xres = gaussianKernel(sigmaX, h1.rowRange(3,5), h2.rowRange(3,5));
 	double sres = gaussianKernel(sigmaS, h1.rowRange(5, 9), h2.rowRange(5,9));
+
+	cout<<"cres="<<cres<<", xres="<<xres<<", sres="<<sres<<endl;
 
 	return cres*xres*sres;
 }

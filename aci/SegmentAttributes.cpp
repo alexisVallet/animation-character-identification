@@ -100,6 +100,7 @@ void concatenateLabelings(const vector<Labeling> &labelings, const Mat_<Vec3b> &
 	vector<Mat> labels(segmentationGraph.numberOfVertices());
 
 	for (int i = 0; i < labelings.size(); i++) {
+		cout<<"computing labelin "<<i<<endl;
 		LabeledGraph<Mat> copy = segmentationGraph;
 
 		labelings[i](image, mask, segmentation, copy);
@@ -110,8 +111,11 @@ void concatenateLabelings(const vector<Labeling> &labelings, const Mat_<Vec3b> &
 			} else {
 				Mat tmp;
 
+				cout<<"labels["<<j<<"]: ("<<labels[j].rows<<","<<labels[j].cols<<")"<<endl;
+				cout<<"new label: ("<<copy.getLabel(j).rows<<","<<copy.getLabel(j).cols<<")"<<endl;
 				vconcat(labels[j], copy.getLabel(j), tmp);
 
+				cout<<"concatenation computed"<<endl;
 				labels[j] = tmp;
 			}
 		}
@@ -129,38 +133,34 @@ void pixelsCovarianceMatrixLabels(const Mat_<Vec3b> &image, const Mat_<float> &m
 
 	for (int i = 0; i < image.rows; i++) {
 		for (int j = 0; j < image.cols; j++) {
-			if (mask(i,j) > 0) {
-				Mat coords(1,2,CV_32F);
+			Mat coords(1,2,CV_32F);
 
-				coords.at<float>(0,0) = i;
-				coords.at<float>(0,1) = j;
+			coords.at<float>(0,0) = i;
+			coords.at<float>(0,1) = j;
 
-				int root = segmentation.find(toRowMajor(image.cols, j, i));
-				int segmentIndex = rootIndexes[root];
+			int root = segmentation.find(toRowMajor(image.cols, j, i));
+			int segmentIndex = rootIndexes[root];
 
-				if (segmentSamples[segmentIndex].empty()) {
-					segmentSamples[segmentIndex] = coords;
-				} else {
-					Mat tmp;
+			if (segmentSamples[segmentIndex].empty()) {
+				segmentSamples[segmentIndex] = coords;
+			} else {
+				Mat tmp;
 
-					vconcat(segmentSamples[segmentIndex], coords, tmp);
+				vconcat(segmentSamples[segmentIndex], coords, tmp);
 
-					segmentSamples[segmentIndex] = tmp;
-				}
+				segmentSamples[segmentIndex] = tmp;
 			}
 		}
 	}
 
 	for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
-		if (!segmentSamples[i].empty()) {
-			Mat covarianceMatrix(0, 0, CV_32F);
-			Mat mean(0,0,CV_32F);
+		Mat covarianceMatrix(0, 0, CV_32F);
+		Mat mean(0,0,CV_32F);
 
-			calcCovarMatrix(segmentSamples[i], covarianceMatrix, mean, CV_COVAR_NORMAL | CV_COVAR_ROWS, CV_32F);
+		calcCovarMatrix(segmentSamples[i], covarianceMatrix, mean, CV_COVAR_NORMAL | CV_COVAR_ROWS, CV_32F);
 
-			covarianceMatrix.reshape(1, 4);
+		Mat covarianceVector = covarianceMatrix.reshape(0, 4);
 
-			segmentationGraph.addLabel(i, covarianceMatrix);
-		}
+		segmentationGraph.addLabel(i, covarianceVector);
 	}
 }
