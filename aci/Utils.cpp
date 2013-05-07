@@ -14,6 +14,20 @@ pair<int,int> fromRowMajor(int width, int i) {
   return coords;
 }
 
+static bool isMask(const Mat_<float> &mask) {
+	for (int i = 0; i < mask.rows; i++) {
+		for (int j = 0; j < mask.cols; j++) {
+			if (mask(i,j) != 0 && mask(i,j) != 1) {
+				cout<<"failed: mask("<<i<<","<<j<<") = "<<mask(i,j)<<endl;
+
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
+
 void loadDataSet(char* folderName, char** charaNames, int nbCharas, int nbImagesPerChara, vector<pair<Mat_<Vec<uchar,3> >,Mat_<float> > > &images, Mat &classes) {
 	images = vector<pair<Mat_<Vec<uchar,3> >,Mat_<float> > >(nbCharas * nbImagesPerChara);
 	classes = Mat(nbCharas * nbImagesPerChara, 1, CV_32S);
@@ -39,7 +53,14 @@ void loadDataSet(char* folderName, char** charaNames, int nbCharas, int nbImages
 			split(mask, maskChannels);
 
 			images[rowMajorIndex].first = imread(fullPath);
-			images[rowMajorIndex].second = Mat_<float>::ones(mask.rows, mask.cols) - (Mat_<float>(maskChannels[0]) / 255);
+
+			Mat_<uchar> thresholdedMask;
+
+			threshold(maskChannels[0], thresholdedMask, 128, 1, THRESH_BINARY_INV);
+
+			images[rowMajorIndex].second = Mat_<float>(thresholdedMask);
+
+			assert(isMask(images[rowMajorIndex].second));
 			waitKey(0);
 			classes.at<int>(rowMajorIndex,0) = i;
 

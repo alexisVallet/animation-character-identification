@@ -49,6 +49,17 @@ void averageColorLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, Disjo
 void gravityCenterLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph);
 
 /**
+ * Labels vertices of a segmentation graph by the covariance matrix of the pixel
+ * positions of the segment, flattened in a column vector.
+ *
+ * @param image image to compute covariance matrices from.
+ * @param mask mask of pixels to take into account.
+ * @param segmentation a segmentation of the image.
+ * @param segmentationGraph graph to add labels to.
+ */
+void pixelsCovarianceMatrixLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph);
+
+/**
  * Concatenates the results of multiple labelling functions into one. Assumes the labels
  * are column vector.
  *

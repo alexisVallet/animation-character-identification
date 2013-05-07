@@ -2,13 +2,13 @@
 #include "KuwaharaFilter.h"
 
 #define TEST false
-#define DEBUG false
+#define DEBUG true
 #define BLUR_SIGMA 0.8
 #define CONNECTIVITY CONNECTIVITY_4
-#define MAX_SEGMENTS 50
+#define MAX_SEGMENTS 200
 #define BINS_PER_CHANNEL 16
 #define EIG_MU 1
-#define GAUSS_SIGMA 100
+#define GAUSS_SIGMA 0.8
 #define KHI_MU 0.01
 #define KHI_LAMBDA 0.75
 #define MAX_NB_PIXELS 15000
@@ -30,11 +30,16 @@ void resizeImage(const Mat_<Vec<uchar,3> > &image, const Mat_<float> &mask, Mat_
 	}
 }
 
+double gridWeight(const Mat &c1, const Mat &c2) {
+	return exp(0.5 * euclidDistance(c1, c2));
+}
+
 LabeledGraph<Mat> computeGraphFrom(Mat_<Vec<uchar,3> > &rgbImage, Mat_<float> &mask) {
 	// filter the image for better segmentation
 	Mat_<Vec<uchar,3> > smoothedRgb;
 
 	KuwaharaFilter(rgbImage, smoothedRgb, 11);
+
 	Mat_<Vec3b> smoothed;
 
 	cvtColor(smoothedRgb, smoothed, CV_RGB2Lab);
@@ -43,30 +48,61 @@ LabeledGraph<Mat> computeGraphFrom(Mat_<Vec<uchar,3> > &rgbImage, Mat_<float> &m
 
 	resizeImage(smoothed, mask, resized, resizedMask);
 
-	WeightedGraph graph = kNearestGraph(resized, resizedMask, 4, euclidDistance, false);
 	WeightedGraph grid = gridGraph(resized, CONNECTIVITY_4, resizedMask, euclidDistance, false);
 	int minCompSize = countNonZero(resizedMask) / MAX_SEGMENTS;
-	DisjointSetForest segmentation = felzenszwalbSegment(100, graph, minCompSize, resizedMask);
+	DisjointSetForest segmentation = felzenszwalbSegment(5000, grid, minCompSize, resizedMask);
 	LabeledGraph<Mat> segGraph = segmentationGraph<Mat>(
 		resized,
 		segmentation,
-		graph);
-	cout<<"computing average color labels"<<endl;
+		grid);
 	
 	vector<Labeling> labelings;
 
 	labelings.push_back(gravityCenterLabels);
 	labelings.push_back(averageColorLabels);
+	labelings.push_back(pixelsCovarianceMatrixLabels);
 
+	cout<<"computing labelings"<<endl;
 	concatenateLabelings(labelings, resized, resizedMask, segmentation, segGraph);
+	cout<<"labelings computed"<<endl;
 
 	if (DEBUG) {
+		vector<int> reverseIndex(segmentation.getNumberOfComponents(), -1);
+		map<int,int> rootIndexes = segmentation.getRootIndexes();
+
+		for (map<int,int>::iterator it = rootIndexes.begin(); it != rootIndexes.end(); it++) {
+			reverseIndex[it->second] = it->first;
+		}
+
+		int nbSmallComps = 0;
+
+		for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
+			if (segmentation.getComponentSize(reverseIndex[i]) < 5) {
+				nbSmallComps++;
+			}
+		}
+
+		cout<<"there are "<<nbSmallComps<<" small components."<<endl;
+		cout<<"there are "<<segGraph.numberOfVertices()<<" vertices"<<endl;
+
+		Mat_<float> maskedOriginal[3];
+
+		split(rgbImage, maskedOriginal);
+
+		multiply(maskedOriginal[0], mask, maskedOriginal[0]);
+
+		imshow("masked original", maskedOriginal[0]);
+
+		Mat dst, dst_norm, dst_norm_scaled;
+		dst = Mat::zeros( mask.size(), CV_32FC1 );
+
 		showHistograms(smoothed, mask, 255);
 		imshow("filtered", smoothed);
 		waitKey(0);
 		Mat regionImage = segmentation.toRegionImage(resized);
 		//segGraph.drawGraph(segmentCenters(smoothed, segmentation), regionImage);
 		imshow("segmentation graph", regionImage);
+		cout<<"number of components: "<<segmentation.getNumberOfComponents()<<endl;
 		waitKey(0);
 	}
 
@@ -75,15 +111,14 @@ LabeledGraph<Mat> computeGraphFrom(Mat_<Vec<uchar,3> > &rgbImage, Mat_<float> &m
 
 static double gaussianKernel_(const Mat &h1, const Mat &h2) {
 	const double sigmaC = 5;
-	const double sigmaX = 10;
+	const double sigmaX = 5;
+	const double sigmaS = 5;
 
 	double cres = gaussianKernel(sigmaC, h1.rowRange(0,3), h2.rowRange(0,3));
 	double xres = gaussianKernel(sigmaX, h1.rowRange(3,5), h2.rowRange(3,5));
+	double sres = gaussianKernel(sigmaS, h1.rowRange(5, 9), h2.rowRange(5,9));
 
-	cout<<"cres = "<<cres<<endl;
-	cout<<"xres = "<<xres<<endl;
-
-	return cres*xres;
+	return cres*xres*sres;
 }
 
 void computeRates(

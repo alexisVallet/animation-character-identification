@@ -121,3 +121,46 @@ void concatenateLabelings(const vector<Labeling> &labelings, const Mat_<Vec3b> &
 		segmentationGraph.addLabel(i, labels[i]);
 	}
 }
+
+void pixelsCovarianceMatrixLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph) {
+	assert(segmentation.getNumberOfComponents() == segmentationGraph.numberOfVertices());
+	vector<Mat> segmentSamples(segmentation.getNumberOfComponents());
+	map<int,int> rootIndexes = segmentation.getRootIndexes();
+
+	for (int i = 0; i < image.rows; i++) {
+		for (int j = 0; j < image.cols; j++) {
+			if (mask(i,j) > 0) {
+				Mat coords(1,2,CV_32F);
+
+				coords.at<float>(0,0) = i;
+				coords.at<float>(0,1) = j;
+
+				int root = segmentation.find(toRowMajor(image.cols, j, i));
+				int segmentIndex = rootIndexes[root];
+
+				if (segmentSamples[segmentIndex].empty()) {
+					segmentSamples[segmentIndex] = coords;
+				} else {
+					Mat tmp;
+
+					vconcat(segmentSamples[segmentIndex], coords, tmp);
+
+					segmentSamples[segmentIndex] = tmp;
+				}
+			}
+		}
+	}
+
+	for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
+		if (!segmentSamples[i].empty()) {
+			Mat covarianceMatrix(0, 0, CV_32F);
+			Mat mean(0,0,CV_32F);
+
+			calcCovarMatrix(segmentSamples[i], covarianceMatrix, mean, CV_COVAR_NORMAL | CV_COVAR_ROWS, CV_32F);
+
+			covarianceMatrix.reshape(1, 4);
+
+			segmentationGraph.addLabel(i, covarianceMatrix);
+		}
+	}
+}
