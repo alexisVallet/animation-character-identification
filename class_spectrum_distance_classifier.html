@@ -93,27 +93,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab3cb97c14fe5b10a85ace943a5106a4a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_spectrum_distance_classifier.html#ab3cb97c14fe5b10a85ace943a5106a4a">SpectrumDistanceClassifier</a> (MatKernel kernel, <a class="el" href="class_trainable_stat_model.html">TrainableStatModel</a> *statModel, MatrixRepresentation representation, float mu)</td></tr>
-<tr class="separator:ab3cb97c14fe5b10a85ace943a5106a4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac815d35fd0ef2c02c4410e32b776675"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_spectrum_distance_classifier.html#aac815d35fd0ef2c02c4410e32b776675">leaveOneOutRecognitionRate</a> (vector&lt; <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; &gt; samples, Mat &amp;classes)</td></tr>
-<tr class="separator:aac815d35fd0ef2c02c4410e32b776675"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef940f0df327ecef89b9951a2cf8b0fd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_spectrum_distance_classifier.html#aef940f0df327ecef89b9951a2cf8b0fd">SpectrumDistanceClassifier</a> (<a class="el" href="class_trainable_stat_model.html">TrainableStatModel</a> *statModel, MatrixRepresentation representation, float mu)</td></tr>
+<tr class="separator:aef940f0df327ecef89b9951a2cf8b0fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a328dccc2821ec0edf3e825eb7f3dc93a"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_spectrum_distance_classifier.html#a328dccc2821ec0edf3e825eb7f3dc93a">leaveOneOutRecognitionRate</a> (vector&lt; <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &gt; samples, Mat &amp;classes)</td></tr>
+<tr class="separator:a328dccc2821ec0edf3e825eb7f3dc93a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Classify graphs by the spectrum of their respective Laplacian matrices, with edges weighted by a kernel function between color histograms of image segments. It is a supervised classifier. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="ab3cb97c14fe5b10a85ace943a5106a4a"></a>
+<a class="anchor" id="aef940f0df327ecef89b9951a2cf8b0fd"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">SpectrumDistanceClassifier::SpectrumDistanceClassifier </td>
           <td>(</td>
-          <td class="paramtype">MatKernel&#160;</td>
-          <td class="paramname"><em>kernel</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype"><a class="el" href="class_trainable_stat_model.html">TrainableStatModel</a> *&#160;</td>
           <td class="paramname"><em>statModel</em>, </td>
         </tr>
@@ -150,14 +144,14 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="aac815d35fd0ef2c02c4410e32b776675"></a>
+<a class="anchor" id="a328dccc2821ec0edf3e825eb7f3dc93a"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">float SpectrumDistanceClassifier::leaveOneOutRecognitionRate </td>
           <td>(</td>
-          <td class="paramtype">vector&lt; <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; &gt;&#160;</td>
+          <td class="paramtype">vector&lt; <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &gt;&#160;</td>
           <td class="paramname"><em>samples</em>, </td>
         </tr>
         <tr>
@@ -201,7 +195,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu May 2 2013 16:56:49 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 8 2013 17:48:30 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

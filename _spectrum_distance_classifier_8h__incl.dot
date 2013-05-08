@@ -56,6 +56,7 @@ digraph "SpectrumDistanceClassifier.h"
   Node20 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node20 -> Node21 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node21 [label="Eigen/Sparse",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node6 -> Node20 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node1 -> Node22 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node22 [label="GraphSpectra.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_graph_spectra_8h.html"];
   Node22 -> Node21 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];

@@ -90,36 +90,35 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_labeled_graph_8hpp.html">LabeledGraph.hpp</a>&quot;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_disjoint_set_8hpp.html">DisjointSet.hpp</a>&quot;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">using namespace </span>cv;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">class </span><a class="code" href="class_disjoint_set_forest.html">DisjointSetForest</a>;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keywordtype">double</span> euclidDistance(<span class="keyword">const</span> Mat &amp;h1, <span class="keyword">const</span> Mat &amp;h2);</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keywordtype">double</span> dotProductKernel(<span class="keyword">const</span> Mat &amp;h1, <span class="keyword">const</span> Mat &amp;h2);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keywordtype">double</span> gaussianKernel(<span class="keywordtype">float</span> sigma, <span class="keyword">const</span> Mat &amp;h1, <span class="keyword">const</span> Mat &amp;h2);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keywordtype">double</span> khi2Kernel(<span class="keywordtype">int</span> binsPerChannel, <span class="keywordtype">float</span> lambda, <span class="keywordtype">float</span> mu, <span class="keywordtype">float</span> gamma, <span class="keywordtype">int</span> area1, <span class="keyword">const</span> Mat &amp;h1, <span class="keywordtype">int</span> area2, <span class="keyword">const</span> Mat &amp;h2);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">template</span> &lt; <span class="keyword">typename</span> T &gt;</div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="code" href="_kernels_8h.html#a4e29d87aac671619cbf267f10c048e76">   44</a></span>&#160;<a class="code" href="class_weighted_graph.html">WeightedGraph</a> <a class="code" href="_kernels_8h.html#a4e29d87aac671619cbf267f10c048e76">weighEdgesByKernel</a>(<span class="keywordtype">double</span> (*kernel)(<span class="keyword">const</span> T &amp;l1, <span class="keyword">const</span> T &amp;l2), <a class="code" href="class_labeled_graph.html">LabeledGraph&lt;T&gt;</a> unweightedGraph) {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="class_weighted_graph.html">WeightedGraph</a> weighted(unweightedGraph.<a class="code" href="class_weighted_graph.html#ac6c8807a6c023525baec8525553c03eb">numberOfVertices</a>());</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; unweightedGraph.<a class="code" href="class_weighted_graph.html#aa7298cc529e17edcb37672f8a99d6b9d">getEdges</a>().size(); i++) {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <a class="code" href="struct_edge.html">Edge</a> edge = unweightedGraph.<a class="code" href="class_weighted_graph.html#aa7298cc529e17edcb37672f8a99d6b9d">getEdges</a>()[i];</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordtype">double</span> weight = kernel(unweightedGraph.<a class="code" href="class_labeled_graph.html#a4493f08c6e5e981a5b477a61246c26ff">getLabel</a>(edge.source), unweightedGraph.<a class="code" href="class_labeled_graph.html#a4493f08c6e5e981a5b477a61246c26ff">getLabel</a>(edge.destination));</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        weighted.addEdge(edge.source, edge.destination, weight);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    }</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordflow">return</span> weighted;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_utils_8hpp.html">Utils.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">using namespace </span>cv;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">class </span><a class="code" href="class_disjoint_set_forest.html">DisjointSetForest</a>;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keywordtype">double</span> euclidDistance(<span class="keyword">const</span> Mat &amp;h1, <span class="keyword">const</span> Mat &amp;h2);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keywordtype">double</span> dotProductKernel(<span class="keyword">const</span> Mat &amp;h1, <span class="keyword">const</span> Mat &amp;h2);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordtype">double</span> gaussianKernel(<span class="keywordtype">float</span> mu, <span class="keywordtype">float</span> sigma, <span class="keyword">const</span> Mat &amp;h1, <span class="keyword">const</span> Mat &amp;h2);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keywordtype">double</span> khi2Kernel(<span class="keywordtype">int</span> binsPerChannel, <span class="keywordtype">float</span> lambda, <span class="keywordtype">float</span> mu, <span class="keywordtype">float</span> gamma, <span class="keywordtype">int</span> area1, <span class="keyword">const</span> Mat &amp;h1, <span class="keywordtype">int</span> area2, <span class="keyword">const</span> Mat &amp;h2);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<a class="code" href="class_weighted_graph.html">WeightedGraph</a> weighEdgesByKernel(<span class="keyword">const</span> <a class="code" href="class_mat_kernel.html">MatKernel</a> &amp;kernel, <a class="code" href="class_labeled_graph.html">LabeledGraph&lt;Mat&gt;</a> unweightedGraph);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="code" href="class_compound_gaussian_kernel.html">   49</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_compound_gaussian_kernel.html">CompoundGaussianKernel</a> : <span class="keyword">public</span> <a class="code" href="class_mat_kernel.html">MatKernel</a> {</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    Mat_&lt;int&gt; borderLengths;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <a class="code" href="class_compound_gaussian_kernel.html">CompoundGaussianKernel</a>(Mat_&lt;int&gt; borderLengthGraph);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">double</span> operator() (<span class="keyword">const</span> Mat &amp;h1, <span class="keyword">const</span> Mat &amp;h2) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;};</div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu May 2 2013 16:56:48 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 8 2013 17:48:29 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

@@ -7,5 +7,4 @@ digraph "SegmentationGraph.hpp"
   Node2 [label="main.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$main_8h_source.html"];
   Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node3 [label="NormalizedCuts.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_normalized_cuts_8h.html"];
-  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
 }

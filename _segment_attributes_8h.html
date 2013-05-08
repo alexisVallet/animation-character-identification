@@ -120,6 +120,12 @@ Functions</h2></td></tr>
 <tr class="separator:af165c53dcde81dbce767169065f229ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9446d95cbc2d5164a9b4cdad16362388"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_segment_attributes_8h.html#a9446d95cbc2d5164a9b4cdad16362388">gravityCenterLabels</a> (const Mat_&lt; Vec3b &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; &amp;<a class="el" href="_segmentation_graph_8hpp.html#a011e891ef6e5cd300f91c7be49c4046e">segmentationGraph</a>)</td></tr>
 <tr class="separator:a9446d95cbc2d5164a9b4cdad16362388"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefacd8fb43a849855435e30565d9a331"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_segment_attributes_8h.html#aefacd8fb43a849855435e30565d9a331">pixelsCovarianceMatrixLabels</a> (const Mat_&lt; Vec3b &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; &amp;<a class="el" href="_segmentation_graph_8hpp.html#a011e891ef6e5cd300f91c7be49c4046e">segmentationGraph</a>)</td></tr>
+<tr class="separator:aefacd8fb43a849855435e30565d9a331"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adde7e01c81c34ff9242d1736ecd17afa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_segment_attributes_8h.html#adde7e01c81c34ff9242d1736ecd17afa">segmentIndexLabels</a> (const Mat_&lt; Vec3b &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; &amp;<a class="el" href="_segmentation_graph_8hpp.html#a011e891ef6e5cd300f91c7be49c4046e">segmentationGraph</a>)</td></tr>
+<tr class="separator:adde7e01c81c34ff9242d1736ecd17afa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a581ee573238cf480eec9573025503472"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_segment_attributes_8h.html#a581ee573238cf480eec9573025503472">segmentSizeLabels</a> (const Mat_&lt; Vec3b &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; &amp;<a class="el" href="_segmentation_graph_8hpp.html#a011e891ef6e5cd300f91c7be49c4046e">segmentationGraph</a>)</td></tr>
+<tr class="separator:a581ee573238cf480eec9573025503472"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67f69c5a580b190fb144e79b8d0c8267"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_segment_attributes_8h.html#a67f69c5a580b190fb144e79b8d0c8267">concatenateLabelings</a> (const vector&lt; <a class="el" href="_segment_attributes_8h.html#aec5dc4d7252a04b7888874cd64e02e78">Labeling</a> &gt; &amp;labelings, const Mat_&lt; Vec3b &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; &amp;<a class="el" href="_segmentation_graph_8hpp.html#a011e891ef6e5cd300f91c7be49c4046e">segmentationGraph</a>)</td></tr>
 <tr class="separator:a67f69c5a580b190fb144e79b8d0c8267"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -133,7 +139,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Common datatype for labelling functions. </p>
+<p>Datatype describing graph labeling functions. </p>
 
 </div>
 </div>
@@ -177,6 +183,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">image</td><td>image to compute average colors from. </td></tr>
+    <tr><td class="paramname">mask</td><td>mask of pixels to take into account. </td></tr>
     <tr><td class="paramname">segmentation</td><td>a segmentation of the image. </td></tr>
     <tr><td class="paramname">segmentationGraph</td><td>graph to add labels to. </td></tr>
   </table>
@@ -223,7 +230,8 @@ Functions</h2></td></tr>
 <p>Adds color histogram labels to a segmentation graph.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">image</td><td>image to compute hitograms from </td></tr>
+    <tr><td class="paramname">image</td><td>image to compute histograms from. </td></tr>
+    <tr><td class="paramname">mask</td><td>mask of pixels to take into account. </td></tr>
     <tr><td class="paramname">segmentation</td><td>a segmentation of the image </td></tr>
     <tr><td class="paramname">segmentationGraph</td><td>segmentation graph to add labels to </td></tr>
     <tr><td class="paramname">binsPerChannel</td><td>the number of histogram bins per color channel </td></tr>
@@ -274,12 +282,12 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Combines labeling functions by concatenating resulting vector labels from multiple different labelings. Assumes each labeling returns a column vector.</p>
+<p>Concatenates the results of multiple labelling functions into one. Assumes the labels are column vector.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">labelings</td><td>labeling functions to concatenate. </td></tr>
-    <tr><td class="paramname">image</td><td>image to compute labelings from. </td></tr>
-    <tr><td class="paramname">mask</td><td>mask indicating pixels to take into account. </td></tr>
+    <tr><td class="paramname">labelings</td><td>labelings to concatenate the results of. </td></tr>
+    <tr><td class="paramname">image</td><td>image to compute labels from. </td></tr>
+    <tr><td class="paramname">mask</td><td>mask of pixels to take into account. </td></tr>
     <tr><td class="paramname">segmentation</td><td>a segmentation of the image. </td></tr>
     <tr><td class="paramname">segmentationGraph</td><td>graph to add labels to. </td></tr>
   </table>
@@ -323,10 +331,155 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Labels vertices of a segmentation graph by the the gravity centers of the segments.</p>
+<p>Labels vertices of a segmentation graph by the gravity center of the segment.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">image</td><td>image to compute gravity center from. </td></tr>
+    <tr><td class="paramname">image</td><td>image to compute gravity centers from. </td></tr>
+    <tr><td class="paramname">mask</td><td>mask of pixels to take into account. </td></tr>
+    <tr><td class="paramname">segmentation</td><td>a segmentation of the image. </td></tr>
+    <tr><td class="paramname">segmentationGraph</td><td>graph to add labels to. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="aefacd8fb43a849855435e30565d9a331"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pixelsCovarianceMatrixLabels </td>
+          <td>(</td>
+          <td class="paramtype">const Mat_&lt; Vec3b &gt; &amp;&#160;</td>
+          <td class="paramname"><em>image</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Mat_&lt; float &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;&#160;</td>
+          <td class="paramname"><em>segmentation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; &amp;&#160;</td>
+          <td class="paramname"><em>segmentationGraph</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Labels vertices of a segmentation graph by the covariance matrix of the pixel positions of the segment, flattened in a column vector.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">image</td><td>image to compute covariance matrices from. </td></tr>
+    <tr><td class="paramname">mask</td><td>mask of pixels to take into account. </td></tr>
+    <tr><td class="paramname">segmentation</td><td>a segmentation of the image. </td></tr>
+    <tr><td class="paramname">segmentationGraph</td><td>graph to add labels to. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="adde7e01c81c34ff9242d1736ecd17afa"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void segmentIndexLabels </td>
+          <td>(</td>
+          <td class="paramtype">const Mat_&lt; Vec3b &gt; &amp;&#160;</td>
+          <td class="paramname"><em>image</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Mat_&lt; float &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;&#160;</td>
+          <td class="paramname"><em>segmentation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; &amp;&#160;</td>
+          <td class="paramname"><em>segmentationGraph</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Labels vertices of a segmentation graph by the index of the label in the graph.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">image</td><td>to compute labels from. </td></tr>
+    <tr><td class="paramname">mask</td><td>mask of pixels to take into account. </td></tr>
+    <tr><td class="paramname">segmentation</td><td>a segmentation of the image. </td></tr>
+    <tr><td class="paramname">segmentationGraph</td><td>graph to add labels to. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a581ee573238cf480eec9573025503472"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void segmentSizeLabels </td>
+          <td>(</td>
+          <td class="paramtype">const Mat_&lt; Vec3b &gt; &amp;&#160;</td>
+          <td class="paramname"><em>image</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Mat_&lt; float &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;&#160;</td>
+          <td class="paramname"><em>segmentation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; &amp;&#160;</td>
+          <td class="paramname"><em>segmentationGraph</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Labels vertices of a segmentation graph by the size of the segment relative to the entire size of the character.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">image</td><td>to compute relative sizes from. </td></tr>
+    <tr><td class="paramname">mask</td><td>mask of pixels to take into account. </td></tr>
     <tr><td class="paramname">segmentation</td><td>a segmentation of the image. </td></tr>
     <tr><td class="paramname">segmentationGraph</td><td>graph to add labels to. </td></tr>
   </table>
@@ -338,7 +491,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu May 2 2013 16:56:49 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 8 2013 17:48:29 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

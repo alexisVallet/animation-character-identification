@@ -80,6 +80,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Kernels.h File Reference</div>  </div>
@@ -88,6 +89,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock"><code>#include &lt;opencv2/opencv.hpp&gt;</code><br/>
 <code>#include &quot;<a class="el" href="_labeled_graph_8hpp_source.html">LabeledGraph.hpp</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_disjoint_set_8hpp_source.html">DisjointSet.hpp</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_utils_8hpp_source.html">Utils.hpp</a>&quot;</code><br/>
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Kernels.h:</div>
 <div class="dyncontent">
@@ -105,19 +107,23 @@ This graph shows which files directly or indirectly include this file:</div>
 </div>
 <p><a href="_kernels_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_compound_gaussian_kernel.html">CompoundGaussianKernel</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ad461b9b6d903e6fe54bd8c2e6a8c71db"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_kernels_8h.html#ad461b9b6d903e6fe54bd8c2e6a8c71db">euclidDistance</a> (const Mat &amp;h1, const Mat &amp;h2)</td></tr>
 <tr class="separator:ad461b9b6d903e6fe54bd8c2e6a8c71db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a42e2a507a8b0d47b99cad3e995543b23"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_kernels_8h.html#a42e2a507a8b0d47b99cad3e995543b23">dotProductKernel</a> (const Mat &amp;h1, const Mat &amp;h2)</td></tr>
 <tr class="separator:a42e2a507a8b0d47b99cad3e995543b23"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a35aa064424bd03187f56b206c68793e6"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_kernels_8h.html#a35aa064424bd03187f56b206c68793e6">gaussianKernel</a> (float sigma, const Mat &amp;h1, const Mat &amp;h2)</td></tr>
-<tr class="separator:a35aa064424bd03187f56b206c68793e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ad67c55d5b982d8789190a08c353159"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_kernels_8h.html#a5ad67c55d5b982d8789190a08c353159">gaussianKernel</a> (float mu, float sigma, const Mat &amp;h1, const Mat &amp;h2)</td></tr>
+<tr class="separator:a5ad67c55d5b982d8789190a08c353159"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0f353b14c63201ca6677c220002a3d6"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_kernels_8h.html#ac0f353b14c63201ca6677c220002a3d6">khi2Kernel</a> (int binsPerChannel, float lambda, float mu, float gamma, int area1, const Mat &amp;h1, int area2, const Mat &amp;h2)</td></tr>
 <tr class="separator:ac0f353b14c63201ca6677c220002a3d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e29d87aac671619cbf267f10c048e76"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a4e29d87aac671619cbf267f10c048e76"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_weighted_graph.html">WeightedGraph</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_kernels_8h.html#a4e29d87aac671619cbf267f10c048e76">weighEdgesByKernel</a> (double(*kernel)(const T &amp;l1, const T &amp;l2), <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; T &gt; unweightedGraph)</td></tr>
-<tr class="separator:a4e29d87aac671619cbf267f10c048e76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7980042d2ad47fa8cc46a02e9650ff60"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_weighted_graph.html">WeightedGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_kernels_8h.html#a7980042d2ad47fa8cc46a02e9650ff60">weighEdgesByKernel</a> (const <a class="el" href="class_mat_kernel.html">MatKernel</a> &amp;kernel, <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; unweightedGraph)</td></tr>
+<tr class="separator:a7980042d2ad47fa8cc46a02e9650ff60"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="a42e2a507a8b0d47b99cad3e995543b23"></a>
@@ -174,13 +180,19 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a35aa064424bd03187f56b206c68793e6"></a>
+<a class="anchor" id="a5ad67c55d5b982d8789190a08c353159"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">double gaussianKernel </td>
           <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>mu</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">float&#160;</td>
           <td class="paramname"><em>sigma</em>, </td>
         </tr>
@@ -203,7 +215,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Gaussian kernel between 2 color histograms. </p>
+<p>Gaussian kernel between 2 vectors or matrices seen as vectors. </p>
 
 </div>
 </div>
@@ -270,22 +282,20 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a4e29d87aac671619cbf267f10c048e76"></a>
+<a class="anchor" id="a7980042d2ad47fa8cc46a02e9650ff60"></a>
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="class_weighted_graph.html">WeightedGraph</a> weighEdgesByKernel </td>
           <td>(</td>
-          <td class="paramtype">double(*)(const T &amp;l1, const T &amp;l2)&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_mat_kernel.html">MatKernel</a> &amp;&#160;</td>
           <td class="paramname"><em>kernel</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; T &gt;&#160;</td>
+          <td class="paramtype"><a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt;&#160;</td>
           <td class="paramname"><em>unweightedGraph</em>&#160;</td>
         </tr>
         <tr>
@@ -310,7 +320,7 @@ template&lt;typename T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu May 2 2013 16:56:48 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 8 2013 17:48:29 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

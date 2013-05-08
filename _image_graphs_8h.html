@@ -108,15 +108,15 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a722066bebb903cfe1d19d39f5ad5ee4d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_weighted_graph.html">WeightedGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_image_graphs_8h.html#a722066bebb903cfe1d19d39f5ad5ee4d">gridGraph</a> (const Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;image, <a class="el" href="_utils_8hpp.html#a312f57b0318728667933d7254778058b">ConnectivityType</a> connectivity, Mat_&lt; float &gt; mask, MatKernel simFunc, bool <a class="el" href="_weighted_graph_8hpp.html#a51f69d0a09e4e0b8aefc82a7255d11f4">bidirectional</a>=false)</td></tr>
-<tr class="separator:a722066bebb903cfe1d19d39f5ad5ee4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51b07ad40bbcc75a46f0d1a65d2aa1f3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_weighted_graph.html">WeightedGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_image_graphs_8h.html#a51b07ad40bbcc75a46f0d1a65d2aa1f3">kNearestGraph</a> (const Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;image, const Mat_&lt; float &gt; mask, int k, MatKernel simFunc, bool <a class="el" href="_weighted_graph_8hpp.html#a51f69d0a09e4e0b8aefc82a7255d11f4">bidirectional</a>=false)</td></tr>
-<tr class="separator:a51b07ad40bbcc75a46f0d1a65d2aa1f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a624f44db1326c1f0e8030ffbc375717b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_weighted_graph.html">WeightedGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_image_graphs_8h.html#a624f44db1326c1f0e8030ffbc375717b">radiusGraph</a> (const Mat_&lt; Vec3b &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, int k, double r, MatKernel simFunc, bool <a class="el" href="_weighted_graph_8hpp.html#a51f69d0a09e4e0b8aefc82a7255d11f4">bidirectional</a>=false)</td></tr>
-<tr class="separator:a624f44db1326c1f0e8030ffbc375717b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30ada09a56806ed50a5a8ed9633675cf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_weighted_graph.html">WeightedGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_image_graphs_8h.html#a30ada09a56806ed50a5a8ed9633675cf">gridGraph</a> (const Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;image, <a class="el" href="_utils_8hpp.html#a312f57b0318728667933d7254778058b">ConnectivityType</a> connectivity, Mat_&lt; float &gt; mask, double(*simFunc)(const Mat &amp;, const Mat &amp;), bool <a class="el" href="_weighted_graph_8hpp.html#a51f69d0a09e4e0b8aefc82a7255d11f4">bidirectional</a>=false)</td></tr>
+<tr class="separator:a30ada09a56806ed50a5a8ed9633675cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62ea6ca57c30dac2d00d995728f04638"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_weighted_graph.html">WeightedGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_image_graphs_8h.html#a62ea6ca57c30dac2d00d995728f04638">kNearestGraph</a> (const Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;image, const Mat_&lt; float &gt; mask, int k, double(*simFunc)(const Mat &amp;, const Mat &amp;), bool <a class="el" href="_weighted_graph_8hpp.html#a51f69d0a09e4e0b8aefc82a7255d11f4">bidirectional</a>=false)</td></tr>
+<tr class="separator:a62ea6ca57c30dac2d00d995728f04638"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a854a4b9d9194268012df8638ebf3baa3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_weighted_graph.html">WeightedGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_image_graphs_8h.html#a854a4b9d9194268012df8638ebf3baa3">radiusGraph</a> (const Mat_&lt; Vec3b &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, int k, double r, const <a class="el" href="class_mat_kernel.html">MatKernel</a> &amp;simFunc, bool <a class="el" href="_weighted_graph_8hpp.html#a51f69d0a09e4e0b8aefc82a7255d11f4">bidirectional</a>=false)</td></tr>
+<tr class="separator:a854a4b9d9194268012df8638ebf3baa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a722066bebb903cfe1d19d39f5ad5ee4d"></a>
+<a class="anchor" id="a30ada09a56806ed50a5a8ed9633675cf"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -141,7 +141,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">MatKernel&#160;</td>
+          <td class="paramtype">double(*)(const Mat &amp;, const Mat &amp;)&#160;</td>
           <td class="paramname"><em>simFunc</em>, </td>
         </tr>
         <tr>
@@ -169,7 +169,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a51b07ad40bbcc75a46f0d1a65d2aa1f3"></a>
+<a class="anchor" id="a62ea6ca57c30dac2d00d995728f04638"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -194,7 +194,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">MatKernel&#160;</td>
+          <td class="paramtype">double(*)(const Mat &amp;, const Mat &amp;)&#160;</td>
           <td class="paramname"><em>simFunc</em>, </td>
         </tr>
         <tr>
@@ -223,7 +223,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a624f44db1326c1f0e8030ffbc375717b"></a>
+<a class="anchor" id="a854a4b9d9194268012df8638ebf3baa3"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -254,7 +254,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">MatKernel&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_mat_kernel.html">MatKernel</a> &amp;&#160;</td>
           <td class="paramname"><em>simFunc</em>, </td>
         </tr>
         <tr>
@@ -286,7 +286,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu May 2 2013 16:56:48 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 8 2013 17:48:29 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>
