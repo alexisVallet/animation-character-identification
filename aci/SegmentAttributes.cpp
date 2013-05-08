@@ -57,21 +57,23 @@ void averageColorLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, Disjo
 	for (int i = 0; i < image.rows; i++) {
 		for (int j = 0; j < image.cols; j++) {
 			if (mask(i,j) > 0) {
-				int root = rootIndexes[segmentation.find(toRowMajor(image.cols, j, i))];
+				int root = segmentation.find(toRowMajor(image.cols, j, i));
+				int segmentIndex = rootIndexes[root];
 				Vec3f pixColor = Vec3f(image(i,j));
 
-				averageColor[root] += pixColor / (float)segmentation.getComponentSize(root);
+				averageColor[segmentIndex] += pixColor / (float)segmentation.getComponentSize(root);
 			}
 		}
 	}
 
 	for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
-		segmentationGraph.addLabel(i, Mat(averageColor[i]));
+		segmentationGraph.addLabel(i, Mat(averageColor[i])/255);
 	}
 }
 
 void gravityCenterLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph) {
 	assert(image.rows == mask.rows && image.cols == mask.cols);
+	
 	vector<Vec2f> gravityCenters;
 	gravityCenters.reserve(segmentation.getNumberOfComponents());
 
@@ -83,16 +85,48 @@ void gravityCenterLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, Disj
 	for (int i = 0; i < image.rows; i++) {
 		for (int j = 0; j < image.cols; j++) {
 			if (mask(i,j) > 0) {
-				int root = rootIndexes[segmentation.find(toRowMajor(image.cols, j, i))];
-				Vec2f pixColor = Vec2f(i,j);
+				int root = segmentation.find(toRowMajor(image.cols, j, i));
+				int segmentIndex = rootIndexes[root];
+				Vec2f position = Vec2f(i,j);
 
-				gravityCenters[root] += pixColor / (float)segmentation.getComponentSize(root);
+				gravityCenters[segmentIndex] += position / (float)segmentation.getComponentSize(root);
 			}
 		}
 	}
 
 	for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
-		segmentationGraph.addLabel(i, Mat(gravityCenters[i]));
+		Mat gravityCenter(2,1,CV_32F);
+
+		gravityCenter.at<float>(0,0) = gravityCenters[i](0) / image.rows;
+		gravityCenter.at<float>(1,0) = gravityCenters[i](1) / image.cols;
+
+		segmentationGraph.addLabel(i, gravityCenter);
+	}
+}
+
+void segmentSizeLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph) {
+	vector<int> reverseMap(segmentation.getNumberOfComponents());
+	map<int,int> rootIndexes = segmentation.getRootIndexes();
+
+	for (map<int,int>::iterator it = rootIndexes.begin(); it != rootIndexes.end(); it++) {
+		reverseMap[it->second] = it->first;
+	}
+	for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
+		float relativeSize = (float)segmentation.getComponentSize(reverseMap[i]) / (float)segmentation.getNumberOfElements();
+		Mat singleton(1,1,CV_32F);
+		singleton.at<float>(0,0) = relativeSize;
+
+		segmentationGraph.addLabel(i, singleton);
+	}
+}
+
+void segmentIndexLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph) {
+	for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
+		Mat singleton(1,1,CV_32F);
+
+		singleton.at<float>(0,0) = i;
+
+		segmentationGraph.addLabel(i, singleton);
 	}
 }
 
@@ -100,7 +134,6 @@ void concatenateLabelings(const vector<Labeling> &labelings, const Mat_<Vec3b> &
 	vector<Mat> labels(segmentationGraph.numberOfVertices());
 
 	for (int i = 0; i < labelings.size(); i++) {
-		cout<<"computing labelin "<<i<<endl;
 		LabeledGraph<Mat> copy = segmentationGraph;
 
 		labelings[i](image, mask, segmentation, copy);
@@ -111,11 +144,8 @@ void concatenateLabelings(const vector<Labeling> &labelings, const Mat_<Vec3b> &
 			} else {
 				Mat tmp;
 
-				cout<<"labels["<<j<<"]: ("<<labels[j].rows<<","<<labels[j].cols<<")"<<endl;
-				cout<<"new label: ("<<copy.getLabel(j).rows<<","<<copy.getLabel(j).cols<<")"<<endl;
 				vconcat(labels[j], copy.getLabel(j), tmp);
-
-				cout<<"concatenation computed"<<endl;
+				cout<<"concatenating "<<labels[j]<<endl<<"and "<<copy.getLabel(j)<<endl<<"yields "<<tmp<<endl;
 				labels[j] = tmp;
 			}
 		}

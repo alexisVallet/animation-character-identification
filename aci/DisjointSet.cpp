@@ -169,7 +169,7 @@ void DisjointSetForest::fuseSmallComponents(WeightedGraph &segmentedGraph, int m
 	}
 }
 
-void DisjointSetForest::fuseCloseComponents(const LabeledGraph<Mat> &segmentationGraph, MatKernel distFunc, double threshold) {
+void DisjointSetForest::fuseCloseComponents(const LabeledGraph<Mat> &segmentationGraph, double (*distFunc)(const Mat&, const Mat&), double threshold) {
 	map<int,int> rootIndexes_ = this->getRootIndexes();
 	vector<int> reverseIndexes(this->getNumberOfComponents());
 

@@ -246,13 +246,13 @@ DisjointSetForest normalizedCuts(const WeightedGraph &graph, double stop) {
 }
 
 static double simpleKernel(const Mat &h1, const Mat &h2) {
-	return gaussianKernel(0.8, h1, h2);
+	return gaussianKernel(1, 0.8, h1, h2);
 }
 
 static double radiusKernel(const Mat &h1, const Mat &h2) {
 	return 
-		gaussianKernel(0.8, h1.colRange(2,5), h2.colRange(2,5)) *
-		gaussianKernel(0.8, h1.colRange(0,2), h2.colRange(0,2));
+		gaussianKernel(1, 0.8, h1.colRange(2,5), h2.colRange(2,5)) *
+		gaussianKernel(1, 0.8, h1.colRange(0,2), h2.colRange(0,2));
 }
 
 DisjointSetForest normalizedCutsSegmentation(const Mat_<Vec<uchar,3> > &image, const Mat_<float> &mask, double stop, int minCompSize) {

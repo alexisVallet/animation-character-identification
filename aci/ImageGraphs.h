@@ -28,7 +28,7 @@ using namespace std;
  * adjacency list representation. This is useful for more efficient listing of vertices
  * neighbors, but consumes more space.
  */
-WeightedGraph gridGraph(const Mat_<Vec<uchar,3> > &image, ConnectivityType connectivity, Mat_<float> mask, MatKernel simFunc, bool bidirectional = false);
+WeightedGraph gridGraph(const Mat_<Vec<uchar,3> > &image, ConnectivityType connectivity, Mat_<float> mask, double (*simFunc)(const Mat&, const Mat&), bool bidirectional = false);
 
 /**
  * Returns a graph where vertices are pixels in the image, and every vertex has an edge
@@ -43,7 +43,7 @@ WeightedGraph gridGraph(const Mat_<Vec<uchar,3> > &image, ConnectivityType conne
  * undirected graph) as the k nearest neighbor relation is not symmetric.
  * @return the nearest neighbor graph of the image.
  */
-WeightedGraph kNearestGraph(const Mat_<Vec<uchar,3> > &image, const Mat_<float> mask, int k, MatKernel simFunc, bool bidirectional = false);
+WeightedGraph kNearestGraph(const Mat_<Vec<uchar,3> > &image, const Mat_<float> mask, int k, double (*simFunc)(const Mat&, const Mat&), bool bidirectional = false);
 
 /**
  * Returns a graph where vertices are pixels in the image, and every vertex has an edge
@@ -58,4 +58,4 @@ WeightedGraph kNearestGraph(const Mat_<Vec<uchar,3> > &image, const Mat_<float> 
  * @double r maximum radius of pixels to consider as neighbor.
  * @return the radius graph of the image.
  */
-WeightedGraph radiusGraph(const Mat_<Vec3b> &image, const Mat_<float> &mask, int k, double r, MatKernel simFunc, bool bidirectional = false);
+WeightedGraph radiusGraph(const Mat_<Vec3b> &image, const Mat_<float> &mask, int k, double r, const MatKernel &simFunc, bool bidirectional = false);

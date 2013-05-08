@@ -5,13 +5,14 @@
 #define DEBUG true
 #define BLUR_SIGMA 0.8
 #define CONNECTIVITY CONNECTIVITY_4
-#define MAX_SEGMENTS 200
+#define MAX_SEGMENTS 250
 #define BINS_PER_CHANNEL 16
 #define EIG_MU 1
 #define GAUSS_SIGMA 0.8
 #define KHI_MU 0.01
 #define KHI_LAMBDA 0.75
 #define MAX_NB_PIXELS 15000
+#define FELZENSZWALB_SCALE 2000
 
 using namespace std;
 using namespace cv;
@@ -34,15 +35,23 @@ double gridWeight(const Mat &c1, const Mat &c2) {
 	return exp(0.5 * euclidDistance(c1, c2));
 }
 
-LabeledGraph<Mat> computeGraphFrom(Mat_<Vec<uchar,3> > &rgbImage, Mat_<float> &mask) {
-	// filter the image for better segmentation
+WeightedGraph computeGraphFrom(Mat_<Vec<uchar,3> > &bgrImage, Mat_<float> &mask) {
+	cout<<"equalizing color histogram"<<endl;
+	// equalize the color histogram
+	Mat_<Vec3b> equalized;
+	equalizeColorHistogram(bgrImage, mask, equalized);
+	cout<<"filtering outlines"<<endl;
+	// filter out the outlines
 	Mat_<Vec<uchar,3> > smoothedRgb;
 
-	KuwaharaFilter(rgbImage, smoothedRgb, 11);
+	KuwaharaFilter(equalized, smoothedRgb, 11);
 
+	cout<<"converting to Lab"<<endl;
+	// convert to Lab and resize
 	Mat_<Vec3b> smoothed;
-
 	cvtColor(smoothedRgb, smoothed, CV_RGB2Lab);
+
+	cout<<"resizing"<<endl;
 	Mat_<Vec3b> resized;
 	Mat_<float> resizedMask;
 
@@ -50,7 +59,7 @@ LabeledGraph<Mat> computeGraphFrom(Mat_<Vec<uchar,3> > &rgbImage, Mat_<float> &m
 
 	WeightedGraph grid = gridGraph(resized, CONNECTIVITY_4, resizedMask, euclidDistance, false);
 	int minCompSize = countNonZero(resizedMask) / MAX_SEGMENTS;
-	DisjointSetForest segmentation = felzenszwalbSegment(5000, grid, minCompSize, resizedMask);
+	DisjointSetForest segmentation = felzenszwalbSegment(FELZENSZWALB_SCALE, grid, minCompSize, resizedMask);
 	LabeledGraph<Mat> segGraph = segmentationGraph<Mat>(
 		resized,
 		segmentation,
@@ -60,13 +69,17 @@ LabeledGraph<Mat> computeGraphFrom(Mat_<Vec<uchar,3> > &rgbImage, Mat_<float> &m
 
 	labelings.push_back(gravityCenterLabels);
 	labelings.push_back(averageColorLabels);
-	labelings.push_back(pixelsCovarianceMatrixLabels);
+	labelings.push_back(segmentSizeLabels);
+	labelings.push_back(segmentIndexLabels);
+//	labelings.push_back(pixelsCovarianceMatrixLabels);
 
-	cout<<"computing labelings"<<endl;
 	concatenateLabelings(labelings, resized, resizedMask, segmentation, segGraph);
-	cout<<"labelings computed"<<endl;
+
+	CompoundGaussianKernel similarityFunctor(computeBorderLengths(segmentation, grid));
+	WeightedGraph finalGraph = weighEdgesByKernel(similarityFunctor, segGraph);
 
 	if (DEBUG) {
+		imshow("equalized", equalized);
 		showHistograms(smoothed, mask, 255);
 		imshow("filtered", smoothed);
 		waitKey(0);
@@ -77,40 +90,22 @@ LabeledGraph<Mat> computeGraphFrom(Mat_<Vec<uchar,3> > &rgbImage, Mat_<float> &m
 		waitKey(0);
 	}
 
-	return segGraph;
-}
-
-static double gaussianKernel_(const Mat &h1, const Mat &h2) {
-	const double sigmaC = 5;
-	const double sigmaX = 5;
-	const double sigmaS = 5;
-
-	double cres = gaussianKernel(sigmaC, h1.rowRange(0,3), h2.rowRange(0,3));
-	double xres = gaussianKernel(sigmaX, h1.rowRange(3,5), h2.rowRange(3,5));
-	double sres = gaussianKernel(sigmaS, h1.rowRange(5, 9), h2.rowRange(5,9));
-
-	cout<<"cres="<<cres<<", xres="<<xres<<", sres="<<sres<<endl;
-
-	return cres*xres*sres;
+	return finalGraph;
 }
 
 void computeRates(
-	vector<LabeledGraph<Mat> > graphs,
+	vector<WeightedGraph> graphs,
 	Mat classes,
-	vector<pair<string, TrainableStatModel*> > models, 
-	vector<pair<string, MatKernel> > kernels, 
+	vector<pair<string, TrainableStatModel*> > models,
 	vector<pair<string, MatrixRepresentation> > representations) {
 	for (int i = 0; i < (int)models.size(); i++) {
 		cout<<models[i].first<<endl;
-		for (int j = 0; j < (int)kernels.size(); j++) {
-			cout<<kernels[j].first<<endl;
-			for (int k = 0; k < (int)representations.size(); k++) {
-				cout<<representations[k].first<<endl;
-				SpectrumDistanceClassifier classifier(kernels[j].second, models[i].second, representations[k].second, EIG_MU);
-				float rate = classifier.leaveOneOutRecognitionRate(graphs, classes);
+		for (int k = 0; k < (int)representations.size(); k++) {
+			cout<<representations[k].first<<endl;
+			SpectrumDistanceClassifier classifier(models[i].second, representations[k].second, EIG_MU);
+			float rate = classifier.leaveOneOutRecognitionRate(graphs, classes);
 
-				cout<<"rate = "<<rate<<endl;;
-			}
+			cout<<"rate = "<<rate<<endl;;
 		}
 	}
 }
@@ -143,7 +138,7 @@ int main(int argc, char** argv) {
 		char *folder = "../test/dataset/";
 		char *names[] = {"amuro", "asuka", "char", "chirno", "conan", "jigen", "kouji", "lupin", "majin", "miku", "ray", "rufy"};
 		vector<pair<Mat_<Vec<uchar,3> >,Mat_<float> > > dataSet;
-		vector<LabeledGraph<Mat> > graphs;
+		vector<WeightedGraph> graphs;
 		
 		loadDataSet(folder, names, 12, 5, dataSet, classes);
 
@@ -159,19 +154,13 @@ int main(int argc, char** argv) {
 
 		models.push_back(pair<string,TrainableStatModel*>("Nearest neighbor", &knnModel));
 		//models.push_back(pair<string,TrainableStatModel*>("Bayes", &bayesModel));
-	
-		vector<pair<string, MatKernel> > kernels;
-
-		//kernels.push_back(pair<string, MatKernel>("Dot product", dotProductKernel));
-		kernels.push_back(pair<string, MatKernel>("Gaussian kernel", gaussianKernel_));
-		//kernels.push_back(pair<string, MatKernel>("Khi2 kernel", khi2Kernel_));
 
 		vector<pair<string, MatrixRepresentation> > representations;
 
 		representations.push_back(pair<string, MatrixRepresentation>("Combinatorial Laplacian", laplacian));
 		//representations.push_back(pair<string, MatrixRepresentation>("Normalized Laplacian", normalizedLaplacian));
 
-		computeRates(graphs, classes, models, kernels, representations);
+		computeRates(graphs, classes, models, representations);
 	}
 
 	return 0;

@@ -60,8 +60,10 @@ void loadDataSet(char* folderName, char** charaNames, int nbCharas, int nbImages
 
 			images[rowMajorIndex].second = Mat_<float>(thresholdedMask);
 
+			crop(images[rowMajorIndex].first, images[rowMajorIndex].second, images[rowMajorIndex].first, images[rowMajorIndex].second);
+
 			assert(isMask(images[rowMajorIndex].second));
-			waitKey(0);
+
 			classes.at<int>(rowMajorIndex,0) = i;
 
 			delete[] fullPath;
@@ -186,4 +188,95 @@ void showHistograms(const Mat_<Vec3b> &image, const Mat_<float> &mask, int nbBin
 
 		imshow(ss.str(), histogramDrawing);
 	}
+}
+
+static void equalizeGrayscaleHistogram(const Mat_<uchar> &image, const Mat_<float> &mask, Mat_<uchar> &equalized) {
+	// first compute the histogram of the non masked elements
+	Mat_<uchar> ucharMask = Mat_<uchar>(mask);
+
+	int bins = 256;
+	int histSize[] = {bins};
+	float range[] = {0, 256};
+	const float* ranges[] = {range};
+	Mat_<float> histogram;
+	int channels[] = {0};
+
+	calcHist(&image, 1, channels, ucharMask, histogram, 1, histSize, ranges);
+
+	// normalize the histogram
+	Mat_<float> normalized;
+
+	normalize(histogram, normalized, 255, 0, NORM_L1);
+
+	// compute the accumulated normalized histogram
+	Mat_<float> accumulated = Mat_<float>::zeros(histogram.rows, 1);
+	accumulated(0,0) = normalized(0,0);
+
+	for (int i = 1; i < histogram.rows; i++) {
+		accumulated(i,0) = accumulated(i-1,0) + normalized(i,0);
+	}
+	// compute the equalized image from the accumulated histogram
+	equalized = Mat_<uchar>(image.rows, image.cols);
+
+	for (int i = 0; i < image.rows; i++) {
+		for (int j = 0; j < image.cols; j++) {
+			int index = image(i,j);
+
+			equalized(i,j) = (uchar)accumulated(index);
+		}
+	}
+}
+
+void equalizeColorHistogram(const Mat_<Vec3b> &image, const Mat_<float> &mask, Mat_<Vec3b> &equalized) {
+	Mat_<Vec3b> hsvImage;
+
+	cout<<"converting to HSV"<<endl;
+	cvtColor(image, hsvImage, CV_BGR2HSV);
+
+	cout<<"splitting"<<endl;
+	vector<Mat_<uchar> > channels(3);
+
+	split(image, channels);
+
+	cout<<"equalizing Hue"<<endl;
+	Mat_<uchar> equalizedHue;
+
+	equalizeGrayscaleHistogram(channels[0], mask, equalizedHue);
+
+	channels[0] = equalizedHue;
+
+	cout<<"merging back equalized hsv"<<endl;
+	Mat_<Vec3b> equalizedHsv;
+	
+	for (int i = 1; i < 3; i++) {
+		channels[i] = channels[i].mul(Mat_<uchar>(mask));
+	}
+
+	merge(channels, equalizedHsv);
+
+	cout<<"converting back to BGR"<<endl;
+	cvtColor(equalizedHsv, equalized, CV_HSV2BGR);
+}
+
+void crop(const Mat_<Vec3b> &image, const Mat_<float> &mask, Mat_<Vec3b> &croppedImage, Mat_<float> &croppedMask) {
+	assert(image.rows == mask.rows && image.cols == mask.cols);
+	assert(countNonZero(mask) > 0);
+	int minI = image.rows;
+	int maxI = -1;
+	int minJ = image.cols;
+	int maxJ = -1;
+
+	for (int i = 0; i < image.rows; i++) {
+		for (int j = 0; j < image.cols; j++) {
+			if (mask(i,j) > 0) {
+				minI = min(i, minI);
+				maxI = max(i, maxI);
+				minJ = min(j, minJ);
+				maxJ = max(j, maxJ);
+			}
+		}
+	}
+
+	croppedImage = image.rowRange(minI, maxI + 1).colRange(minJ, maxJ + 1);
+	croppedMask = mask.rowRange(minI, maxI + 1).colRange(minJ, maxJ + 1);
 }

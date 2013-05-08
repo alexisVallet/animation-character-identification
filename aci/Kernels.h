@@ -5,6 +5,7 @@
 
 #include "LabeledGraph.hpp"
 #include "DisjointSet.hpp"
+#include "Utils.hpp"
 
 using namespace cv;
 
@@ -21,9 +22,9 @@ double euclidDistance(const Mat &h1, const Mat &h2);
 double dotProductKernel(const Mat &h1, const Mat &h2);
 
 /**
- * Gaussian kernel between 2 color histograms.
+ * Gaussian kernel between 2 vectors or matrices seen as vectors.
  */
-double gaussianKernel(float sigma, const Mat &h1, const Mat &h2);
+double gaussianKernel(float mu, float sigma, const Mat &h1, const Mat &h2);
 
 /**
  * Weighted khi² (X²) kernel between two color histograms seen as
@@ -40,16 +41,17 @@ double khi2Kernel(int binsPerChannel, float lambda, float mu, float gamma, int a
  * @param unweightedGraph graph to compute edges from.
  * @return graph identical to the input graph with edges weighted by the kernel function.
  */
-template < typename T >
-WeightedGraph weighEdgesByKernel(double (*kernel)(const T &l1, const T &l2), LabeledGraph<T> unweightedGraph) {
-	WeightedGraph weighted(unweightedGraph.numberOfVertices());
+WeightedGraph weighEdgesByKernel(const MatKernel &kernel, LabeledGraph<Mat> unweightedGraph);
 
-	for (int i = 0; i < unweightedGraph.getEdges().size(); i++) {
-		Edge edge = unweightedGraph.getEdges()[i];
-		double weight = kernel(unweightedGraph.getLabel(edge.source), unweightedGraph.getLabel(edge.destination));
+/**
+ * Functor for computing similarity between 2 neighboring segments.
+ */
+class CompoundGaussianKernel : public MatKernel {
+private:
+	Mat_<int> borderLengths;
 
-		weighted.addEdge(edge.source, edge.destination, weight);
-	}
+public:
+	CompoundGaussianKernel(Mat_<int> borderLengthGraph);
 
-	return weighted;
-}
+	double operator() (const Mat &h1, const Mat &h2) const;
+};

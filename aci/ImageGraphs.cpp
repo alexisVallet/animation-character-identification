@@ -2,8 +2,8 @@
 
 #define MIN_EDGE_WEIGHT 0
 
-WeightedGraph gridGraph(const Mat_<Vec<uchar,3> > &image, ConnectivityType connectivity, Mat_<float> mask, MatKernel simFunc, bool bidirectional) {
-	assert(image.size() == mask.size());
+WeightedGraph gridGraph(const Mat_<Vec<uchar,3> > &image, ConnectivityType connectivity, Mat_<float> mask, double (*simFunc)(const Mat&, const Mat&), bool bidirectional) {
+	assert(image.rows == mask.rows && image.cols == mask.cols);
 	WeightedGraph grid(image.cols*image.rows, 4);
 	// indicates neigbor positions depending on connectivity
 	int numberOfNeighbors[2] = {2, 4};
@@ -71,7 +71,7 @@ Mat pixelFeatures(const Mat_<Vec<uchar,3> > &image, const Mat_<float> &mask) {
 	return features;
 }
 
-WeightedGraph kNearestGraph(const Mat_<Vec<uchar,3> > &image, const Mat_<float> mask, int k, MatKernel simFunc, bool bidirectional) {
+WeightedGraph kNearestGraph(const Mat_<Vec<uchar,3> > &image, const Mat_<float> mask, int k, double (*simFunc)(const Mat&, const Mat&), bool bidirectional) {
 	cout<<"computing features"<<endl;
 	Mat features = pixelFeatures(image, mask);
 	cout<<"computing index"<<endl;
@@ -116,7 +116,7 @@ WeightedGraph kNearestGraph(const Mat_<Vec<uchar,3> > &image, const Mat_<float> 
 	return nnGraph;
 }
 
-WeightedGraph radiusGraph(const Mat_<Vec3b> &image, const Mat_<float> &mask, int k, double r, MatKernel simFunc, bool bidirectional) {
+WeightedGraph radiusGraph(const Mat_<Vec3b> &image, const Mat_<float> &mask, int k, double r, const MatKernel &simFunc, bool bidirectional) {
 	Mat features = pixelFeatures(image, mask);
 	// copying data because flann requires a continuous array.
 	Mat positions = features.colRange(0, 2).clone();

@@ -18,7 +18,6 @@ using namespace std;
  */
 class SpectrumDistanceClassifier {
 private:
-	MatKernel kernel;
 	TrainableStatModel *statModel;
 	MatrixRepresentation representation;
 	float lambda;
@@ -35,7 +34,7 @@ public:
 	 * @param representation the matrix representation to use for graphs.
 	 * @param mu positive factor to the exponential favorizing smaller eigenvalues.
 	 */
-	SpectrumDistanceClassifier(MatKernel kernel, TrainableStatModel *statModel, MatrixRepresentation representation, float mu);
+	SpectrumDistanceClassifier(TrainableStatModel *statModel, MatrixRepresentation representation, float mu);
 
 	/**
 	 * Trains the classifier with specific training samples.
@@ -63,5 +62,5 @@ public:
 	 * @param classes the class each sample belongs to.
 	 * @return a recognition rate within the real interval [0; 1].
 	 */
-	float leaveOneOutRecognitionRate(vector<LabeledGraph<Mat> > samples, Mat &classes);
+	float leaveOneOutRecognitionRate(vector<WeightedGraph> samples, Mat &classes);
 };

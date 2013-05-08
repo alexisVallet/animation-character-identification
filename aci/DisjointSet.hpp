@@ -106,5 +106,5 @@ public:
    * @param threshold threshold below which 2 components get fused, e.g. if
    * distFunc(S1, S2) < threshold then S1 and S2 are fused.
    */
-  void fuseCloseComponents(const LabeledGraph<Mat> &segmentationGraph, MatKernel distFunc, double threshold);
+  void fuseCloseComponents(const LabeledGraph<Mat> &segmentationGraph, double (*distFunc)(const Mat&, const Mat&), double threshold);
 };

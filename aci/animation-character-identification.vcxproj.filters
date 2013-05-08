@@ -25,12 +25,6 @@
     <ClCompile Include="ImageGraphsTest.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="IsoPerimetricGraphPartioning.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="IsoperimetricGraphPartitioningTest.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="Kernels.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -38,9 +32,6 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="NormalizedCuts.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="SegmentationGraph.cpp">
@@ -84,12 +75,6 @@
     <ClInclude Include="ImageGraphsTest.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="isoperimetricGraphPartitioning.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="IsoperimetricGraphPartitioningTest.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Kernels.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -97,9 +82,6 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="main.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="NormalizedCuts.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="SegmentationGraph.hpp">

@@ -8,7 +8,10 @@
 using namespace std;
 using namespace cv;
 
-typedef double (*MatKernel)(const Mat&, const Mat&);
+class MatKernel {
+public:
+	virtual double operator() (const Mat&, const Mat&) const = 0;
+};
 
 /**
  * Datatype indicating pixel connectivity.
@@ -84,3 +87,24 @@ Mat imHist(Mat hist, float scaleX=1, float scaleY=1);
  * @param image the image to compute histograms from.
  */
 void showHistograms(const Mat_<Vec3b> &image, const Mat_<float> &mask, int nbBins);
+
+/**
+ * Equalize the histogram of a BGR image. Equalizes by equalizing the luminance of
+ * the image in the HSL color space.
+ *
+ * @param image the image to equalize the histogram of.
+ * @param mask mask indicating pixels to take into account in the histogram.
+ * @param equalized output image with normalized histogram.
+ */
+void equalizeColorHistogram(const Mat_<Vec3b> &image, const Mat_<float> &mask, Mat_<Vec3b> &equalized);
+
+/**
+ * Crops an image and its mask so it only contains the bounding box of the non 
+ * masked elements.
+ *
+ * @param image image to crop.
+ * @param mask mask of the image to crop.
+ * @param croppedImage output cropped image.
+ * @param croppedMask output cropped mask.
+ */
+void crop(const Mat_<Vec3b> &image, const Mat_<float> &mask, Mat_<Vec3b> &croppedImage, Mat_<float> &croppedMask);

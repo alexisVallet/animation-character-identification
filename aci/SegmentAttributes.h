@@ -60,6 +60,27 @@ void gravityCenterLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, Disj
 void pixelsCovarianceMatrixLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph);
 
 /**
+ * Labels vertices of a segmentation graph by the index of the label in the graph.
+ *
+ * @param image to compute labels from.
+ * @param mask mask of pixels to take into account.
+ * @param segmentation a segmentation of the image.
+ * @param segmentationGraph graph to add labels to.
+ */
+void segmentIndexLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph);
+
+/**
+ * Labels vertices of a segmentation graph by the size of the segment relative to
+ * the entire size of the character.
+ *
+ * @param image to compute relative sizes from.
+ * @param mask mask of pixels to take into account.
+ * @param segmentation a segmentation of the image.
+ * @param segmentationGraph graph to add labels to.
+ */
+void segmentSizeLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph);
+
+/**
  * Concatenates the results of multiple labelling functions into one. Assumes the labels
  * are column vector.
  *

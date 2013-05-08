@@ -1,7 +1,7 @@
 #include "SpectrumDistanceClassifier.h"
 
-SpectrumDistanceClassifier::SpectrumDistanceClassifier(MatKernel kernel, TrainableStatModel *statModel, MatrixRepresentation representation, float mu) 
-	: kernel(kernel), statModel(statModel), representation(representation), mu(mu)
+SpectrumDistanceClassifier::SpectrumDistanceClassifier(TrainableStatModel *statModel, MatrixRepresentation representation, float mu) 
+	: statModel(statModel), representation(representation), mu(mu)
 {
 	assert(mu > 0);
 }
@@ -34,11 +34,11 @@ int SpectrumDistanceClassifier::predict(LabeledGraph<Mat> testSample) {
 	return this->statModel->predict(eigenvalues);
 }*/
 
-static bool compareGraphSize(const LabeledGraph<Mat> &g1, const LabeledGraph<Mat> &g2) {
+static bool compareGraphSize(const WeightedGraph &g1, const WeightedGraph &g2) {
 	return g1.numberOfVertices() < g2.numberOfVertices();
 }
 
-float SpectrumDistanceClassifier::leaveOneOutRecognitionRate(vector<LabeledGraph<Mat> > samples, Mat &classes) {
+float SpectrumDistanceClassifier::leaveOneOutRecognitionRate(vector<WeightedGraph> samples, Mat &classes) {
 	assert(samples.size() == classes.rows);
 	// first determine the maximum number of vertices
 	int maxNumberOfVertices = (*max_element(samples.begin(), samples.end(), compareGraphSize)).numberOfVertices();
@@ -47,8 +47,7 @@ float SpectrumDistanceClassifier::leaveOneOutRecognitionRate(vector<LabeledGraph
 	Mat spectra(samples.size(), maxNumberOfVertices, CV_32F);
 
 	for (int i = 0; i < (int)samples.size(); i++) {
-		WeightedGraph weighted = weighEdgesByKernel<Mat>(this->kernel, samples[i]);
-		Mat_<double> matrix = this->representation(weighted);
+		Mat_<double> matrix = this->representation(samples[i]);
 		Mat_<double> largerMatrix = Mat_<double>::zeros(maxNumberOfVertices, maxNumberOfVertices);
 
 		matrix.copyTo(largerMatrix.rowRange(0, matrix.rows).colRange(0, matrix.cols));
