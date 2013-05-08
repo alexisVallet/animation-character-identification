@@ -7,5 +7,6 @@ var searchData=
   ['concatenatelabelings',['concatenateLabelings',['../_segment_attributes_8h.html#a67f69c5a580b190fb144e79b8d0c8267',1,'SegmentAttributes.cpp']]],
   ['conjugategradient',['conjugateGradient',['../_isoperimetric_graph_partitioning_8h.html#a4dd5c05749819ac3183f26a269a750c1',1,'IsoPerimetricGraphPartioning.cpp']]],
   ['connected',['connected',['../_weighted_graph_8hpp.html#a8ce6d31de914b97720a6a5e55002be76',1,'WeightedGraph.cpp']]],
-  ['connectedcomponents',['connectedComponents',['../_weighted_graph_8hpp.html#a6b6aaa0fb98b8690fc0c7ace23a20d67',1,'WeightedGraph.cpp']]]
+  ['connectedcomponents',['connectedComponents',['../_weighted_graph_8hpp.html#a6b6aaa0fb98b8690fc0c7ace23a20d67',1,'WeightedGraph.cpp']]],
+  ['crop',['crop',['../_utils_8hpp.html#a91b7070cd0432fcb2485f142ac43edbb',1,'Utils.cpp']]]
 ];

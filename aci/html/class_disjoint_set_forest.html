@@ -113,8 +113,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>constFind</b> (int ele
 <tr class="separator:a51cf48349bef49781534a34ffd5d0104"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe1eace127491da301ae1e20d16a1041"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_disjoint_set_forest.html#abe1eace127491da301ae1e20d16a1041">fuseSmallComponents</a> (<a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;segmentedGraph, int minSize, const Mat_&lt; float &gt; &amp;mask)</td></tr>
 <tr class="separator:abe1eace127491da301ae1e20d16a1041"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a218f8485503a8fd867e31b0e3ad51f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_disjoint_set_forest.html#a3a218f8485503a8fd867e31b0e3ad51f">fuseCloseComponents</a> (const <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; &amp;<a class="el" href="_segmentation_graph_8hpp.html#a011e891ef6e5cd300f91c7be49c4046e">segmentationGraph</a>, MatKernel distFunc, double threshold)</td></tr>
-<tr class="separator:a3a218f8485503a8fd867e31b0e3ad51f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1cd8735daa55eb84afcf17c0791aea3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_disjoint_set_forest.html#ab1cd8735daa55eb84afcf17c0791aea3">fuseCloseComponents</a> (const <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; &amp;<a class="el" href="_segmentation_graph_8hpp.html#a011e891ef6e5cd300f91c7be49c4046e">segmentationGraph</a>, double(*distFunc)(const Mat &amp;, const Mat &amp;), double threshold)</td></tr>
+<tr class="separator:ab1cd8735daa55eb84afcf17c0791aea3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -171,7 +171,7 @@ ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;
 
 </div>
 </div>
-<a class="anchor" id="a3a218f8485503a8fd867e31b0e3ad51f"></a>
+<a class="anchor" id="ab1cd8735daa55eb84afcf17c0791aea3"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -184,7 +184,7 @@ ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">MatKernel&#160;</td>
+          <td class="paramtype">double(*)(const Mat &amp;, const Mat &amp;)&#160;</td>
           <td class="paramname"><em>distFunc</em>, </td>
         </tr>
         <tr>
@@ -377,7 +377,7 @@ ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu May 2 2013 16:56:49 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 8 2013 17:48:29 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>
