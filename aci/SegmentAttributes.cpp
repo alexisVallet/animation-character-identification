@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SegmentAttributes.h"
+#define DEBUG_ATTRIBUTES false
 
 static int uniformMap(int binsPerChannel, unsigned char channelValue) {
 	return floor(((float)channelValue/255.0)*(binsPerChannel-1));
@@ -145,7 +146,6 @@ void concatenateLabelings(const vector<Labeling> &labelings, const Mat_<Vec3b> &
 				Mat tmp;
 
 				vconcat(labels[j], copy.getLabel(j), tmp);
-				cout<<"concatenating "<<labels[j]<<endl<<"and "<<copy.getLabel(j)<<endl<<"yields "<<tmp<<endl;
 				labels[j] = tmp;
 			}
 		}
@@ -183,14 +183,40 @@ void pixelsCovarianceMatrixLabels(const Mat_<Vec3b> &image, const Mat_<float> &m
 		}
 	}
 
+	Mat_<Vec3b> imageCopy = image.clone();
+
 	for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
 		Mat covarianceMatrix(0, 0, CV_32F);
 		Mat mean(0,0,CV_32F);
 
-		calcCovarMatrix(segmentSamples[i], covarianceMatrix, mean, CV_COVAR_NORMAL | CV_COVAR_ROWS, CV_32F);
+		calcCovarMatrix(segmentSamples[i], covarianceMatrix, mean, CV_COVAR_NORMAL | CV_COVAR_ROWS | CV_COVAR_SCALE, CV_32F);
 
-		Mat covarianceVector = covarianceMatrix.reshape(0, 4);
+		Mat eigenvalues;
+		Mat eigenvectors;
 
-		segmentationGraph.addLabel(i, covarianceVector);
+		eigen(covarianceMatrix, eigenvalues, eigenvectors);
+
+		float axis1 = 2 * sqrt(eigenvalues.at<float>(0,0));
+		float axis2 = 2 * sqrt(eigenvalues.at<float>(1,0));
+		float angle = 0.5 * atan((image.rows/image.cols) * (2 * covarianceMatrix.at<float>(0,1) / (covarianceMatrix.at<float>(0,0) - covarianceMatrix.at<float>(1,1))));
+
+		if (DEBUG_ATTRIBUTES) {
+			float degreeAngle = (angle + M_PI/2) * 360 / M_PI;
+			ellipse(imageCopy, Point(mean.at<float>(0,1), mean.at<float>(0,0)), Size(axis1, axis2), degreeAngle, 0, 360, Scalar(0,0,255), 2);
+		}
+
+		double diagonal = sqrt(pow(image.rows,2.) + pow(image.cols,2.));
+
+		Mat ellipseDescriptor(2, 1, CV_32F);
+
+		ellipseDescriptor.at<float>(0,0) = axis1 / diagonal;
+		ellipseDescriptor.at<float>(1,0) = axis2 / diagonal ;
+
+		segmentationGraph.addLabel(i, ellipseDescriptor);
+	}
+
+	if (DEBUG_ATTRIBUTES) {
+		imshow("ellipses", imageCopy);
+		waitKey(0);
 	}
 }

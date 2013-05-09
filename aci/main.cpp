@@ -2,17 +2,13 @@
 #include "KuwaharaFilter.h"
 
 #define TEST false
-#define DEBUG true
-#define BLUR_SIGMA 0.8
+#define DEBUG false
 #define CONNECTIVITY CONNECTIVITY_4
 #define MAX_SEGMENTS 250
-#define BINS_PER_CHANNEL 16
-#define EIG_MU 1
 #define GAUSS_SIGMA 0.8
-#define KHI_MU 0.01
-#define KHI_LAMBDA 0.75
 #define MAX_NB_PIXELS 15000
 #define FELZENSZWALB_SCALE 2000
+#define EIG_MU 0.01
 
 using namespace std;
 using namespace cv;
@@ -29,10 +25,6 @@ void resizeImage(const Mat_<Vec<uchar,3> > &image, const Mat_<float> &mask, Mat_
 		resizedImage = image;
 		resizedMask = mask;
 	}
-}
-
-double gridWeight(const Mat &c1, const Mat &c2) {
-	return exp(0.5 * euclidDistance(c1, c2));
 }
 
 WeightedGraph computeGraphFrom(Mat_<Vec<uchar,3> > &bgrImage, Mat_<float> &mask) {
@@ -60,20 +52,19 @@ WeightedGraph computeGraphFrom(Mat_<Vec<uchar,3> > &bgrImage, Mat_<float> &mask)
 	WeightedGraph grid = gridGraph(resized, CONNECTIVITY_4, resizedMask, euclidDistance, false);
 	int minCompSize = countNonZero(resizedMask) / MAX_SEGMENTS;
 	DisjointSetForest segmentation = felzenszwalbSegment(FELZENSZWALB_SCALE, grid, minCompSize, resizedMask);
-	LabeledGraph<Mat> segGraph = segmentationGraph<Mat>(
-		resized,
-		segmentation,
-		grid);
+	LabeledGraph<Mat> segGraph = segmentationGraph<Mat>(resized, segmentation, grid);
 	
 	vector<Labeling> labelings;
 
 	labelings.push_back(gravityCenterLabels);
 	labelings.push_back(averageColorLabels);
-	labelings.push_back(segmentSizeLabels);
 	labelings.push_back(segmentIndexLabels);
-//	labelings.push_back(pixelsCovarianceMatrixLabels);
+	labelings.push_back(pixelsCovarianceMatrixLabels);
 
 	concatenateLabelings(labelings, resized, resizedMask, segmentation, segGraph);
+
+	// removing background vertices
+
 
 	CompoundGaussianKernel similarityFunctor(computeBorderLengths(segmentation, grid));
 	WeightedGraph finalGraph = weighEdgesByKernel(similarityFunctor, segGraph);
@@ -112,7 +103,6 @@ void computeRates(
 
 int main(int argc, char** argv) {
 	if (TEST) {
-		
 		Mat classes;
 
 		// loads the dataset

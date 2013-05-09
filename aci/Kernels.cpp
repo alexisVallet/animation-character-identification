@@ -40,10 +40,7 @@ WeightedGraph weighEdgesByKernel(const MatKernel &kernel, LabeledGraph<Mat> unwe
 
 	for (int i = 0; i < unweightedGraph.getEdges().size(); i++) {
 		Edge edge = unweightedGraph.getEdges()[i];
-		cout<<"computing weight between "<<edge.source<<" and "<<edge.destination<<endl;
 		double weight = kernel(unweightedGraph.getLabel(edge.source), unweightedGraph.getLabel(edge.destination));
-
-		cout<<"adding edge"<<endl;
 		weighted.addEdge(edge.source, edge.destination, weight);
 	}
 
@@ -69,16 +66,14 @@ double CompoundGaussianKernel::operator() (const Mat &h1, const Mat &h2) const {
 	Mat C2 = h2.rowRange(0, 3);
 	Mat X1 = h1.rowRange(3, 5);
 	Mat X2 = h2.rowRange(3, 5);
-	float S1 = h1.at<float>(5, 0);
-	float S2 = h2.at<float>(5, 0);
-	int i = h1.at<int>(6,0);
-	int j = h2.at<int>(6,0);
+	int i = (int)h1.at<float>(5,0);
+	int j = (int)h2.at<float>(5,0);
+	Mat E1 = h1.rowRange(6,8);
+	Mat E2 = h2.rowRange(6,8);
+	
 	double cres = exp(-muC * pow(norm(C1, C2), 2) / 3);
 	double xres = exp(-muX * pow(norm(X1, X2), 2) / 2);
-	double sres = exp(-muS * abs(S1 - S2));
-	cout<<"cres = "<<cres<<endl;
-	cout<<"xres = "<<xres<<endl;
-	cout<<"S1 = "<<S1<<", S2 = "<<S2<<", sres = "<<sres<<endl;
+	double sres = exp(-muS * pow(norm(E1, E2), 2) / 2);
 
 	return pow(this->borderLengths(i,j), gammaB) * (alphaC * cres + alphaX * xres + alphaS * sres);
 }

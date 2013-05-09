@@ -45,36 +45,38 @@ WeightedGraph gridGraph(const Mat_<Vec<uchar,3> > &image, ConnectivityType conne
 	return grid;
 }
 
-Mat pixelFeatures(const Mat_<Vec<uchar,3> > &image, const Mat_<float> &mask) {
+Mat pixelFeatures(const Mat_<Vec<uchar,3> > &image, const Mat_<float> &mask, vector<int> &indexToVertex) {
 	int nonZeros = countNonZero(mask);
 	// computes the set of features of the image
 	Mat features(nonZeros, 5, CV_32F);
 	int index = 0;
+	indexToVertex = vector<int>(nonZeros,-1);
 	
 	for (int i = 0; i < image.rows; i++) {
 		for (int j = 0; j < image.cols; j++) {
 			if (mask(i,j) > 0) {
 				Vec<uchar,3> color = image(i,j);
 
-				features.at<float>(index,0) = (float)i;
-				features.at<float>(index,1) = (float)j;
-				features.at<float>(index,2) = color[0];
-				features.at<float>(index,3) = color[1];
-				features.at<float>(index,4) = color[2];
+				// computing the feature vector, normalizing coordinates between 0 and 1
+				features.at<float>(index,0) = (float)i / (float)image.rows;
+				features.at<float>(index,1) = (float)j / (float)image.cols;
+				features.at<float>(index,2) = (float)color[0] / 255.;
+				features.at<float>(index,3) = (float)color[1] / 255.;
+				features.at<float>(index,4) = (float)color[2] / 255.;
+
+				indexToVertex[index] = toRowMajor(image.cols, j, i);
+
 				index++;
 			}
 		}
 	}
 
-	cout<<"expected = "<<index<<", actual = "<<nonZeros<<endl;
-
 	return features;
 }
 
 WeightedGraph kNearestGraph(const Mat_<Vec<uchar,3> > &image, const Mat_<float> mask, int k, double (*simFunc)(const Mat&, const Mat&), bool bidirectional) {
-	cout<<"computing features"<<endl;
-	Mat features = pixelFeatures(image, mask);
-	cout<<"computing index"<<endl;
+	vector<int> indexToVertex;
+	Mat features = pixelFeatures(image, mask, indexToVertex);
 	flann::Index flannIndex(features, flann::KMeansIndexParams(16, 5));
 	WeightedGraph nnGraph(image.rows * image.cols);
 	set<pair<int,int> > edges;
@@ -86,63 +88,11 @@ WeightedGraph kNearestGraph(const Mat_<Vec<uchar,3> > &image, const Mat_<float> 
 		vector<float> distances(k + 1);
 
 		flannIndex.knnSearch(features.row(i), indices, distances, k + 1);
-		int srcI = (int)features.at<float>(i, 0);
-		int srcJ = (int)features.at<float>(i, 1);
-		int source = toRowMajor(image.cols, srcJ, srcI);
+		int source = indexToVertex[i];
 
 		for (int j = 0; j < k + 1; j++) {
 			if (indices[j] != i) {
-				int dstI = (int)features.at<float>(indices[j], 0);
-				int dstJ = (int)features.at<float>(indices[j], 1);
-				int destination = toRowMajor(image.cols, dstJ, dstI);
-				
-				int first = min(source, destination);
-				int second = max(source, destination);
-
-				if (edges.find(pair<int,int>(first, second)) == edges.end()) {
-					double weight = simFunc(features.row(i), features.row(indices[j])) + MIN_EDGE_WEIGHT;
-
-					edges.insert(pair<int,int>(first, second));
-					nnGraph.addEdge(source, destination, weight);
-
-					if (bidirectional) {
-						nnGraph.addEdge(destination, source, weight);
-					}
-				}
-			}
-		}
-	}
-
-	return nnGraph;
-}
-
-WeightedGraph radiusGraph(const Mat_<Vec3b> &image, const Mat_<float> &mask, int k, double r, const MatKernel &simFunc, bool bidirectional) {
-	Mat features = pixelFeatures(image, mask);
-	// copying data because flann requires a continuous array.
-	Mat positions = features.colRange(0, 2).clone();
-
-	cout<<"initializing index"<<endl;
-	flann::Index flannIndex(positions, flann::KMeansIndexParams(16, 5));
-
-	WeightedGraph nnGraph(image.rows * image.cols);
-	set<pair<int,int> > edges;
-
-	// for each feature, determine the k nearest neighbors and add them
-	// as edges to the graph.
-	for (int i = 0; i < features.rows; i++) {
-		vector<int> indices(k + 1);
-		vector<float> distances(k + 1);
-
-		flannIndex.radiusSearch(positions.row(i).colRange(0,2), indices, distances, r, k + 1);
-		int srcI = (int)features.at<float>(i, 0);
-		int srcJ = (int)features.at<float>(i, 1);
-		int source = toRowMajor(image.cols, srcJ, srcI);
-
-		for (int j = 0; j < k + 1; j++) {
-			if (indices[j] != i) {
-				int dstI = (int)features.at<float>(indices[j], 0);
-				int dstJ = (int)features.at<float>(indices[j], 1);
-				int destination = toRowMajor(image.cols, dstJ, dstI);
+				int destination = indexToVertex[indices[j]];
 				
 				int first = min(source, destination);
 				int second = max(source, destination);

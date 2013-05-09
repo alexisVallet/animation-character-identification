@@ -42,12 +42,15 @@ float SpectrumDistanceClassifier::leaveOneOutRecognitionRate(vector<WeightedGrap
 	assert(samples.size() == classes.rows);
 	// first determine the maximum number of vertices
 	int maxNumberOfVertices = (*max_element(samples.begin(), samples.end(), compareGraphSize)).numberOfVertices();
+	cout<<"max nb vertices: "<<maxNumberOfVertices<<endl;
 
 	// compute the spectrum of each graph
 	Mat spectra(samples.size(), maxNumberOfVertices, CV_32F);
 
 	for (int i = 0; i < (int)samples.size(); i++) {
+		cout<<"computing representation"<<endl;
 		Mat_<double> matrix = this->representation(samples[i]);
+		cout<<"padding representation"<<endl;
 		Mat_<double> largerMatrix = Mat_<double>::zeros(maxNumberOfVertices, maxNumberOfVertices);
 
 		matrix.copyTo(largerMatrix.rowRange(0, matrix.rows).colRange(0, matrix.cols));
@@ -58,10 +61,12 @@ float SpectrumDistanceClassifier::leaveOneOutRecognitionRate(vector<WeightedGrap
 
 		eigenvalues = eigenvalues.t();
 
+		// scales so the smallest non zero eigenvalues matter more
 		for (int j = 0; j < eigenvalues.cols; j++) {
-			eigenvalues.at<float>(0,j) = exp(-this->mu * eigenvalues.at<float>(0,j));
+			if (eigenvalues.at<double>(0,j) > 10E-8) {
+				eigenvalues.at<double>(0,j) = exp(-this->mu * eigenvalues.at<double>(0,j));
+			}
 		}
-
 
 		eigenvalues.copyTo(spectra.row(i));
 	}

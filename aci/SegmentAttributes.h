@@ -8,6 +8,9 @@
 #include "LabeledGraph.hpp"
 #include "DisjointSet.hpp"
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+
 /**
  * Datatype describing graph labeling functions.
  */
