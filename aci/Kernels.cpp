@@ -54,7 +54,7 @@ CompoundGaussianKernel::CompoundGaussianKernel(Mat_<int> borderLengths)
 }
 
 double CompoundGaussianKernel::operator() (const Mat &h1, const Mat &h2) const {
-	assert(h1.rows == 7 && h2.rows == 7);
+	assert(h1.rows == 10 && h2.rows == 10);
 	const double alphaC = 5;
 	const double muC = 50;
 	const double alphaX = 5;
@@ -68,8 +68,8 @@ double CompoundGaussianKernel::operator() (const Mat &h1, const Mat &h2) const {
 	Mat X2 = h2.rowRange(3, 5);
 	int i = (int)h1.at<float>(5,0);
 	int j = (int)h2.at<float>(5,0);
-	Mat E1 = h1.rowRange(6,8);
-	Mat E2 = h2.rowRange(6,8);
+	Mat E1 = h1.rowRange(6,10);
+	Mat E2 = h2.rowRange(6,10);
 	
 	double cres = exp(-muC * pow(norm(C1, C2), 2) / 3);
 	double xres = exp(-muX * pow(norm(X1, X2), 2) / 2);

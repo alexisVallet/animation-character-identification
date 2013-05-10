@@ -1,7 +1,7 @@
 #pragma once
 
 #include "SegmentAttributes.h"
-#define DEBUG_ATTRIBUTES false
+#define DEBUG_ATTRIBUTES true
 
 static int uniformMap(int binsPerChannel, unsigned char channelValue) {
 	return floor(((float)channelValue/255.0)*(binsPerChannel-1));
@@ -183,7 +183,7 @@ void pixelsCovarianceMatrixLabels(const Mat_<Vec3b> &image, const Mat_<float> &m
 		}
 	}
 
-	Mat_<Vec3b> imageCopy = image.clone();
+	Mat_<Vec3b> regionImage = segmentation.toRegionImage(image);
 
 	for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
 		Mat covarianceMatrix(0, 0, CV_32F);
@@ -198,25 +198,33 @@ void pixelsCovarianceMatrixLabels(const Mat_<Vec3b> &image, const Mat_<float> &m
 
 		float axis1 = 2 * sqrt(eigenvalues.at<float>(0,0));
 		float axis2 = 2 * sqrt(eigenvalues.at<float>(1,0));
-		float angle = 0.5 * atan((image.rows/image.cols) * (2 * covarianceMatrix.at<float>(0,1) / (covarianceMatrix.at<float>(0,0) - covarianceMatrix.at<float>(1,1))));
+		Mat ev1;
+		Mat ev2;
+		Mat horizontal(1,2,CV_32F);
+		horizontal.at<float>(0,0) = 1;
+		horizontal.at<float>(0,1) = 0;
+		normalize(eigenvectors.row(0), ev1);
+		normalize(eigenvectors.row(1), ev2);
+		float angle = acos(horizontal.dot(ev1));
 
 		if (DEBUG_ATTRIBUTES) {
-			float degreeAngle = (angle + M_PI/2) * 360 / M_PI;
-			ellipse(imageCopy, Point(mean.at<float>(0,1), mean.at<float>(0,0)), Size(axis1, axis2), degreeAngle, 0, 360, Scalar(0,0,255), 2);
+			float degreeAngle = angle * 180 / M_PI;
+			cout<<"angle = "<<angle<<" radians and "<<degreeAngle<<" degrees"<<endl;
+			ellipse(regionImage, Point(mean.at<float>(0,1), mean.at<float>(0,0)), Size(axis2, axis1), degreeAngle, 0, 360, Scalar(0,0,255), 2);
 		}
 
 		double diagonal = sqrt(pow(image.rows,2.) + pow(image.cols,2.));
 
-		Mat ellipseDescriptor(2, 1, CV_32F);
+		Mat ellipseDescriptor(4, 1, CV_32F);
 
-		ellipseDescriptor.at<float>(0,0) = axis1 / diagonal;
-		ellipseDescriptor.at<float>(1,0) = axis2 / diagonal ;
+		ellipseDescriptor.rowRange(0,2) = (axis1 / diagonal) * ev1;
+		ellipseDescriptor.rowRange(2,4) = (axis2 / diagonal) * ev2;
 
 		segmentationGraph.addLabel(i, ellipseDescriptor);
 	}
 
 	if (DEBUG_ATTRIBUTES) {
-		imshow("ellipses", imageCopy);
+		imshow("ellipses", regionImage);
 		waitKey(0);
 	}
 }
