@@ -153,7 +153,7 @@ ostream &operator<<(ostream &os, DisjointSetForest &forest) {
 }
 
 void DisjointSetForest::fuseSmallComponents(WeightedGraph &segmentedGraph, int minSize, const Mat_<float> &mask) {
-	for (int i = 0; i < segmentedGraph.getEdges().size(); i++) {
+	for (int i = 0; i < (int)segmentedGraph.getEdges().size(); i++) {
 		Edge edge = segmentedGraph.getEdges()[i];
 		int srcRoot = this->find(edge.source);
 		int dstRoot = this->find(edge.destination);
@@ -177,7 +177,7 @@ void DisjointSetForest::fuseCloseComponents(const LabeledGraph<Mat> &segmentatio
 		reverseIndexes[it->second] = it->first;
 	}
 
-	for (int i = 0; i < segmentationGraph.getEdges().size(); i++) {
+	for (int i = 0; i < (int)segmentationGraph.getEdges().size(); i++) {
 		Edge edge = segmentationGraph.getEdges()[i];
 
 		if (distFunc(segmentationGraph.getLabel(edge.source), segmentationGraph.getLabel(edge.destination)) < threshold) {

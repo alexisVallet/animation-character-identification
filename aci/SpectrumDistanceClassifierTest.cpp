@@ -30,7 +30,7 @@ LabeledGraph<Mat> groundGraph(const LabeledGraph<Mat> &unGrounded) {
 	LabeledGraph<Mat> grounded(unGrounded.numberOfVertices() + 1);
 
 	// copying edges
-	for (int i = 0; i < unGrounded.getEdges().size(); i++) {
+	for (int i = 0; i < (int)unGrounded.getEdges().size(); i++) {
 		Edge edge = unGrounded.getEdges()[i];
 
 		grounded.addEdge(edge.source, edge.destination, edge.weight);
@@ -43,7 +43,7 @@ LabeledGraph<Mat> groundGraph(const LabeledGraph<Mat> &unGrounded) {
 
 	// adding edges adjacent to the ground vertex, copying labels
 	for (int i = 0; i < unGrounded.numberOfVertices(); i++) {
-		assert(unGrounded.getLabel(i).rows == labelRows && unGrounded.getLabel(i).cols = labelCols);
+		assert(unGrounded.getLabel(i).rows == labelRows && unGrounded.getLabel(i).cols == labelCols);
 		grounded.addLabel(i, unGrounded.getLabel(i));
 		grounded.addEdge(i, unGrounded.numberOfVertices(), 1);
 	}
@@ -120,7 +120,7 @@ void computeRates(
 		cout<<models[i].first<<endl;
 		for (int k = 0; k < (int)representations.size(); k++) {
 			cout<<representations[k].first<<endl;
-			SpectrumDistanceClassifier classifier(models[i].second, representations[k].second, EIG_MU);
+			SpectrumDistanceClassifier classifier(models[i].second, representations[k].second, (float)EIG_MU);
 			float rate = classifier.leaveOneOutRecognitionRate(graphs, classes);
 
 			cout<<"rate = "<<rate<<endl;;
@@ -133,24 +133,24 @@ void testSpectrumDistanceClassifier() {
 	// loads the dataset
 	cout<<"loading dataset"<<endl;
 	char *folder = "../test/dataset/";
-	char *names[] = {"amuro", "asuka", "char", "chirno", "conan", "jigen", "kouji", "lupin", "majin", "miku", "ray", "rufy"};
+	char *names[] = {"asuka", "amuro", "rufy", "char", "chirno", "majin"};
 	vector<pair<Mat_<Vec<uchar,3> >,Mat_<float> > > dataSet, dataSet2;
 
 	vector<WeightedGraph> graphs;
 
-	loadDataSet(folder, names, 12, 5, dataSet, classes);
-	loadDataSet(folder, names, 12, 5, dataSet2, classes);
+	loadDataSet(folder, names, 6, 5, dataSet, classes);
+	loadDataSet(folder, names, 6, 5, dataSet2, classes);
 
 	dataSet.reserve(dataSet.size() * 2);
 	
-	for (int i = 0; i < dataSet2.size(); i++) {
+	for (int i = 0; i < (int)dataSet2.size(); i++) {
 		dataSet.push_back(dataSet2[i]);
 	}
 
 	vconcat(classes, classes, classes);
 
 	cout<<"computing segmentation graphs"<<endl;
-	for (int i = 0; i < dataSet.size(); i++) {
+	for (int i = 0; i < (int)dataSet.size(); i++) {
 		graphs.push_back(computeGraphFrom(dataSet[i].first, dataSet[i].second));
 	}
 

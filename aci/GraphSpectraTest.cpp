@@ -20,7 +20,7 @@ static void testSparseLaplacianBidirectional(WeightedGraph &testGraph, WeightedG
 
 	for (int i = 0; i < testGraph.numberOfVertices(); i++) {
 		for (int j = 0; j < testGraph.numberOfVertices(); j++) {
-			if (!abs(denseLaplacian(i,j) - sparseLapl.coeffRef(i,j)) <= 10E-8) {
+			if (!(abs(denseLaplacian(i,j) - sparseLapl.coeffRef(i,j)) <= 10E-8)) {
 				cout<<testGraph<<endl;
 				cout<<bidirectional<<endl;
 				cout<<"not equal at coefficient ("<<i<<","<<j<<")"<<endl;
@@ -45,22 +45,22 @@ static void testSparseLaplacianBidirectional(WeightedGraph &testGraph, WeightedG
 }
 
 void randomBidirectional(WeightedGraph& graph, WeightedGraph& bidir, int nbEdges) {
-	set<std::tuple<int,int,double> > edges;
+	set<std::tuple<int,int,float> > edges;
 
 	for (int i = 0; i < nbEdges; i++) {
 		int src = rand()%graph.numberOfVertices();
 		int dst = rand()%(graph.numberOfVertices()-1);
-		double weight = abs((double)rand() / RAND_MAX);
+		float weight = abs((float)rand() / RAND_MAX);
 
 		if (src == dst) {
 			dst++;
 		}
 
-		edges.insert(std::tuple<int,int,double>(src,dst,weight));
+		edges.insert(std::tuple<int,int,float>(src,dst,weight));
 	}
 
-	for (set<std::tuple<int,int,double> >::iterator it = edges.begin(); it != edges.end(); it++) {
-		std::tuple<int,int,double> edge = *it;
+	for (set<std::tuple<int,int,float> >::iterator it = edges.begin(); it != edges.end(); it++) {
+		std::tuple<int,int,float> edge = *it;
 
 		graph.addEdge(get<0>(edge), get<1>(edge), get<2>(edge));
 		bidir.addEdge(get<0>(edge), get<1>(edge), get<2>(edge));

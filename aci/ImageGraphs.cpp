@@ -29,7 +29,7 @@ WeightedGraph gridGraph(const Mat_<Vec<uchar,3> > &image, ConnectivityType conne
 	  
 						assert(neighborIndex >= 0 && neighborIndex < grid.numberOfVertices());
 						
-						float weight = simFunc(Mat(centerIntensity), Mat(neighborIntensity));
+						float weight = (float)simFunc(Mat(centerIntensity), Mat(neighborIntensity));
 
 						grid.addEdge(centerIndex, neighborIndex, weight + MIN_EDGE_WEIGHT);
 
@@ -60,9 +60,9 @@ Mat pixelFeatures(const Mat_<Vec<uchar,3> > &image, const Mat_<float> &mask, vec
 				// computing the feature vector, normalizing coordinates between 0 and 1
 				features.at<float>(index,0) = (float)i / (float)image.rows;
 				features.at<float>(index,1) = (float)j / (float)image.cols;
-				features.at<float>(index,2) = (float)color[0] / 255.;
-				features.at<float>(index,3) = (float)color[1] / 255.;
-				features.at<float>(index,4) = (float)color[2] / 255.;
+				features.at<float>(index,2) = (float)color[0] / (float)255.;
+				features.at<float>(index,3) = (float)color[1] / (float)255.;
+				features.at<float>(index,4) = (float)color[2] / (float)255.;
 
 				indexToVertex[index] = toRowMajor(image.cols, j, i);
 
@@ -98,7 +98,7 @@ WeightedGraph kNearestGraph(const Mat_<Vec<uchar,3> > &image, const Mat_<float> 
 				int second = max(source, destination);
 
 				if (edges.find(pair<int,int>(first, second)) == edges.end()) {
-					double weight = simFunc(features.row(i), features.row(indices[j])) + MIN_EDGE_WEIGHT;
+					float weight = (float)simFunc(features.row(i), features.row(indices[j])) + MIN_EDGE_WEIGHT;
 
 					edges.insert(pair<int,int>(first, second));
 					nnGraph.addEdge(source, destination, weight);

@@ -148,15 +148,15 @@ Mat imHist(Mat hist, float scaleX, float scaleY){
 	minMaxLoc(hist, 0, &maxVal, 0, 0);
 	int rows = 64; //default height size
 	int cols = hist.rows; //get the width size from the histogram
-	Mat histImg = Mat::zeros(rows*scaleX, cols*scaleY, CV_8UC3);
+	Mat histImg = Mat::zeros((uchar)(rows*scaleX), (uchar)(cols*scaleY), CV_8UC3);
 	//for each bin
 	for(int i=0;i<cols-1;i++) {
 		float histValue = hist.at<float>(i,0);
 		float nextValue = hist.at<float>(i+1,0);
-		Point pt1 = Point(i*scaleX, rows*scaleY);
-		Point pt2 = Point(i*scaleX+scaleX, rows*scaleY);
-		Point pt3 = Point(i*scaleX+scaleX, (rows-nextValue*rows/maxVal)*scaleY);
-		Point pt4 = Point(i*scaleX, (rows-nextValue*rows/maxVal)*scaleY);
+		Point pt1 = Point((int)(i*scaleX), (int)(rows*scaleY));
+		Point pt2 = Point((int)(i*scaleX+scaleX), (int)(rows*scaleY));
+		Point pt3 = Point((int)(i*scaleX+scaleX), (int)((rows-nextValue*rows/maxVal)*scaleY));
+		Point pt4 = Point((int)(i*scaleX), (int)((rows-nextValue*rows/maxVal)*scaleY));
 
 		int numPts = 5;
 		Point pts[] = {pt1, pt2, pt3, pt4, pt1};
@@ -172,7 +172,7 @@ void showHistograms(const Mat_<Vec3b> &image, const Mat_<float> &mask, int nbBin
 
 	split(image, channels);
 
-	for (int i = 0; i < channels.size(); i++) {
+	for (int i = 0; i < (int)channels.size(); i++) {
 		Mat histogram;
 		int channelInd[1] = {0};
 		int histSize[] = {nbBins};

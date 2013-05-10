@@ -62,11 +62,11 @@ float SpectrumDistanceClassifier::leaveOneOutRecognitionRate(vector<WeightedGrap
 		eigenvalues = eigenvalues.t();
 
 		// scales so the smallest non zero eigenvalues matter more
-		for (int j = 0; j < eigenvalues.cols; j++) {
+		/*for (int j = 0; j < eigenvalues.cols; j++) {
 			if (eigenvalues.at<double>(0,j) > 10E-8) {
 				eigenvalues.at<double>(0,j) = exp(-this->mu * eigenvalues.at<double>(0,j));
 			}
-		}
+		}*/
 
 		eigenvalues.copyTo(spectra.row(i));
 	}
@@ -81,9 +81,26 @@ float SpectrumDistanceClassifier::leaveOneOutRecognitionRate(vector<WeightedGrap
 	for (int i = 0; i < spectra.rows; i++) {
 		this->statModel->clear();
 		this->statModel->train(otherSamples, otherClasses);
-		int result = floor(this->statModel->predict(spectra.row(i)));
+		int result = (int)floor(this->statModel->predict(spectra.row(i)));
 
 		cout<<"actual = "<<result<<", expected = "<<classes.at<int>(i,0)<<endl;
+
+		cout<<"sample = "<<spectra.row(i)<<endl;
+		float closestDistance = FLT_MAX;
+		int best = 0;
+
+		for (int j = 0; j < spectra.rows; j++) {
+			if (i != j) {
+				float distance = (float)norm(spectra.row(j), spectra.row(i));
+
+				if (distance < closestDistance) {
+					closestDistance = distance;
+					best = j;
+				}
+			}
+		}
+
+		cout<<"closest at "<<best<<" distance "<<closestDistance<<" = "<<spectra.row(best)<<endl;
 
 		if (result == classes.at<int>(i,0)) {
 			totalCorrectResults++;

@@ -1,7 +1,7 @@
 #include "GraphPartitions.h"
 
 void fusePartitions(const WeightedGraph &graph, vector<int> &inSubgraph, vector<int> &vertexIdx, vector<DisjointSetForest> &partitions, DisjointSetForest &partition) {
-	for (int i = 0; i < graph.getEdges().size(); i++) {
+	for (int i = 0; i < (int)graph.getEdges().size(); i++) {
 		Edge edge = graph.getEdges()[i];
 
 		if (inSubgraph[edge.source] == inSubgraph[edge.destination]) {

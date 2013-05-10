@@ -97,7 +97,7 @@ Eigen::SparseMatrix<double> normalizedSparseLaplacian(const WeightedGraph &graph
 	for (int i = 0; i < graph.numberOfVertices(); i++) {
 		double selfLoopWeight = 0;
 
-		for (int j = 0; j < graph.getAdjacencyList(i).size(); j++) {
+		for (int j = 0; j < (int)graph.getAdjacencyList(i).size(); j++) {
 			HalfEdge edge = graph.getAdjacencyList(i)[j];
 
 			degrees(i) += edge.weight;
@@ -111,7 +111,7 @@ Eigen::SparseMatrix<double> normalizedSparseLaplacian(const WeightedGraph &graph
 	}
 
 	// Then we compute the coefficient for each edge
-	for (int i = 0; i < graph.getEdges().size(); i++) {
+	for (int i = 0; i < (int)graph.getEdges().size(); i++) {
 		Edge edge = graph.getEdges()[i];
 		double denominator = sqrt(degrees(edge.source) * degrees(edge.destination));
 
@@ -133,46 +133,6 @@ Eigen::SparseMatrix<double> normalizedSparseLaplacian(const WeightedGraph &graph
 	normalized.setFromTriplets(triplets.begin(), triplets.end());
 
 	return normalized;
-}
-
-void packedStorageNormalizedLaplacian(const WeightedGraph &graph, double *L) {
-	cout<<"initializing every coefficient to 0"<<endl;
-	// we intialize everything to 0
-	int n = graph.numberOfVertices();
-
-	for (int i = 0; i < n * (n-1)/2; i++) {
-		L[i] = 0;
-	}
-	cout<<"initializing diagonal"<<endl;
-	// we initialize the diagonal to 1
-	for (int i = 0; i < graph.numberOfVertices(); i++) {
-		int index = toUpperTriangularPacked(i,i);
-
-		if (index < 0 || index >= n * (n + 1) / 2) {
-			cout<<"index out of bounds "<<index<<" at ("<<i<<","<<i<<")"<<endl;
-		}
-
-		L[index] = 1;
-	}
-
-	cout<<"computing degrees"<<endl;
-	// we then compute the degrees
-	vector<int> degrees(graph.numberOfVertices(), 0);
-
-	for (int i = 0; i < graph.getEdges().size(); i++) {
-		Edge edge = graph.getEdges()[i];
-
-		degrees[edge.source] += edge.weight;
-		degrees[edge.destination] += edge.weight;
-	}
-
-	cout<<"computing non diagonal elements"<<endl;
-	// then we compute the non diagonal elements
-	for (int i = 0; i < graph.getEdges().size(); i++) {
-		Edge edge = graph.getEdges()[i];
-
-		L[toUpperTriangularPacked(edge.source, edge.destination)] = -edge.weight / sqrt((double)degrees[edge.source] * degrees[edge.destination]);
-	}
 }
 
 // ARPACK routine for lanczos algorithm

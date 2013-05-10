@@ -31,7 +31,13 @@ void KNearestModel::train(Mat &trainData, Mat &expectedResponses) {
 }
     
 float KNearestModel::predict(Mat &samples) {
-    return this->internalStatModel.find_nearest(samples, this->k);
+	Mat results;
+	Mat neighborResponses;
+	Mat dists;
+
+    float res = this->internalStatModel.find_nearest(samples, this->k, results, neighborResponses, dists);
+
+	return res;
 }
 
 void KNearestModel::clear() {
@@ -55,7 +61,7 @@ void ANNModel::train(Mat& trainData, Mat& expectedResponses) {
     int lastLayerSize = layerSizes.at<int>(0, layerSizes.cols-1);
     Mat responsesVectors = Mat::zeros(expectedResponses.rows, lastLayerSize, CV_32F);
     for (int i = 0; i < expectedResponses.rows; i++) {
-        responsesVectors.at<float>(i, expectedResponses.at<float>(i,0)) = 1;
+        responsesVectors.at<float>(i, (int)expectedResponses.at<float>(i,0)) = 1;
     }
         
     this->internalStatModel.train(trainData, responsesVectors, Mat());

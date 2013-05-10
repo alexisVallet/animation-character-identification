@@ -6,7 +6,7 @@ void testGridGraphBidirectional(Mat_<Vec<uchar,3> > &image, Mat_<float> &mask) {
 	set<pair<int,int> > edges;
 
 	// checking that the graph representation is correctly bidirectional
-	for (int i = 0; i < connectedGrid.getEdges().size(); i++) {
+	for (int i = 0; i < (int)connectedGrid.getEdges().size(); i++) {
 		Edge edge = connectedGrid.getEdges()[i];
 		edges.insert(pair<int,int>(edge.source, edge.destination));
 	}
@@ -34,7 +34,7 @@ void testGridGraphBidirectional(Mat_<Vec<uchar,3> > &image, Mat_<float> &mask) {
 	for (int i = 0; i < connectedGrid.numberOfVertices(); i++) {
 		double sumWeights = 0;
 
-		for (int j = 0; j < connectedGrid.getAdjacencyList(i).size(); j++) {
+		for (int j = 0; j < (int)connectedGrid.getAdjacencyList(i).size(); j++) {
 			sumWeights += connectedGrid.getAdjacencyList(i)[j].weight;
 		}
 

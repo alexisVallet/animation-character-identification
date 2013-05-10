@@ -13,8 +13,8 @@ T matAverage(Mat_<T> &mat){
 
 	T sum;
 
-	for(unsigned int i = 0; i < mat.rows ;i++){
-		for(unsigned int j = 0; j < mat.cols ;j++){
+	for(unsigned int i = 0; i < (unsigned)mat.rows ;i++){
+		for(unsigned int j = 0; j < (unsigned)mat.cols ;j++){
 			sum += mat(i,j);
 		}
 	}
@@ -31,8 +31,8 @@ float matLabVariance(Mat_<Vec3f> &mat, Vec3f average){
 	
 	float sum = 0;
 	
-	for(unsigned int i = 0; i < mat.rows ;i++){
-		for(unsigned int j = 0; j < mat.cols ;j++){
+	for(unsigned int i = 0; i < (unsigned)mat.rows ;i++){
+		for(unsigned int j = 0; j < (unsigned)mat.cols ;j++){
 			sum += sqrt( pow(average[0] - mat(i,j)[0],2) + pow(average[1] - mat(i,j)[1],2) +  pow(average[2] - mat(i,j)[2],2));
 		}
 	}

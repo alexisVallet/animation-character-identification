@@ -31,7 +31,7 @@ vector<Vec<float,2> > segmentCenters(Mat_<Vec<uchar,3> > &image, DisjointSetFore
       int root = segmentation.find(toRowMajor(image.cols, j, i));
       int rootIndex = rootIndexes[root];
 
-      centers[rootIndex] += Vec<float,2>(i,j)/((float)segmentation.getComponentSize(root));
+      centers[rootIndex] += Vec<float,2>((float)i,(float)j)/((float)segmentation.getComponentSize(root));
     }
   }
 

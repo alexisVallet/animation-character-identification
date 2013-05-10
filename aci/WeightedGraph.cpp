@@ -42,13 +42,13 @@ int WeightedGraph::numberOfVertices() const {
 }
 
 void WeightedGraph::drawGraph(vector<Vec<float,2> > verticesPositions, Mat &imageToDrawOn) {
-  for (int i = 0; i < (int)this->edges.size(); i++) {
-    Edge edge = this->edges[i];
-    Vec<float,2> srcPos = verticesPositions[edge.source];
-    Vec<float,2> dstPos = verticesPositions[edge.destination];
+	for (int i = 0; i < (int)this->edges.size(); i++) {
+		Edge edge = this->edges[i];
+		Vec<float,2> srcPos = verticesPositions[edge.source];
+		Vec<float,2> dstPos = verticesPositions[edge.destination];
 
-    line(imageToDrawOn, Point(floor(srcPos[1]), floor(srcPos[0])), Point(floor(dstPos[1]), floor(dstPos[0])), Scalar(0,0,0));
-  }
+		line(imageToDrawOn, Point((int)floor(srcPos[1]), (int)floor(srcPos[0])), Point((int)floor(dstPos[1]), (int)floor(dstPos[0])), Scalar(0,0,0));
+	}
 }
 
 void WeightedGraph::drawGraphWithEmbedding(vector<Vec<float,2> > verticesPositions, Mat &imageToDrawOn, graph_t boostGraph, embedding_t embedding) {
@@ -65,7 +65,7 @@ void WeightedGraph::drawGraphWithEmbedding(vector<Vec<float,2> > verticesPositio
 			Vec<float,2> dstPos = verticesPositions[dst];
 
 			cout<<"Drawing edge between "<<i<<" and "<<dst<<endl;
-			line(imageToDrawOn, Point(floor(srcPos[1]), floor(srcPos[0])), Point(floor(dstPos[1]), floor(dstPos[0])), color);
+			line(imageToDrawOn, Point((int)floor(srcPos[1]), (int)floor(srcPos[0])), Point((int)floor(dstPos[1]), (int)floor(dstPos[0])), color);
 			imshow("graph", imageToDrawOn);
 			waitKey(0);
 		}
@@ -122,7 +122,7 @@ void connectedComponents(const WeightedGraph &graph, vector<int> &inConnectedCom
 				int t = stack.back();
 				stack.pop_back();
 
-				for (int j = 0; j < graph.getAdjacencyList(t).size(); j++) {
+				for (int j = 0; j < (int)graph.getAdjacencyList(t).size(); j++) {
 					HalfEdge edge = graph.getAdjacencyList(t)[j];
 
 					if (!discovered[edge.destination]) {
@@ -148,7 +148,7 @@ bool connected(const WeightedGraph& graph) {
 }
 
 bool noLoops(const WeightedGraph& graph) {
-	for (int i = 0; i < graph.getEdges().size(); i++) {
+	for (int i = 0; i < (int)graph.getEdges().size(); i++) {
 		Edge edge = graph.getEdges()[i];
 
 		if (edge.source == edge.destination) {
@@ -161,12 +161,12 @@ bool noLoops(const WeightedGraph& graph) {
 
 bool bidirectional(const WeightedGraph& graph) {
 	for (int i = 0; i < graph.numberOfVertices(); i++) {
-		for (int j = 0; j < graph.getAdjacencyList(i).size(); j++) {
+		for (int j = 0; j < (int)graph.getAdjacencyList(i).size(); j++) {
 			HalfEdge edge = graph.getAdjacencyList(i)[j];
 
 			bool inOtherDir = false;
 
-			for (int k = 0; k < graph.getAdjacencyList(edge.destination).size(); k++) {
+			for (int k = 0; k < (int)graph.getAdjacencyList(edge.destination).size(); k++) {
 				HalfEdge other = graph.getAdjacencyList(edge.destination)[k];
 
 				if (other.destination == i && abs(other.weight - edge.weight) <= 10E-8) {
@@ -207,7 +207,7 @@ void inducedSubgraphs(const WeightedGraph &graph, const vector<int> &inSubgraph,
 		subgraphs[i] = WeightedGraph(subgraphSizes[i]);
 	}
 	
-	for (int i = 0; i < graph.getEdges().size(); i++) {
+	for (int i = 0; i < (int)graph.getEdges().size(); i++) {
 		Edge edge = graph.getEdges()[i];
 
 		if (inSubgraph[edge.source] == inSubgraph[edge.destination]) {

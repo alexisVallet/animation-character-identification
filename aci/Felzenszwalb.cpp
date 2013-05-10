@@ -33,7 +33,7 @@ DisjointSetForest felzenszwalbSegment(int k, WeightedGraph graph, int minCompSiz
 	}
 
 	bool firstBgPixelFound = false;
-	int bgSegment;
+	int bgSegment = -1;
 
 	// Fuses background into a single, unconnected component
 	for (int i = 0; i < mask.rows; i++) {

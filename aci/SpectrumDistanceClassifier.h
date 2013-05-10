@@ -3,6 +3,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <algorithm>
+#include <cfloat>
 
 #include "TrainableStatModel.h"
 #include "Kernels.h"

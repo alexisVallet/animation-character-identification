@@ -4,7 +4,7 @@
 #define DEBUG_ATTRIBUTES false
 
 static int uniformMap(int binsPerChannel, unsigned char channelValue) {
-	return floor(((float)channelValue/255.0)*(binsPerChannel-1));
+	return (int)floor(((float)channelValue/255.0)*(binsPerChannel-1));
 }
 
 void colorHistogramLabels(
@@ -47,6 +47,10 @@ void colorHistogramLabels(
 
 void averageColorLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph) {
 	assert(image.rows == mask.rows && image.cols == mask.cols);
+	if (!segmentation.getNumberOfComponents() == segmentationGraph.numberOfVertices()) {
+		cout<<"pouet"<<endl;
+		exit(EXIT_FAILURE);
+	}
 	vector<Vec3f> averageColor;
 	averageColor.reserve(segmentation.getNumberOfComponents());
 
@@ -74,6 +78,10 @@ void averageColorLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, Disjo
 
 void gravityCenterLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph) {
 	assert(image.rows == mask.rows && image.cols == mask.cols);
+	if (!segmentation.getNumberOfComponents() == segmentationGraph.numberOfVertices()) {
+		cout<<"pouet"<<endl;
+		exit(EXIT_FAILURE);
+	}
 	
 	vector<Vec2f> gravityCenters;
 	gravityCenters.reserve(segmentation.getNumberOfComponents());
@@ -88,7 +96,7 @@ void gravityCenterLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, Disj
 			if (mask(i,j) > 0) {
 				int root = segmentation.find(toRowMajor(image.cols, j, i));
 				int segmentIndex = rootIndexes[root];
-				Vec2f position = Vec2f(i,j);
+				Vec2f position = Vec2f((float)i,(float)j);
 
 				gravityCenters[segmentIndex] += position / (float)segmentation.getComponentSize(root);
 			}
@@ -106,6 +114,11 @@ void gravityCenterLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, Disj
 }
 
 void segmentSizeLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph) {
+	assert(image.rows == mask.rows && image.cols == mask.cols);
+	if (!segmentation.getNumberOfComponents() == segmentationGraph.numberOfVertices()) {
+		cout<<"pouet"<<endl;
+		exit(EXIT_FAILURE);
+	}
 	vector<int> reverseMap(segmentation.getNumberOfComponents());
 	map<int,int> rootIndexes = segmentation.getRootIndexes();
 
@@ -122,10 +135,13 @@ void segmentSizeLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, Disjoi
 }
 
 void segmentIndexLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph) {
+	assert(image.rows == mask.rows && image.cols == mask.cols);
+	assert(segmentation.getNumberOfComponents() == segmentationGraph.numberOfVertices());
+
 	for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
 		Mat singleton(1,1,CV_32F);
 
-		singleton.at<float>(0,0) = i;
+		singleton.at<float>(0,0) = (float)i;
 
 		segmentationGraph.addLabel(i, singleton);
 	}
@@ -134,7 +150,7 @@ void segmentIndexLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, Disjo
 void concatenateLabelings(const vector<Labeling> &labelings, const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph) {
 	vector<Mat> labels(segmentationGraph.numberOfVertices());
 
-	for (int i = 0; i < labelings.size(); i++) {
+	for (int i = 0; i < (int)labelings.size(); i++) {
 		LabeledGraph<Mat> copy = segmentationGraph;
 
 		labelings[i](image, mask, segmentation, copy);
@@ -157,7 +173,10 @@ void concatenateLabelings(const vector<Labeling> &labelings, const Mat_<Vec3b> &
 }
 
 void pixelsCovarianceMatrixLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph) {
-	assert(segmentation.getNumberOfComponents() == segmentationGraph.numberOfVertices());
+	if (!segmentation.getNumberOfComponents() == segmentationGraph.numberOfVertices()) {
+		cout<<"pouet"<<endl;
+		exit(EXIT_FAILURE);
+	}
 	vector<Mat> segmentSamples(segmentation.getNumberOfComponents());
 	map<int,int> rootIndexes = segmentation.getRootIndexes();
 
@@ -165,8 +184,8 @@ void pixelsCovarianceMatrixLabels(const Mat_<Vec3b> &image, const Mat_<float> &m
 		for (int j = 0; j < image.cols; j++) {
 			Mat coords(1,2,CV_32F);
 
-			coords.at<float>(0,0) = i;
-			coords.at<float>(0,1) = j;
+			coords.at<float>(0,0) = (float)i;
+			coords.at<float>(0,1) = (float)j;
 
 			int root = segmentation.find(toRowMajor(image.cols, j, i));
 			int segmentIndex = rootIndexes[root];
@@ -205,12 +224,12 @@ void pixelsCovarianceMatrixLabels(const Mat_<Vec3b> &image, const Mat_<float> &m
 		horizontal.at<float>(0,1) = 0;
 		normalize(eigenvectors.row(0), ev1);
 		normalize(eigenvectors.row(1), ev2);
-		float angle = acos(horizontal.dot(ev1));
+		float angle = (float)acos(horizontal.dot(ev1));
 
 		if (DEBUG_ATTRIBUTES) {
 			float degreeAngle = angle * 180 / M_PI;
 			cout<<"angle = "<<angle<<" radians and "<<degreeAngle<<" degrees"<<endl;
-			ellipse(regionImage, Point(mean.at<float>(0,1), mean.at<float>(0,0)), Size(axis2, axis1), degreeAngle, 0, 360, Scalar(0,0,255), 2);
+			ellipse(regionImage, Point((int)mean.at<float>(0,1), (int)mean.at<float>(0,0)), Size((int)axis2, (int)axis1), degreeAngle, 0, 360, Scalar(0,0,255), 2);
 		}
 
 		double diagonal = sqrt(pow(image.rows,2.) + pow(image.cols,2.));
