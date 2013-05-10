@@ -94,6 +94,7 @@
     <ClCompile Include="SegmentationGraph.cpp" />
     <ClCompile Include="SegmentAttributes.cpp" />
     <ClCompile Include="SpectrumDistanceClassifier.cpp" />
+    <ClCompile Include="SpectrumDistanceClassifierTest.cpp" />
     <ClCompile Include="TrainableStatModel.cpp" />
     <ClCompile Include="TreeWalkKernel.cpp" />
     <ClCompile Include="Utils.cpp" />
@@ -114,6 +115,7 @@
     <ClInclude Include="SegmentationGraph.hpp" />
     <ClInclude Include="SegmentAttributes.h" />
     <ClInclude Include="SpectrumDistanceClassifier.h" />
+    <ClInclude Include="SpectrumDistanceClassifierTest.h" />
     <ClInclude Include="TrainableStatModel.h" />
     <ClInclude Include="TreeWalkKernel.hpp" />
     <ClInclude Include="Utils.hpp" />

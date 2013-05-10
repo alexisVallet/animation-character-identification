@@ -1,7 +1,7 @@
 #pragma once
 
 #include "SegmentAttributes.h"
-#define DEBUG_ATTRIBUTES true
+#define DEBUG_ATTRIBUTES false
 
 static int uniformMap(int binsPerChannel, unsigned char channelValue) {
 	return floor(((float)channelValue/255.0)*(binsPerChannel-1));
