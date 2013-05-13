@@ -1,0 +1,161 @@
+\hypertarget{class_weighted_graph}{\section{Weighted\-Graph Class Reference}
+\label{class_weighted_graph}\index{Weighted\-Graph@{Weighted\-Graph}}
+}
+
+
+Inheritance diagram for Weighted\-Graph\-:
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_weighted_graph_a567ecc243c75a3d6a8905670d08ada82}{Weighted\-Graph} (int \hyperlink{class_weighted_graph_ac6c8807a6c023525baec8525553c03eb}{number\-Of\-Vertices}, int max\-Degree=-\/1)
+\item 
+void \hyperlink{class_weighted_graph_a3bf3d91dd58ff3fc39fdb82034a7aa51}{add\-Edge} (int source, int destination, float weight)
+\item 
+const vector$<$ \hyperlink{struct_edge}{Edge} $>$ \& \hyperlink{class_weighted_graph_aa7298cc529e17edcb37672f8a99d6b9d}{get\-Edges} () const 
+\item 
+int \hyperlink{class_weighted_graph_ac6c8807a6c023525baec8525553c03eb}{number\-Of\-Vertices} () const 
+\item 
+void \hyperlink{class_weighted_graph_a44f6317544e38f738556a99ec2c3afbc}{draw\-Graph} (vector$<$ Vec$<$ float, 2 $>$ $>$ vertices\-Positions, Mat \&image\-To\-Draw\-On)
+\item 
+void \hyperlink{class_weighted_graph_a22567ab413fdf04c2012465696b6dadd}{draw\-Graph\-With\-Embedding} (vector$<$ Vec$<$ float, 2 $>$ $>$ vertices\-Positions, Mat \&image\-To\-Draw\-On, graph\-\_\-t boost\-Graph, embedding\-\_\-t embedding)
+\item 
+graph\-\_\-t \hyperlink{class_weighted_graph_adeea80029e36859b8ff567eaa1d02ef4}{to\-Boost\-Graph} ()
+\item 
+const vector$<$ \hyperlink{struct_half_edge}{Half\-Edge} $>$ \& \hyperlink{class_weighted_graph_ab6952debe4a19bdfadce2f31c229107d}{get\-Adjacency\-List} (int vertex) const 
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_weighted_graph_ae85c694f23de7587ee0631c6062297b6}{ostream \& {\bfseries operator$<$$<$} (ostream \&os, const \hyperlink{class_weighted_graph}{Weighted\-Graph} \&graph)}\label{class_weighted_graph_ae85c694f23de7587ee0631c6062297b6}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_weighted_graph_a567ecc243c75a3d6a8905670d08ada82}{\index{Weighted\-Graph@{Weighted\-Graph}!Weighted\-Graph@{Weighted\-Graph}}
+\index{Weighted\-Graph@{Weighted\-Graph}!WeightedGraph@{Weighted\-Graph}}
+\subsubsection[{Weighted\-Graph}]{\setlength{\rightskip}{0pt plus 5cm}Weighted\-Graph\-::\-Weighted\-Graph (
+\begin{DoxyParamCaption}
+\item[{int}]{number\-Of\-Vertices, }
+\item[{int}]{max\-Degree = {\ttfamily -\/1}}
+\end{DoxyParamCaption}
+)}}\label{class_weighted_graph_a567ecc243c75a3d6a8905670d08ada82}
+Initializes the graph with a given number of vertices and an optional upper bound on the degree of vertices of the graph.
+
+
+\begin{DoxyParams}{Parameters}
+{\em number\-Of\-Vertices} & the number of vertices of the graph \\
+\hline
+{\em max\-Degree} & an upper bound on the degree of vertices in the graph. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_weighted_graph_a3bf3d91dd58ff3fc39fdb82034a7aa51}{\index{Weighted\-Graph@{Weighted\-Graph}!add\-Edge@{add\-Edge}}
+\index{add\-Edge@{add\-Edge}!WeightedGraph@{Weighted\-Graph}}
+\subsubsection[{add\-Edge}]{\setlength{\rightskip}{0pt plus 5cm}void Weighted\-Graph\-::add\-Edge (
+\begin{DoxyParamCaption}
+\item[{int}]{source, }
+\item[{int}]{destination, }
+\item[{float}]{weight = {\ttfamily 1}}
+\end{DoxyParamCaption}
+)}}\label{class_weighted_graph_a3bf3d91dd58ff3fc39fdb82034a7aa51}
+Adds an edge to the graph. In the case of an undirected graph, the order of source and destination does not matter.
+
+
+\begin{DoxyParams}{Parameters}
+{\em source} & the source vertex of the edge. \\
+\hline
+{\em destination} & the destination vertex of the edge. \\
+\hline
+{\em weight} & the weight of the edge. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_weighted_graph_a44f6317544e38f738556a99ec2c3afbc}{\index{Weighted\-Graph@{Weighted\-Graph}!draw\-Graph@{draw\-Graph}}
+\index{draw\-Graph@{draw\-Graph}!WeightedGraph@{Weighted\-Graph}}
+\subsubsection[{draw\-Graph}]{\setlength{\rightskip}{0pt plus 5cm}void Weighted\-Graph\-::draw\-Graph (
+\begin{DoxyParamCaption}
+\item[{vector$<$ Vec$<$ float, 2 $>$ $>$}]{vertices\-Positions, }
+\item[{Mat \&}]{image\-To\-Draw\-On}
+\end{DoxyParamCaption}
+)}}\label{class_weighted_graph_a44f6317544e38f738556a99ec2c3afbc}
+Draws the graph on an image.
+
+
+\begin{DoxyParams}{Parameters}
+{\em vertices\-Positions} & vertices positions on the image \\
+\hline
+{\em image\-To\-Draw\-On} & image the graph will be drawn over \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_weighted_graph_a22567ab413fdf04c2012465696b6dadd}{\index{Weighted\-Graph@{Weighted\-Graph}!draw\-Graph\-With\-Embedding@{draw\-Graph\-With\-Embedding}}
+\index{draw\-Graph\-With\-Embedding@{draw\-Graph\-With\-Embedding}!WeightedGraph@{Weighted\-Graph}}
+\subsubsection[{draw\-Graph\-With\-Embedding}]{\setlength{\rightskip}{0pt plus 5cm}void Weighted\-Graph\-::draw\-Graph\-With\-Embedding (
+\begin{DoxyParamCaption}
+\item[{vector$<$ Vec$<$ float, 2 $>$ $>$}]{vertices\-Positions, }
+\item[{Mat \&}]{image\-To\-Draw\-On, }
+\item[{graph\-\_\-t}]{boost\-Graph, }
+\item[{embedding\-\_\-t}]{embedding}
+\end{DoxyParamCaption}
+)}}\label{class_weighted_graph_a22567ab413fdf04c2012465696b6dadd}
+Draws the graph on an image, vertex by vertex adding each edge in its circular ordering as defined by a planar embedding. Displays the intermediary image at each step, waiting for user input between each step. This method should therefore only be used for debugging purposes.
+
+
+\begin{DoxyParams}{Parameters}
+{\em vertices\-Positions} & vertices positions on the image \\
+\hline
+{\em image\-To\-Draw\-On} & image the graph will be drawn over \\
+\hline
+{\em embedding} & a planar embedding of the graph, as returned by boost\-::graph\-::boyer\-\_\-myrvold\-\_\-planarity\-\_\-test for instance. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_weighted_graph_ab6952debe4a19bdfadce2f31c229107d}{\index{Weighted\-Graph@{Weighted\-Graph}!get\-Adjacency\-List@{get\-Adjacency\-List}}
+\index{get\-Adjacency\-List@{get\-Adjacency\-List}!WeightedGraph@{Weighted\-Graph}}
+\subsubsection[{get\-Adjacency\-List}]{\setlength{\rightskip}{0pt plus 5cm}const vector$<$ {\bf Half\-Edge} $>$ \& Weighted\-Graph\-::get\-Adjacency\-List (
+\begin{DoxyParamCaption}
+\item[{int}]{vertex}
+\end{DoxyParamCaption}
+) const}}\label{class_weighted_graph_ab6952debe4a19bdfadce2f31c229107d}
+Returns the adjacency list of a specific vertex. In the case of unidirectional representation, this does not return all adjacent vertices. Use a bidirectional representation for this. \hypertarget{class_weighted_graph_aa7298cc529e17edcb37672f8a99d6b9d}{\index{Weighted\-Graph@{Weighted\-Graph}!get\-Edges@{get\-Edges}}
+\index{get\-Edges@{get\-Edges}!WeightedGraph@{Weighted\-Graph}}
+\subsubsection[{get\-Edges}]{\setlength{\rightskip}{0pt plus 5cm}const vector$<$ {\bf Edge} $>$ \& Weighted\-Graph\-::get\-Edges (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_weighted_graph_aa7298cc529e17edcb37672f8a99d6b9d}
+Computes and returns a vector containing all the edges in the graph.
+
+\begin{DoxyReturn}{Returns}
+a vector containing all the edges in the graph. 
+\end{DoxyReturn}
+\hypertarget{class_weighted_graph_ac6c8807a6c023525baec8525553c03eb}{\index{Weighted\-Graph@{Weighted\-Graph}!number\-Of\-Vertices@{number\-Of\-Vertices}}
+\index{number\-Of\-Vertices@{number\-Of\-Vertices}!WeightedGraph@{Weighted\-Graph}}
+\subsubsection[{number\-Of\-Vertices}]{\setlength{\rightskip}{0pt plus 5cm}int Weighted\-Graph\-::number\-Of\-Vertices (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_weighted_graph_ac6c8807a6c023525baec8525553c03eb}
+The number of vertices of the graph.
+
+\begin{DoxyReturn}{Returns}
+the number of vertices of the graph. 
+\end{DoxyReturn}
+\hypertarget{class_weighted_graph_adeea80029e36859b8ff567eaa1d02ef4}{\index{Weighted\-Graph@{Weighted\-Graph}!to\-Boost\-Graph@{to\-Boost\-Graph}}
+\index{to\-Boost\-Graph@{to\-Boost\-Graph}!WeightedGraph@{Weighted\-Graph}}
+\subsubsection[{to\-Boost\-Graph}]{\setlength{\rightskip}{0pt plus 5cm}graph\-\_\-t Weighted\-Graph\-::to\-Boost\-Graph (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_weighted_graph_adeea80029e36859b8ff567eaa1d02ef4}
+Converts this graph into a boost adjacency list. Drops both weights and vertices labels.
+
+\begin{DoxyReturn}{Returns}
+adjacency list representing the same grpah as this. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_weighted_graph_8hpp}{Weighted\-Graph.\-hpp}\item 
+Weighted\-Graph.\-cpp\end{DoxyCompactItemize}

@@ -114,9 +114,10 @@ Functions</h2></td></tr>
 <tr class="memitem:a011e891ef6e5cd300f91c7be49c4046e"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a011e891ef6e5cd300f91c7be49c4046e"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_segmentation_graph_8hpp.html#a011e891ef6e5cd300f91c7be49c4046e">segmentationGraph</a> (const Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;image, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;grid)</td></tr>
 <tr class="separator:a011e891ef6e5cd300f91c7be49c4046e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1736104ff662bfa66ef2c46e1db93c69"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1736104ff662bfa66ef2c46e1db93c69"></a>
-vector&lt; Vec&lt; float, 2 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>segmentCenters</b> (Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;image, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation)</td></tr>
+<tr class="memitem:a1736104ff662bfa66ef2c46e1db93c69"><td class="memItemLeft" align="right" valign="top">vector&lt; Vec&lt; float, 2 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_segmentation_graph_8hpp.html#a1736104ff662bfa66ef2c46e1db93c69">segmentCenters</a> (Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;image, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation)</td></tr>
 <tr class="separator:a1736104ff662bfa66ef2c46e1db93c69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7537903f00d222dc94e3e94dfd3ed258"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_segmentation_graph_8hpp.html#a7537903f00d222dc94e3e94dfd3ed258">groundGraph</a> (const <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; &amp;unGrounded)</td></tr>
+<tr class="separator:a7537903f00d222dc94e3e94dfd3ed258"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="a40f67f35ace1cb18b27c99831e79bd16"></a>
@@ -151,6 +152,30 @@ vector&lt; Vec&lt; float, 2 &gt; &gt;&#160;</td><td class="memItemRight" valign=
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>an n by n matrix, where n is the number of segments, and the (i,j) entry contains the border length between segments i and j. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a7537903f00d222dc94e3e94dfd3ed258"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt;Mat&gt; groundGraph </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; &amp;&#160;</td>
+          <td class="paramname"><em>unGrounded</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Adds a "ground" vertex to a labeled graph, labelled with the 0 matrix and with an edge to every other vertex in the graph. The point of the ground vertex is to encode some absolute information about the segments in the image, not just relative to each other, so the grounded segmentation graphs can be compared more meaningfully.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">unGrounded</td><td>labeled graph where all labels are matrices of the same dimensions. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a graph with an additional ground vertices, with properties as specified in the description above. </dd></dl>
 
 </div>
 </div>
@@ -198,10 +223,45 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a class="anchor" id="a1736104ff662bfa66ef2c46e1db93c69"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt;Vec&lt;float,2&gt; &gt; segmentCenters </td>
+          <td>(</td>
+          <td class="paramtype">Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>image</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;&#160;</td>
+          <td class="paramname"><em>segmentation</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Computes the center of gravity of each segment in an image.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">image</td><td>image to compute the centers of gravity from. </td></tr>
+    <tr><td class="paramname">segmentation</td><td>a segmentation of the image. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>center of gravity for each segment. </dd></dl>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu May 9 2013 17:58:30 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon May 13 2013 17:50:45 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

@@ -1,0 +1,66 @@
+\hypertarget{_normalized_cuts_8h}{\section{Normalized\-Cuts.\-h File Reference}
+\label{_normalized_cuts_8h}\index{Normalized\-Cuts.\-h@{Normalized\-Cuts.\-h}}
+}
+{\ttfamily \#include $<$opencv2/opencv.\-hpp$>$}\\*
+{\ttfamily \#include $<$Eigen/\-Sparse$>$}\\*
+{\ttfamily \#include $<$Eigen/\-Sparse\-L\-U$>$}\\*
+{\ttfamily \#include $<$Eigen/\-Dense$>$}\\*
+{\ttfamily \#include $<$math.\-h$>$}\\*
+{\ttfamily \#include \char`\"{}Felzenszwalb.\-hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Segmentation\-Graph.\-hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Labeled\-Graph.\-hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Weighted\-Graph.\-hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Disjoint\-Set.\-hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Graph\-Spectra.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Graph\-Partitions.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Image\-Graphs.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Kernels.\-h\char`\"{}}\\*
+Include dependency graph for Normalized\-Cuts.\-h\-:
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_disjoint_set_forest}{Disjoint\-Set\-Forest} \hyperlink{_normalized_cuts_8h_aa15a162253bc9523c8941f526414a085}{normalized\-Cuts} (const \hyperlink{class_weighted_graph}{Weighted\-Graph} \&graph, double stop)
+\item 
+\hyperlink{class_disjoint_set_forest}{Disjoint\-Set\-Forest} \hyperlink{_normalized_cuts_8h_ac50d9d7c06a1ecae675081bfa22bd674}{normalized\-Cuts\-Segmentation} (const Mat\-\_\-$<$ Vec$<$ uchar, 3 $>$ $>$ \&image, const Mat\-\_\-$<$ float $>$ \&mask, double stop, int min\-Comp\-Size)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{_normalized_cuts_8h_aa15a162253bc9523c8941f526414a085}{\index{Normalized\-Cuts.\-h@{Normalized\-Cuts.\-h}!normalized\-Cuts@{normalized\-Cuts}}
+\index{normalized\-Cuts@{normalized\-Cuts}!NormalizedCuts.h@{Normalized\-Cuts.\-h}}
+\subsubsection[{normalized\-Cuts}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Disjoint\-Set\-Forest} normalized\-Cuts (
+\begin{DoxyParamCaption}
+\item[{const {\bf Weighted\-Graph} \&}]{graph, }
+\item[{double}]{stop}
+\end{DoxyParamCaption}
+)}}\label{_normalized_cuts_8h_aa15a162253bc9523c8941f526414a085}
+Partitions the graph using the normalized cuts method.
+
+
+\begin{DoxyParams}{Parameters}
+{\em graph} & graph to partition. \\
+\hline
+{\em stop} & minimal normalized ratio acting a stopping criteria. \\
+\hline
+\end{DoxyParams}
+\hypertarget{_normalized_cuts_8h_ac50d9d7c06a1ecae675081bfa22bd674}{\index{Normalized\-Cuts.\-h@{Normalized\-Cuts.\-h}!normalized\-Cuts\-Segmentation@{normalized\-Cuts\-Segmentation}}
+\index{normalized\-Cuts\-Segmentation@{normalized\-Cuts\-Segmentation}!NormalizedCuts.h@{Normalized\-Cuts.\-h}}
+\subsubsection[{normalized\-Cuts\-Segmentation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Disjoint\-Set\-Forest} normalized\-Cuts\-Segmentation (
+\begin{DoxyParamCaption}
+\item[{const Mat\-\_\-$<$ Vec$<$ uchar, 3 $>$ $>$ \&}]{image, }
+\item[{const Mat\-\_\-$<$ float $>$ \&}]{mask, }
+\item[{double}]{stop, }
+\item[{int}]{min\-Comp\-Size}
+\end{DoxyParamCaption}
+)}}\label{_normalized_cuts_8h_ac50d9d7c06a1ecae675081bfa22bd674}
+Segments an image by the normalized cuts method.
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & image to segment. \\
+\hline
+{\em mask} & mask representing pixels of the image to consider for segmentation. \\
+\hline
+{\em stop} & stopping criteria for segmentation, between 0 and 2. Closer to 0 means more segments. \\
+\hline
+\end{DoxyParams}

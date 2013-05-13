@@ -1,0 +1,104 @@
+\hypertarget{_segmentation_graph_8hpp}{\section{Segmentation\-Graph.\-hpp File Reference}
+\label{_segmentation_graph_8hpp}\index{Segmentation\-Graph.\-hpp@{Segmentation\-Graph.\-hpp}}
+}
+{\ttfamily \#include $<$map$>$}\\*
+{\ttfamily \#include $<$iostream$>$}\\*
+{\ttfamily \#include $<$opencv2/opencv.\-hpp$>$}\\*
+{\ttfamily \#include \char`\"{}Labeled\-Graph.\-hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Disjoint\-Set.\-hpp\char`\"{}}\\*
+Include dependency graph for Segmentation\-Graph.\-hpp\-:
+This graph shows which files directly or indirectly include this file\-:
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+Mat\-\_\-$<$ int $>$ \hyperlink{_segmentation_graph_8hpp_a40f67f35ace1cb18b27c99831e79bd16}{compute\-Border\-Lengths} (\hyperlink{class_disjoint_set_forest}{Disjoint\-Set\-Forest} \&segmentation, \hyperlink{class_weighted_graph}{Weighted\-Graph} \&\hyperlink{_image_graphs_8h_a30ada09a56806ed50a5a8ed9633675cf}{grid\-Graph})
+\item 
+{\footnotesize template$<$typename T $>$ }\\\hyperlink{class_labeled_graph}{Labeled\-Graph}$<$ T $>$ \hyperlink{_segmentation_graph_8hpp_a011e891ef6e5cd300f91c7be49c4046e}{segmentation\-Graph} (const Mat\-\_\-$<$ Vec$<$ uchar, 3 $>$ $>$ \&image, \hyperlink{class_disjoint_set_forest}{Disjoint\-Set\-Forest} \&segmentation, \hyperlink{class_weighted_graph}{Weighted\-Graph} \&grid)
+\item 
+vector$<$ Vec$<$ float, 2 $>$ $>$ \hyperlink{_segmentation_graph_8hpp_a1736104ff662bfa66ef2c46e1db93c69}{segment\-Centers} (Mat\-\_\-$<$ Vec$<$ uchar, 3 $>$ $>$ \&image, \hyperlink{class_disjoint_set_forest}{Disjoint\-Set\-Forest} \&segmentation)
+\item 
+\hyperlink{class_labeled_graph}{Labeled\-Graph}$<$ Mat $>$ \hyperlink{_segmentation_graph_8hpp_a7537903f00d222dc94e3e94dfd3ed258}{ground\-Graph} (const \hyperlink{class_labeled_graph}{Labeled\-Graph}$<$ Mat $>$ \&un\-Grounded)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{_segmentation_graph_8hpp_a40f67f35ace1cb18b27c99831e79bd16}{\index{Segmentation\-Graph.\-hpp@{Segmentation\-Graph.\-hpp}!compute\-Border\-Lengths@{compute\-Border\-Lengths}}
+\index{compute\-Border\-Lengths@{compute\-Border\-Lengths}!SegmentationGraph.hpp@{Segmentation\-Graph.\-hpp}}
+\subsubsection[{compute\-Border\-Lengths}]{\setlength{\rightskip}{0pt plus 5cm}Mat\-\_\-$<$int$>$ compute\-Border\-Lengths (
+\begin{DoxyParamCaption}
+\item[{{\bf Disjoint\-Set\-Forest} \&}]{segmentation, }
+\item[{{\bf Weighted\-Graph} \&}]{grid\-Graph}
+\end{DoxyParamCaption}
+)}}\label{_segmentation_graph_8hpp_a40f67f35ace1cb18b27c99831e79bd16}
+Computes the border length between each pair of segments in the segmentation.
+
+
+\begin{DoxyParams}{Parameters}
+{\em segmentation} & a segmentation of the image \\
+\hline
+{\em grid\-Graph} & the grid graph of the image \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+an n by n matrix, where n is the number of segments, and the (i,j) entry contains the border length between segments i and j. 
+\end{DoxyReturn}
+\hypertarget{_segmentation_graph_8hpp_a7537903f00d222dc94e3e94dfd3ed258}{\index{Segmentation\-Graph.\-hpp@{Segmentation\-Graph.\-hpp}!ground\-Graph@{ground\-Graph}}
+\index{ground\-Graph@{ground\-Graph}!SegmentationGraph.hpp@{Segmentation\-Graph.\-hpp}}
+\subsubsection[{ground\-Graph}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Labeled\-Graph}$<$Mat$>$ ground\-Graph (
+\begin{DoxyParamCaption}
+\item[{const {\bf Labeled\-Graph}$<$ Mat $>$ \&}]{un\-Grounded}
+\end{DoxyParamCaption}
+)}}\label{_segmentation_graph_8hpp_a7537903f00d222dc94e3e94dfd3ed258}
+Adds a \char`\"{}ground\char`\"{} vertex to a labeled graph, labelled with the 0 matrix and with an edge to every other vertex in the graph. The point of the ground vertex is to encode some absolute information about the segments in the image, not just relative to each other, so the grounded segmentation graphs can be compared more meaningfully.
+
+
+\begin{DoxyParams}{Parameters}
+{\em un\-Grounded} & labeled graph where all labels are matrices of the same dimensions. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a graph with an additional ground vertices, with properties as specified in the description above. 
+\end{DoxyReturn}
+\hypertarget{_segmentation_graph_8hpp_a011e891ef6e5cd300f91c7be49c4046e}{\index{Segmentation\-Graph.\-hpp@{Segmentation\-Graph.\-hpp}!segmentation\-Graph@{segmentation\-Graph}}
+\index{segmentation\-Graph@{segmentation\-Graph}!SegmentationGraph.hpp@{Segmentation\-Graph.\-hpp}}
+\subsubsection[{segmentation\-Graph}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ {\bf Labeled\-Graph}$<$T$>$ segmentation\-Graph (
+\begin{DoxyParamCaption}
+\item[{const Mat\-\_\-$<$ Vec$<$ uchar, 3 $>$ $>$ \&}]{image, }
+\item[{{\bf Disjoint\-Set\-Forest} \&}]{segmentation, }
+\item[{{\bf Weighted\-Graph} \&}]{grid}
+\end{DoxyParamCaption}
+)}}\label{_segmentation_graph_8hpp_a011e891ef6e5cd300f91c7be49c4046e}
+Computes the segmentation graph of an image segmentation, where vertices are segments and there is an edge between two segments iff these segments are connected in a 4-\/connexity sense. Every edge is represented in only one adjacency list.
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & the segmented image \\
+\hline
+{\em segmentation} & a segmentation of the image \\
+\hline
+{\em grid} & grid graph of the image \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the segmentation graph of this image, with empty labels (the default constructor is called). 
+\end{DoxyReturn}
+\hypertarget{_segmentation_graph_8hpp_a1736104ff662bfa66ef2c46e1db93c69}{\index{Segmentation\-Graph.\-hpp@{Segmentation\-Graph.\-hpp}!segment\-Centers@{segment\-Centers}}
+\index{segment\-Centers@{segment\-Centers}!SegmentationGraph.hpp@{Segmentation\-Graph.\-hpp}}
+\subsubsection[{segment\-Centers}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$Vec$<$float,2$>$ $>$ segment\-Centers (
+\begin{DoxyParamCaption}
+\item[{Mat\-\_\-$<$ Vec$<$ uchar, 3 $>$ $>$ \&}]{image, }
+\item[{{\bf Disjoint\-Set\-Forest} \&}]{segmentation}
+\end{DoxyParamCaption}
+)}}\label{_segmentation_graph_8hpp_a1736104ff662bfa66ef2c46e1db93c69}
+Computes the center of gravity of each segment in an image.
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & image to compute the centers of gravity from. \\
+\hline
+{\em segmentation} & a segmentation of the image. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+center of gravity for each segment. 
+\end{DoxyReturn}

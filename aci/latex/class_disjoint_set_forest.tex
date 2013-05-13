@@ -1,0 +1,154 @@
+\hypertarget{class_disjoint_set_forest}{\section{Disjoint\-Set\-Forest Class Reference}
+\label{class_disjoint_set_forest}\index{Disjoint\-Set\-Forest@{Disjoint\-Set\-Forest}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_disjoint_set_forest_ad0509685d5dee856bbedd3063bd15514}{Disjoint\-Set\-Forest} (int number\-Of\-Elements)
+\item 
+\hypertarget{class_disjoint_set_forest_aae340c72a05faf1815fe5dad71312652}{int {\bfseries const\-Find} (int element) const }\label{class_disjoint_set_forest_aae340c72a05faf1815fe5dad71312652}
+
+\item 
+int \hyperlink{class_disjoint_set_forest_ab2343dd6ea1c02409e5bef492bf0d515}{find} (int element)
+\item 
+int \hyperlink{class_disjoint_set_forest_a8910794cfdf7a6d014e9d9d0faab222c}{set\-Union} (int element1, int element2)
+\item 
+Mat\-\_\-$<$ Vec$<$ uchar, 3 $>$ $>$ \hyperlink{class_disjoint_set_forest_aad6c80f354f5cb0e1e5a81cee5acaed5}{to\-Region\-Image} (Mat\-\_\-$<$ Vec$<$ uchar, 3 $>$ $>$ source\-Image)
+\item 
+int \hyperlink{class_disjoint_set_forest_a6eb268df6da7cb4f003307e6b2acd08a}{get\-Number\-Of\-Components} () const 
+\item 
+map$<$ int, int $>$ \hyperlink{class_disjoint_set_forest_a6a1edb88b34acf06cf214c97ff4ad473}{get\-Root\-Indexes} ()
+\item 
+int \hyperlink{class_disjoint_set_forest_a1cff99abb287144053618e07479dee46}{get\-Component\-Size} (int element)
+\item 
+int \hyperlink{class_disjoint_set_forest_a51cf48349bef49781534a34ffd5d0104}{get\-Number\-Of\-Elements} () const 
+\item 
+void \hyperlink{class_disjoint_set_forest_abe1eace127491da301ae1e20d16a1041}{fuse\-Small\-Components} (\hyperlink{class_weighted_graph}{Weighted\-Graph} \&segmented\-Graph, int min\-Size, const Mat\-\_\-$<$ float $>$ \&mask)
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_disjoint_set_forest_a7a875cd9297c14a059917aab662f102f}{ostream \& {\bfseries operator$<$$<$} (ostream \&os, \hyperlink{class_disjoint_set_forest}{Disjoint\-Set\-Forest} \&forest)}\label{class_disjoint_set_forest_a7a875cd9297c14a059917aab662f102f}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_disjoint_set_forest_ad0509685d5dee856bbedd3063bd15514}{\index{Disjoint\-Set\-Forest@{Disjoint\-Set\-Forest}!Disjoint\-Set\-Forest@{Disjoint\-Set\-Forest}}
+\index{Disjoint\-Set\-Forest@{Disjoint\-Set\-Forest}!DisjointSetForest@{Disjoint\-Set\-Forest}}
+\subsubsection[{Disjoint\-Set\-Forest}]{\setlength{\rightskip}{0pt plus 5cm}Disjoint\-Set\-Forest\-::\-Disjoint\-Set\-Forest (
+\begin{DoxyParamCaption}
+\item[{int}]{number\-Of\-Elements}
+\end{DoxyParamCaption}
+)}}\label{class_disjoint_set_forest_ad0509685d5dee856bbedd3063bd15514}
+Initializes the forest with number\-Of\-Elements singleton disjoint sets, numbered 0 to number\-Of\-Elements-\/1.
+
+
+\begin{DoxyParams}{Parameters}
+{\em number\-Of\-Elements} & the number of elements in the partition, corresponding to the number of singletons at initialization. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_disjoint_set_forest_ab2343dd6ea1c02409e5bef492bf0d515}{\index{Disjoint\-Set\-Forest@{Disjoint\-Set\-Forest}!find@{find}}
+\index{find@{find}!DisjointSetForest@{Disjoint\-Set\-Forest}}
+\subsubsection[{find}]{\setlength{\rightskip}{0pt plus 5cm}int Disjoint\-Set\-Forest\-::find (
+\begin{DoxyParamCaption}
+\item[{int}]{element}
+\end{DoxyParamCaption}
+)}}\label{class_disjoint_set_forest_ab2343dd6ea1c02409e5bef492bf0d515}
+Returns the representant of the set containing a specific element.
+
+
+\begin{DoxyParams}{Parameters}
+{\em element} & an element from a set. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the representant of the set containing the element. 
+\end{DoxyReturn}
+\hypertarget{class_disjoint_set_forest_abe1eace127491da301ae1e20d16a1041}{\index{Disjoint\-Set\-Forest@{Disjoint\-Set\-Forest}!fuse\-Small\-Components@{fuse\-Small\-Components}}
+\index{fuse\-Small\-Components@{fuse\-Small\-Components}!DisjointSetForest@{Disjoint\-Set\-Forest}}
+\subsubsection[{fuse\-Small\-Components}]{\setlength{\rightskip}{0pt plus 5cm}void Disjoint\-Set\-Forest\-::fuse\-Small\-Components (
+\begin{DoxyParamCaption}
+\item[{{\bf Weighted\-Graph} \&}]{segmented\-Graph, }
+\item[{int}]{min\-Size, }
+\item[{const Mat\-\_\-$<$ float $>$ \&}]{mask}
+\end{DoxyParamCaption}
+)}}\label{class_disjoint_set_forest_abe1eace127491da301ae1e20d16a1041}
+Fuses components below a minimum size with their neighbors.
+
+
+\begin{DoxyParams}{Parameters}
+{\em segmented\-Graph} & graph indicating neighborhoods between elements. (e.\-g. a grid graph or nearest neighbor graph, in many cases). \\
+\hline
+{\em min\-Size} & size below which components will get fused out. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_disjoint_set_forest_a1cff99abb287144053618e07479dee46}{\index{Disjoint\-Set\-Forest@{Disjoint\-Set\-Forest}!get\-Component\-Size@{get\-Component\-Size}}
+\index{get\-Component\-Size@{get\-Component\-Size}!DisjointSetForest@{Disjoint\-Set\-Forest}}
+\subsubsection[{get\-Component\-Size}]{\setlength{\rightskip}{0pt plus 5cm}int Disjoint\-Set\-Forest\-::get\-Component\-Size (
+\begin{DoxyParamCaption}
+\item[{int}]{element}
+\end{DoxyParamCaption}
+)}}\label{class_disjoint_set_forest_a1cff99abb287144053618e07479dee46}
+Returns the size of the component containing a specific element. \hypertarget{class_disjoint_set_forest_a6eb268df6da7cb4f003307e6b2acd08a}{\index{Disjoint\-Set\-Forest@{Disjoint\-Set\-Forest}!get\-Number\-Of\-Components@{get\-Number\-Of\-Components}}
+\index{get\-Number\-Of\-Components@{get\-Number\-Of\-Components}!DisjointSetForest@{Disjoint\-Set\-Forest}}
+\subsubsection[{get\-Number\-Of\-Components}]{\setlength{\rightskip}{0pt plus 5cm}int Disjoint\-Set\-Forest\-::get\-Number\-Of\-Components (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_disjoint_set_forest_a6eb268df6da7cb4f003307e6b2acd08a}
+Returns the number of components in the partition.
+
+\begin{DoxyReturn}{Returns}
+the number of components in the partition. 
+\end{DoxyReturn}
+\hypertarget{class_disjoint_set_forest_a51cf48349bef49781534a34ffd5d0104}{\index{Disjoint\-Set\-Forest@{Disjoint\-Set\-Forest}!get\-Number\-Of\-Elements@{get\-Number\-Of\-Elements}}
+\index{get\-Number\-Of\-Elements@{get\-Number\-Of\-Elements}!DisjointSetForest@{Disjoint\-Set\-Forest}}
+\subsubsection[{get\-Number\-Of\-Elements}]{\setlength{\rightskip}{0pt plus 5cm}int Disjoint\-Set\-Forest\-::get\-Number\-Of\-Elements (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}}\label{class_disjoint_set_forest_a51cf48349bef49781534a34ffd5d0104}
+Returns the total number of elements this forest partitions. \hypertarget{class_disjoint_set_forest_a6a1edb88b34acf06cf214c97ff4ad473}{\index{Disjoint\-Set\-Forest@{Disjoint\-Set\-Forest}!get\-Root\-Indexes@{get\-Root\-Indexes}}
+\index{get\-Root\-Indexes@{get\-Root\-Indexes}!DisjointSetForest@{Disjoint\-Set\-Forest}}
+\subsubsection[{get\-Root\-Indexes}]{\setlength{\rightskip}{0pt plus 5cm}map$<$ int, int $>$ Disjoint\-Set\-Forest\-::get\-Root\-Indexes (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_disjoint_set_forest_a6a1edb88b34acf06cf214c97ff4ad473}
+Map associating a linear index in \mbox{[}0..get\-Number\-Of\-Components\mbox{]} to each component root. Runs in O(n) time where n is the number of leaves in the forest (ie. elements to partition). \hypertarget{class_disjoint_set_forest_a8910794cfdf7a6d014e9d9d0faab222c}{\index{Disjoint\-Set\-Forest@{Disjoint\-Set\-Forest}!set\-Union@{set\-Union}}
+\index{set\-Union@{set\-Union}!DisjointSetForest@{Disjoint\-Set\-Forest}}
+\subsubsection[{set\-Union}]{\setlength{\rightskip}{0pt plus 5cm}int Disjoint\-Set\-Forest\-::set\-Union (
+\begin{DoxyParamCaption}
+\item[{int}]{element1, }
+\item[{int}]{element2}
+\end{DoxyParamCaption}
+)}}\label{class_disjoint_set_forest_a8910794cfdf7a6d014e9d9d0faab222c}
+Unifies two sets in the forest into one, represented by an element from each set, returning the new root (or representant) of the set.
+
+
+\begin{DoxyParams}{Parameters}
+{\em element1} & an element from the first set. \\
+\hline
+{\em element2} & an element from the second set. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the new root (or representant) of the set. 
+\end{DoxyReturn}
+\hypertarget{class_disjoint_set_forest_aad6c80f354f5cb0e1e5a81cee5acaed5}{\index{Disjoint\-Set\-Forest@{Disjoint\-Set\-Forest}!to\-Region\-Image@{to\-Region\-Image}}
+\index{to\-Region\-Image@{to\-Region\-Image}!DisjointSetForest@{Disjoint\-Set\-Forest}}
+\subsubsection[{to\-Region\-Image}]{\setlength{\rightskip}{0pt plus 5cm}Mat\-\_\-$<$ Vec$<$ uchar, 3 $>$ $>$ Disjoint\-Set\-Forest\-::to\-Region\-Image (
+\begin{DoxyParamCaption}
+\item[{Mat\-\_\-$<$ Vec$<$ uchar, 3 $>$ $>$}]{source\-Image}
+\end{DoxyParamCaption}
+)}}\label{class_disjoint_set_forest_aad6c80f354f5cb0e1e5a81cee5acaed5}
+Computes a region image assuming each element in the set forest is a pixel in row major order, labelled by their set representant. 
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_disjoint_set_8hpp}{Disjoint\-Set.\-hpp}\item 
+Disjoint\-Set.\-cpp\end{DoxyCompactItemize}

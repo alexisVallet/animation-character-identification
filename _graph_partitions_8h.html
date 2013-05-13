@@ -80,13 +80,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">GraphPartitions.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="_weighted_graph_8hpp_source.html">WeightedGraph.hpp</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="_disjoint_set_8hpp_source.html">DisjointSet.hpp</a>&quot;</code><br/>
+<div class="textblock"><code>#include &quot;<a class="el" href="_disjoint_set_8hpp_source.html">DisjointSet.hpp</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_weighted_graph_8hpp_source.html">WeightedGraph.hpp</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_labeled_graph_8hpp_source.html">LabeledGraph.hpp</a>&quot;</code><br/>
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for GraphPartitions.h:</div>
 <div class="dyncontent">
@@ -104,6 +107,16 @@ This graph shows which files directly or indirectly include this file:</div>
 </div>
 <p><a href="_graph_partitions_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mat_kernel.html">MatKernel</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:aec5dc4d7252a04b7888874cd64e02e78"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_graph_partitions_8h.html#aec5dc4d7252a04b7888874cd64e02e78">Labeling</a> )(const Mat_&lt; Vec3b &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; &amp;<a class="el" href="_segmentation_graph_8hpp.html#a011e891ef6e5cd300f91c7be49c4046e">segmentationGraph</a>)</td></tr>
+<tr class="separator:aec5dc4d7252a04b7888874cd64e02e78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ae80494b0e472dc4a3e49205f6e90c201"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_graph_partitions_8h.html#ae80494b0e472dc4a3e49205f6e90c201">fusePartitions</a> (const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph, vector&lt; int &gt; &amp;inSubgraph, vector&lt; int &gt; &amp;vertexIdx, vector&lt; <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &gt; &amp;partitions, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;partition)</td></tr>
@@ -113,6 +126,20 @@ Functions</h2></td></tr>
 <tr class="memitem:a528379cb0fb73eec887404a2d0b8ad60"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_graph_partitions_8h.html#a528379cb0fb73eec887404a2d0b8ad60">addIsolatedVertices</a> (<a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, vector&lt; int &gt; &amp;vertexMap)</td></tr>
 <tr class="separator:a528379cb0fb73eec887404a2d0b8ad60"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a class="anchor" id="aec5dc4d7252a04b7888874cd64e02e78"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef void(* Labeling)(const Mat_&lt; Vec3b &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; &amp;<a class="el" href="_segmentation_graph_8hpp.html#a011e891ef6e5cd300f91c7be49c4046e">segmentationGraph</a>)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Datatype describing graph labeling functions. </p>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="a528379cb0fb73eec887404a2d0b8ad60"></a>
 <div class="memitem">
@@ -248,7 +275,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu May 9 2013 17:58:29 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon May 13 2013 17:50:45 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

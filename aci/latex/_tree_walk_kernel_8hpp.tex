@@ -1,0 +1,53 @@
+\hypertarget{_tree_walk_kernel_8hpp}{\section{Tree\-Walk\-Kernel.\-hpp File Reference}
+\label{_tree_walk_kernel_8hpp}\index{Tree\-Walk\-Kernel.\-hpp@{Tree\-Walk\-Kernel.\-hpp}}
+}
+{\ttfamily \#include $<$opencv2/opencv.\-hpp$>$}\\*
+{\ttfamily \#include $<$boost/graph/boyer\-\_\-myrvold\-\_\-planar\-\_\-test.\-hpp$>$}\\*
+{\ttfamily \#include $<$boost/math/special\-\_\-functions/fpclassify.\-hpp$>$}\\*
+{\ttfamily \#include $<$vector$>$}\\*
+{\ttfamily \#include $<$iostream$>$}\\*
+{\ttfamily \#include $<$cmath$>$}\\*
+{\ttfamily \#include \char`\"{}Labeled\-Graph.\-hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Disjoint\-Set.\-hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Kernels.\-h\char`\"{}}\\*
+Include dependency graph for Tree\-Walk\-Kernel.\-hpp\-:
+This graph shows which files directly or indirectly include this file\-:
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\double \hyperlink{_tree_walk_kernel_8hpp_a93667d074017e3d009117524d6260205}{tree\-Walk\-Kernel} (double($\ast$basis\-Kernel)(int area1, const T \&l1, int area2, const T \&l2), int depth, int arity, \hyperlink{class_disjoint_set_forest}{Disjoint\-Set\-Forest} \&segmentation1, \hyperlink{class_labeled_graph}{Labeled\-Graph}$<$ T $>$ \&graph1, \hyperlink{class_disjoint_set_forest}{Disjoint\-Set\-Forest} \&segmentation2, \hyperlink{class_labeled_graph}{Labeled\-Graph}$<$ T $>$ \&graph2)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{_tree_walk_kernel_8hpp_a93667d074017e3d009117524d6260205}{\index{Tree\-Walk\-Kernel.\-hpp@{Tree\-Walk\-Kernel.\-hpp}!tree\-Walk\-Kernel@{tree\-Walk\-Kernel}}
+\index{tree\-Walk\-Kernel@{tree\-Walk\-Kernel}!TreeWalkKernel.hpp@{Tree\-Walk\-Kernel.\-hpp}}
+\subsubsection[{tree\-Walk\-Kernel}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ double tree\-Walk\-Kernel (
+\begin{DoxyParamCaption}
+\item[{double($\ast$)(int area1, const T \&l1, int area2, const T \&l2)}]{basis\-Kernel, }
+\item[{int}]{depth, }
+\item[{int}]{arity, }
+\item[{{\bf Disjoint\-Set\-Forest} \&}]{segmentation1, }
+\item[{{\bf Labeled\-Graph}$<$ T $>$ \&}]{graph1, }
+\item[{{\bf Disjoint\-Set\-Forest} \&}]{segmentation2, }
+\item[{{\bf Labeled\-Graph}$<$ T $>$ \&}]{graph2}
+\end{DoxyParamCaption}
+)}}\label{_tree_walk_kernel_8hpp_a93667d074017e3d009117524d6260205}
+Computes the tree walk kernel between two labelled graphs given a basis kernel function. It is assumed that each graph is undirected, with each edge duplicated in both the source and destination's adjacency list. Both graphs must be planar.
+
+
+\begin{DoxyParams}{Parameters}
+{\em basis\-Kernel} & basis kernel function, taking 2 labels as parameters, with the associated area for each segment. \\
+\hline
+{\em segmentation1} & segmentation corresponding to graph1 \\
+\hline
+{\em graph1} & the first graph \\
+\hline
+{\em segmentation2} & segmentation corresponding to graph2 \\
+\hline
+{\em graph2} & the second graph \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the tree walk kernel value between graph1 and graph2. 
+\end{DoxyReturn}

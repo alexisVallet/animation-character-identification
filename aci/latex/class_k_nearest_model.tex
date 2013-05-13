@@ -1,0 +1,109 @@
+\hypertarget{class_k_nearest_model}{\section{K\-Nearest\-Model Class Reference}
+\label{class_k_nearest_model}\index{K\-Nearest\-Model@{K\-Nearest\-Model}}
+}
+
+
+{\ttfamily \#include $<$Trainable\-Stat\-Model.\-h$>$}
+
+
+
+Inheritance diagram for K\-Nearest\-Model\-:
+
+
+Collaboration diagram for K\-Nearest\-Model\-:
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_k_nearest_model_abc59b2e1a9805aa4cd549ad117d247af}{{\bfseries K\-Nearest\-Model} (int k\-Value=D\-E\-F\-A\-U\-L\-T\-\_\-\-K)}\label{class_k_nearest_model_abc59b2e1a9805aa4cd549ad117d247af}
+
+\item 
+Cv\-Stat\-Model $\ast$ \hyperlink{class_k_nearest_model_ae1b0212eba134e72293b5e4be1369f89}{get\-Stat\-Model} ()
+\item 
+void \hyperlink{class_k_nearest_model_ae5278bb119540c9263bc96ad0eeea469}{train} (const Mat \&train\-Data, const Mat \&expected\-Responses, const Mat \&sample\-Idx)
+\item 
+float \hyperlink{class_k_nearest_model_a2afe7f6a1b906cf31eb9252f494fe54f}{predict} (const Mat \&samples)
+\item 
+void \hyperlink{class_k_nearest_model_ae5cf2beed9b6a2def175920a81c7a69e}{clear} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Wrapper class around the K nearest neighbors classifier. 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_k_nearest_model_ae5cf2beed9b6a2def175920a81c7a69e}{\index{K\-Nearest\-Model@{K\-Nearest\-Model}!clear@{clear}}
+\index{clear@{clear}!KNearestModel@{K\-Nearest\-Model}}
+\subsubsection[{clear}]{\setlength{\rightskip}{0pt plus 5cm}void K\-Nearest\-Model\-::clear (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_k_nearest_model_ae5cf2beed9b6a2def175920a81c7a69e}
+Clears the training of the internal statistical model. 
+
+Implements \hyperlink{class_trainable_stat_model_af5ea7723d71f07101d561a061e3f0226}{Trainable\-Stat\-Model}.
+
+\hypertarget{class_k_nearest_model_ae1b0212eba134e72293b5e4be1369f89}{\index{K\-Nearest\-Model@{K\-Nearest\-Model}!get\-Stat\-Model@{get\-Stat\-Model}}
+\index{get\-Stat\-Model@{get\-Stat\-Model}!KNearestModel@{K\-Nearest\-Model}}
+\subsubsection[{get\-Stat\-Model}]{\setlength{\rightskip}{0pt plus 5cm}Cv\-Stat\-Model $\ast$ K\-Nearest\-Model\-::get\-Stat\-Model (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_k_nearest_model_ae1b0212eba134e72293b5e4be1369f89}
+Returns the opencv statistical model which this statistical model is based on.
+
+\begin{DoxyReturn}{Returns}
+the opencv statistical model which this statistical model is based on. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{class_trainable_stat_model_a3e2487f4366375c8004e59d09f8a0f99}{Trainable\-Stat\-Model}.
+
+\hypertarget{class_k_nearest_model_a2afe7f6a1b906cf31eb9252f494fe54f}{\index{K\-Nearest\-Model@{K\-Nearest\-Model}!predict@{predict}}
+\index{predict@{predict}!KNearestModel@{K\-Nearest\-Model}}
+\subsubsection[{predict}]{\setlength{\rightskip}{0pt plus 5cm}float K\-Nearest\-Model\-::predict (
+\begin{DoxyParamCaption}
+\item[{const Mat \&}]{samples}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_k_nearest_model_a2afe7f6a1b906cf31eb9252f494fe54f}
+Predicts the class of a sample.
+
+
+\begin{DoxyParams}{Parameters}
+{\em samples} & one or many samples to compute the class for. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the predicted class of the sample. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{class_trainable_stat_model_a8a272769ef46072455a678c9803fb16e}{Trainable\-Stat\-Model}.
+
+\hypertarget{class_k_nearest_model_ae5278bb119540c9263bc96ad0eeea469}{\index{K\-Nearest\-Model@{K\-Nearest\-Model}!train@{train}}
+\index{train@{train}!KNearestModel@{K\-Nearest\-Model}}
+\subsubsection[{train}]{\setlength{\rightskip}{0pt plus 5cm}void K\-Nearest\-Model\-::train (
+\begin{DoxyParamCaption}
+\item[{const Mat \&}]{train\-Data, }
+\item[{const Mat \&}]{expected\-Responses, }
+\item[{const Mat \&}]{sample\-Idx}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_k_nearest_model_ae5278bb119540c9263bc96ad0eeea469}
+Trains the classifier using a specific training base.
+
+
+\begin{DoxyParams}{Parameters}
+{\em train\-Data} & the input training data. \\
+\hline
+{\em expected\-Responses} & the expected response to the training data. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_trainable_stat_model_a5cb70c5e9e6f3e7f09e7f0ee666ddc25}{Trainable\-Stat\-Model}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_trainable_stat_model_8h}{Trainable\-Stat\-Model.\-h}\item 
+Trainable\-Stat\-Model.\-cpp\end{DoxyCompactItemize}

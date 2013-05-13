@@ -1,0 +1,83 @@
+\hypertarget{class_spectrum_distance_classifier}{\section{Spectrum\-Distance\-Classifier Class Reference}
+\label{class_spectrum_distance_classifier}\index{Spectrum\-Distance\-Classifier@{Spectrum\-Distance\-Classifier}}
+}
+
+
+{\ttfamily \#include $<$Spectrum\-Distance\-Classifier.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_spectrum_distance_classifier_aef940f0df327ecef89b9951a2cf8b0fd}{Spectrum\-Distance\-Classifier} (\hyperlink{class_trainable_stat_model}{Trainable\-Stat\-Model} $\ast$stat\-Model, Matrix\-Representation representation, float mu)
+\item 
+float \hyperlink{class_spectrum_distance_classifier_a315f5a1843840116e503005ac15db6c1}{leave\-One\-Out\-Recognition\-Rate} (vector$<$ \hyperlink{class_weighted_graph}{Weighted\-Graph} $>$ samples, Mat\-\_\-$<$ int $>$ \&classes)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Classify graphs by the spectrum of their respective Laplacian matrices, with edges weighted by a kernel function between color histograms of image segments. It is a supervised classifier. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_spectrum_distance_classifier_aef940f0df327ecef89b9951a2cf8b0fd}{\index{Spectrum\-Distance\-Classifier@{Spectrum\-Distance\-Classifier}!Spectrum\-Distance\-Classifier@{Spectrum\-Distance\-Classifier}}
+\index{Spectrum\-Distance\-Classifier@{Spectrum\-Distance\-Classifier}!SpectrumDistanceClassifier@{Spectrum\-Distance\-Classifier}}
+\subsubsection[{Spectrum\-Distance\-Classifier}]{\setlength{\rightskip}{0pt plus 5cm}Spectrum\-Distance\-Classifier\-::\-Spectrum\-Distance\-Classifier (
+\begin{DoxyParamCaption}
+\item[{{\bf Trainable\-Stat\-Model} $\ast$}]{stat\-Model, }
+\item[{Matrix\-Representation}]{representation, }
+\item[{float}]{mu}
+\end{DoxyParamCaption}
+)}}\label{class_spectrum_distance_classifier_aef940f0df327ecef89b9951a2cf8b0fd}
+Initializes the classifier with a specific kernel function to compute weights, and a specific statistical model to classify graph spectra with. Eigenvalues are scaled with an inverse exponential to favor smaller eigenvalues.
+
+
+\begin{DoxyParams}{Parameters}
+{\em kernel} & kernel function to compute weights from. \\
+\hline
+{\em stat\-Model} & statistical model to classify spectra with. \\
+\hline
+{\em representation} & the matrix representation to use for graphs. \\
+\hline
+{\em mu} & positive factor to the exponential favorizing smaller eigenvalues. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_spectrum_distance_classifier_a315f5a1843840116e503005ac15db6c1}{\index{Spectrum\-Distance\-Classifier@{Spectrum\-Distance\-Classifier}!leave\-One\-Out\-Recognition\-Rate@{leave\-One\-Out\-Recognition\-Rate}}
+\index{leave\-One\-Out\-Recognition\-Rate@{leave\-One\-Out\-Recognition\-Rate}!SpectrumDistanceClassifier@{Spectrum\-Distance\-Classifier}}
+\subsubsection[{leave\-One\-Out\-Recognition\-Rate}]{\setlength{\rightskip}{0pt plus 5cm}float Spectrum\-Distance\-Classifier\-::leave\-One\-Out\-Recognition\-Rate (
+\begin{DoxyParamCaption}
+\item[{vector$<$ {\bf Weighted\-Graph} $>$}]{samples, }
+\item[{Mat\-\_\-$<$ int $>$ \&}]{classes}
+\end{DoxyParamCaption}
+)}}\label{class_spectrum_distance_classifier_a315f5a1843840116e503005ac15db6c1}
+Trains the classifier with specific training samples.
+
+
+\begin{DoxyParams}{Parameters}
+{\em training\-Samples} & graphs to train the classifier with. \\
+\hline
+{\em training\-Classes} & class for each of the training samples. Predicts the class a specific test sample belongs to using training data. Must call train before calling this method.\\
+\hline
+{\em test\-Sample} & the graph to classify. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the class the sample is predicted to belong to. Computes the leave one out recognition rate for a given sample. It means that to classify a sample, the classifier is trained with all the other samples. The recognition rate is then the number of correctly classified samples divided by the total number of samples.
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em samples} & the samples to compute the recognition rate from. \\
+\hline
+{\em classes} & the class each sample belongs to. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a recognition rate within the real interval \mbox{[}0; 1\mbox{]}. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_spectrum_distance_classifier_8h}{Spectrum\-Distance\-Classifier.\-h}\item 
+Spectrum\-Distance\-Classifier.\-cpp\end{DoxyCompactItemize}

@@ -1,0 +1,109 @@
+\hypertarget{class_a_n_n_model}{\section{A\-N\-N\-Model Class Reference}
+\label{class_a_n_n_model}\index{A\-N\-N\-Model@{A\-N\-N\-Model}}
+}
+
+
+{\ttfamily \#include $<$Trainable\-Stat\-Model.\-h$>$}
+
+
+
+Inheritance diagram for A\-N\-N\-Model\-:
+
+
+Collaboration diagram for A\-N\-N\-Model\-:
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_a_n_n_model_a49e85d2599b0b4ecca0f9871e8ce4d14}{{\bfseries A\-N\-N\-Model} (Mat layers\-Size, int activate\-Func=Cv\-A\-N\-N\-\_\-\-M\-L\-P\-::\-S\-I\-G\-M\-O\-I\-D\-\_\-\-S\-Y\-M, double fparam1=1, double fparam2=1)}\label{class_a_n_n_model_a49e85d2599b0b4ecca0f9871e8ce4d14}
+
+\item 
+Cv\-Stat\-Model $\ast$ \hyperlink{class_a_n_n_model_a8d971b9fa044dedd88dfcafc9aa0f8b8}{get\-Stat\-Model} ()
+\item 
+void \hyperlink{class_a_n_n_model_a2da3c5c659871364f9bcead4980b70f1}{train} (const Mat \&train\-Data, const Mat \&expected\-Responses, const Mat \&sample\-Idx)
+\item 
+float \hyperlink{class_a_n_n_model_a42769b7bc63179f4b1f4ca181c39e1f0}{predict} (const Mat \&samples)
+\item 
+void \hyperlink{class_a_n_n_model_a9b360a8e6c416dc204edb8190f9cc464}{clear} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Wrapper class around the artificial neural network classifier. 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_a_n_n_model_a9b360a8e6c416dc204edb8190f9cc464}{\index{A\-N\-N\-Model@{A\-N\-N\-Model}!clear@{clear}}
+\index{clear@{clear}!ANNModel@{A\-N\-N\-Model}}
+\subsubsection[{clear}]{\setlength{\rightskip}{0pt plus 5cm}void A\-N\-N\-Model\-::clear (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_a_n_n_model_a9b360a8e6c416dc204edb8190f9cc464}
+Doesn't do anything, as calling the train method clears the previous synaptic weights. 
+
+Implements \hyperlink{class_trainable_stat_model_af5ea7723d71f07101d561a061e3f0226}{Trainable\-Stat\-Model}.
+
+\hypertarget{class_a_n_n_model_a8d971b9fa044dedd88dfcafc9aa0f8b8}{\index{A\-N\-N\-Model@{A\-N\-N\-Model}!get\-Stat\-Model@{get\-Stat\-Model}}
+\index{get\-Stat\-Model@{get\-Stat\-Model}!ANNModel@{A\-N\-N\-Model}}
+\subsubsection[{get\-Stat\-Model}]{\setlength{\rightskip}{0pt plus 5cm}Cv\-Stat\-Model $\ast$ A\-N\-N\-Model\-::get\-Stat\-Model (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_a_n_n_model_a8d971b9fa044dedd88dfcafc9aa0f8b8}
+Returns the opencv statistical model which this statistical model is based on.
+
+\begin{DoxyReturn}{Returns}
+the opencv statistical model which this statistical model is based on. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{class_trainable_stat_model_a3e2487f4366375c8004e59d09f8a0f99}{Trainable\-Stat\-Model}.
+
+\hypertarget{class_a_n_n_model_a42769b7bc63179f4b1f4ca181c39e1f0}{\index{A\-N\-N\-Model@{A\-N\-N\-Model}!predict@{predict}}
+\index{predict@{predict}!ANNModel@{A\-N\-N\-Model}}
+\subsubsection[{predict}]{\setlength{\rightskip}{0pt plus 5cm}float A\-N\-N\-Model\-::predict (
+\begin{DoxyParamCaption}
+\item[{const Mat \&}]{samples}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_a_n_n_model_a42769b7bc63179f4b1f4ca181c39e1f0}
+Takes the value with highest probability.
+
+
+\begin{DoxyParams}{Parameters}
+{\em samples} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Implements \hyperlink{class_trainable_stat_model_a8a272769ef46072455a678c9803fb16e}{Trainable\-Stat\-Model}.
+
+\hypertarget{class_a_n_n_model_a2da3c5c659871364f9bcead4980b70f1}{\index{A\-N\-N\-Model@{A\-N\-N\-Model}!train@{train}}
+\index{train@{train}!ANNModel@{A\-N\-N\-Model}}
+\subsubsection[{train}]{\setlength{\rightskip}{0pt plus 5cm}void A\-N\-N\-Model\-::train (
+\begin{DoxyParamCaption}
+\item[{const Mat \&}]{train\-Data, }
+\item[{const Mat \&}]{expected\-Responses, }
+\item[{const Mat \&}]{sample\-Idx}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_a_n_n_model_a2da3c5c659871364f9bcead4980b70f1}
+Trains the classifier using a specific training base.
+
+
+\begin{DoxyParams}{Parameters}
+{\em train\-Data} & the input training data. \\
+\hline
+{\em expected\-Responses} & the expected response to the training data. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{class_trainable_stat_model_a5cb70c5e9e6f3e7f09e7f0ee666ddc25}{Trainable\-Stat\-Model}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_trainable_stat_model_8h}{Trainable\-Stat\-Model.\-h}\item 
+Trainable\-Stat\-Model.\-cpp\end{DoxyCompactItemize}

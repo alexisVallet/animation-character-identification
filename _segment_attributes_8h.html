@@ -81,7 +81,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">SegmentAttributes.h File Reference</div>  </div>
@@ -91,6 +90,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <code>#include &quot;<a class="el" href="_weighted_graph_8hpp_source.html">WeightedGraph.hpp</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_labeled_graph_8hpp_source.html">LabeledGraph.hpp</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_disjoint_set_8hpp_source.html">DisjointSet.hpp</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_graph_partitions_8h_source.html">GraphPartitions.h</a>&quot;</code><br/>
 <code>#include &lt;math.h&gt;</code><br/>
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for SegmentAttributes.h:</div>
@@ -109,11 +109,6 @@ This graph shows which files directly or indirectly include this file:</div>
 </div>
 <p><a href="_segment_attributes_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:aec5dc4d7252a04b7888874cd64e02e78"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_segment_attributes_8h.html#aec5dc4d7252a04b7888874cd64e02e78">Labeling</a> )(const Mat_&lt; Vec3b &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; &amp;<a class="el" href="_segmentation_graph_8hpp.html#a011e891ef6e5cd300f91c7be49c4046e">segmentationGraph</a>)</td></tr>
-<tr class="separator:aec5dc4d7252a04b7888874cd64e02e78"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a21c85b6faada14434fec1775df2e7712"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_segment_attributes_8h.html#a21c85b6faada14434fec1775df2e7712">colorHistogramLabels</a> (Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;image, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; &amp;<a class="el" href="_segmentation_graph_8hpp.html#a011e891ef6e5cd300f91c7be49c4046e">segmentationGraph</a>, int binsPerChannel)</td></tr>
@@ -128,23 +123,9 @@ Functions</h2></td></tr>
 <tr class="separator:adde7e01c81c34ff9242d1736ecd17afa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a581ee573238cf480eec9573025503472"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_segment_attributes_8h.html#a581ee573238cf480eec9573025503472">segmentSizeLabels</a> (const Mat_&lt; Vec3b &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; &amp;<a class="el" href="_segmentation_graph_8hpp.html#a011e891ef6e5cd300f91c7be49c4046e">segmentationGraph</a>)</td></tr>
 <tr class="separator:a581ee573238cf480eec9573025503472"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67f69c5a580b190fb144e79b8d0c8267"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_segment_attributes_8h.html#a67f69c5a580b190fb144e79b8d0c8267">concatenateLabelings</a> (const vector&lt; <a class="el" href="_segment_attributes_8h.html#aec5dc4d7252a04b7888874cd64e02e78">Labeling</a> &gt; &amp;labelings, const Mat_&lt; Vec3b &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; &amp;<a class="el" href="_segmentation_graph_8hpp.html#a011e891ef6e5cd300f91c7be49c4046e">segmentationGraph</a>)</td></tr>
+<tr class="memitem:a67f69c5a580b190fb144e79b8d0c8267"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_segment_attributes_8h.html#a67f69c5a580b190fb144e79b8d0c8267">concatenateLabelings</a> (const vector&lt; <a class="el" href="_graph_partitions_8h.html#aec5dc4d7252a04b7888874cd64e02e78">Labeling</a> &gt; &amp;labelings, const Mat_&lt; Vec3b &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; &amp;<a class="el" href="_segmentation_graph_8hpp.html#a011e891ef6e5cd300f91c7be49c4046e">segmentationGraph</a>)</td></tr>
 <tr class="separator:a67f69c5a580b190fb144e79b8d0c8267"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Typedef Documentation</h2>
-<a class="anchor" id="aec5dc4d7252a04b7888874cd64e02e78"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef void(* Labeling)(const Mat_&lt; Vec3b &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; &amp;<a class="el" href="_segmentation_graph_8hpp.html#a011e891ef6e5cd300f91c7be49c4046e">segmentationGraph</a>)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Datatype describing graph labeling functions. </p>
-
-</div>
-</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="af165c53dcde81dbce767169065f229ab"></a>
 <div class="memitem">
@@ -250,7 +231,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void concatenateLabelings </td>
           <td>(</td>
-          <td class="paramtype">const vector&lt; <a class="el" href="_segment_attributes_8h.html#aec5dc4d7252a04b7888874cd64e02e78">Labeling</a> &gt; &amp;&#160;</td>
+          <td class="paramtype">const vector&lt; <a class="el" href="_graph_partitions_8h.html#aec5dc4d7252a04b7888874cd64e02e78">Labeling</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>labelings</em>, </td>
         </tr>
         <tr>
@@ -493,7 +474,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu May 9 2013 17:58:30 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon May 13 2013 17:50:45 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

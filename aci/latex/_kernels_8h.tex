@@ -1,0 +1,95 @@
+\hypertarget{_kernels_8h}{\section{Kernels.\-h File Reference}
+\label{_kernels_8h}\index{Kernels.\-h@{Kernels.\-h}}
+}
+{\ttfamily \#include $<$opencv2/opencv.\-hpp$>$}\\*
+{\ttfamily \#include \char`\"{}Labeled\-Graph.\-hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Disjoint\-Set.\-hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Utils.\-hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Graph\-Partitions.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Segment\-Attributes.\-h\char`\"{}}\\*
+Include dependency graph for Kernels.\-h\-:
+This graph shows which files directly or indirectly include this file\-:
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_compound_gaussian_kernel}{Compound\-Gaussian\-Kernel}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+double \hyperlink{_kernels_8h_ad461b9b6d903e6fe54bd8c2e6a8c71db}{euclid\-Distance} (const Mat \&h1, const Mat \&h2)
+\item 
+double \hyperlink{_kernels_8h_a42e2a507a8b0d47b99cad3e995543b23}{dot\-Product\-Kernel} (const Mat \&h1, const Mat \&h2)
+\item 
+double \hyperlink{_kernels_8h_a5ad67c55d5b982d8789190a08c353159}{gaussian\-Kernel} (float mu, float sigma, const Mat \&h1, const Mat \&h2)
+\item 
+double \hyperlink{_kernels_8h_ac0f353b14c63201ca6677c220002a3d6}{khi2\-Kernel} (int bins\-Per\-Channel, float lambda, float mu, float gamma, int area1, const Mat \&h1, int area2, const Mat \&h2)
+\item 
+\hyperlink{class_weighted_graph}{Weighted\-Graph} \hyperlink{_kernels_8h_a229f3a93580d797c08bfb426f4c00fbd}{weigh\-Edges\-By\-Kernel} (const Mat\-\_\-$<$ Vec3b $>$ \&image, const Mat\-\_\-$<$ float $>$ \&mask, \hyperlink{class_disjoint_set_forest}{Disjoint\-Set\-Forest} \&segmentation, const \hyperlink{class_mat_kernel}{Mat\-Kernel} \&kernel, const \hyperlink{class_labeled_graph}{Labeled\-Graph}$<$ Mat $>$ \&unweighted\-Graph)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{_kernels_8h_a42e2a507a8b0d47b99cad3e995543b23}{\index{Kernels.\-h@{Kernels.\-h}!dot\-Product\-Kernel@{dot\-Product\-Kernel}}
+\index{dot\-Product\-Kernel@{dot\-Product\-Kernel}!Kernels.h@{Kernels.\-h}}
+\subsubsection[{dot\-Product\-Kernel}]{\setlength{\rightskip}{0pt plus 5cm}double dot\-Product\-Kernel (
+\begin{DoxyParamCaption}
+\item[{const Mat \&}]{h1, }
+\item[{const Mat \&}]{h2}
+\end{DoxyParamCaption}
+)}}\label{_kernels_8h_a42e2a507a8b0d47b99cad3e995543b23}
+Dot product between 2 color histograms seen as vectors. \hypertarget{_kernels_8h_ad461b9b6d903e6fe54bd8c2e6a8c71db}{\index{Kernels.\-h@{Kernels.\-h}!euclid\-Distance@{euclid\-Distance}}
+\index{euclid\-Distance@{euclid\-Distance}!Kernels.h@{Kernels.\-h}}
+\subsubsection[{euclid\-Distance}]{\setlength{\rightskip}{0pt plus 5cm}double euclid\-Distance (
+\begin{DoxyParamCaption}
+\item[{const Mat \&}]{h1, }
+\item[{const Mat \&}]{h2}
+\end{DoxyParamCaption}
+)}}\label{_kernels_8h_ad461b9b6d903e6fe54bd8c2e6a8c71db}
+Euclidean distance between two matrices seen s vectors. \hypertarget{_kernels_8h_a5ad67c55d5b982d8789190a08c353159}{\index{Kernels.\-h@{Kernels.\-h}!gaussian\-Kernel@{gaussian\-Kernel}}
+\index{gaussian\-Kernel@{gaussian\-Kernel}!Kernels.h@{Kernels.\-h}}
+\subsubsection[{gaussian\-Kernel}]{\setlength{\rightskip}{0pt plus 5cm}double gaussian\-Kernel (
+\begin{DoxyParamCaption}
+\item[{float}]{mu, }
+\item[{float}]{sigma, }
+\item[{const Mat \&}]{h1, }
+\item[{const Mat \&}]{h2}
+\end{DoxyParamCaption}
+)}}\label{_kernels_8h_a5ad67c55d5b982d8789190a08c353159}
+Gaussian kernel between 2 vectors or matrices seen as vectors. \hypertarget{_kernels_8h_ac0f353b14c63201ca6677c220002a3d6}{\index{Kernels.\-h@{Kernels.\-h}!khi2\-Kernel@{khi2\-Kernel}}
+\index{khi2\-Kernel@{khi2\-Kernel}!Kernels.h@{Kernels.\-h}}
+\subsubsection[{khi2\-Kernel}]{\setlength{\rightskip}{0pt plus 5cm}double khi2\-Kernel (
+\begin{DoxyParamCaption}
+\item[{int}]{bins\-Per\-Channel, }
+\item[{float}]{lambda, }
+\item[{float}]{mu, }
+\item[{float}]{gamma, }
+\item[{int}]{area1, }
+\item[{const Mat \&}]{h1, }
+\item[{int}]{area2, }
+\item[{const Mat \&}]{h2}
+\end{DoxyParamCaption}
+)}}\label{_kernels_8h_ac0f353b14c63201ca6677c220002a3d6}
+Weighted khi² (X²) kernel between two color histograms seen as distributions. \hypertarget{_kernels_8h_a229f3a93580d797c08bfb426f4c00fbd}{\index{Kernels.\-h@{Kernels.\-h}!weigh\-Edges\-By\-Kernel@{weigh\-Edges\-By\-Kernel}}
+\index{weigh\-Edges\-By\-Kernel@{weigh\-Edges\-By\-Kernel}!Kernels.h@{Kernels.\-h}}
+\subsubsection[{weigh\-Edges\-By\-Kernel}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Weighted\-Graph} weigh\-Edges\-By\-Kernel (
+\begin{DoxyParamCaption}
+\item[{const Mat\-\_\-$<$ Vec3b $>$ \&}]{image, }
+\item[{const Mat\-\_\-$<$ float $>$ \&}]{mask, }
+\item[{{\bf Disjoint\-Set\-Forest} \&}]{segmentation, }
+\item[{const {\bf Mat\-Kernel} \&}]{kernel, }
+\item[{const {\bf Labeled\-Graph}$<$ Mat $>$ \&}]{unweighted\-Graph}
+\end{DoxyParamCaption}
+)}}\label{_kernels_8h_a229f3a93580d797c08bfb426f4c00fbd}
+Weighs the edges of a graph by the result of a kernel function on the source and destination vertices. Runs in O(m) where m is the number of edges in the graph assuming the kernel function runs in O(1).
+
+
+\begin{DoxyParams}{Parameters}
+{\em kernel} & kernel function to weigh edges by. \\
+\hline
+{\em unweighted\-Graph} & graph to compute edges from. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+graph identical to the input graph with edges weighted by the kernel function. 
+\end{DoxyReturn}

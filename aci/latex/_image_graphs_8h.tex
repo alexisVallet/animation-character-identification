@@ -1,0 +1,94 @@
+\hypertarget{_image_graphs_8h}{\section{Image\-Graphs.\-h File Reference}
+\label{_image_graphs_8h}\index{Image\-Graphs.\-h@{Image\-Graphs.\-h}}
+}
+{\ttfamily \#include $<$opencv2/opencv.\-hpp$>$}\\*
+{\ttfamily \#include \char`\"{}Kernels.\-h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Weighted\-Graph.\-hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Utils.\-hpp\char`\"{}}\\*
+Include dependency graph for Image\-Graphs.\-h\-:
+This graph shows which files directly or indirectly include this file\-:
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_weighted_graph}{Weighted\-Graph} \hyperlink{_image_graphs_8h_a30ada09a56806ed50a5a8ed9633675cf}{grid\-Graph} (const Mat\-\_\-$<$ Vec$<$ uchar, 3 $>$ $>$ \&image, \hyperlink{_utils_8hpp_a312f57b0318728667933d7254778058b}{Connectivity\-Type} connectivity, Mat\-\_\-$<$ float $>$ mask, double($\ast$sim\-Func)(const Mat \&, const Mat \&), bool \hyperlink{_weighted_graph_8hpp_a51f69d0a09e4e0b8aefc82a7255d11f4}{bidirectional}=false)
+\item 
+\hyperlink{class_weighted_graph}{Weighted\-Graph} \hyperlink{_image_graphs_8h_a62ea6ca57c30dac2d00d995728f04638}{k\-Nearest\-Graph} (const Mat\-\_\-$<$ Vec$<$ uchar, 3 $>$ $>$ \&image, const Mat\-\_\-$<$ float $>$ mask, int k, double($\ast$sim\-Func)(const Mat \&, const Mat \&), bool \hyperlink{_weighted_graph_8hpp_a51f69d0a09e4e0b8aefc82a7255d11f4}{bidirectional}=false)
+\item 
+\hyperlink{class_weighted_graph}{Weighted\-Graph} \hyperlink{_image_graphs_8h_a854a4b9d9194268012df8638ebf3baa3}{radius\-Graph} (const Mat\-\_\-$<$ Vec3b $>$ \&image, const Mat\-\_\-$<$ float $>$ \&mask, int k, double r, const \hyperlink{class_mat_kernel}{Mat\-Kernel} \&sim\-Func, bool \hyperlink{_weighted_graph_8hpp_a51f69d0a09e4e0b8aefc82a7255d11f4}{bidirectional}=false)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{_image_graphs_8h_a30ada09a56806ed50a5a8ed9633675cf}{\index{Image\-Graphs.\-h@{Image\-Graphs.\-h}!grid\-Graph@{grid\-Graph}}
+\index{grid\-Graph@{grid\-Graph}!ImageGraphs.h@{Image\-Graphs.\-h}}
+\subsubsection[{grid\-Graph}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Weighted\-Graph} grid\-Graph (
+\begin{DoxyParamCaption}
+\item[{const Mat\-\_\-$<$ Vec$<$ uchar, 3 $>$ $>$ \&}]{image, }
+\item[{{\bf Connectivity\-Type}}]{connectivity, }
+\item[{Mat\-\_\-$<$ float $>$}]{mask, }
+\item[{double($\ast$)(const Mat \&, const Mat \&)}]{sim\-Func, }
+\item[{bool}]{bidirectional = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}}\label{_image_graphs_8h_a30ada09a56806ed50a5a8ed9633675cf}
+Returns the grid graph of a color image. The grid graph is defined as the graph where vertices are pixels of the image and vertices have an edge (undirected) between them iff they are neighbor in an N-\/connectivity sense. Does not repeat edges in both directions, every edge only appears on the first pixel's adjacency list in row major order. Every edge is weighted by an appropriate similarity function.
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & image to compute the grid graph from. \\
+\hline
+{\em connectivity} & the type of connectivity to search for neighboring pixels, cam be C\-O\-N\-N\-E\-C\-T\-I\-V\-I\-T\-Y\-\_\-4 or C\-O\-N\-N\-E\-C\-T\-I\-V\-I\-T\-Y\-\_\-8 for 4 and 8 neighbors respectively. It should be noted that 8 connectivity does not in general yield a planar graph -\/ one can prove that the 5$\ast$5 vertices 8 connected graph is not planar using Euler's bound on the number of edges in a planar graph. \\
+\hline
+{\em bidirectional} & set to true so that edges are repeated in both directions in the adjacency list representation. This is useful for more efficient listing of vertices neighbors, but consumes more space. \\
+\hline
+\end{DoxyParams}
+\hypertarget{_image_graphs_8h_a62ea6ca57c30dac2d00d995728f04638}{\index{Image\-Graphs.\-h@{Image\-Graphs.\-h}!k\-Nearest\-Graph@{k\-Nearest\-Graph}}
+\index{k\-Nearest\-Graph@{k\-Nearest\-Graph}!ImageGraphs.h@{Image\-Graphs.\-h}}
+\subsubsection[{k\-Nearest\-Graph}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Weighted\-Graph} k\-Nearest\-Graph (
+\begin{DoxyParamCaption}
+\item[{const Mat\-\_\-$<$ Vec$<$ uchar, 3 $>$ $>$ \&}]{image, }
+\item[{const Mat\-\_\-$<$ float $>$}]{mask, }
+\item[{int}]{k, }
+\item[{double($\ast$)(const Mat \&, const Mat \&)}]{sim\-Func, }
+\item[{bool}]{bidirectional = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}}\label{_image_graphs_8h_a62ea6ca57c30dac2d00d995728f04638}
+Returns a graph where vertices are pixels in the image, and every vertex has an edge to each of its K nearest neighbor in feature space. For a pixel at position (x,y) and color (r,g,b), the associated vector in feature space is (x,y,r,g,b). Uses approximate nearest neighbor search.
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & image to compute the nearest neighbor graph from. \\
+\hline
+{\em mask} & mask indicating pixels to take into account. \\
+\hline
+{\em k} & the number of nearest neighbors each pixel should have an edge towards. Note that this does not mean that the graph is k-\/regular (seen as an undirected graph) as the k nearest neighbor relation is not symmetric. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the nearest neighbor graph of the image. 
+\end{DoxyReturn}
+\hypertarget{_image_graphs_8h_a854a4b9d9194268012df8638ebf3baa3}{\index{Image\-Graphs.\-h@{Image\-Graphs.\-h}!radius\-Graph@{radius\-Graph}}
+\index{radius\-Graph@{radius\-Graph}!ImageGraphs.h@{Image\-Graphs.\-h}}
+\subsubsection[{radius\-Graph}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Weighted\-Graph} radius\-Graph (
+\begin{DoxyParamCaption}
+\item[{const Mat\-\_\-$<$ Vec3b $>$ \&}]{image, }
+\item[{const Mat\-\_\-$<$ float $>$ \&}]{mask, }
+\item[{int}]{k, }
+\item[{double}]{r, }
+\item[{const {\bf Mat\-Kernel} \&}]{sim\-Func, }
+\item[{bool}]{bidirectional = {\ttfamily false}}
+\end{DoxyParamCaption}
+)}}\label{_image_graphs_8h_a854a4b9d9194268012df8638ebf3baa3}
+Returns a graph where vertices are pixels in the image, and every vertex has an edge to its neighbors in a specific radius in pixel coordinate space (up to a maximum of k neighbors), weighted by color similarity and distance in coordinate space.
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & the image to compute the radius graph from. \\
+\hline
+{\em mask} & mask indicating pixels to take into account. \\
+\hline
+{\em k} & the maximum number of nearest neighbors each pixel should have an edge towards. Note that this does not mean that the graph is k-\/regular (seen as an undirected graph) as the k nearest neighbor relation is not symmetric.  r maximum radius of pixels to consider as neighbor. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the radius graph of the image. 
+\end{DoxyReturn}

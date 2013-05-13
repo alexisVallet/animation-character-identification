@@ -1,0 +1,125 @@
+\hypertarget{class_trainable_stat_model}{\section{Trainable\-Stat\-Model Class Reference}
+\label{class_trainable_stat_model}\index{Trainable\-Stat\-Model@{Trainable\-Stat\-Model}}
+}
+
+
+{\ttfamily \#include $<$Trainable\-Stat\-Model.\-h$>$}
+
+
+
+Inheritance diagram for Trainable\-Stat\-Model\-:
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual Cv\-Stat\-Model $\ast$ \hyperlink{class_trainable_stat_model_a3e2487f4366375c8004e59d09f8a0f99}{get\-Stat\-Model} ()=0
+\item 
+virtual void \hyperlink{class_trainable_stat_model_a5cb70c5e9e6f3e7f09e7f0ee666ddc25}{train} (const Mat \&train\-Data, const Mat \&expected\-Responses, const Mat \&sample\-Idx)=0
+\item 
+virtual float \hyperlink{class_trainable_stat_model_a8a272769ef46072455a678c9803fb16e}{predict} (const Mat \&samples)=0
+\item 
+virtual void \hyperlink{class_trainable_stat_model_af5ea7723d71f07101d561a061e3f0226}{clear} ()=0
+\item 
+float \hyperlink{class_trainable_stat_model_aa819631a7dbdcd94613eff21ab94912f}{leave\-One\-Out\-Cross\-Validation} (const Mat\-\_\-$<$ float $>$ \&samples, const Mat\-\_\-$<$ int $>$ \&classes)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Wrapper around Cv\-Stat\-Models which implement a train and predict (-\/like) method. 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_trainable_stat_model_af5ea7723d71f07101d561a061e3f0226}{\index{Trainable\-Stat\-Model@{Trainable\-Stat\-Model}!clear@{clear}}
+\index{clear@{clear}!TrainableStatModel@{Trainable\-Stat\-Model}}
+\subsubsection[{clear}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Trainable\-Stat\-Model\-::clear (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_trainable_stat_model_af5ea7723d71f07101d561a061e3f0226}
+Clears the training of the internal statistical model. 
+
+Implemented in \hyperlink{class_a_n_n_model_a9b360a8e6c416dc204edb8190f9cc464}{A\-N\-N\-Model}, \hyperlink{class_k_nearest_model_ae5cf2beed9b6a2def175920a81c7a69e}{K\-Nearest\-Model}, and \hyperlink{class_bayes_model_a3cae5020c0a35e12454ced7d66807b95}{Bayes\-Model}.
+
+\hypertarget{class_trainable_stat_model_a3e2487f4366375c8004e59d09f8a0f99}{\index{Trainable\-Stat\-Model@{Trainable\-Stat\-Model}!get\-Stat\-Model@{get\-Stat\-Model}}
+\index{get\-Stat\-Model@{get\-Stat\-Model}!TrainableStatModel@{Trainable\-Stat\-Model}}
+\subsubsection[{get\-Stat\-Model}]{\setlength{\rightskip}{0pt plus 5cm}virtual Cv\-Stat\-Model$\ast$ Trainable\-Stat\-Model\-::get\-Stat\-Model (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_trainable_stat_model_a3e2487f4366375c8004e59d09f8a0f99}
+Returns the opencv statistical model which this statistical model is based on.
+
+\begin{DoxyReturn}{Returns}
+the opencv statistical model which this statistical model is based on. 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{class_a_n_n_model_a8d971b9fa044dedd88dfcafc9aa0f8b8}{A\-N\-N\-Model}, \hyperlink{class_k_nearest_model_ae1b0212eba134e72293b5e4be1369f89}{K\-Nearest\-Model}, and \hyperlink{class_bayes_model_ad2245e700e4c27f34b6654d4a8598b1c}{Bayes\-Model}.
+
+\hypertarget{class_trainable_stat_model_aa819631a7dbdcd94613eff21ab94912f}{\index{Trainable\-Stat\-Model@{Trainable\-Stat\-Model}!leave\-One\-Out\-Cross\-Validation@{leave\-One\-Out\-Cross\-Validation}}
+\index{leave\-One\-Out\-Cross\-Validation@{leave\-One\-Out\-Cross\-Validation}!TrainableStatModel@{Trainable\-Stat\-Model}}
+\subsubsection[{leave\-One\-Out\-Cross\-Validation}]{\setlength{\rightskip}{0pt plus 5cm}float Trainable\-Stat\-Model\-::leave\-One\-Out\-Cross\-Validation (
+\begin{DoxyParamCaption}
+\item[{const Mat\-\_\-$<$ float $>$ \&}]{samples, }
+\item[{const Mat\-\_\-$<$ int $>$ \&}]{classes}
+\end{DoxyParamCaption}
+)}}\label{class_trainable_stat_model_aa819631a7dbdcd94613eff21ab94912f}
+Computes the leave one out cross validation recognition rate given a matrix of row samples and a column matrix of their corresponding class.
+
+
+\begin{DoxyParams}{Parameters}
+{\em samples} & matrix of row samples to compute the recognition rate from. \\
+\hline
+{\em classes} & column vector associating to each sample its corresponding class. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a rate in the \mbox{[}0;1\mbox{]} range indicating the ratio of correctly classified samples by training with all the others. 
+\end{DoxyReturn}
+\hypertarget{class_trainable_stat_model_a8a272769ef46072455a678c9803fb16e}{\index{Trainable\-Stat\-Model@{Trainable\-Stat\-Model}!predict@{predict}}
+\index{predict@{predict}!TrainableStatModel@{Trainable\-Stat\-Model}}
+\subsubsection[{predict}]{\setlength{\rightskip}{0pt plus 5cm}virtual float Trainable\-Stat\-Model\-::predict (
+\begin{DoxyParamCaption}
+\item[{const Mat \&}]{samples}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_trainable_stat_model_a8a272769ef46072455a678c9803fb16e}
+Predicts the class of a sample.
+
+
+\begin{DoxyParams}{Parameters}
+{\em samples} & one or many samples to compute the class for. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the predicted class of the sample. 
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{class_a_n_n_model_a42769b7bc63179f4b1f4ca181c39e1f0}{A\-N\-N\-Model}, \hyperlink{class_k_nearest_model_a2afe7f6a1b906cf31eb9252f494fe54f}{K\-Nearest\-Model}, and \hyperlink{class_bayes_model_af4cae4469164a5b58632c40f6a0839f5}{Bayes\-Model}.
+
+\hypertarget{class_trainable_stat_model_a5cb70c5e9e6f3e7f09e7f0ee666ddc25}{\index{Trainable\-Stat\-Model@{Trainable\-Stat\-Model}!train@{train}}
+\index{train@{train}!TrainableStatModel@{Trainable\-Stat\-Model}}
+\subsubsection[{train}]{\setlength{\rightskip}{0pt plus 5cm}virtual void Trainable\-Stat\-Model\-::train (
+\begin{DoxyParamCaption}
+\item[{const Mat \&}]{train\-Data, }
+\item[{const Mat \&}]{expected\-Responses, }
+\item[{const Mat \&}]{sample\-Idx}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_trainable_stat_model_a5cb70c5e9e6f3e7f09e7f0ee666ddc25}
+Trains the classifier using a specific training base.
+
+
+\begin{DoxyParams}{Parameters}
+{\em train\-Data} & the input training data. \\
+\hline
+{\em expected\-Responses} & the expected response to the training data. \\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{class_a_n_n_model_a2da3c5c659871364f9bcead4980b70f1}{A\-N\-N\-Model}, \hyperlink{class_k_nearest_model_ae5278bb119540c9263bc96ad0eeea469}{K\-Nearest\-Model}, and \hyperlink{class_bayes_model_a72af01b372a06ebac227e0bb4fd4a7de}{Bayes\-Model}.
+
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_trainable_stat_model_8h}{Trainable\-Stat\-Model.\-h}\item 
+Trainable\-Stat\-Model.\-cpp\end{DoxyCompactItemize}

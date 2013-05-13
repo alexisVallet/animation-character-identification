@@ -93,42 +93,39 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">using namespace </span>std;</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">using namespace </span>cv;</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno"><a class="code" href="class_mat_kernel.html">   11</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_mat_kernel.html">MatKernel</a> {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">double</span> operator() (<span class="keyword">const</span> Mat&amp;, <span class="keyword">const</span> Mat&amp;) <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;};</div>
+<div class="line"><a name="l00014"></a><span class="lineno"><a class="code" href="_utils_8hpp.html#a312f57b0318728667933d7254778058b">   14</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="_utils_8hpp.html#a312f57b0318728667933d7254778058b">ConnectivityType</a> {CONNECTIVITY_4 = 0, CONNECTIVITY_8 = 1};</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno"><a class="code" href="_utils_8hpp.html#a312f57b0318728667933d7254778058b">   19</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="_utils_8hpp.html#a312f57b0318728667933d7254778058b">ConnectivityType</a> {CONNECTIVITY_4 = 0, CONNECTIVITY_8 = 1};</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keywordtype">int</span> toRowMajor(<span class="keywordtype">int</span> width, <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y);</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keywordtype">int</span> toRowMajor(<span class="keywordtype">int</span> width, <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keywordtype">int</span> toColumnMajor(<span class="keywordtype">int</span> rows, <span class="keywordtype">int</span> i, <span class="keywordtype">int</span> j);</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keywordtype">int</span> toColumnMajor(<span class="keywordtype">int</span> rows, <span class="keywordtype">int</span> i, <span class="keywordtype">int</span> j);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;pair&lt;int,int&gt; fromRowMajor(<span class="keywordtype">int</span> width, <span class="keywordtype">int</span> i);</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;pair&lt;int,int&gt; fromRowMajor(<span class="keywordtype">int</span> width, <span class="keywordtype">int</span> i);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">void</span> loadDataSet(<span class="keywordtype">char</span>* folderName, <span class="keywordtype">char</span>** charaNames, <span class="keywordtype">int</span> nbCharas, <span class="keywordtype">int</span> nbImagesPerChara, vector&lt;pair&lt;Mat_&lt;Vec&lt;uchar,3&gt; &gt;,Mat_&lt;float&gt; &gt; &gt; &amp;images, Mat_&lt;int&gt; &amp;classes);</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keywordtype">void</span> loadDataSet(<span class="keywordtype">char</span>* folderName, <span class="keywordtype">char</span>** charaNames, <span class="keywordtype">int</span> nbCharas, <span class="keywordtype">int</span> nbImagesPerChara, vector&lt;pair&lt;Mat_&lt;Vec&lt;uchar,3&gt; &gt;,Mat_&lt;float&gt; &gt; &gt; &amp;images, Mat &amp;classes);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;Mat_&lt;double&gt; sparseMul(SparseMat_&lt;double&gt; A, Mat_&lt;double&gt; b);</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;Mat_&lt;double&gt; sparseMul(SparseMat_&lt;double&gt; A, Mat_&lt;double&gt; b);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keywordtype">bool</span> symmetric(Eigen::SparseMatrix&lt;double&gt; M);</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keywordtype">bool</span> symmetric(Eigen::SparseMatrix&lt;double&gt; M);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keywordtype">bool</span> positiveDefinite(Eigen::SparseMatrix&lt;double&gt; M);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keywordtype">bool</span> positiveDefinite(Eigen::SparseMatrix&lt;double&gt; M);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keywordtype">void</span> removeLineCol(<span class="keyword">const</span> Eigen::SparseMatrix&lt;double&gt; &amp;L, <span class="keywordtype">int</span> v0, Eigen::SparseMatrix&lt;double&gt; &amp;L0);</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keywordtype">void</span> removeLineCol(<span class="keyword">const</span> Eigen::SparseMatrix&lt;double&gt; &amp;L, <span class="keywordtype">int</span> v0, Eigen::SparseMatrix&lt;double&gt; &amp;L0);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keywordtype">int</span> toUpperTriangularPacked(<span class="keywordtype">int</span> i, <span class="keywordtype">int</span> j);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;Mat imHist(Mat hist, <span class="keywordtype">float</span> scaleX=1, <span class="keywordtype">float</span> scaleY=1);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keywordtype">void</span> showHistograms(<span class="keyword">const</span> Mat_&lt;Vec3b&gt; &amp;image, <span class="keyword">const</span> Mat_&lt;float&gt; &amp;mask, <span class="keywordtype">int</span> nbBins);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="keywordtype">void</span> equalizeColorHistogram(<span class="keyword">const</span> Mat_&lt;Vec3b&gt; &amp;image, <span class="keyword">const</span> Mat_&lt;float&gt; &amp;mask, Mat_&lt;Vec3b&gt; &amp;equalized);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="keywordtype">void</span> crop(<span class="keyword">const</span> Mat_&lt;Vec3b&gt; &amp;image, <span class="keyword">const</span> Mat_&lt;float&gt; &amp;mask, Mat_&lt;Vec3b&gt; &amp;croppedImage, Mat_&lt;float&gt; &amp;croppedMask);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keywordtype">int</span> toUpperTriangularPacked(<span class="keywordtype">int</span> i, <span class="keywordtype">int</span> j);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;Mat imHist(Mat hist, <span class="keywordtype">float</span> scaleX=1, <span class="keywordtype">float</span> scaleY=1);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="keywordtype">void</span> showHistograms(<span class="keyword">const</span> Mat_&lt;Vec3b&gt; &amp;image, <span class="keyword">const</span> Mat_&lt;float&gt; &amp;mask, <span class="keywordtype">int</span> nbBins);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="keywordtype">void</span> equalizeColorHistogram(<span class="keyword">const</span> Mat_&lt;Vec3b&gt; &amp;image, <span class="keyword">const</span> Mat_&lt;float&gt; &amp;mask, Mat_&lt;Vec3b&gt; &amp;equalized);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="keywordtype">void</span> crop(<span class="keyword">const</span> Mat_&lt;Vec3b&gt; &amp;image, <span class="keyword">const</span> Mat_&lt;float&gt; &amp;mask, Mat_&lt;Vec3b&gt; &amp;croppedImage, Mat_&lt;float&gt; &amp;croppedMask);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="keywordtype">void</span> resizeImage(<span class="keyword">const</span> Mat_&lt;Vec&lt;uchar,3&gt; &gt; &amp;image, <span class="keyword">const</span> Mat_&lt;float&gt; &amp;mask, Mat_&lt;Vec&lt;uchar,3&gt; &gt; &amp;resizedImage, Mat_&lt;float&gt; &amp;resizedMask, <span class="keywordtype">int</span> maxNbPixels);</div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu May 9 2013 17:58:29 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon May 13 2013 17:50:45 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

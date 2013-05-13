@@ -1,0 +1,53 @@
+﻿La génération a démarré 13/05/2013 17:43:20.
+     1>Projet "C:\Users\Vallet\Documents\Dev\animation-character-identification\aci\animation-character-identification.vcxproj" sur le nœud 2 (build cible(s)).
+     1>InitializeBuildStatus:
+         Création de "Release\animation-character-identification.unsuccessfulbuild", car "AlwaysCreate" a été spécifié.
+       ClCompile:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W4 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _CONSOLE /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Kernels.cpp SegmentAttributes.cpp
+         Kernels.cpp
+     1>c:\users\vallet\documents\dev\animation-character-identification\vendors\eigen\eigen\src\orderingmethods\Eigen_Colamd.h(217): warning C4505: 'Eigen::internal::colamd' : unreferenced local function has been removed
+         SegmentAttributes.cpp
+     1>SegmentAttributes.cpp(110): warning C4100: 'mask' : unreferenced formal parameter
+     1>SegmentAttributes.cpp(110): warning C4100: 'image' : unreferenced formal parameter
+     1>SegmentAttributes.cpp(128): warning C4100: 'mask' : unreferenced formal parameter
+     1>SegmentAttributes.cpp(128): warning C4100: 'image' : unreferenced formal parameter
+     1>SegmentAttributes.cpp(217): warning C4127: conditional expression is constant
+     1>SegmentAttributes.cpp(218): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>SegmentAttributes.cpp(227): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>SegmentAttributes.cpp(228): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>SegmentAttributes.cpp(234): warning C4127: conditional expression is constant
+     1>SegmentAttributes.cpp(166): warning C4100: 'mask' : unreferenced formal parameter
+     1>c:\users\vallet\documents\dev\animation-character-identification\vendors\eigen\eigen\src\orderingmethods\Eigen_Colamd.h(217): warning C4505: 'Eigen::internal::colamd' : unreferenced local function has been removed
+         Generating Code...
+       Link:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Vallet\Documents\Dev\animation-character-identification\aci\Release\animation-character-identification.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:..\vendors\ARPACK\lib /LIBPATH:..\vendors\opencv\lib opencv_core244.lib opencv_imgproc244.lib opencv_highgui244.lib opencv_ml244.lib opencv_video244.lib opencv_features2d244.lib opencv_calib3d244.lib opencv_objdetect244.lib opencv_contrib244.lib opencv_legacy244.lib opencv_flann244.lib arpack_win32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\animation-character-identification.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Vallet\Documents\Dev\animation-character-identification\aci\Release\animation-character-identification.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Vallet\Documents\Dev\animation-character-identification\aci\Release\animation-character-identification.lib" /MACHINE:X86 Release\DisjointSet.obj
+         Release\Felzenszwalb.obj
+         Release\GraphPartitions.obj
+         Release\GraphSpectra.obj
+         Release\GraphSpectraTest.obj
+         Release\ImageGraphs.obj
+         Release\ImageGraphsTest.obj
+         Release\Kernels.obj
+         Release\KuwaharaFilter.obj
+         Release\main.obj
+         Release\Segmentation.obj
+         Release\SegmentationGraph.obj
+         Release\SegmentAttributes.obj
+         Release\SegmentAttributesTest.obj
+         Release\SpectrumDistanceClassifier.obj
+         Release\SpectrumDistanceClassifierTest.obj
+         Release\TrainableStatModel.obj
+         Release\TreeWalkKernel.obj
+         Release\Utils.obj
+         Release\WeightedGraph.obj
+         animation-character-identification.vcxproj -> C:\Users\Vallet\Documents\Dev\animation-character-identification\aci\Release\animation-character-identification.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\Vallet\Documents\Dev\animation-character-identification\aci\Release\animation-character-identification.exe;#1" /manifest "Release\animation-character-identification.exe.intermediate.manifest"
+       FinalizeBuildStatus:
+         Suppression du fichier "Release\animation-character-identification.unsuccessfulbuild".
+         Mise à jour de l'horodatage "Release\animation-character-identification.lastbuildstate".
+     1>Génération du projet "C:\Users\Vallet\Documents\Dev\animation-character-identification\aci\animation-character-identification.vcxproj" terminée (build cible(s)).
+
+La génération a réussi.
+
+Temps écoulé 00:00:08.65

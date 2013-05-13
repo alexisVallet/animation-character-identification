@@ -1,0 +1,81 @@
+\hypertarget{class_labeled_graph}{\section{Labeled\-Graph$<$ T $>$ Class Template Reference}
+\label{class_labeled_graph}\index{Labeled\-Graph$<$ T $>$@{Labeled\-Graph$<$ T $>$}}
+}
+
+
+{\ttfamily \#include $<$Labeled\-Graph.\-hpp$>$}
+
+
+
+Inheritance diagram for Labeled\-Graph$<$ T $>$\-:
+
+
+Collaboration diagram for Labeled\-Graph$<$ T $>$\-:
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_labeled_graph_aecb9afdb34ff295d07c17aee9271ec44}{Labeled\-Graph} (int \hyperlink{class_weighted_graph_ac6c8807a6c023525baec8525553c03eb}{number\-Of\-Vertices}, int max\-Degree=-\/1, vector$<$ T $>$ labels=vector$<$ T $>$())
+\item 
+void \hyperlink{class_labeled_graph_a822c3e3e1a2919cb1cec164c6f04be76}{add\-Label} (int vertex, T label)
+\item 
+T \hyperlink{class_labeled_graph_a4493f08c6e5e981a5b477a61246c26ff}{get\-Label} (int vertex) const 
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$class Labeled\-Graph$<$ T $>$}
+
+Adjacency list implementation of a labeled weighted graph. Subclass of \hyperlink{class_weighted_graph}{Weighted\-Graph}. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_labeled_graph_aecb9afdb34ff295d07c17aee9271ec44}{\index{Labeled\-Graph@{Labeled\-Graph}!Labeled\-Graph@{Labeled\-Graph}}
+\index{Labeled\-Graph@{Labeled\-Graph}!LabeledGraph@{Labeled\-Graph}}
+\subsubsection[{Labeled\-Graph}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ {\bf Labeled\-Graph}$<$ T $>$\-::{\bf Labeled\-Graph} (
+\begin{DoxyParamCaption}
+\item[{int}]{number\-Of\-Vertices, }
+\item[{int}]{max\-Degree = {\ttfamily -\/1}, }
+\item[{vector$<$ T $>$}]{labels = {\ttfamily vector$<$T$>$()}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_labeled_graph_aecb9afdb34ff295d07c17aee9271ec44}
+See \hyperlink{class_weighted_graph_a567ecc243c75a3d6a8905670d08ada82}{Weighted\-Graph\-::\-Weighted\-Graph(int,int)}. If no labels are specified, initializes labels with the default value of the label type (ie default constructor for classes). 
+
+\subsection{Member Function Documentation}
+\hypertarget{class_labeled_graph_a822c3e3e1a2919cb1cec164c6f04be76}{\index{Labeled\-Graph@{Labeled\-Graph}!add\-Label@{add\-Label}}
+\index{add\-Label@{add\-Label}!LabeledGraph@{Labeled\-Graph}}
+\subsubsection[{add\-Label}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ void {\bf Labeled\-Graph}$<$ T $>$\-::add\-Label (
+\begin{DoxyParamCaption}
+\item[{int}]{vertex, }
+\item[{T}]{label}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_labeled_graph_a822c3e3e1a2919cb1cec164c6f04be76}
+Adds a label to a specific vertex.
+
+
+\begin{DoxyParams}{Parameters}
+{\em vertex} & the vertex to associate a label to. \\
+\hline
+{\em label} & label to associate to the vertex. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_labeled_graph_a4493f08c6e5e981a5b477a61246c26ff}{\index{Labeled\-Graph@{Labeled\-Graph}!get\-Label@{get\-Label}}
+\index{get\-Label@{get\-Label}!LabeledGraph@{Labeled\-Graph}}
+\subsubsection[{get\-Label}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T$>$ T {\bf Labeled\-Graph}$<$ T $>$\-::get\-Label (
+\begin{DoxyParamCaption}
+\item[{int}]{vertex}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_labeled_graph_a4493f08c6e5e981a5b477a61246c26ff}
+Returns the label of a vertex. N\-U\-L\-L if vertex has no label.
+
+
+\begin{DoxyParams}{Parameters}
+{\em vertex} & a vertex in the graph. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the label of the vertex. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_labeled_graph_8hpp}{Labeled\-Graph.\-hpp}\end{DoxyCompactItemize}

@@ -1,0 +1,66 @@
+\hypertarget{_felzenszwalb_8hpp}{\section{Felzenszwalb.\-hpp File Reference}
+\label{_felzenszwalb_8hpp}\index{Felzenszwalb.\-hpp@{Felzenszwalb.\-hpp}}
+}
+{\ttfamily \#include $<$iostream$>$}\\*
+{\ttfamily \#include $<$vector$>$}\\*
+{\ttfamily \#include $<$algorithm$>$}\\*
+{\ttfamily \#include $<$opencv2/opencv.\-hpp$>$}\\*
+{\ttfamily \#include \char`\"{}Weighted\-Graph.\-hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Disjoint\-Set.\-hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Utils.\-hpp\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}Image\-Graphs.\-h\char`\"{}}\\*
+Include dependency graph for Felzenszwalb.\-hpp\-:
+This graph shows which files directly or indirectly include this file\-:
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_disjoint_set_forest}{Disjoint\-Set\-Forest} \hyperlink{_felzenszwalb_8hpp_afc65b87bcefeccabe7d297b2a9ff4960}{felzenszwalb\-Segment} (int k, \hyperlink{class_weighted_graph}{Weighted\-Graph} graph, int min\-Comp\-Size, Mat\-\_\-$<$ float $>$ mask)
+\item 
+\hyperlink{class_disjoint_set_forest}{Disjoint\-Set\-Forest} \hyperlink{_felzenszwalb_8hpp_a63881e4b3642fa9c8c98d0789eb3c75f}{combine\-Segmentations} (const \hyperlink{class_weighted_graph}{Weighted\-Graph} \&image\-Graph, vector$<$ \hyperlink{class_disjoint_set_forest}{Disjoint\-Set\-Forest} $>$ \&segmentations)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{_felzenszwalb_8hpp_a63881e4b3642fa9c8c98d0789eb3c75f}{\index{Felzenszwalb.\-hpp@{Felzenszwalb.\-hpp}!combine\-Segmentations@{combine\-Segmentations}}
+\index{combine\-Segmentations@{combine\-Segmentations}!Felzenszwalb.hpp@{Felzenszwalb.\-hpp}}
+\subsubsection[{combine\-Segmentations}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Disjoint\-Set\-Forest} combine\-Segmentations (
+\begin{DoxyParamCaption}
+\item[{const {\bf Weighted\-Graph} \&}]{image\-Graph, }
+\item[{vector$<$ {\bf Disjoint\-Set\-Forest} $>$ \&}]{segmentations}
+\end{DoxyParamCaption}
+)}}\label{_felzenszwalb_8hpp_a63881e4b3642fa9c8c98d0789eb3c75f}
+Combines segmentations of the same graph by the following rule\-: two neighboring vertices in the graph are in the same component iff they are in the same component in all segmentations. Useful for combining segmentations of separate channels of a color image.
+
+Weights are ignored, only the graph structure is kept -\/ it is assumed the segmentations were done on the same unweighted graph.
+
+
+\begin{DoxyParams}{Parameters}
+{\em graph} & the graph segmented by the segmentations \\
+\hline
+{\em segmentations} & segmentations of source\-Image to combine. \\
+\hline
+\end{DoxyParams}
+\hypertarget{_felzenszwalb_8hpp_afc65b87bcefeccabe7d297b2a9ff4960}{\index{Felzenszwalb.\-hpp@{Felzenszwalb.\-hpp}!felzenszwalb\-Segment@{felzenszwalb\-Segment}}
+\index{felzenszwalb\-Segment@{felzenszwalb\-Segment}!Felzenszwalb.hpp@{Felzenszwalb.\-hpp}}
+\subsubsection[{felzenszwalb\-Segment}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Disjoint\-Set\-Forest} felzenszwalb\-Segment (
+\begin{DoxyParamCaption}
+\item[{int}]{k, }
+\item[{{\bf Weighted\-Graph}}]{graph, }
+\item[{int}]{min\-Comp\-Size, }
+\item[{Mat\-\_\-$<$ float $>$}]{mask}
+\end{DoxyParamCaption}
+)}}\label{_felzenszwalb_8hpp_afc65b87bcefeccabe7d297b2a9ff4960}
+Segments a graph using Felzenszwalb's method. Returns the result as a disjoint set forest data structure. Also goes through a post processing phase to weed out small components.
+
+
+\begin{DoxyParams}{Parameters}
+{\em k} & scale parameter. \\
+\hline
+{\em graph} & the graph to segment. \\
+\hline
+{\em min\-Comp\-Size} & minimum size of components. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a segmentation of the graph. 
+\end{DoxyReturn}
