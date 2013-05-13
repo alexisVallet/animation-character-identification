@@ -80,7 +80,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
@@ -107,11 +106,6 @@ This graph shows which files directly or indirectly include this file:</div>
 </div>
 <p><a href="_utils_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mat_kernel.html">MatKernel</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:a312f57b0318728667933d7254778058b"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utils_8hpp.html#a312f57b0318728667933d7254778058b">ConnectivityType</a> { <b>CONNECTIVITY_4</b> = 0, 
@@ -127,8 +121,8 @@ Functions</h2></td></tr>
 <tr class="separator:a396388b8933428ef395cbf6f016b63a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7684a46db62865dd6f5be52e8c2989f5"><td class="memItemLeft" align="right" valign="top">pair&lt; int, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utils_8hpp.html#a7684a46db62865dd6f5be52e8c2989f5">fromRowMajor</a> (int width, int i)</td></tr>
 <tr class="separator:a7684a46db62865dd6f5be52e8c2989f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4aaff5ba297bc0c180b8baa68d13fdb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utils_8hpp.html#af4aaff5ba297bc0c180b8baa68d13fdb">loadDataSet</a> (char *folderName, char **charaNames, int nbCharas, int nbImagesPerChara, vector&lt; pair&lt; Mat_&lt; Vec&lt; uchar, 3 &gt; &gt;, Mat_&lt; float &gt; &gt; &gt; &amp;images, Mat &amp;classes)</td></tr>
-<tr class="separator:af4aaff5ba297bc0c180b8baa68d13fdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f5a6e6e6eb25e5521137ea523049fcc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utils_8hpp.html#a6f5a6e6e6eb25e5521137ea523049fcc">loadDataSet</a> (char *folderName, char **charaNames, int nbCharas, int nbImagesPerChara, vector&lt; pair&lt; Mat_&lt; Vec&lt; uchar, 3 &gt; &gt;, Mat_&lt; float &gt; &gt; &gt; &amp;images, Mat_&lt; int &gt; &amp;classes)</td></tr>
+<tr class="separator:a6f5a6e6e6eb25e5521137ea523049fcc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac34dfc883daf6cba659fc0fc3226ca19"><td class="memItemLeft" align="right" valign="top">Mat_&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utils_8hpp.html#ac34dfc883daf6cba659fc0fc3226ca19">sparseMul</a> (SparseMat_&lt; double &gt; A, Mat_&lt; double &gt; b)</td></tr>
 <tr class="separator:ac34dfc883daf6cba659fc0fc3226ca19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a01a70c6fb577435c51a2a05372f5f92c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utils_8hpp.html#a01a70c6fb577435c51a2a05372f5f92c">symmetric</a> (Eigen::SparseMatrix&lt; double &gt; M)</td></tr>
@@ -147,6 +141,8 @@ Functions</h2></td></tr>
 <tr class="separator:a9961eb17b5620424af0bfdd2b92ebb65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91b7070cd0432fcb2485f142ac43edbb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utils_8hpp.html#a91b7070cd0432fcb2485f142ac43edbb">crop</a> (const Mat_&lt; Vec3b &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, Mat_&lt; Vec3b &gt; &amp;croppedImage, Mat_&lt; float &gt; &amp;croppedMask)</td></tr>
 <tr class="separator:a91b7070cd0432fcb2485f142ac43edbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5eab31b206a0e529b87f026a2eeb0d7f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utils_8hpp.html#a5eab31b206a0e529b87f026a2eeb0d7f">resizeImage</a> (const Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;resizedImage, Mat_&lt; float &gt; &amp;resizedMask, int maxNbPixels)</td></tr>
+<tr class="separator:a5eab31b206a0e529b87f026a2eeb0d7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a class="anchor" id="a312f57b0318728667933d7254778058b"></a>
@@ -321,7 +317,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="af4aaff5ba297bc0c180b8baa68d13fdb"></a>
+<a class="anchor" id="a6f5a6e6e6eb25e5521137ea523049fcc"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -358,7 +354,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Mat &amp;&#160;</td>
+          <td class="paramtype">Mat_&lt; int &gt; &amp;&#160;</td>
           <td class="paramname"><em>classes</em>&#160;</td>
         </tr>
         <tr>
@@ -419,6 +415,60 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Removes the line and column of a specific index in a sparse matrix. </p>
+
+</div>
+</div>
+<a class="anchor" id="a5eab31b206a0e529b87f026a2eeb0d7f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void resizeImage </td>
+          <td>(</td>
+          <td class="paramtype">const Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>image</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Mat_&lt; float &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>resizedImage</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat_&lt; float &gt; &amp;&#160;</td>
+          <td class="paramname"><em>resizedMask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>maxNbPixels</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Resizes an image so the number of pixels is (roughly) lower or equal to a maximum. Useful to limit running time of algorithms running in time super linear to the the number of pixels in the image.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">image</td><td>image to resize. </td></tr>
+    <tr><td class="paramname">mask</td><td>mask of the pixels to take into account in the source image. </td></tr>
+    <tr><td class="paramname">resizedImage</td><td>output resized image. </td></tr>
+    <tr><td class="paramname">resizedMask</td><td>output resized mask. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -610,7 +660,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 8 2013 17:48:29 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon May 13 2013 17:50:45 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

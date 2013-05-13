@@ -90,6 +90,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <code>#include &quot;<a class="el" href="_labeled_graph_8hpp_source.html">LabeledGraph.hpp</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_disjoint_set_8hpp_source.html">DisjointSet.hpp</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_utils_8hpp_source.html">Utils.hpp</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_graph_partitions_8h_source.html">GraphPartitions.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_segment_attributes_8h_source.html">SegmentAttributes.h</a>&quot;</code><br/>
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Kernels.h:</div>
 <div class="dyncontent">
@@ -122,8 +124,8 @@ Functions</h2></td></tr>
 <tr class="separator:a5ad67c55d5b982d8789190a08c353159"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0f353b14c63201ca6677c220002a3d6"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_kernels_8h.html#ac0f353b14c63201ca6677c220002a3d6">khi2Kernel</a> (int binsPerChannel, float lambda, float mu, float gamma, int area1, const Mat &amp;h1, int area2, const Mat &amp;h2)</td></tr>
 <tr class="separator:ac0f353b14c63201ca6677c220002a3d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7980042d2ad47fa8cc46a02e9650ff60"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_weighted_graph.html">WeightedGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_kernels_8h.html#a7980042d2ad47fa8cc46a02e9650ff60">weighEdgesByKernel</a> (const <a class="el" href="class_mat_kernel.html">MatKernel</a> &amp;kernel, <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; unweightedGraph)</td></tr>
-<tr class="separator:a7980042d2ad47fa8cc46a02e9650ff60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a229f3a93580d797c08bfb426f4c00fbd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_weighted_graph.html">WeightedGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_kernels_8h.html#a229f3a93580d797c08bfb426f4c00fbd">weighEdgesByKernel</a> (const Mat_&lt; Vec3b &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, const <a class="el" href="class_mat_kernel.html">MatKernel</a> &amp;kernel, const <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; &amp;unweightedGraph)</td></tr>
+<tr class="separator:a229f3a93580d797c08bfb426f4c00fbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="a42e2a507a8b0d47b99cad3e995543b23"></a>
@@ -282,20 +284,38 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a7980042d2ad47fa8cc46a02e9650ff60"></a>
+<a class="anchor" id="a229f3a93580d797c08bfb426f4c00fbd"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="class_weighted_graph.html">WeightedGraph</a> weighEdgesByKernel </td>
           <td>(</td>
+          <td class="paramtype">const Mat_&lt; Vec3b &gt; &amp;&#160;</td>
+          <td class="paramname"><em>image</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Mat_&lt; float &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;&#160;</td>
+          <td class="paramname"><em>segmentation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">const <a class="el" href="class_mat_kernel.html">MatKernel</a> &amp;&#160;</td>
           <td class="paramname"><em>kernel</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt;&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; &amp;&#160;</td>
           <td class="paramname"><em>unweightedGraph</em>&#160;</td>
         </tr>
         <tr>
@@ -320,7 +340,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 8 2013 17:48:29 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon May 13 2013 17:50:45 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>
