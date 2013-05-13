@@ -6,6 +6,8 @@
 #include "LabeledGraph.hpp"
 #include "DisjointSet.hpp"
 #include "Utils.hpp"
+#include "GraphPartitions.h"
+#include "SegmentAttributes.h"
 
 using namespace cv;
 
@@ -41,7 +43,7 @@ double khi2Kernel(int binsPerChannel, float lambda, float mu, float gamma, int a
  * @param unweightedGraph graph to compute edges from.
  * @return graph identical to the input graph with edges weighted by the kernel function.
  */
-WeightedGraph weighEdgesByKernel(const MatKernel &kernel, LabeledGraph<Mat> unweightedGraph);
+WeightedGraph weighEdgesByKernel(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, const MatKernel &kernel, const LabeledGraph<Mat> &unweightedGraph);
 
 /**
  * Functor for computing similarity between 2 neighboring segments.
@@ -52,6 +54,8 @@ private:
 
 public:
 	CompoundGaussianKernel(Mat_<int> borderLengthGraph);
+
+	Labeling getLabeling() const;
 
 	double operator() (const Mat &h1, const Mat &h2) const;
 };

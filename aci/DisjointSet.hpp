@@ -11,8 +11,6 @@
 #include <opencv2/opencv.hpp>
 
 #include "WeightedGraph.hpp"
-#include "LabeledGraph.hpp"
-#include "Kernels.h"
 #include "Utils.hpp"
 
 using namespace std;
@@ -95,16 +93,4 @@ public:
    * @param minSize size below which components will get fused out.
    */
   void fuseSmallComponents(WeightedGraph &segmentedGraph, int minSize, const Mat_<float> &mask);
-
-  /**
-   * Fuses components which are close enough according to an arbitrary distance
-   * function.
-   *
-   * @param segmentationGraph graph where vertices are components of the partition,
-   * and edges indicate neighboring components.
-   * @param distFunc distance function between labels in the graph.
-   * @param threshold threshold below which 2 components get fused, e.g. if
-   * distFunc(S1, S2) < threshold then S1 and S2 are fused.
-   */
-  void fuseCloseComponents(const LabeledGraph<Mat> &segmentationGraph, double (*distFunc)(const Mat&, const Mat&), double threshold);
 };

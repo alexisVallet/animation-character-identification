@@ -164,10 +164,7 @@ void concatenateLabelings(const vector<Labeling> &labelings, const Mat_<Vec3b> &
 }
 
 void pixelsCovarianceMatrixLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph) {
-	if (!segmentation.getNumberOfComponents() == segmentationGraph.numberOfVertices()) {
-		cout<<"pouet"<<endl;
-		exit(EXIT_FAILURE);
-	}
+	assert(segmentation.getNumberOfComponents() == segmentationGraph.numberOfVertices());
 	vector<Mat> segmentSamples(segmentation.getNumberOfComponents());
 	map<int,int> rootIndexes = segmentation.getRootIndexes();
 
@@ -225,10 +222,11 @@ void pixelsCovarianceMatrixLabels(const Mat_<Vec3b> &image, const Mat_<float> &m
 
 		double diagonal = sqrt(pow(image.rows,2.) + pow(image.cols,2.));
 
-		Mat ellipseDescriptor(4, 1, CV_32F);
+		Mat ellipseDescriptor(3, 1, CV_32F);
 
-		ellipseDescriptor.rowRange(0,2) = (axis1 / diagonal) * ev1;
-		ellipseDescriptor.rowRange(2,4) = (axis2 / diagonal) * ev2;
+		ellipseDescriptor.at<float>(0,0) = axis1 / diagonal;
+		ellipseDescriptor.at<float>(1,0) = axis2 / diagonal;
+		ellipseDescriptor.at<float>(2,0) = angle;
 
 		segmentationGraph.addLabel(i, ellipseDescriptor);
 	}

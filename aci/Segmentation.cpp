@@ -7,22 +7,18 @@
 #define FELZENSZWALB_SCALE 1500
 
 WeightedGraph computeGraphFrom(Mat_<Vec<uchar,3> > &bgrImage, Mat_<float> &mask) {
-	cout<<"equalizing color histogram"<<endl;
 	// equalize the color histogram
 	Mat_<Vec3b> equalized;
 	equalizeColorHistogram(bgrImage, mask, equalized);
-	cout<<"filtering outlines"<<endl;
 	// filter out the outlines
 	Mat_<Vec<uchar,3> > smoothedRgb;
 
 	KuwaharaFilter(equalized, smoothedRgb, 11);
 
-	cout<<"converting to Lab"<<endl;
 	// convert to Lab and resize
 	Mat_<Vec3b> smoothed;
 	cvtColor(smoothedRgb, smoothed, CV_RGB2Lab);
 
-	cout<<"resizing"<<endl;
 	Mat_<Vec3b> resized;
 	Mat_<float> resizedMask;
 
@@ -32,22 +28,13 @@ WeightedGraph computeGraphFrom(Mat_<Vec<uchar,3> > &bgrImage, Mat_<float> &mask)
 	int minCompSize = countNonZero(resizedMask) / MAX_SEGMENTS;
 	DisjointSetForest segmentation = felzenszwalbSegment(FELZENSZWALB_SCALE, grid, minCompSize, resizedMask);
 	LabeledGraph<Mat> segGraph = segmentationGraph<Mat>(resized, segmentation, grid);
-	
-	vector<Labeling> labelings;
-
-	labelings.push_back(gravityCenterLabels);
-	labelings.push_back(averageColorLabels);
-	labelings.push_back(segmentIndexLabels);
-	labelings.push_back(pixelsCovarianceMatrixLabels);
-
-	concatenateLabelings(labelings, resized, resizedMask, segmentation, segGraph);
 
 	// adding a "ground" vertex labelled with the 0 vector and adjacent to all the
 	// vertices in the graph.
-	LabeledGraph<Mat> groundedGraph = groundGraph(segGraph);
+	//LabeledGraph<Mat> intermediateGraph = groundGraph(segGraph);
 
 	CompoundGaussianKernel similarityFunctor(computeBorderLengths(segmentation, grid));
-	WeightedGraph finalGraph = weighEdgesByKernel(similarityFunctor, groundedGraph);
+	WeightedGraph finalGraph = weighEdgesByKernel(resized, resizedMask, segmentation, similarityFunctor, segGraph);
 
 	if (DEBUG_SEGMENTATION) {
 		imshow("equalized", equalized);

@@ -1,8 +1,23 @@
 /** @file */
 #pragma once
 
-#include "WeightedGraph.hpp"
 #include "DisjointSet.hpp"
+#include "WeightedGraph.hpp"
+#include "LabeledGraph.hpp"
+
+/**
+ * Datatype describing graph labeling functions.
+ */
+typedef void (*Labeling)(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph);
+
+/**
+ * Base class for specifying vertex label and similariy function for a graph.
+ */
+class MatKernel {
+public:
+	virtual Labeling getLabeling() const = 0;
+	virtual double operator() (const Mat&, const Mat&) const = 0;
+};
 
 /**
  * Fuses partitions of disjoint subgraphs of a graph G into a partition of G.

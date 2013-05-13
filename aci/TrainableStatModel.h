@@ -36,18 +36,29 @@ public:
      * @param trainData the input training data.
      * @param expectedResponses the expected response to the training data.
      */
-    virtual void train(Mat &trainData, Mat &expectedResponses) = 0;
+    virtual void train(const Mat &trainData, const Mat &expectedResponses, const Mat &sampleIdx) = 0;
     /**
      * Predicts the class of a sample.
      * 
      * @param samples one or many samples to compute the class for.
      * @return the predicted class of the sample.
      */
-    virtual float predict(Mat &samples) = 0;
+    virtual float predict(const Mat &samples) = 0;
     /**
      * Clears the training of the internal statistical model.
      */
     virtual void clear() = 0;
+
+	/**
+	 * Computes the leave one out cross validation recognition rate given
+	 * a matrix of row samples and a column matrix of their corresponding class.
+	 *
+	 * @param samples matrix of row samples to compute the recognition rate from.
+	 * @param classes column vector associating to each sample its corresponding class.
+	 * @return a rate in the [0;1] range indicating the ratio of correctly classified
+	 * samples by training with all the others.
+	 */
+	float leaveOneOutCrossValidation(const Mat_<float> &samples, const Mat_<int> &classes);
 };
 
 /**
@@ -62,9 +73,9 @@ public:
         
     CvStatModel *getStatModel();
 
-    void train(Mat &trainData, Mat &expectedResponses);
+    void train(const Mat &trainData, const Mat &expectedResponses, const Mat &sampleIdx);
 
-    float predict(Mat &samples);
+    float predict(const Mat &samples);
     
     void clear();
 };
@@ -85,9 +96,9 @@ public:
     
     CvStatModel *getStatModel();
     
-    void train(Mat &trainData, Mat &expectedResponses);
+    void train(const Mat &trainData, const Mat &expectedResponses, const Mat &sampleIdx);
     
-    float predict(Mat &samples);
+    float predict(const Mat &samples);
     
     void clear();
 };
@@ -107,9 +118,9 @@ public:
     
     CvStatModel *getStatModel();
     
-    void train(Mat &trainData, Mat &expectedResponses);
+    void train(const Mat &trainData, const Mat &expectedResponses, const Mat &sampleIdx);
     
-    float predict(Mat &samples);
+    float predict(const Mat &samples);
     
     void clear();
 };

@@ -91,7 +91,7 @@ ostream &operator<<(ostream &os, const WeightedGraph &graph) {
 	for (int i = 0; i < graph.numberOfVertices(); i++) {
 		os<<i<<" : [";
 		for (int j = 0; j < (int)graph.adjacencyLists[i].size(); j++) {
-			os<<graph.adjacencyLists[i][j].destination;
+			os<<"("<<graph.adjacencyLists[i][j].destination<<","<<graph.adjacencyLists[i][j].weight<<")";
 			if (j < (int)graph.adjacencyLists[i].size() - 1) {
 				os<<", ";
 			}

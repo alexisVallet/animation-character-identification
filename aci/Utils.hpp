@@ -8,11 +8,6 @@
 using namespace std;
 using namespace cv;
 
-class MatKernel {
-public:
-	virtual double operator() (const Mat&, const Mat&) const = 0;
-};
-
 /**
  * Datatype indicating pixel connectivity.
  */
@@ -36,7 +31,7 @@ pair<int,int> fromRowMajor(int width, int i);
 /**
  * Loads a data set from a specific folder.
  */
-void loadDataSet(char* folderName, char** charaNames, int nbCharas, int nbImagesPerChara, vector<pair<Mat_<Vec<uchar,3> >,Mat_<float> > > &images, Mat &classes);
+void loadDataSet(char* folderName, char** charaNames, int nbCharas, int nbImagesPerChara, vector<pair<Mat_<Vec<uchar,3> >,Mat_<float> > > &images, Mat_<int> &classes);
 
 /**
  * Multiplies a sparse n by n matrix by a dense n by 1 column vector.

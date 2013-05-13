@@ -7,14 +7,10 @@
 #include "WeightedGraph.hpp"
 #include "LabeledGraph.hpp"
 #include "DisjointSet.hpp"
+#include "GraphPartitions.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
-
-/**
- * Datatype describing graph labeling functions.
- */
-typedef void (*Labeling)(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph);
 
 /**
  * Adds color histogram labels to a segmentation graph.

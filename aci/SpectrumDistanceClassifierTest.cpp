@@ -9,8 +9,8 @@ using namespace std;
 using namespace cv;
 
 void computeRates(
-	vector<WeightedGraph> graphs,
-	Mat classes,
+	vector<WeightedGraph> &graphs,
+	Mat_<int> &classes,
 	vector<pair<string, TrainableStatModel*> > models,
 	vector<pair<string, MatrixRepresentation> > representations) {
 	for (int i = 0; i < (int)models.size(); i++) {
@@ -26,25 +26,17 @@ void computeRates(
 }
 
 void testSpectrumDistanceClassifier() {
-	Mat classes;
+	Mat_<int> classes;
 	// loads the dataset
 	cout<<"loading dataset"<<endl;
 	char *folder = "../test/dataset/";
-	char *names[] = {"asuka", "amuro", "rufy", "char", "chirno", "majin"};
+	char *names[] = {"amuro", "asuka", "char", "chirno", "conan", "jigen", "kouji", "lupin", "majin", "miku", "ray", "rufy"};
 	vector<pair<Mat_<Vec<uchar,3> >,Mat_<float> > > dataSet, dataSet2;
 
+	loadDataSet(folder, names, 12, 5, dataSet, classes);
+
 	vector<WeightedGraph> graphs;
-
-	loadDataSet(folder, names, 6, 5, dataSet, classes);
-	loadDataSet(folder, names, 6, 5, dataSet2, classes);
-
-	dataSet.reserve(dataSet.size() * 2);
-	
-	for (int i = 0; i < (int)dataSet2.size(); i++) {
-		dataSet.push_back(dataSet2[i]);
-	}
-
-	vconcat(classes, classes, classes);
+	graphs.reserve(dataSet.size());
 
 	cout<<"computing segmentation graphs"<<endl;
 	for (int i = 0; i < (int)dataSet.size(); i++) {

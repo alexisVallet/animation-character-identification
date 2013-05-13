@@ -28,9 +28,9 @@ static bool isMask(const Mat_<float> &mask) {
 	return true;
 }
 
-void loadDataSet(char* folderName, char** charaNames, int nbCharas, int nbImagesPerChara, vector<pair<Mat_<Vec<uchar,3> >,Mat_<float> > > &images, Mat &classes) {
+void loadDataSet(char* folderName, char** charaNames, int nbCharas, int nbImagesPerChara, vector<pair<Mat_<Vec<uchar,3> >,Mat_<float> > > &images, Mat_<int> &classes) {
 	images = vector<pair<Mat_<Vec<uchar,3> >,Mat_<float> > >(nbCharas * nbImagesPerChara);
-	classes = Mat(nbCharas * nbImagesPerChara, 1, CV_32S);
+	classes = Mat_<int>(nbCharas * nbImagesPerChara, 1);
 
 	for (int i = 0; i < nbCharas; i++) {		
 		for (int j = 0; j < nbImagesPerChara; j++) {
@@ -64,7 +64,7 @@ void loadDataSet(char* folderName, char** charaNames, int nbCharas, int nbImages
 
 			assert(isMask(images[rowMajorIndex].second));
 
-			classes.at<int>(rowMajorIndex,0) = i;
+			classes(rowMajorIndex,0) = i;
 
 			delete[] fullPath;
 			delete[] maskPath;

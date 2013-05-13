@@ -63,5 +63,5 @@ public:
 	 * @param classes the class each sample belongs to.
 	 * @return a recognition rate within the real interval [0; 1].
 	 */
-	float leaveOneOutRecognitionRate(vector<WeightedGraph> samples, Mat &classes);
+	float leaveOneOutRecognitionRate(vector<WeightedGraph> samples, Mat_<int> &classes);
 };
