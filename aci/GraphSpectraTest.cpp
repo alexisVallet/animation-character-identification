@@ -1,5 +1,60 @@
 #include "GraphSpectraTest.h"
 
+static bool denseIsSymmetric(const Mat_<double> &toCheck) {
+	if (toCheck.rows != toCheck.cols) {
+		return false;
+	}
+
+	for (int i = 0; i < toCheck.rows; i++) {
+		for (int j = i + 1; j < toCheck.rows; j++) {
+			if (toCheck(i,j) != toCheck(j,i)) {
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
+
+static void testDenseLaplacian(WeightedGraph &testGraph) {
+	Mat_<double> denseLaplacian = laplacian(testGraph);
+
+	cout<<"testing symmetry"<<endl;
+	assert(denseIsSymmetric(denseLaplacian));
+	
+	// checks positive semi-definiteness
+	cout<<"testing positive semi-definiteness"<<endl;
+	Mat_<double> eigenvalues;
+
+	eigen(denseLaplacian, eigenvalues);
+
+	for (int i = 0; i < testGraph.numberOfVertices(); i++) {
+		assert(eigenvalues(i,0) > -10e-10);
+	}
+
+	// checks uninitialized buffer errors
+	cout<<"testing uninitialized buffer errors"<<endl;
+	Mat_<double> denseLaplacian2 = laplacian(testGraph);
+	assert(denseLaplacian.rows == denseLaplacian2.rows && denseLaplacian.cols == denseLaplacian2.cols);
+
+	for (int i = 0; i < denseLaplacian.rows; i++) {
+		for (int j = 0; j < denseLaplacian.cols; j++) {
+			assert(denseLaplacian(i,j) == denseLaplacian2(i,j));
+		}
+	}
+
+	Mat_<double> eigenvalues2;
+
+	eigen(denseLaplacian2, eigenvalues2);
+
+	cout<<"ev1 = "<<eigenvalues<<endl;
+	cout<<"ev2 = "<<eigenvalues2<<endl;
+
+	for (int i = 0; i < testGraph.numberOfVertices(); i++) {
+		assert(eigenvalues(i,0) == eigenvalues2(i,0));
+	}
+}
+
 static void testSparseLaplacian(WeightedGraph &testGraph) {
 	Mat_<double> denseLaplacian = laplacian(testGraph);
 	Eigen::VectorXd degrees = Eigen::VectorXd::Zero(testGraph.numberOfVertices());
@@ -88,14 +143,12 @@ void testSparseEigenSolver(WeightedGraph &graph) {
 }
 
 void testGraphSpectra() {
-	WeightedGraph graph(4);
+	for (int i = 0; i < 100; i++) {
+		WeightedGraph randomGraph(50);
+		WeightedGraph bidir(50);
 
-	int edges[4][2] = {{0,1},{0,2},{0,3},{2,3}};
+		randomBidirectional(randomGraph, bidir, 200);
 
-	for (int i = 0; i < 4; i++) {
-		graph.addEdge(edges[i][0], edges[i][1], 1);
-		graph.addEdge(edges[i][1], edges[i][0], 1);
+		testDenseLaplacian(randomGraph);
 	}
-
-	testSparseEigenSolver(graph);
 }

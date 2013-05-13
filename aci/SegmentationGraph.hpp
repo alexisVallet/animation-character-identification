@@ -62,4 +62,24 @@ LabeledGraph<T> segmentationGraph(const Mat_<Vec<uchar,3> > &image, DisjointSetF
   return graph;
 }
 
+/**
+ * Computes the center of gravity of each segment in an image.
+ *
+ * @param image image to compute the centers of gravity from.
+ * @param segmentation a segmentation of the image.
+ * @return center of gravity for each segment.
+ */
 vector<Vec<float,2> > segmentCenters(Mat_<Vec<uchar,3> > &image, DisjointSetForest &segmentation);
+
+/**
+ * Adds a "ground" vertex to a labeled graph, labelled with the 0 matrix and with
+ * an edge to every other vertex in the graph. The point of the ground vertex is to
+ * encode some absolute information about the segments in the image, not just
+ * relative to each other, so the grounded segmentation graphs can be compared more
+ * meaningfully.
+ *
+ * @param unGrounded labeled graph where all labels are matrices of the same dimensions.
+ * @return a graph with an additional ground vertices, with properties as specified
+ * in the description above.
+ */
+LabeledGraph<Mat> groundGraph(const LabeledGraph<Mat> &unGrounded);

@@ -55,6 +55,12 @@
     <ClCompile Include="SpectrumDistanceClassifierTest.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="SegmentAttributesTest.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Segmentation.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisjointSet.hpp">
@@ -112,6 +118,12 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="SpectrumDistanceClassifierTest.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SegmentAttributesTest.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Segmentation.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

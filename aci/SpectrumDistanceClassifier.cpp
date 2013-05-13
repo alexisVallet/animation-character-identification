@@ -45,7 +45,7 @@ float SpectrumDistanceClassifier::leaveOneOutRecognitionRate(vector<WeightedGrap
 	cout<<"max nb vertices: "<<maxNumberOfVertices<<endl;
 
 	// compute the spectrum of each graph
-	Mat spectra(samples.size(), maxNumberOfVertices, CV_32F);
+	Mat spectra = Mat::zeros(samples.size(), maxNumberOfVertices, CV_32F);
 
 	for (int i = 0; i < (int)samples.size(); i++) {
 		cout<<"computing representation"<<endl;
@@ -72,8 +72,8 @@ float SpectrumDistanceClassifier::leaveOneOutRecognitionRate(vector<WeightedGrap
 	}
 
 	// for each sample, trains the classifier with the other samples then classify.
-	Mat otherSamples(spectra.rows - 1, maxNumberOfVertices, CV_32F);
-	Mat otherClasses(spectra.rows - 1, 1, CV_32S);
+	Mat otherSamples = Mat::zeros(spectra.rows - 1, maxNumberOfVertices, CV_32F);
+	Mat otherClasses = Mat::zeros(spectra.rows - 1, 1, CV_32S);
 	spectra.rowRange(1, spectra.rows).copyTo(otherSamples);
 	classes.rowRange(1, spectra.rows).copyTo(otherClasses);
 	int totalCorrectResults = 0;

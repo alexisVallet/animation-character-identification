@@ -108,3 +108,15 @@ void equalizeColorHistogram(const Mat_<Vec3b> &image, const Mat_<float> &mask, M
  * @param croppedMask output cropped mask.
  */
 void crop(const Mat_<Vec3b> &image, const Mat_<float> &mask, Mat_<Vec3b> &croppedImage, Mat_<float> &croppedMask);
+
+/**
+ * Resizes an image so the number of pixels is (roughly) lower or equal to a maximum.
+ * Useful to limit running time of algorithms running in time super linear to the
+ * the number of pixels in the image.
+ *
+ * @param image image to resize.
+ * @param mask mask of the pixels to take into account in the source image.
+ * @param resizedImage output resized image.
+ * @param resizedMask output resized mask.
+ */
+void resizeImage(const Mat_<Vec<uchar,3> > &image, const Mat_<float> &mask, Mat_<Vec<uchar,3> > &resizedImage, Mat_<float> &resizedMask, int maxNbPixels);

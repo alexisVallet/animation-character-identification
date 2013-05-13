@@ -94,8 +94,10 @@
     <ClCompile Include="Kernels.cpp" />
     <ClCompile Include="KuwaharaFilter.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Segmentation.cpp" />
     <ClCompile Include="SegmentationGraph.cpp" />
     <ClCompile Include="SegmentAttributes.cpp" />
+    <ClCompile Include="SegmentAttributesTest.cpp" />
     <ClCompile Include="SpectrumDistanceClassifier.cpp" />
     <ClCompile Include="SpectrumDistanceClassifierTest.cpp" />
     <ClCompile Include="TrainableStatModel.cpp" />
@@ -115,8 +117,10 @@
     <ClInclude Include="KuwaharaFilter.h" />
     <ClInclude Include="LabeledGraph.hpp" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="Segmentation.h" />
     <ClInclude Include="SegmentationGraph.hpp" />
     <ClInclude Include="SegmentAttributes.h" />
+    <ClInclude Include="SegmentAttributesTest.h" />
     <ClInclude Include="SpectrumDistanceClassifier.h" />
     <ClInclude Include="SpectrumDistanceClassifierTest.h" />
     <ClInclude Include="TrainableStatModel.h" />

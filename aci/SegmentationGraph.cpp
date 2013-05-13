@@ -22,18 +22,45 @@ Mat_<int> computeBorderLengths(DisjointSetForest &segmentation, WeightedGraph &g
 }
 
 vector<Vec<float,2> > segmentCenters(Mat_<Vec<uchar,3> > &image, DisjointSetForest &segmentation) {
-  int numberOfComponents = segmentation.getNumberOfComponents();
-  vector<Vec<float, 2> > centers(numberOfComponents, Vec<int,2>(0,0));
-  map<int,int> rootIndexes = segmentation.getRootIndexes();
-  
-  for (int i = 0; i < image.rows; i++) {
-    for (int j = 0; j < image.cols; j++) {
-      int root = segmentation.find(toRowMajor(image.cols, j, i));
-      int rootIndex = rootIndexes[root];
+	int numberOfComponents = segmentation.getNumberOfComponents();
+	vector<Vec<float, 2> > centers(numberOfComponents, Vec<int,2>(0,0));
+	map<int,int> rootIndexes = segmentation.getRootIndexes();
 
-      centers[rootIndex] += Vec<float,2>((float)i,(float)j)/((float)segmentation.getComponentSize(root));
-    }
-  }
+	for (int i = 0; i < image.rows; i++) {
+		for (int j = 0; j < image.cols; j++) {
+			int root = segmentation.find(toRowMajor(image.cols, j, i));
+			int rootIndex = rootIndexes[root];
 
-  return centers;
+			centers[rootIndex] += Vec<float,2>((float)i,(float)j)/((float)segmentation.getComponentSize(root));
+		}
+	}
+
+	return centers;
+}
+
+LabeledGraph<Mat> groundGraph(const LabeledGraph<Mat> &unGrounded) {
+	LabeledGraph<Mat> grounded(unGrounded.numberOfVertices() + 1);
+
+	// copying edges
+	for (int i = 0; i < (int)unGrounded.getEdges().size(); i++) {
+		Edge edge = unGrounded.getEdges()[i];
+
+		grounded.addEdge(edge.source, edge.destination, edge.weight);
+	}
+
+	// assumes all the labels have the same size
+	int labelRows = unGrounded.getLabel(0).rows;
+	int labelCols = unGrounded.getLabel(0).cols;
+	int labelType = unGrounded.getLabel(0).type();
+
+	// adding edges adjacent to the ground vertex, copying labels
+	for (int i = 0; i < unGrounded.numberOfVertices(); i++) {
+		assert(unGrounded.getLabel(i).rows == labelRows && unGrounded.getLabel(i).cols == labelCols);
+		grounded.addLabel(i, unGrounded.getLabel(i));
+		grounded.addEdge(i, unGrounded.numberOfVertices(), 1);
+	}
+
+	grounded.addLabel(unGrounded.numberOfVertices(), Mat::zeros(labelRows, labelCols, labelType));
+
+	return grounded;
 }

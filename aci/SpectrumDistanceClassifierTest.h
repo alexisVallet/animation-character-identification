@@ -12,6 +12,7 @@
 #include "SpectrumDistanceClassifier.h"
 #include "Kernels.h"
 #include "SegmentAttributes.h"
+#include "Segmentation.h"
 #include "KuwaharaFilter.h"
 
 void testSpectrumDistanceClassifier();

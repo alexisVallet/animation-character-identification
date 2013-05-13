@@ -280,3 +280,18 @@ void crop(const Mat_<Vec3b> &image, const Mat_<float> &mask, Mat_<Vec3b> &croppe
 	croppedImage = image.rowRange(minI, maxI + 1).colRange(minJ, maxJ + 1);
 	croppedMask = mask.rowRange(minI, maxI + 1).colRange(minJ, maxJ + 1);
 }
+
+void resizeImage(const Mat_<Vec<uchar,3> > &image, const Mat_<float> &mask, Mat_<Vec<uchar,3> > &resizedImage, Mat_<float> &resizedMask, int maxNbPixels) {
+	assert(maxNbPixels >= 0);
+	int nbPixels = countNonZero(mask);
+
+	if (nbPixels > maxNbPixels) {
+		double ratio = sqrt((double)maxNbPixels / (double)nbPixels);
+
+		resize(image, resizedImage, Size(), ratio, ratio);
+		resize(mask, resizedMask, Size(), ratio, ratio, INTER_NEAREST);
+	} else {
+		resizedImage = image;
+		resizedMask = mask;
+	}
+}

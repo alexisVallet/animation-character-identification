@@ -47,10 +47,7 @@ void colorHistogramLabels(
 
 void averageColorLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph) {
 	assert(image.rows == mask.rows && image.cols == mask.cols);
-	if (!segmentation.getNumberOfComponents() == segmentationGraph.numberOfVertices()) {
-		cout<<"pouet"<<endl;
-		exit(EXIT_FAILURE);
-	}
+	assert(segmentation.getNumberOfComponents() == segmentationGraph.numberOfVertices());
 	vector<Vec3f> averageColor;
 	averageColor.reserve(segmentation.getNumberOfComponents());
 
@@ -78,10 +75,7 @@ void averageColorLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, Disjo
 
 void gravityCenterLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph) {
 	assert(image.rows == mask.rows && image.cols == mask.cols);
-	if (!segmentation.getNumberOfComponents() == segmentationGraph.numberOfVertices()) {
-		cout<<"pouet"<<endl;
-		exit(EXIT_FAILURE);
-	}
+	assert(segmentation.getNumberOfComponents() == segmentationGraph.numberOfVertices());
 	
 	vector<Vec2f> gravityCenters;
 	gravityCenters.reserve(segmentation.getNumberOfComponents());
@@ -115,10 +109,7 @@ void gravityCenterLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, Disj
 
 void segmentSizeLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph) {
 	assert(image.rows == mask.rows && image.cols == mask.cols);
-	if (!segmentation.getNumberOfComponents() == segmentationGraph.numberOfVertices()) {
-		cout<<"pouet"<<endl;
-		exit(EXIT_FAILURE);
-	}
+	assert(segmentation.getNumberOfComponents() == segmentationGraph.numberOfVertices());
 	vector<int> reverseMap(segmentation.getNumberOfComponents());
 	map<int,int> rootIndexes = segmentation.getRootIndexes();
 
