@@ -21,7 +21,7 @@ Mat_<int> computeBorderLengths(DisjointSetForest &segmentation, WeightedGraph &g
 	return borderLengths;
 }
 
-vector<Vec<float,2> > segmentCenters(Mat_<Vec<uchar,3> > &image, DisjointSetForest &segmentation) {
+vector<Vec<float,2> > segmentCenters(const Mat_<Vec<uchar,3> > &image, DisjointSetForest &segmentation) {
 	int numberOfComponents = segmentation.getNumberOfComponents();
 	vector<Vec<float, 2> > centers(numberOfComponents, Vec<int,2>(0,0));
 	map<int,int> rootIndexes = segmentation.getRootIndexes();

@@ -50,10 +50,12 @@ WeightedGraph weighEdgesByKernel(const Mat_<Vec3b> &image, const Mat_<float> &ma
  */
 class CompoundGaussianKernel : public MatKernel {
 private:
-	Mat_<int> borderLengths;
+	double alphaC;
+	double alphaX;
+	double alphaS;
 
 public:
-	CompoundGaussianKernel(Mat_<int> borderLengthGraph);
+	CompoundGaussianKernel(double alphaC, double alphaX, double alphaS);
 
 	Labeling getLabeling() const;
 

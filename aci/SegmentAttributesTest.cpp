@@ -1,5 +1,6 @@
 #include "SegmentAttributesTest.h"
 
+/*
 void testSegmentAttributes() {
 	char *folder = "../test/dataset/";
 	char *names[] = {"asuka", "amuro"};
@@ -33,3 +34,4 @@ void testSegmentAttributes() {
 		}
 	}
 }
+*/

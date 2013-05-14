@@ -15,4 +15,4 @@
 #include "Segmentation.h"
 #include "KuwaharaFilter.h"
 
-void testSpectrumDistanceClassifier();
+//id testSpectrumDistanceClassifier();

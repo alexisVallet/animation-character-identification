@@ -17,7 +17,7 @@ float TrainableStatModel::leaveOneOutCrossValidation(const Mat_<float> &samples,
 			correctResults++;
 		}
 
-		cout<<"actual = "<<actual<<", expected = "<<classes(i,0)<<endl;
+		//cout<<"actual = "<<actual<<", expected = "<<classes(i,0)<<endl;
 
 		sampleIdx(i, 0) = i;
 	}

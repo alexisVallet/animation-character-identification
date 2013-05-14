@@ -3,4 +3,4 @@
 #include "SegmentAttributes.h"
 #include "Segmentation.h"
 
-void testSegmentAttributes();
+//void testSegmentAttributes();

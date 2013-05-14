@@ -69,7 +69,7 @@ LabeledGraph<T> segmentationGraph(const Mat_<Vec<uchar,3> > &image, DisjointSetF
  * @param segmentation a segmentation of the image.
  * @return center of gravity for each segment.
  */
-vector<Vec<float,2> > segmentCenters(Mat_<Vec<uchar,3> > &image, DisjointSetForest &segmentation);
+vector<Vec<float,2> > segmentCenters(const Mat_<Vec<uchar,3> > &image, DisjointSetForest &segmentation);
 
 /**
  * Adds a "ground" vertex to a labeled graph, labelled with the 0 matrix and with

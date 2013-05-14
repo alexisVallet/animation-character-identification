@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "animation-character-identification", "animation-character-identification.vcxproj", "{8BAE7DC1-731C-CA8B-704B-BD44204F04EB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "animation-character-identification", "animation-character-identification.vcxproj", "{F4EB0446-0C96-54E3-8983-6FE8DCF837FB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C20B313F-8344-4AC5-B7E6-9FC6C3E26D43}"
 EndProject
@@ -11,10 +11,10 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8BAE7DC1-731C-CA8B-704B-BD44204F04EB}.Debug|Win32.ActiveCfg = Debug|Win32
-		{8BAE7DC1-731C-CA8B-704B-BD44204F04EB}.Debug|Win32.Build.0 = Debug|Win32
-		{8BAE7DC1-731C-CA8B-704B-BD44204F04EB}.Release|Win32.ActiveCfg = Release|Win32
-		{8BAE7DC1-731C-CA8B-704B-BD44204F04EB}.Release|Win32.Build.0 = Release|Win32
+		{F4EB0446-0C96-54E3-8983-6FE8DCF837FB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F4EB0446-0C96-54E3-8983-6FE8DCF837FB}.Debug|Win32.Build.0 = Debug|Win32
+		{F4EB0446-0C96-54E3-8983-6FE8DCF837FB}.Release|Win32.ActiveCfg = Release|Win32
+		{F4EB0446-0C96-54E3-8983-6FE8DCF837FB}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

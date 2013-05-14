@@ -12,6 +12,8 @@
 using namespace cv;
 using namespace std;
 
+#define DEFAULT_MU 0.001
+
 /**
  * Classify graphs by the spectrum of their respective Laplacian matrices, with
  * edges weighted by a kernel function between color histograms of image segments.
@@ -35,7 +37,7 @@ public:
 	 * @param representation the matrix representation to use for graphs.
 	 * @param mu positive factor to the exponential favorizing smaller eigenvalues.
 	 */
-	SpectrumDistanceClassifier(TrainableStatModel *statModel, MatrixRepresentation representation, float mu);
+	SpectrumDistanceClassifier(TrainableStatModel *statModel, MatrixRepresentation representation, float mu = DEFAULT_MU);
 
 	/**
 	 * Trains the classifier with specific training samples.

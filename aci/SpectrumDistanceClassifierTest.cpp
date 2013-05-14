@@ -24,7 +24,7 @@ void computeRates(
 		}
 	}
 }
-
+/*
 void testSpectrumDistanceClassifier() {
 	Mat_<int> classes;
 	// loads the dataset
@@ -58,3 +58,4 @@ void testSpectrumDistanceClassifier() {
 
 	computeRates(graphs, classes, models, representations);
 }
+*/

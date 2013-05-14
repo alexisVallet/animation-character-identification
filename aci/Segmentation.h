@@ -19,10 +19,10 @@ using namespace cv;
  * without background - the background pixels to ignore are specified as 0 in
  * a mask.
  *
- * @param bgrImage BGR image to segment (as returned by imread for instance)
+ * @param image image to segment (as returned by imread for instance)
  * @param mask mask of the image specifying pixels to take into account.
- * @return a segmentation graph of the image, where vertices are segments and
- * there is an edge between each adjacent segment in the image. Edges are weighted
- * by similarity between segments.
+ * @param segmentation segmentation of the image.
+ * @param segGraph segmentation graph of the image, where vertices are segment
+ * and vertices have an edge between them iff the corresponding segment are adjacent.
  */
-WeightedGraph computeGraphFrom(Mat_<Vec<uchar,3> > &bgrImage, Mat_<float> &mask);
+void segment(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segGraph, int felzenszwalbScale);

@@ -26,10 +26,9 @@ WeightedGraph weighEdgesByKernel(const Mat_<Vec3b> &image, const Mat_<float> &ma
 	return weighted;
 }
 
-CompoundGaussianKernel::CompoundGaussianKernel(Mat_<int> borderLengths)
-	: borderLengths(borderLengths)
+CompoundGaussianKernel::CompoundGaussianKernel(double alphaC, double alphaX, double alphaS)
+	: alphaC(alphaC), alphaX(alphaX), alphaS(alphaS)
 {
-
 }
 
 static void labeling(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph) {
@@ -48,11 +47,8 @@ Labeling CompoundGaussianKernel::getLabeling() const {
 
 double CompoundGaussianKernel::operator() (const Mat &h1, const Mat &h2) const {
 	assert(h1.rows == 8 && h2.rows == 8);
-	const double alphaC = 5;
 	const double muC = 50;
-	const double alphaX = 5;
 	const double muX = 50;
-	const double alphaS = 5;
 	const double muS = 50;
 	Mat C1 = h1.rowRange(0, 3);
 	Mat C2 = h2.rowRange(0, 3);
@@ -68,7 +64,7 @@ double CompoundGaussianKernel::operator() (const Mat &h1, const Mat &h2) const {
 	double sres = exp(-muS * pow(norm(S1, S2), 2) / 2);
 	double ares = exp(-muS * (abs(a1 - a2) / M_PI));
 
-	double result = alphaC * cres + alphaX * xres + alphaS * sres * ares;
+	double result = this->alphaC * cres + this->alphaX * xres + this->alphaS * sres * ares;
 
 	return result;
 }

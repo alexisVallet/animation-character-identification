@@ -61,6 +61,12 @@
     <ClCompile Include="Segmentation.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="ParameterTuning.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="PreProcessing.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisjointSet.hpp">
@@ -124,6 +130,12 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Segmentation.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ParameterTuning.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="PreProcessing.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
