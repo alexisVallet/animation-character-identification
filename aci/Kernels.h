@@ -47,6 +47,7 @@ template < typename _Tp, int m, int n >
 WeightedGraph weighEdgesByKernel(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, const MatKernel<_Tp, m, n> &kernel, const LabeledGraph<Matx<_Tp, m, n> > &unweightedGraph) {
 	LabeledGraph<Matx<_Tp, m, n> > labeled;
 	kernel.getLabeling()(image, mask, segmentation, unweightedGraph, labeled);
+
 	WeightedGraph weighted(unweightedGraph.numberOfVertices());
 
 	for (int i = 0; i < (int)labeled.getEdges().size(); i++) {

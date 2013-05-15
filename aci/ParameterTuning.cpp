@@ -1,8 +1,8 @@
 #include "ParameterTuning.h"
 
-#define K_MIN 500
-#define K_MAX 5000
-#define K_STEP 500
+#define K_MIN 900
+#define K_MAX 1100
+#define K_STEP 20
 
 void parameterTuning(ostream &outStream) {
 	cout<<"loading dataset"<<endl;
