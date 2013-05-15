@@ -64,3 +64,4 @@ LabeledGraph<Mat> groundGraph(const LabeledGraph<Mat> &unGrounded) {
 
 	return grounded;
 }
+

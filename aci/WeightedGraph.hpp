@@ -131,8 +131,8 @@ public:
  * @param graph the graph to compute connected components from.
  * @param inConnectedComponent output vector which associates to each vertex the
  * index of the connected component if belongs to.
- * @param vertexIdx output map which associates to each vertex in the graph its
- * index in the associated subgraph.
+ * @param nbCC output integer which will hold the number of connected components of
+ * the graph.
  */
 void connectedComponents(const WeightedGraph &graph, vector<int> &inConnectedComponent, int *nbCC);
 
