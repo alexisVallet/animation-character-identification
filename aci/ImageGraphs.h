@@ -44,18 +44,3 @@ WeightedGraph gridGraph(const Mat_<Vec<uchar,3> > &image, ConnectivityType conne
  * @return the nearest neighbor graph of the image.
  */
 WeightedGraph kNearestGraph(const Mat_<Vec<uchar,3> > &image, const Mat_<float> mask, int k, double (*simFunc)(const Mat&, const Mat&), bool bidirectional = false);
-
-/**
- * Returns a graph where vertices are pixels in the image, and every vertex has an edge
- * to its neighbors in a specific radius in pixel coordinate space (up to a maximum of k
- * neighbors), weighted by color similarity and distance in coordinate space.
- *
- * @param image the image to compute the radius graph from.
- * @param mask mask indicating pixels to take into account.
- * @param k the maximum number of nearest neighbors each pixel should have an edge
- * towards. Note that this does not mean that the graph is k-regular (seen as an
- * undirected graph) as the k nearest neighbor relation is not symmetric.
- * @double r maximum radius of pixels to consider as neighbor.
- * @return the radius graph of the image.
- */
-WeightedGraph radiusGraph(const Mat_<Vec3b> &image, const Mat_<float> &mask, int k, double r, const MatKernel &simFunc, bool bidirectional = false);

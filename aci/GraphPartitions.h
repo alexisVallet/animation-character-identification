@@ -8,15 +8,19 @@
 /**
  * Datatype describing graph labeling functions.
  */
-typedef void (*Labeling)(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph);
+template < typename _Tp, int m, int n >
+struct Labeling {
+	typedef void (*type)(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, const WeightedGraph &segGraph, LabeledGraph<Matx<_Tp, m, n> > &labeledGraph);
+};
 
 /**
  * Base class for specifying vertex label and similariy function for a graph.
  */
+template < typename _Tp, int m, int n >
 class MatKernel {
 public:
-	virtual Labeling getLabeling() const = 0;
-	virtual double operator() (const Mat&, const Mat&) const = 0;
+	virtual typename Labeling<_Tp, m, n>::type getLabeling() const = 0;
+	virtual double operator() (const Matx<_Tp, m, n>&, const Matx<_Tp, m, n>&) const = 0;
 };
 
 /**

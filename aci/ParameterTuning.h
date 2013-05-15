@@ -9,4 +9,4 @@
 using namespace std;
 using namespace cv;
 
-void parameterTuning();
+void parameterTuning(ostream &outStream);

@@ -4,7 +4,7 @@
 #define K_MAX 5000
 #define K_STEP 500
 
-void parameterTuning() {
+void parameterTuning(ostream &outStream) {
 	cout<<"loading dataset"<<endl;
 	// loading dataset
 	char *folder = "../test/dataset/";
@@ -30,14 +30,14 @@ void parameterTuning() {
 	for (int k = K_MIN; k < K_MAX; k += K_STEP) {
 		// segmentation with various parameters
 		vector<DisjointSetForest> segmentations;
-		vector<LabeledGraph<Mat> > segGraphs;
+		vector<LabeledGraph<Matx<float,8,1> > > segGraphs;
 		segmentations.reserve(dataSet.size());
 
 		for (int i = 0; i < (int)dataSet.size(); i++) {
 			DisjointSetForest segmentation;
-			LabeledGraph<Mat> segGraph;
+			LabeledGraph<Matx<float,8,1> > segGraph;
 
-			segment(preProcessedDataset[i].first, preProcessedDataset[i].second, segmentation, segGraph, k);
+			segment<float,8,1>(preProcessedDataset[i].first, preProcessedDataset[i].second, segmentation, segGraph, k);
 			segmentations.push_back(segmentation);
 			segGraphs.push_back(segGraph);
 		}
@@ -61,8 +61,8 @@ void parameterTuning() {
 
 					float rate = classifier.leaveOneOutRecognitionRate(graphsToClassify, classes);
 
-					cout<<"k = "<<k<<" alphaC = "<<alpha[c]<<" alphaX = "<<alpha[x]<<" alphaS = "<<alpha[s]<<endl;
-					cout<<"rate = "<<rate<<endl;
+					outStream<<k<<", "<<alpha[c]<<", "<<alpha[x]<<", "<<alpha[s]<<", "<<rate<<endl;
+					cout<<k<<", "<<alpha[c]<<", "<<alpha[x]<<", "<<alpha[s]<<", "<<rate<<endl;
 				}
 			}
 		}

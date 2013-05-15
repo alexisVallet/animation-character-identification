@@ -13,29 +13,15 @@
 #include <math.h>
 
 /**
- * Adds color histogram labels to a segmentation graph.
- *
- * @param image image to compute histograms from.
- * @param mask mask of pixels to take into account.
- * @param segmentation a segmentation of the image
- * @param segmentationGraph segmentation graph to add labels to
- * @param binsPerChannel the number of histogram bins per color channel
- */
-void colorHistogramLabels(
- Mat_<Vec<uchar,3> > &image,
- DisjointSetForest &segmentation,
- LabeledGraph<Mat> &segmentationGraph,
- int binsPerChannel);
-
-/**
  * Labels vertices of a segmentation graph by the average color of the segment.
  *
  * @param image image to compute average colors from.
  * @param mask mask of pixels to take into account.
  * @param segmentation a segmentation of the image.
- * @param segmentationGraph graph to add labels to.
+ * @param segGraph graph to add labels to.
+ * @param labeledGraph output graph with labels added.
  */
-void averageColorLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph);
+void averageColorLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, const WeightedGraph &segGraph, LabeledGraph<Matx<float,3,1> > &labeledGraph);
 
 /**
  * Labels vertices of a segmentation graph by the gravity center of the segment.
@@ -43,9 +29,10 @@ void averageColorLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, Disjo
  * @param image image to compute gravity centers from.
  * @param mask mask of pixels to take into account.
  * @param segmentation a segmentation of the image.
- * @param segmentationGraph graph to add labels to.
+ * @param segGraph graph to add labels to.
+ * @param labeledGraph output graph with labels added.
  */
-void gravityCenterLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph);
+void gravityCenterLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, const WeightedGraph &segGraph, LabeledGraph<Matx<float, 2, 1> > &labeledGraph);
 
 /**
  * Labels vertices of a segmentation graph by the covariance matrix of the pixel
@@ -54,39 +41,68 @@ void gravityCenterLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, Disj
  * @param image image to compute covariance matrices from.
  * @param mask mask of pixels to take into account.
  * @param segmentation a segmentation of the image.
- * @param segmentationGraph graph to add labels to.
+ * @param segGraph graph to add labels to.
+ * @param labeledGraph output graph with labels added.
  */
-void pixelsCovarianceMatrixLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph);
-
-/**
- * Labels vertices of a segmentation graph by the index of the label in the graph.
- *
- * @param image to compute labels from.
- * @param mask mask of pixels to take into account.
- * @param segmentation a segmentation of the image.
- * @param segmentationGraph graph to add labels to.
- */
-void segmentIndexLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph);
-
-/**
- * Labels vertices of a segmentation graph by the size of the segment relative to
- * the entire size of the character.
- *
- * @param image to compute relative sizes from.
- * @param mask mask of pixels to take into account.
- * @param segmentation a segmentation of the image.
- * @param segmentationGraph graph to add labels to.
- */
-void segmentSizeLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph);
+void pixelsCovarianceMatrixLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, const WeightedGraph &segGraph, LabeledGraph<Matx<float, 3, 1> > &labeledGrpah);
 
 /**
  * Concatenates the results of multiple labelling functions into one. Assumes the labels
  * are column vector.
  *
- * @param labelings labelings to concatenate the results of.
+ * @param l1 labeling to concatenate with l2
+ * @param l2 labeling to concatenate with l1
  * @param image image to compute labels from.
  * @param mask mask of pixels to take into account.
  * @param segmentation a segmentation of the image.
- * @param segmentationGraph graph to add labels to.
+ * @param segGraph graph to add labels to.
+ * @param labeledGraph output graph with labels added.
  */
-void concatenateLabelings(const vector<Labeling> &labelings, const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph);
+template < typename _Tp, int m1, int m2, int n >
+void concatenateLabelings(const typename Labeling<_Tp, m1, n>::type l1, const typename Labeling<_Tp, m2, n>::type l2, const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, const WeightedGraph &segGraph, LabeledGraph<Matx<_Tp, m1 + m2, n> > &labeledGraph) {
+	// computing first labeling
+	LabeledGraph<Matx<_Tp, m1, n> > g1;
+
+	l1(image, mask, segmentation, segGraph, g1);
+
+	// computing second labeling
+	LabeledGraph<Matx<_Tp, m2, n> > g2;
+
+	l2(image, mask, segmentation, segGraph, g2);
+
+	labeledGraph = LabeledGraph<Matx<_Tp, m1 + m2, n> >(segGraph.numberOfVertices());
+		
+	labeledGraph.copyEdges(segGraph);
+
+	for (int i = 0; i < segGraph.numberOfVertices(); i++) {
+		Matx<_Tp, m1 + m2, n> newLabel;
+
+		vconcatX<_Tp, m1, m2, n>(g1.getLabel(i), g2.getLabel(i), newLabel);
+
+		labeledGraph.addLabel(i, newLabel);
+	}
+}
+
+/**
+ * Adds a vertex to a labelled graph connected to all other vertices in the original
+ * graph, labeled with the 0 matrix with the same size as the other labels.
+ *
+ * @param graph graph to add a vertex to.
+ * @return the same graph as the input with an additional vertex labeled with the 0
+ * matrix and connected to all other vertices.
+ */
+template < typename _Tp, int m, int n >
+LabeledGraph<Matx<_Tp, m, n> > addGroundVertex(const LabeledGraph<Matx<_Tp, m, n> > &graph) {
+	LabeledGraph<Matx<_Tp, m, n> > newGraph(graph.numberOfVertices() + 1);
+
+	newGraph.copyEdges(graph);
+
+	for (int i = 0; i < graph.numberOfVertices(); i++) {
+		newGraph.addLabel(i, graph.getLabel(i));
+		newGraph.addEdge(graph.numberOfVertices(), i, 1);
+	}
+
+	newGraph.addLabel(graph.numberOfVertices(), Matx<_Tp, m, n>::zeros());
+
+	return newGraph;
+}

@@ -116,6 +116,13 @@ public:
   const vector<HalfEdge> &getAdjacencyList(int vertex) const;
 
   friend ostream &operator<<(ostream &os, const WeightedGraph &graph);
+
+  /**
+   * Copy the edges of another graph into this graph.
+   *
+   * @param graph graph to copy edges from.
+   */
+  void copyEdges(const WeightedGraph &graph);
 };
 
 /**

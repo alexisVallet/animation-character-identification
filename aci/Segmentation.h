@@ -25,4 +25,25 @@ using namespace cv;
  * @param segGraph segmentation graph of the image, where vertices are segment
  * and vertices have an edge between them iff the corresponding segment are adjacent.
  */
-void segment(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segGraph, int felzenszwalbScale);
+#define DEBUG_SEGMENTATION false
+#define CONNECTIVITY CONNECTIVITY_4
+#define MAX_SEGMENTS 250
+
+template < typename _Tp, int m, int n >
+void segment(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Matx<_Tp, m, n> > &segGraph, int felzenszwalbScale) {
+	assert(felzenszwalbScale >= 0);
+	WeightedGraph grid = gridGraph(image, CONNECTIVITY, mask, euclidDistance, false);
+	int minCompSize = countNonZero(mask) / MAX_SEGMENTS;
+	segmentation = felzenszwalbSegment(felzenszwalbScale, grid, minCompSize, mask);
+	segGraph = segmentationGraph<Matx<_Tp, m, n> >(image, segmentation, grid);
+
+	if (DEBUG_SEGMENTATION) {
+		imshow("image", image);
+		waitKey(0);
+		Mat regionImage = segmentation.toRegionImage(image);
+		segGraph.drawGraph(segmentCenters(image, segmentation), regionImage);
+		imshow("segmentation graph", regionImage);
+		cout<<"number of components: "<<segmentation.getNumberOfComponents()<<endl;
+		waitKey(0);
+	}
+}

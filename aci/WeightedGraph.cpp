@@ -215,3 +215,13 @@ void inducedSubgraphs(const WeightedGraph &graph, const vector<int> &inSubgraph,
 		}
 	}
 }
+
+void WeightedGraph::copyEdges(const WeightedGraph &graph) {
+	assert(graph.numberOfVertices() <= this->numberOfVertices());
+
+	for (int i = 0; i < graph.getEdges().size(); i++) {
+		Edge edge = graph.getEdges()[i];
+
+		this->addEdge(edge.source, edge.destination, edge.weight);
+	}
+}

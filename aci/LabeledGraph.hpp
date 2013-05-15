@@ -18,6 +18,7 @@ public:
   LabeledGraph() : WeightedGraph() {
     
   }
+
   /**
    * See WeightedGraph::WeightedGraph(int,int). If no labels are
    * specified, initializes labels with the default value of the

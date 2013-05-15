@@ -115,3 +115,21 @@ void crop(const Mat_<Vec3b> &image, const Mat_<float> &mask, Mat_<Vec3b> &croppe
  * @param resizedMask output resized mask.
  */
 void resizeImage(const Mat_<Vec<uchar,3> > &image, const Mat_<float> &mask, Mat_<Vec<uchar,3> > &resizedImage, Mat_<float> &resizedMask, int maxNbPixels);
+
+/**
+ * Vertical concatenation of matrices whose type and size is known at compile time.
+ *
+ * @param mat1 m1 by n matrix.
+ * @param mat2 m2 by n matrix
+ * @param res output (m1 + m2) by n matrix.
+ */
+template < typename _Tp, int m1, int m2, int n >
+void vconcatX(const Matx<_Tp, m1, n> &mat1, const Matx<_Tp, m2, n> &mat2, Matx<_Tp, m1 + m2, n> &res) {
+	Mat dm1(mat1);
+	Mat dm2(mat2);
+	Mat dres;
+
+	vconcat(dm1, dm2, dres);
+
+	res = Matx<_Tp, m1 + m2, n>(dres);
+}

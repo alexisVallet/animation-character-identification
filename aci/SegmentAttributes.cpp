@@ -45,9 +45,9 @@ void colorHistogramLabels(
 		}
 }
 
-void averageColorLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph) {
+void averageColorLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, const WeightedGraph &segGraph, LabeledGraph<Matx<float,3,1> > &labeledGraph) {
 	assert(image.rows == mask.rows && image.cols == mask.cols);
-	assert(segmentation.getNumberOfComponents() == segmentationGraph.numberOfVertices());
+	assert(segmentation.getNumberOfComponents() == segGraph.numberOfVertices());
 	vector<Vec3f> averageColor;
 	averageColor.reserve(segmentation.getNumberOfComponents());
 
@@ -68,14 +68,18 @@ void averageColorLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, Disjo
 		}
 	}
 
+	labeledGraph = LabeledGraph<Matx<float, 3, 1> >(segGraph.numberOfVertices());
+
+	labeledGraph.copyEdges(segGraph);
+
 	for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
-		segmentationGraph.addLabel(i, Mat(averageColor[i])/255);
+		labeledGraph.addLabel(i, averageColor[i]/255);
 	}
 }
 
-void gravityCenterLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph) {
+void gravityCenterLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, const WeightedGraph &segGraph, LabeledGraph<Matx<float, 2, 1> > &labeledGraph) {
 	assert(image.rows == mask.rows && image.cols == mask.cols);
-	assert(segmentation.getNumberOfComponents() == segmentationGraph.numberOfVertices());
+	assert(segmentation.getNumberOfComponents() == segGraph.numberOfVertices());
 	
 	vector<Vec2f> gravityCenters;
 	gravityCenters.reserve(segmentation.getNumberOfComponents());
@@ -97,74 +101,22 @@ void gravityCenterLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, Disj
 		}
 	}
 
-	for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
-		Mat gravityCenter(2,1,CV_32F);
+	labeledGraph = LabeledGraph<Matx<float,2,1> >(segGraph.numberOfVertices());
 
-		gravityCenter.at<float>(0,0) = gravityCenters[i](0) / image.rows;
-		gravityCenter.at<float>(1,0) = gravityCenters[i](1) / image.cols;
-
-		segmentationGraph.addLabel(i, gravityCenter);
-	}
-}
-
-void segmentSizeLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph) {
-	assert(image.rows == mask.rows && image.cols == mask.cols);
-	assert(segmentation.getNumberOfComponents() == segmentationGraph.numberOfVertices());
-	vector<int> reverseMap(segmentation.getNumberOfComponents());
-	map<int,int> rootIndexes = segmentation.getRootIndexes();
-
-	for (map<int,int>::iterator it = rootIndexes.begin(); it != rootIndexes.end(); it++) {
-		reverseMap[it->second] = it->first;
-	}
-	for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
-		float relativeSize = (float)segmentation.getComponentSize(reverseMap[i]) / (float)segmentation.getNumberOfElements();
-		Mat singleton(1,1,CV_32F);
-		singleton.at<float>(0,0) = relativeSize;
-
-		segmentationGraph.addLabel(i, singleton);
-	}
-}
-
-void segmentIndexLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph) {
-	assert(image.rows == mask.rows && image.cols == mask.cols);
-	assert(segmentation.getNumberOfComponents() == segmentationGraph.numberOfVertices());
+	labeledGraph.copyEdges(segGraph);
 
 	for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
-		Mat singleton(1,1,CV_32F);
+		Matx<float, 2, 1> gravityCenter(2,1);
 
-		singleton.at<float>(0,0) = (float)i;
+		gravityCenter(0,0) = gravityCenters[i](0) / image.rows;
+		gravityCenter(1,0) = gravityCenters[i](1) / image.cols;
 
-		segmentationGraph.addLabel(i, singleton);
+		labeledGraph.addLabel(i, gravityCenter);
 	}
 }
 
-void concatenateLabelings(const vector<Labeling> &labelings, const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph) {
-	vector<Mat> labels(segmentationGraph.numberOfVertices());
-
-	for (int i = 0; i < (int)labelings.size(); i++) {
-		LabeledGraph<Mat> copy = segmentationGraph;
-
-		labelings[i](image, mask, segmentation, copy);
-
-		for (int j = 0; j < segmentationGraph.numberOfVertices(); j++) {
-			if (labels[j].empty()) {
-				labels[j] = copy.getLabel(j);
-			} else {
-				Mat tmp;
-
-				vconcat(labels[j], copy.getLabel(j), tmp);
-				labels[j] = tmp;
-			}
-		}
-	}
-
-	for (int i = 0; i < segmentationGraph.numberOfVertices(); i++) {
-		segmentationGraph.addLabel(i, labels[i]);
-	}
-}
-
-void pixelsCovarianceMatrixLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, LabeledGraph<Mat> &segmentationGraph) {
-	assert(segmentation.getNumberOfComponents() == segmentationGraph.numberOfVertices());
+void pixelsCovarianceMatrixLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, const WeightedGraph &segGraph, LabeledGraph<Matx<float, 3, 1> > &labeledGraph) {
+	assert(segmentation.getNumberOfComponents() == segGraph.numberOfVertices());
 	vector<Mat> segmentSamples(segmentation.getNumberOfComponents());
 	map<int,int> rootIndexes = segmentation.getRootIndexes();
 
@@ -191,6 +143,8 @@ void pixelsCovarianceMatrixLabels(const Mat_<Vec3b> &image, const Mat_<float> &m
 	}
 
 	Mat_<Vec3b> regionImage = segmentation.toRegionImage(image);
+	labeledGraph = LabeledGraph<Matx<float, 3, 1> >(segGraph.numberOfVertices());
+	labeledGraph.copyEdges(segGraph);
 
 	for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
 		Mat covarianceMatrix(0, 0, CV_32F);
@@ -222,13 +176,13 @@ void pixelsCovarianceMatrixLabels(const Mat_<Vec3b> &image, const Mat_<float> &m
 
 		double diagonal = sqrt(pow(image.rows,2.) + pow(image.cols,2.));
 
-		Mat ellipseDescriptor(3, 1, CV_32F);
+		Matx<float, 3, 1> ellipseDescriptor(3, 1);
 
-		ellipseDescriptor.at<float>(0,0) = axis1 / diagonal;
-		ellipseDescriptor.at<float>(1,0) = axis2 / diagonal;
-		ellipseDescriptor.at<float>(2,0) = angle;
+		ellipseDescriptor(0,0) = axis1 / diagonal;
+		ellipseDescriptor(1,0) = axis2 / diagonal;
+		ellipseDescriptor(2,0) = angle;
 
-		segmentationGraph.addLabel(i, ellipseDescriptor);
+		labeledGraph.addLabel(i, ellipseDescriptor);
 	}
 
 	if (DEBUG_ATTRIBUTES) {
