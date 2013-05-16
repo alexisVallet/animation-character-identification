@@ -68,7 +68,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -114,8 +114,8 @@ Functions</h2></td></tr>
 <tr class="memitem:a011e891ef6e5cd300f91c7be49c4046e"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a011e891ef6e5cd300f91c7be49c4046e"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_segmentation_graph_8hpp.html#a011e891ef6e5cd300f91c7be49c4046e">segmentationGraph</a> (const Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;image, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;grid)</td></tr>
 <tr class="separator:a011e891ef6e5cd300f91c7be49c4046e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1736104ff662bfa66ef2c46e1db93c69"><td class="memItemLeft" align="right" valign="top">vector&lt; Vec&lt; float, 2 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_segmentation_graph_8hpp.html#a1736104ff662bfa66ef2c46e1db93c69">segmentCenters</a> (Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;image, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation)</td></tr>
-<tr class="separator:a1736104ff662bfa66ef2c46e1db93c69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97d455491f0627ddeecb253ee77e45dd"><td class="memItemLeft" align="right" valign="top">vector&lt; Vec&lt; float, 2 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_segmentation_graph_8hpp.html#a97d455491f0627ddeecb253ee77e45dd">segmentCenters</a> (const Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;image, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation)</td></tr>
+<tr class="separator:a97d455491f0627ddeecb253ee77e45dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7537903f00d222dc94e3e94dfd3ed258"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_segmentation_graph_8hpp.html#a7537903f00d222dc94e3e94dfd3ed258">groundGraph</a> (const <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Mat &gt; &amp;unGrounded)</td></tr>
 <tr class="separator:a7537903f00d222dc94e3e94dfd3ed258"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -223,14 +223,14 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a1736104ff662bfa66ef2c46e1db93c69"></a>
+<a class="anchor" id="a97d455491f0627ddeecb253ee77e45dd"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">vector&lt;Vec&lt;float,2&gt; &gt; segmentCenters </td>
           <td>(</td>
-          <td class="paramtype">Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;&#160;</td>
+          <td class="paramtype">const Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;&#160;</td>
           <td class="paramname"><em>image</em>, </td>
         </tr>
         <tr>
@@ -261,7 +261,7 @@ template&lt;typename T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon May 13 2013 17:50:45 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu May 16 2013 17:51:01 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

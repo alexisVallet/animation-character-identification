@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1"/>
-<title>Animation character identification: MatKernel Class Reference</title>
+<title>Animation character identification: MatKernel&lt; _Tp, m, n &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -70,7 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -85,37 +85,33 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="class_mat_kernel-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">MatKernel Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">MatKernel&lt; _Tp, m, n &gt; Class Template Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
 <p><code>#include &lt;<a class="el" href="_graph_partitions_8h_source.html">GraphPartitions.h</a>&gt;</code></p>
-<div class="dynheader">
-Inheritance diagram for MatKernel:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_mat_kernel__inherit__graph.png" border="0" usemap="#_mat_kernel_inherit__map" alt="Inheritance graph"/></div>
-<map name="_mat_kernel_inherit__map" id="_mat_kernel_inherit__map">
-</map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ade4bb4f5871e0510771f9761d2715c33"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ade4bb4f5871e0510771f9761d2715c33"></a>
-virtual <a class="el" href="_graph_partitions_8h.html#aec5dc4d7252a04b7888874cd64e02e78">Labeling</a>&#160;</td><td class="memItemRight" valign="bottom"><b>getLabeling</b> () const =0</td></tr>
-<tr class="separator:ade4bb4f5871e0510771f9761d2715c33"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae87b7f63f532c609c6c3e8d3a7144888"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae87b7f63f532c609c6c3e8d3a7144888"></a>
-virtual double&#160;</td><td class="memItemRight" valign="bottom"><b>operator()</b> (const Mat &amp;, const Mat &amp;) const =0</td></tr>
-<tr class="separator:ae87b7f63f532c609c6c3e8d3a7144888"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68dd38186d98f8ca731afbfc57e3d39b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a68dd38186d98f8ca731afbfc57e3d39b"></a>
+virtual <a class="el" href="struct_labeling.html">Labeling</a>&lt; _Tp, m, n &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><b>getLabeling</b> () const =0</td></tr>
+<tr class="separator:a68dd38186d98f8ca731afbfc57e3d39b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38b3ba76c941881995c162180163d776"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a38b3ba76c941881995c162180163d776"></a>
+virtual double&#160;</td><td class="memItemRight" valign="bottom"><b>operator()</b> (const Matx&lt; _Tp, m, n &gt; &amp;, const Matx&lt; _Tp, m, n &gt; &amp;) const =0</td></tr>
+<tr class="separator:a38b3ba76c941881995c162180163d776"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Base class for specifying vertex label and similariy function for a graph. </p>
+<div class="textblock"><h3>template&lt;typename _Tp, int m, int n&gt;<br/>
+class MatKernel&lt; _Tp, m, n &gt;</h3>
+
+<p>Base class for specifying vertex label and similariy function for a graph. </p>
 </div><hr/>The documentation for this class was generated from the following file:<ul>
 <li><a class="el" href="_graph_partitions_8h_source.html">GraphPartitions.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon May 13 2013 17:50:45 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu May 16 2013 17:51:02 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

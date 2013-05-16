@@ -4,13 +4,17 @@ digraph "KuwaharaFilter.h"
   node [fontname="Helvetica",fontsize="10",shape=record];
   Node1 [label="KuwaharaFilter.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
   Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node2 [label="Segmentation.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_segmentation_8h.html"];
+  Node2 [label="PreProcessing.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_pre_processing_8h_source.html"];
   Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node3 [label="SpectrumDistanceClassifier\lTest.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_spectrum_distance_classifier_test_8h_source.html"];
+  Node3 [label="ParameterTuning.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_parameter_tuning_8h_source.html"];
   Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node4 [label="main.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$main_8h_source.html"];
-  Node2 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node5 [label="SegmentAttributesTest.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_segment_attributes_test_8h_source.html"];
-  Node5 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="Segmentation.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_segmentation_8h.html"];
+  Node5 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="SegmentAttributesTest.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_segment_attributes_test_8h_source.html"];
+  Node5 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="SpectrumDistanceClassifier\lTest.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_spectrum_distance_classifier_test_8h_source.html"];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
 }

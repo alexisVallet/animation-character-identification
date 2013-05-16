@@ -68,7 +68,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -80,6 +80,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Segmentation.h File Reference</div>  </div>
@@ -110,27 +111,60 @@ This graph shows which files directly or indirectly include this file:</div>
 </div>
 <p><a href="_segmentation_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:abdc32f35bdb366428e5c50c7c4953ac9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abdc32f35bdb366428e5c50c7c4953ac9"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>DEBUG_SEGMENTATION</b>&#160;&#160;&#160;false</td></tr>
+<tr class="separator:abdc32f35bdb366428e5c50c7c4953ac9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd7574af168ac3377195ca4b8cfe31c8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abd7574af168ac3377195ca4b8cfe31c8"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CONNECTIVITY</b>&#160;&#160;&#160;CONNECTIVITY_4</td></tr>
+<tr class="separator:abd7574af168ac3377195ca4b8cfe31c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5155355bbabd39029d45b74529beba04"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5155355bbabd39029d45b74529beba04"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>MAX_SEGMENTS</b>&#160;&#160;&#160;250</td></tr>
+<tr class="separator:a5155355bbabd39029d45b74529beba04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a714d08c29e4eefa50b5df424024f4654"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_weighted_graph.html">WeightedGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_segmentation_8h.html#a714d08c29e4eefa50b5df424024f4654">computeGraphFrom</a> (Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;bgrImage, Mat_&lt; float &gt; &amp;mask)</td></tr>
-<tr class="separator:a714d08c29e4eefa50b5df424024f4654"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d8b0829c2438c7d07b0dcc1fd6dc34a"><td class="memTemplParams" colspan="2">template&lt;typename _Tp , int m, int n&gt; </td></tr>
+<tr class="memitem:a9d8b0829c2438c7d07b0dcc1fd6dc34a"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_segmentation_8h.html#a9d8b0829c2438c7d07b0dcc1fd6dc34a">segment</a> (const Mat_&lt; Vec3b &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Matx&lt; _Tp, m, n &gt; &gt; &amp;segGraph, int felzenszwalbScale)</td></tr>
+<tr class="separator:a9d8b0829c2438c7d07b0dcc1fd6dc34a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a714d08c29e4eefa50b5df424024f4654"></a>
+<a class="anchor" id="a9d8b0829c2438c7d07b0dcc1fd6dc34a"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename _Tp , int m, int n&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_weighted_graph.html">WeightedGraph</a> computeGraphFrom </td>
+          <td class="memname">void segment </td>
           <td>(</td>
-          <td class="paramtype">Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;&#160;</td>
-          <td class="paramname"><em>bgrImage</em>, </td>
+          <td class="paramtype">const Mat_&lt; Vec3b &gt; &amp;&#160;</td>
+          <td class="paramname"><em>image</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Mat_&lt; float &gt; &amp;&#160;</td>
-          <td class="paramname"><em>mask</em>&#160;</td>
+          <td class="paramtype">const Mat_&lt; float &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;&#160;</td>
+          <td class="paramname"><em>segmentation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Matx&lt; _Tp, m, n &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>segGraph</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>felzenszwalbScale</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -142,19 +176,20 @@ Functions</h2></td></tr>
 <p>Segmentation method which compute a graph from an animation character image, without background - the background pixels to ignore are specified as 0 in a mask.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">bgrImage</td><td>BGR image to segment (as returned by imread for instance) </td></tr>
+    <tr><td class="paramname">image</td><td>image to segment (as returned by imread for instance) </td></tr>
     <tr><td class="paramname">mask</td><td>mask of the image specifying pixels to take into account. </td></tr>
+    <tr><td class="paramname">segmentation</td><td>segmentation of the image. </td></tr>
+    <tr><td class="paramname">segGraph</td><td>segmentation graph of the image, where vertices are segment and vertices have an edge between them iff the corresponding segment are adjacent. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>a segmentation graph of the image, where vertices are segments and there is an edge between each adjacent segment in the image. Edges are weighted by similarity between segments. </dd></dl>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon May 13 2013 17:50:45 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu May 16 2013 17:51:01 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

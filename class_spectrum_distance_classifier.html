@@ -70,7 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -93,15 +93,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aef940f0df327ecef89b9951a2cf8b0fd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_spectrum_distance_classifier.html#aef940f0df327ecef89b9951a2cf8b0fd">SpectrumDistanceClassifier</a> (<a class="el" href="class_trainable_stat_model.html">TrainableStatModel</a> *statModel, MatrixRepresentation representation, float mu)</td></tr>
-<tr class="separator:aef940f0df327ecef89b9951a2cf8b0fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a315f5a1843840116e503005ac15db6c1"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_spectrum_distance_classifier.html#a315f5a1843840116e503005ac15db6c1">leaveOneOutRecognitionRate</a> (vector&lt; <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &gt; samples, Mat_&lt; int &gt; &amp;classes)</td></tr>
-<tr class="separator:a315f5a1843840116e503005ac15db6c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac026a02ac078c32bc99c926b8eada31b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_spectrum_distance_classifier.html#ac026a02ac078c32bc99c926b8eada31b">SpectrumDistanceClassifier</a> (<a class="el" href="class_trainable_stat_model.html">TrainableStatModel</a> *statModel, MatrixRepresentation representation, int k)</td></tr>
+<tr class="separator:ac026a02ac078c32bc99c926b8eada31b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb060e3bd990cc73517d6463e70f2e5e"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_spectrum_distance_classifier.html#abb060e3bd990cc73517d6463e70f2e5e">leaveOneOutRecognitionRate</a> (vector&lt; <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &gt; samples, const Mat_&lt; int &gt; &amp;classes)</td></tr>
+<tr class="separator:abb060e3bd990cc73517d6463e70f2e5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Classify graphs by the spectrum of their respective Laplacian matrices, with edges weighted by a kernel function between color histograms of image segments. It is a supervised classifier. </p>
+<div class="textblock"><p>Classify graphs by the spectrum of their respective Laplacian matrices, with edges weighted by a kernel function between color histograms of image segments. Can work for supervised classification tasks as well as unsupervised classification (clustering). </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="aef940f0df327ecef89b9951a2cf8b0fd"></a>
+<a class="anchor" id="ac026a02ac078c32bc99c926b8eada31b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -120,8 +120,8 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>mu</em>&#160;</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>k</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -130,13 +130,12 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Initializes the classifier with a specific kernel function to compute weights, and a specific statistical model to classify graph spectra with. Eigenvalues are scaled with an inverse exponential to favor smaller eigenvalues.</p>
+<p>Initialize the classifier with a specific classification model (KNN, Bayes, ...) a graph matrix representation (combinatorial Laplacian, normalized Laplacian, ...) and a number of eigenvalues to take into account for classification.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">kernel</td><td>kernel function to compute weights from. </td></tr>
     <tr><td class="paramname">statModel</td><td>statistical model to classify spectra with. </td></tr>
     <tr><td class="paramname">representation</td><td>the matrix representation to use for graphs. </td></tr>
-    <tr><td class="paramname">mu</td><td>positive factor to the exponential favorizing smaller eigenvalues. </td></tr>
+    <tr><td class="paramname">k</td><td>number of non zero smallest eigenvalues to use for classification. </td></tr>
   </table>
   </dd>
 </dl>
@@ -144,7 +143,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a315f5a1843840116e503005ac15db6c1"></a>
+<a class="anchor" id="abb060e3bd990cc73517d6463e70f2e5e"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -157,7 +156,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Mat_&lt; int &gt; &amp;&#160;</td>
+          <td class="paramtype">const Mat_&lt; int &gt; &amp;&#160;</td>
           <td class="paramname"><em>classes</em>&#160;</td>
         </tr>
         <tr>
@@ -195,7 +194,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon May 13 2013 17:50:45 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu May 16 2013 17:51:02 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

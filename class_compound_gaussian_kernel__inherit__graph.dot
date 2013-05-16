@@ -4,5 +4,5 @@ digraph "CompoundGaussianKernel"
   node [fontname="Helvetica",fontsize="10",shape=record];
   Node1 [label="CompoundGaussianKernel",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
   Node2 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node2 [label="MatKernel",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_mat_kernel.html"];
+  Node2 [label="MatKernel\< float, 8, 1 \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_mat_kernel.html"];
 }

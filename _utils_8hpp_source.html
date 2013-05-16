@@ -69,7 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -122,10 +122,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="keywordtype">void</span> crop(<span class="keyword">const</span> Mat_&lt;Vec3b&gt; &amp;image, <span class="keyword">const</span> Mat_&lt;float&gt; &amp;mask, Mat_&lt;Vec3b&gt; &amp;croppedImage, Mat_&lt;float&gt; &amp;croppedMask);</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="keywordtype">void</span> resizeImage(<span class="keyword">const</span> Mat_&lt;Vec&lt;uchar,3&gt; &gt; &amp;image, <span class="keyword">const</span> Mat_&lt;float&gt; &amp;mask, Mat_&lt;Vec&lt;uchar,3&gt; &gt; &amp;resizedImage, Mat_&lt;float&gt; &amp;resizedMask, <span class="keywordtype">int</span> maxNbPixels);</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="keyword">template</span> &lt; <span class="keyword">typename</span> _Tp, <span class="keywordtype">int</span> m1, <span class="keywordtype">int</span> m2, <span class="keywordtype">int</span> n &gt;</div>
+<div class="line"><a name="l00127"></a><span class="lineno"><a class="code" href="_utils_8hpp.html#a6f8368514b8d89308360824487a28b83">  127</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="_utils_8hpp.html#a6f8368514b8d89308360824487a28b83">vconcatX</a>(<span class="keyword">const</span> Matx&lt;_Tp, m1, n&gt; &amp;mat1, <span class="keyword">const</span> Matx&lt;_Tp, m2, n&gt; &amp;mat2, Matx&lt;_Tp, m1 + m2, n&gt; &amp;res) {</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    Mat dm1(mat1);</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    Mat dm2(mat2);</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    Mat dres;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    vconcat(dm1, dm2, dres);</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    res = Matx&lt;_Tp, m1 + m2, n&gt;(dres);</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon May 13 2013 17:50:45 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu May 16 2013 17:51:01 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

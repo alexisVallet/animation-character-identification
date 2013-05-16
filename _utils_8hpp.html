@@ -68,7 +68,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -143,6 +143,9 @@ Functions</h2></td></tr>
 <tr class="separator:a91b7070cd0432fcb2485f142ac43edbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5eab31b206a0e529b87f026a2eeb0d7f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utils_8hpp.html#a5eab31b206a0e529b87f026a2eeb0d7f">resizeImage</a> (const Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;resizedImage, Mat_&lt; float &gt; &amp;resizedMask, int maxNbPixels)</td></tr>
 <tr class="separator:a5eab31b206a0e529b87f026a2eeb0d7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f8368514b8d89308360824487a28b83"><td class="memTemplParams" colspan="2">template&lt;typename _Tp , int m1, int m2, int n&gt; </td></tr>
+<tr class="memitem:a6f8368514b8d89308360824487a28b83"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_utils_8hpp.html#a6f8368514b8d89308360824487a28b83">vconcatX</a> (const Matx&lt; _Tp, m1, n &gt; &amp;mat1, const Matx&lt; _Tp, m2, n &gt; &amp;mat2, Matx&lt; _Tp, m1+m2, n &gt; &amp;res)</td></tr>
+<tr class="separator:a6f8368514b8d89308360824487a28b83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a class="anchor" id="a312f57b0318728667933d7254778058b"></a>
@@ -657,10 +660,53 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a6f8368514b8d89308360824487a28b83"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename _Tp , int m1, int m2, int n&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void vconcatX </td>
+          <td>(</td>
+          <td class="paramtype">const Matx&lt; _Tp, m1, n &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mat1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Matx&lt; _Tp, m2, n &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mat2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Matx&lt; _Tp, m1+m2, n &gt; &amp;&#160;</td>
+          <td class="paramname"><em>res</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Vertical concatenation of matrices whose type and size is known at compile time.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mat1</td><td>m1 by n matrix. </td></tr>
+    <tr><td class="paramname">mat2</td><td>m2 by n matrix </td></tr>
+    <tr><td class="paramname">res</td><td>output (m1 + m2) by n matrix. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon May 13 2013 17:50:45 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu May 16 2013 17:51:01 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

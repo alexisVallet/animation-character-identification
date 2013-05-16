@@ -68,7 +68,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -112,8 +112,6 @@ Functions</h2></td></tr>
 <tr class="separator:a30ada09a56806ed50a5a8ed9633675cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a62ea6ca57c30dac2d00d995728f04638"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_weighted_graph.html">WeightedGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_image_graphs_8h.html#a62ea6ca57c30dac2d00d995728f04638">kNearestGraph</a> (const Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;image, const Mat_&lt; float &gt; mask, int k, double(*simFunc)(const Mat &amp;, const Mat &amp;), bool <a class="el" href="_weighted_graph_8hpp.html#a51f69d0a09e4e0b8aefc82a7255d11f4">bidirectional</a>=false)</td></tr>
 <tr class="separator:a62ea6ca57c30dac2d00d995728f04638"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a854a4b9d9194268012df8638ebf3baa3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_weighted_graph.html">WeightedGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_image_graphs_8h.html#a854a4b9d9194268012df8638ebf3baa3">radiusGraph</a> (const Mat_&lt; Vec3b &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, int k, double r, const <a class="el" href="class_mat_kernel.html">MatKernel</a> &amp;simFunc, bool <a class="el" href="_weighted_graph_8hpp.html#a51f69d0a09e4e0b8aefc82a7255d11f4">bidirectional</a>=false)</td></tr>
-<tr class="separator:a854a4b9d9194268012df8638ebf3baa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="a30ada09a56806ed50a5a8ed9633675cf"></a>
@@ -223,70 +221,10 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a854a4b9d9194268012df8638ebf3baa3"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_weighted_graph.html">WeightedGraph</a> radiusGraph </td>
-          <td>(</td>
-          <td class="paramtype">const Mat_&lt; Vec3b &gt; &amp;&#160;</td>
-          <td class="paramname"><em>image</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Mat_&lt; float &gt; &amp;&#160;</td>
-          <td class="paramname"><em>mask</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>k</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>r</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="class_mat_kernel.html">MatKernel</a> &amp;&#160;</td>
-          <td class="paramname"><em>simFunc</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>bidirectional</em> = <code>false</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Returns a graph where vertices are pixels in the image, and every vertex has an edge to its neighbors in a specific radius in pixel coordinate space (up to a maximum of k neighbors), weighted by color similarity and distance in coordinate space.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">image</td><td>the image to compute the radius graph from. </td></tr>
-    <tr><td class="paramname">mask</td><td>mask indicating pixels to take into account. </td></tr>
-    <tr><td class="paramname">k</td><td>the maximum number of nearest neighbors each pixel should have an edge towards. Note that this does not mean that the graph is k-regular (seen as an undirected graph) as the k nearest neighbor relation is not symmetric.  r maximum radius of pixels to consider as neighbor. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>the radius graph of the image. </dd></dl>
-
-</div>
-</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon May 13 2013 17:50:45 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu May 16 2013 17:51:01 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>
