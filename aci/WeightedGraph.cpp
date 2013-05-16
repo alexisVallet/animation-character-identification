@@ -225,3 +225,7 @@ void WeightedGraph::copyEdges(const WeightedGraph &graph) {
 		this->addEdge(edge.source, edge.destination, edge.weight);
 	}
 }
+
+bool compareGraphSize(const WeightedGraph& g1, const WeightedGraph& g2) {
+	return g1.numberOfVertices() < g2.numberOfVertices();
+}

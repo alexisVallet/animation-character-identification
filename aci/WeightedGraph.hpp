@@ -162,3 +162,14 @@ bool bidirectional(const WeightedGraph& graph);
  * @param subgraphs output graphs which will be populated with the subgraphs.
  */ 
 void inducedSubgraphs(const WeightedGraph &graph, const vector<int> &inSubgraph, int numberOfSubgraphs, vector<int> &vertexIdx, vector<WeightedGraph> &subgraphs);
+
+/**
+ * True iff g1 has strictly less vertices than g2. Useful for sorting graphs by size,
+ * extracting the smallest or largest graph in a container using stl's sort,
+ * min_element or max_element.
+ *
+ * @param g1 a graph.
+ * @param g2 another graph.
+ * @return True iff g1 has strictly less vertices than g2.
+ */
+bool compareGraphSize(const WeightedGraph& g1, const WeightedGraph& g2);

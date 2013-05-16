@@ -1,9 +1,9 @@
 #include "SpectrumDistanceClassifier.h"
 
-SpectrumDistanceClassifier::SpectrumDistanceClassifier(TrainableStatModel *statModel, MatrixRepresentation representation, float mu) 
-	: statModel(statModel), representation(representation), mu(mu)
+SpectrumDistanceClassifier::SpectrumDistanceClassifier(TrainableStatModel *statModel, MatrixRepresentation representation, int k) 
+	: statModel(statModel), representation(representation), k(k)
 {
-	assert(mu > 0);
+	assert(k > 0);
 }
 
 /*void SpectrumDistanceClassifier::train(vector<LabeledGraph<Mat> > trainingSamples, Mat &trainingClasses) {
@@ -38,31 +38,35 @@ static bool compareGraphSize(const WeightedGraph &g1, const WeightedGraph &g2) {
 	return g1.numberOfVertices() < g2.numberOfVertices();
 }
 
-float SpectrumDistanceClassifier::leaveOneOutRecognitionRate(vector<WeightedGraph> samples, Mat_<int> &classes) {
+float SpectrumDistanceClassifier::leaveOneOutRecognitionRate(vector<WeightedGraph> samples, const Mat_<int> &classes) {
 	assert(samples.size() >= 2);
 	assert(samples.size() == classes.rows);
 	assert(classes.cols == 1);
-	// first determine which graph has the largest number of vertices
-	int maxNumberOfVertices = max_element(samples.begin(), samples.end(), compareGraphSize)->numberOfVertices();
 
-	// then compute the eigenvalues of the matrix representation of each samples
-	Mat_<float> spectra = Mat_<float>::zeros(samples.size(), maxNumberOfVertices);
+	// then compute the first k non 0 eigenvalues of the matrix representation of each samples
+	Mat_<float> spectra = Mat_<float>::zeros(samples.size(), this->k);
 	vector<Mat_<double> > reps;
 	reps.reserve(samples.size());
 
 	for (int i = 0; i < samples.size(); i++) {
 		Mat_<double> matRep = this->representation(samples[i]);
 		reps.push_back(matRep);
-		Mat_<double> largerMatRep = Mat_<double>::zeros(maxNumberOfVertices, maxNumberOfVertices);
-		matRep.copyTo(largerMatRep.rowRange(0,matRep.rows).colRange(0,matRep.cols));
 
 		Mat_<double> eigenvalues;
 
-		eigen(largerMatRep, eigenvalues);
+		eigen(matRep, eigenvalues);
 
-		Mat_<float> evf = Mat_<float>(eigenvalues.t());
+		Mat_<double> ascEigenvalues;
 
-		evf.copyTo(spectra.row(i));
+		flip(eigenvalues, ascEigenvalues, 0);
+
+		Mat_<float> evf = Mat_<float>(ascEigenvalues.t());
+
+		int nbToCopy = min(k + 2, evf.cols);
+
+		evf.colRange(2,nbToCopy).copyTo(spectra.row(i).colRange(0, nbToCopy - 2));
+
+		//cout<<spectra.row(i)<<endl;
 	}
 
 	return this->statModel->leaveOneOutCrossValidation(spectra, classes);

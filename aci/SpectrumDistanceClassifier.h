@@ -12,32 +12,29 @@
 using namespace cv;
 using namespace std;
 
-#define DEFAULT_MU 0.001
-
 /**
  * Classify graphs by the spectrum of their respective Laplacian matrices, with
  * edges weighted by a kernel function between color histograms of image segments.
- * It is a supervised classifier.
+ * Can work for supervised classification tasks as well as unsupervised classification
+ * (clustering).
  */
 class SpectrumDistanceClassifier {
 private:
 	TrainableStatModel *statModel;
 	MatrixRepresentation representation;
-	float lambda;
-	float mu;
+	int k;
 
 public:
 	/**
-	 * Initializes the classifier with a specific kernel function to compute weights,
-	 * and a specific statistical model to classify graph spectra with. Eigenvalues
-	 * are scaled with an inverse exponential to favor smaller eigenvalues.
+	 * Initialize the classifier with a specific classification model (KNN, Bayes, ...)
+	 * a graph matrix representation (combinatorial Laplacian, normalized Laplacian, ...)
+	 * and a number of eigenvalues to take into account for classification.
 	 *
-	 * @param kernel kernel function to compute weights from.
 	 * @param statModel statistical model to classify spectra with.
 	 * @param representation the matrix representation to use for graphs.
-	 * @param mu positive factor to the exponential favorizing smaller eigenvalues.
+	 * @param k number of non zero smallest eigenvalues to use for classification.
 	 */
-	SpectrumDistanceClassifier(TrainableStatModel *statModel, MatrixRepresentation representation, float mu = DEFAULT_MU);
+	SpectrumDistanceClassifier(TrainableStatModel *statModel, MatrixRepresentation representation, int k);
 
 	/**
 	 * Trains the classifier with specific training samples.
@@ -65,5 +62,7 @@ public:
 	 * @param classes the class each sample belongs to.
 	 * @return a recognition rate within the real interval [0; 1].
 	 */
-	float leaveOneOutRecognitionRate(vector<WeightedGraph> samples, Mat_<int> &classes);
+	float leaveOneOutRecognitionRate(vector<WeightedGraph> samples, const Mat_<int> &classes);
+
+
 };

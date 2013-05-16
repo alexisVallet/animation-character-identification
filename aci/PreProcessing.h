@@ -6,6 +6,7 @@
 
 #include "Utils.hpp"
 #include "KuwaharaFilter.h"
+#include "ImageGraphs.h"
 
 #define DEFAULT_KUWAHARA_HALFSIZE 5
 #define DEFAULT_MAX_NB_PIXELS 15000
@@ -17,6 +18,7 @@ using namespace cv;
  * Pre-process an animation character image for segmentation. Proceeds to, in order:
  * - resize the image and mask so the number of non masked pixel is below a maximum,
  *   for performance.
+ * - only keep the largest 4-connected component in the mask, so there is only one
  * - equalize the color histogram by Hue for better color repartition.
  * - apply Kuwahara filter for outline removal and more homogenous areas.
  * - convert to Lab color space so segmentation is closer to human perception.

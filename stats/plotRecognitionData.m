@@ -1,22 +1,45 @@
-function plotRecognitionData( csvFilename )
+function plotRecognitionData( recognitionRates, colX, colY)
 %PLOTRECOGNITIONDATA plots recognition rates data as computed by
 % animation-character-identification.exe .
 
-recognitionRates = csvread(csvFilename);
+[rows cols] = size(recognitionRates);
 
-kValues = zeros(9);
-minRates = zeros(9);
-meanRates = zeros(9);
-maxRates = zeros(9);
-
-for i=1:8:72
-    index = ((i - 1) / 8) + 1;
-    kValues(index) = recognitionRates(i,1);
-    meanRates(index) = mean(recognitionRates(i:i+7,5));
-    minRates(index) = min(recognitionRates(i:i+7,5));
-    maxRates(index) = max(recognitionRates(i:i+7,5));
+if colX < 1 || colX > cols || colY < 1 || colY > cols
+    ME = MException('colX or colY is out of bounds');
+    throw(ME);
 end
 
-plot(kValues, meanRates, kValues, minRates, kValues, maxRates);
+xValues = [];
+nbXValues = 0;
+nbYPerX = [];
+prevValue = -1;
+
+% first count the number of different value in colX
+for i=1:rows
+    current = recognitionRates(i, colX);
+    if prevValue ~= current
+        prevValue = current;
+        nbXValues = nbXValues + 1;
+        nbYPerX = [nbYPerX 1];
+        xValues = [xValues current];
+    else
+        nbYPerX(length(nbYPerX)) = nbYPerX(length(nbYPerX)) + 1;
+    end
+end
+
+means = zeros(nbXValues);
+mins = zeros(nbXValues);
+maxs = zeros(nbXValues);
+currentOffset = 1;
+
+for i=1:nbXValues
+    samples = recognitionRates(currentOffset:currentOffset + nbYPerX(i) - 1, colY);
+    means(i) = mean(samples);
+    mins(i) = min(samples);
+    maxs(i) = max(samples);
+    currentOffset = currentOffset + nbYPerX(i);
+end
+
+plot(xValues, mins, xValues, means, xValues, maxs);
 
 end

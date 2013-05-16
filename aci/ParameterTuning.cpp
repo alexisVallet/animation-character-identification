@@ -1,8 +1,70 @@
 #include "ParameterTuning.h"
 
-#define K_MIN 900
-#define K_MAX 1100
-#define K_STEP 20
+#define K_MIN 500
+#define K_MAX 5000
+#define K_STEP 500
+#define L_MIN 1
+
+
+void runClassificationFor(
+	ostream &outStream,
+	const vector<pair<Mat_<Vec3b>,Mat_<float> > > &dataSet,
+	const Mat_<int> &classes,
+	const vector<int> felzScales, 
+	const vector<double> alphaCs,
+	const vector<double> alphaXs,
+	const vector<double> alphaSs,
+	int nbEigValSteps) {
+	for (int fki = 0; fki < (int)felzScales.size(); fki++) {
+		int fk = felzScales[fki];
+		// segmentation with various parameters
+		vector<DisjointSetForest> segmentations;
+		vector<LabeledGraph<Matx<float,8,1> > > segGraphs;
+		segmentations.reserve(dataSet.size());
+
+		for (int i = 0; i < (int)dataSet.size(); i++) {
+			DisjointSetForest segmentation;
+			LabeledGraph<Matx<float,8,1> > segGraph;
+
+			segment<float,8,1>(dataSet[i].first, dataSet[i].second, segmentation, segGraph, fk);
+			segmentations.push_back(segmentation);
+			segGraphs.push_back(segGraph);
+		}
+
+		int largestNbVertices = max_element(segGraphs.begin(), segGraphs.end(), compareGraphSize)->numberOfVertices();
+		int step = (largestNbVertices - 1) / nbEigValSteps;
+
+		step = step == 0 ? 1 : step;
+
+		// enumerating all combinations of the alpha set
+		for (int ci = 0; ci < (int)alphaCs.size(); ci++) {
+			double alphaC = alphaCs[ci];
+			for (int xi = 0; xi < (int)alphaXs.size(); xi++) {
+				double alphaX = alphaXs[xi];
+				for (int si = 0; si < (int)alphaSs.size(); si++) {
+					double alphaS = alphaSs[si];
+					for (int l = 1; l < largestNbVertices; l += step) {
+						CompoundGaussianKernel simFunc(alphaC, alphaX, alphaS);
+						vector<WeightedGraph> graphsToClassify;
+
+						graphsToClassify.reserve(dataSet.size());
+						for (int i = 0; i < (int)dataSet.size(); i++) {
+							graphsToClassify.push_back(weighEdgesByKernel(dataSet[i].first, dataSet[i].second, segmentations[i], simFunc, segGraphs[i]));
+						}
+
+						KNearestModel nnModel(1);
+						SpectrumDistanceClassifier classifier(&nnModel, laplacian, l);
+
+						float rate = classifier.leaveOneOutRecognitionRate(graphsToClassify, classes);
+						float eigenvaluesFraction = (float)l/(float)largestNbVertices;
+
+						cout<<fk<<", "<<alphaC<<", "<<alphaX<<", "<<alphaS<<", "<<eigenvaluesFraction<<", "<<rate<<endl;
+					}
+				}
+			}
+		}
+	}
+}
 
 void parameterTuning(ostream &outStream) {
 	cout<<"loading dataset"<<endl;
@@ -25,46 +87,27 @@ void parameterTuning(ostream &outStream) {
 
 		preProcessing(dataSet[i].first, dataSet[i].second, processedImage, processedMask);
 		preProcessedDataset.push_back(pair<Mat_<Vec3b>, Mat_<float> >(processedImage, processedMask));
+	}	
+
+	vector<int> felzScale;
+	vector<double> alphaX, alphaC, alphaS;
+
+	for (int fk = K_MIN; fk < K_MAX; fk += K_STEP) {
+		felzScale.push_back(fk);
 	}
 
-	for (int k = K_MIN; k < K_MAX; k += K_STEP) {
-		// segmentation with various parameters
-		vector<DisjointSetForest> segmentations;
-		vector<LabeledGraph<Matx<float,8,1> > > segGraphs;
-		segmentations.reserve(dataSet.size());
+	alphaX.push_back(5);
+	alphaC.push_back(5);
+	alphaS.push_back(5);
+	int nbEigValSteps = 10;
 
-		for (int i = 0; i < (int)dataSet.size(); i++) {
-			DisjointSetForest segmentation;
-			LabeledGraph<Matx<float,8,1> > segGraph;
-
-			segment<float,8,1>(preProcessedDataset[i].first, preProcessedDataset[i].second, segmentation, segGraph, k);
-			segmentations.push_back(segmentation);
-			segGraphs.push_back(segGraph);
-		}
-
-		double alpha[3] = {5,10};
-
-		// enumerating all combinations of the alpha set
-		for (int c = 0; c < 2; c++) {
-			for (int x = 0; x < 2; x++) {
-				for (int s = 0; s < 2; s++) {
-					CompoundGaussianKernel simFunc(alpha[c], alpha[x], alpha[s]);
-					vector<WeightedGraph> graphsToClassify;
-
-					graphsToClassify.reserve(dataSet.size());
-					for (int i = 0; i < dataSet.size(); i++) {
-						graphsToClassify.push_back(weighEdgesByKernel(preProcessedDataset[i].first, preProcessedDataset[i].second, segmentations[i], simFunc, segGraphs[i]));
-					}
-
-					KNearestModel nnModel(1);
-					SpectrumDistanceClassifier classifier(&nnModel, laplacian);
-
-					float rate = classifier.leaveOneOutRecognitionRate(graphsToClassify, classes);
-
-					outStream<<k<<", "<<alpha[c]<<", "<<alpha[x]<<", "<<alpha[s]<<", "<<rate<<endl;
-					cout<<k<<", "<<alpha[c]<<", "<<alpha[x]<<", "<<alpha[s]<<", "<<rate<<endl;
-				}
-			}
-		}
-	}
+	runClassificationFor(
+		outStream,
+		preProcessedDataset,
+		classes,
+		felzScale,
+		alphaC,
+		alphaX,
+		alphaS,
+		nbEigValSteps);
 }
