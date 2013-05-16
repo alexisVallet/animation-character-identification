@@ -11,3 +11,5 @@
 #include "GraphSpectra.h"
 #include "SpectrumDistanceClassifier.h"
 #include "Kernels.h"
+#include "KuwaharaFilter.h"
+#include "ContourDetectionforAnime.h"

@@ -1,5 +1,5 @@
 #include "main.h"
-#include "KuwaharaFilter.h"
+
 
 #define TEST true
 #define DEBUG true
@@ -103,25 +103,31 @@ int main(int argc, char** argv) {
 
 		// loads the dataset
 		cout<<"loading dataset"<<endl;
-		char *folder = "/Users/Yuki_N/Public Repositry Clones/animation-charactor-identification by Alexis/test/dataset/";
+		char *folder = "/Users/Yuki_N/Public Repositry Clones/animation-charactor-identification by Alexis/test/NewDataset/";
 		char *names[] = {"amuro", "asuka", "char", "chirno", "conan", "jigen", "kouji", "lupin", "majin", "miku", "ray", "rufy"};
-		vector<pair<Mat_<Vec<uchar,3> >,Mat_<float> > > dataSet;
+		vector<pair<Mat_<Vec3b>,Mat_<float> > > dataSet;
 		vector<LabeledGraph<Mat> > graphs;
 		
 		loadDataSet(folder, names, 12, 5, dataSet, classes);
 
 		Mat_<Vec3b> dest;
 
-		KuwaharaFilter(dataSet[3].first,dest,5);
-
-		imshow("window", dest);
-		waitKey(0);
-
+        
+        for (int i = 0; i < dataSet.size(); i++) {
+            
+            Mat_<Vec3b> white_back = dataSet[i].first;
+            
+            ContourDetectionforAnime(dataSet[i].first,0.05,0.3,5);
+ 
+            imshow("src", dataSet[i].first);
+            waitKey(0);
+        }
+        
 	} else {
 		Mat classes;
 		// loads the dataset
 		cout<<"loading dataset"<<endl;
-		char *folder = "/Users/Yuki_N/Public Repositry Clones/animation-charactor-identification by Alexis/test/dataset/";
+		char *folder = "/Users/Yuki_N/Public Repositry Clones/animation-charactor-identification by Alexis/test/newDataset/";
 		char *names[] = {"amuro", "asuka", "char", "chirno", "conan", "jigen", "kouji", "lupin", "majin", "miku", "ray", "rufy"};
 		vector<pair<Mat_<Vec<uchar,3> >,Mat_<float> > > dataSet;
 		vector<LabeledGraph<Mat> > graphs;

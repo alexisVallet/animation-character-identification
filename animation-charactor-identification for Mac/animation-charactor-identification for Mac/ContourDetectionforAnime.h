@@ -6,9 +6,10 @@
 //  Copyright (c) 2013年 Yuki & Alexis. All rights reserved.
 //
 
-#ifndef __animation_charactor_identification_for_Mac__ContourDetectionforAnime__
-#define __animation_charactor_identification_for_Mac__ContourDetectionforAnime__
+#include <opencv2/opencv.hpp>
+#include <stack>
 
-#include <iostream>
+using namespace std;
+using namespace cv;
 
-#endif /* defined(__animation_charactor_identification_for_Mac__ContourDetectionforAnime__) */
+void ContourDetectionforAnime(Mat_<Vec3b> &src, float threshold_a, float threshold_b, int maxContourWidth);

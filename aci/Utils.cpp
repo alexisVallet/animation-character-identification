@@ -23,13 +23,13 @@ void loadDataSet(char* folderName, char** charaNames, int nbCharas, int nbImages
             char letter = 'a' + j;
 			char suffix[] = {'_', letter, '.', 'p', 'n', 'g', '\0'};
 			char *fullPath = new char[strlen(folderName) + strlen(charaNames[i]) + strlen(suffix) + 1];
-			char maskSuffix[] = {'-', 'm', 'a', 's', 'k', '.', 'p', 'n', 'g', '\0'};
-			char *maskPath = new char[strlen(folderName) + strlen(charaNames[i]) + strlen(suffix) + strlen(maskSuffix) + 1];
+			char maskSuffix[] = {'_', letter,'-', 'm', 'a', 's', 'k', '.', 'p', 'n', 'g', '\0'};
+			char *maskPath = new char[strlen(folderName) + strlen(charaNames[i]) + strlen(maskSuffix) + 1];
 			
 			strcpy(fullPath, folderName);
 			strcat(fullPath, charaNames[i]);
+            strcpy(maskPath, fullPath);
 			strcat(fullPath, suffix);
-			strcpy(maskPath, fullPath);
 			strcat(maskPath, maskSuffix);
 
 			int rowMajorIndex = toRowMajor(nbImagesPerChara, j, i);
@@ -40,7 +40,7 @@ void loadDataSet(char* folderName, char** charaNames, int nbCharas, int nbImages
 			split(mask, maskChannels);
 
 			images[rowMajorIndex].first = imread(fullPath);
-			images[rowMajorIndex].second = Mat_<float>::ones(mask.rows, mask.cols) - (Mat_<float>(maskChannels[0]) / 255);
+			images[rowMajorIndex].second = (Mat_<float>(maskChannels[0]) / 255);
 			classes.at<int>(rowMajorIndex,0) = i;
 
 			delete[] fullPath;

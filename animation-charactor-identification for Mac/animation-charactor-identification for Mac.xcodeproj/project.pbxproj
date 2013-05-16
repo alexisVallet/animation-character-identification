@@ -41,6 +41,7 @@
 		5D6D6CFF1730FEB8000270DF /* TreeWalkKernel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5D6D6CF11730FEB8000270DF /* TreeWalkKernel.cpp */; };
 		5D6D6D001730FEB8000270DF /* Utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5D6D6CF21730FEB8000270DF /* Utils.cpp */; };
 		5D6D6D011730FEB8000270DF /* WeightedGraph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5D6D6CF31730FEB8000270DF /* WeightedGraph.cpp */; };
+		5D6D6D041738D349000270DF /* ContourDetectionforAnime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5D6D6D021738D349000270DF /* ContourDetectionforAnime.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -107,6 +108,8 @@
 		5D6D6CF11730FEB8000270DF /* TreeWalkKernel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TreeWalkKernel.cpp; path = ../../aci/TreeWalkKernel.cpp; sourceTree = "<group>"; };
 		5D6D6CF21730FEB8000270DF /* Utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Utils.cpp; path = ../../aci/Utils.cpp; sourceTree = "<group>"; };
 		5D6D6CF31730FEB8000270DF /* WeightedGraph.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WeightedGraph.cpp; path = ../../aci/WeightedGraph.cpp; sourceTree = "<group>"; };
+		5D6D6D021738D349000270DF /* ContourDetectionforAnime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ContourDetectionforAnime.cpp; sourceTree = "<group>"; };
+		5D6D6D031738D349000270DF /* ContourDetectionforAnime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContourDetectionforAnime.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,6 +210,8 @@
 				5D6D6CF21730FEB8000270DF /* Utils.cpp */,
 				5D6D6CF31730FEB8000270DF /* WeightedGraph.cpp */,
 				5D6D6CAA1730FDA0000270DF /* animation_charactor_identification_for_Mac.1 */,
+				5D6D6D021738D349000270DF /* ContourDetectionforAnime.cpp */,
+				5D6D6D031738D349000270DF /* ContourDetectionforAnime.h */,
 			);
 			path = "animation-charactor-identification for Mac";
 			sourceTree = "<group>";
@@ -276,6 +281,7 @@
 				5D6D6CFF1730FEB8000270DF /* TreeWalkKernel.cpp in Sources */,
 				5D6D6D001730FEB8000270DF /* Utils.cpp in Sources */,
 				5D6D6D011730FEB8000270DF /* WeightedGraph.cpp in Sources */,
+				5D6D6D041738D349000270DF /* ContourDetectionforAnime.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
