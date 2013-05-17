@@ -67,6 +67,12 @@
     <ClCompile Include="PreProcessing.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="LocallyLinearEmbeddings.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="LocallyLinearEmbeddingsTest.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisjointSet.hpp">
@@ -136,6 +142,12 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="PreProcessing.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="LocallyLinearEmbeddings.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="LocallyLinearEmbeddingsTest.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

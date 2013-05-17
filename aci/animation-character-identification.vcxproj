@@ -93,6 +93,8 @@
     <ClCompile Include="ImageGraphsTest.cpp" />
     <ClCompile Include="Kernels.cpp" />
     <ClCompile Include="KuwaharaFilter.cpp" />
+    <ClCompile Include="LocallyLinearEmbeddings.cpp" />
+    <ClCompile Include="LocallyLinearEmbeddingsTest.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ParameterTuning.cpp" />
     <ClCompile Include="PreProcessing.cpp" />
@@ -118,6 +120,8 @@
     <ClInclude Include="Kernels.h" />
     <ClInclude Include="KuwaharaFilter.h" />
     <ClInclude Include="LabeledGraph.hpp" />
+    <ClInclude Include="LocallyLinearEmbeddings.h" />
+    <ClInclude Include="LocallyLinearEmbeddingsTest.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="ParameterTuning.h" />
     <ClInclude Include="PreProcessing.h" />
