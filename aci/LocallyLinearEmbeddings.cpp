@@ -1,5 +1,31 @@
 #include "LocallyLinearEmbeddings.h"
 
+#define DEBUG_LLE false
+
+/**
+ * Matrix multipication routine optimized specifically for the LLE
+ * algorithm.
+ */
+class LLEMult : public MatrixVectorMult {
+private:
+	const SparseMatrix<double> *W;
+
+public:
+	LLEMult(const SparseMatrix<double> *W)
+		: W(W)
+	{
+
+	}
+
+	void operator() (double *X, double *Y) {
+		Map<VectorXd> VX(X, this->W->rows());
+		Map<VectorXd> VY(Y, this->W->rows());
+		VectorXd XmWX = VX - (*this->W) * VX;
+		
+		VY = XmWX - this->W->transpose() * XmWX;
+	}
+};
+
 void locallyLinearEmbeddings(const Mat_<float> &samples, int outDim, Mat_<float> &embeddings, int k) {
 	assert(outDim < samples.cols);
 	assert(k >= 1);
@@ -16,30 +42,48 @@ void locallyLinearEmbeddings(const Mat_<float> &samples, int outDim, Mat_<float>
 		nearest.colRange(1, nearest.cols).copyTo(nearestNeighbors.row(i));
 	}
 
-	cout<<"nn : "<<nearestNeighbors<<endl;
-
 	// determining weights for each sample
 	vector<Triplet<double> > tripletList;
 	tripletList.reserve(samples.rows * k);
 
 	for (int i = 0; i < samples.rows; i++) {
-		Mat_<double> X = Mat_<double>::zeros(samples.cols, k);
+		Mat_<double> A(k,k);
 
-		for (int j = 0; j < k; j++) {
-			X.col(j) = (samples.row(i) - samples.row(nearestNeighbors(i,j))).t();
+		for (int u = 0; u < k; u++) {
+			for (int v = u; v < k; v++) {
+				A(u,v) = (samples.row(i) - samples.row(nearestNeighbors(i,u))).dot(samples.row(i) - samples.row(nearestNeighbors(i,v)));
+				A(v,u) = A(u,v);
+			}
 		}
 
-		Mat_<double> A = X.t() * X;
-		Mat_<double> Ap;
+		// regularize when the number of neighbors is greater than the input
+		// dimension
+		if (samples.cols < k) {
+			A = A + Mat_<double>::eye(k,k) * 10E-3 * trace(A)[0];
+		}
 
-		Mat_<double> weights;
-	
 		Map<MatrixXd,RowMajor> eigA((double*)A.data, A.rows, A.cols);
 
-		ColPivHouseholderQR<MatrixXd> solver(eigA, MatrixXd::Ones(k));
+		LDLT<MatrixXd> solver(eigA);
+
+		Mat_<double> weights(k,1);
+		Map<MatrixXd,RowMajor> eigWeights((double*)weights.data, weights.rows, weights.cols);
+
+		eigWeights = solver.solve(MatrixXd::Ones(k,1));	
+
+		Mat_<double> normWeights;
+
+		double weightsSum = sum(weights)[0];
+
+		if (weightsSum == 0) {
+			cout<<"error: cannot reconstruct point "<<i<<" from its neighbors"<<endl;
+			exit(EXIT_FAILURE);
+		}
+
+		normWeights = weights / weightsSum;
 
 		for (int j = 0; j < k; j++) {
-			tripletList.push_back(Triplet<double>(i, nearestNeighbors(i,j), weights(j)));
+			tripletList.push_back(Triplet<double>(i, nearestNeighbors(i,j), normWeights(j)));
 		}
 	}
 
@@ -47,5 +91,32 @@ void locallyLinearEmbeddings(const Mat_<float> &samples, int outDim, Mat_<float>
 
 	W.setFromTriplets(tripletList.begin(), tripletList.end());
 
-	cout<<"W: "<<endl<<W<<endl;
+	// constructing vectors in lower dimensional space from the weights
+	VectorXd eigenvalues;
+	MatrixXd eigenvectors;
+
+	LLEMult mult(&W);
+
+	symmetricSparseEigenSolver(samples.rows, "SM", outDim + 1, samples.rows, eigenvalues, eigenvectors, mult);
+	embeddings = Mat_<double>(samples.rows, outDim);
+
+	if (DEBUG_LLE) {
+		cout<<"actual eigenvalues : "<<eigenvalues<<endl;
+		cout<<"actual : "<<endl<<eigenvectors<<endl;
+
+		MatrixXd denseW(W);
+		MatrixXd tmp = MatrixXd::Identity(W.rows(), W.cols()) - denseW;
+		MatrixXd M = tmp.transpose() * tmp;
+		SelfAdjointEigenSolver<MatrixXd> eigenSolver(M);
+		MatrixXd expectedEigenvectors = eigenSolver.eigenvectors();
+
+		cout<<"expected eigenvalues : "<<eigenSolver.eigenvalues()<<endl;
+		cout<<"expected : "<<endl<<expectedEigenvectors<<endl;
+	}
+
+	for (int i = 0; i < samples.rows; i++) {
+		for (int j = 0; j < outDim; j++) {
+			embeddings(i,j) = eigenvectors(i, j + 1);
+		}
+	}
 }

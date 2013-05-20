@@ -84,3 +84,51 @@ void packedStorageNormalizedLaplacian(const WeightedGraph &graph, double *L);
  * @param evectors output n by nev sized matrix of eigenvectors of L.
  */
 void symmetricSparseEigenSolver(const Eigen::SparseMatrix<double> &L, char *which, int nev, int maxIterations, Eigen::VectorXd &evalues, Eigen::MatrixXd &evectors);
+
+/**
+ * Base functor class for user-defined matrix vector multiplication.
+ */
+class MatrixVectorMult {
+public:
+	/**
+	 * Computes A * X = Y, where A is an m by n matrix, X and Y are
+	 * n sized column vectors. It is up to the implementing subclass
+	 * to define the data structure and storage of the matrix A,
+	 * as sparse matrix private class member for instance.
+	 */
+	virtual void operator() (double *X, double *Y) = 0;
+};
+
+/**
+ * Sparse matrix - dense vector multiplication as implemented by Eigen.
+ */
+class EigenMult : public MatrixVectorMult {
+private:
+	const Eigen::SparseMatrix<double> *L;
+
+public:
+	/**
+	 * Initializes the functor with the sparse matrix to
+	 * multiply vectors with.
+	 */
+	EigenMult(const Eigen::SparseMatrix<double> *L);
+	void operator() (double *X, double *Y);
+};
+
+/**
+ * Same as symmetricSparseEigenSolver, taking a user-defined matrix-vector multiplication
+ * routine as parameter.
+ *
+ * @param order order of the matrix.
+ * @param which string indicating which eigenvalues/eigenvectors to compute:
+ * "LA" for the nev largest (algebraic) eigenvalues
+ * "SA" for the nev smallest (algebraic) eigenvalues
+ * "LM" for the nev largest (in magnitude) eigenvalues
+ * "SM" for the nev smalles (in magnitude) eigenvalues
+ * "BE" for nev eigenvalues, half from each end of the spectrum.
+ * @param nev the number of eigenvalues/eigenvectors to compute.
+ * @param evalues output nev-sized vector of eigenvalus of L.
+ * @param evectors output n by nev sized matrix of eigenvectors of L.
+ * @param mult user defined matrix vector multiplication routine.
+ */
+void symmetricSparseEigenSolver(int order, char *which, int nev, int maxIterations, Eigen::VectorXd &evalues, Eigen::MatrixXd &evectors, MatrixVectorMult &mult);

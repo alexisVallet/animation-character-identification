@@ -147,37 +147,32 @@ extern "C" void dseupd_(int *rvec, char *All, int *select, double *d,
 			int *ldv2, int *iparam, int *ipntr, double *workd,
 			double *workl, int *lworkl, int *ierr);
 
+EigenMult::EigenMult(const Eigen::SparseMatrix<double> *L) 
+	: L(L)
+{
+
+}
+
 // sparse matrix by vector multiplication: Y = LX where L is an n by n
 // sparse matrix, Y and X n sized column vectors.
-static void mult(const Eigen::SparseMatrix<double> &L, double *X, double *Y) {
-	Eigen::Map<Eigen::VectorXd> VX(X, L.rows());
-	Eigen::Map<Eigen::VectorXd> VY(Y, L.rows());
+void EigenMult::operator() (double *X, double *Y) {
+	Eigen::Map<Eigen::VectorXd> VX(X, this->L->rows());
+	Eigen::Map<Eigen::VectorXd> VY(Y, this->L->rows());
 
-	VY = L * VX;
+	VY = (*L) * VX;
 }
 
 void symmetricSparseEigenSolver(const Eigen::SparseMatrix<double> &L, char *which, int nev, int maxIterations, Eigen::VectorXd &evalues, Eigen::MatrixXd &evectors) {
-	// checking preconditions in debug mode
-	assert(L.rows() == L.cols());
-	assert(symmetric(L));
+	EigenMult mult(&L);
 
-	//identity matrix
-	typedef Eigen::Triplet<double> T;
-	vector<T> triplets;
-	triplets.reserve(L.rows());
+	symmetricSparseEigenSolver(L.rows(), which, nev, maxIterations, evalues, evectors, mult);
+}
 
-	for (int i = 0; i < L.rows(); i++) {
-		triplets.push_back(T(i,i,1));
-	}
-
-	Eigen::SparseMatrix<double> identity(L.rows(), L.cols());
-
-	identity.setFromTriplets(triplets.begin(), triplets.end());
-
+void symmetricSparseEigenSolver(int order, char *which, int nev, int maxIterations, Eigen::VectorXd &evalues, Eigen::MatrixXd &evectors, MatrixVectorMult &mult) {
 	//parameters to dsaupd_ . See ARPACK's dsaupd man page for more info.
 	int ido = 0;
 	char bmat[2] = "I";
-	int n = L.rows();
+	int n = order;
 	double tol = -1;
 	double *resid = new double[n];
 	int ncv = min(4*nev,n);
@@ -203,17 +198,10 @@ void symmetricSparseEigenSolver(const Eigen::SparseMatrix<double> &L, char *whic
 		// checking reverse communication flag, performing requested operation
 		if (ido == -1) {
 			// Y = OP * X
-			mult(L, &workd[ipntr[0]-1], &workd[ipntr[1]-1]);
+			mult(&workd[ipntr[0]-1], &workd[ipntr[1]-1]);
 		} else if (ido == 1) {
-			// Z = B * X
-			mult(identity, &workd[ipntr[0]-1], &workd[ipntr[2]-1]);
 			// Y = OP * Z
-			mult(L, &workd[ipntr[2]-1], &workd[ipntr[1]-1]);
-		} else if (ido == 2) {
-			//Y = B * X
-			mult(identity, &workd[ipntr[0]-1], &workd[ipntr[1]-1]);
-		} else {
-			cout<<"unhandled ido = "<<ido<<endl;
+			mult(&workd[ipntr[2]-1], &workd[ipntr[1]-1]);
 		}
 	}
 
@@ -234,13 +222,13 @@ void symmetricSparseEigenSolver(const Eigen::SparseMatrix<double> &L, char *whic
 	}
 	// copying values to output arrays
 	evalues = Eigen::VectorXd(nev);
-	evectors = Eigen::MatrixXd(L.rows(), nev);
+	evectors = Eigen::MatrixXd(order, nev);
 
 	for (int i = 0; i < nev; i++) {
 		evalues(i) = d[i];
 
-		for (int j = 0; j < L.rows(); j++) {
-			evectors(j,i) = v[toColumnMajor(L.rows(), j, i)];
+		for (int j = 0; j < order; j++) {
+			evectors(j,i) = v[toColumnMajor(order, j, i)];
 		}
 	}
 
