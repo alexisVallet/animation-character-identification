@@ -73,6 +73,12 @@
     <ClCompile Include="LocallyLinearEmbeddingsTest.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="SpectralClustering.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SpectralClusteringTest.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisjointSet.hpp">
@@ -148,6 +154,12 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="LocallyLinearEmbeddingsTest.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SpectralClustering.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SpectralClusteringTest.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

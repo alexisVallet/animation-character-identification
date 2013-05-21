@@ -47,24 +47,24 @@ void locallyLinearEmbeddings(const Mat_<float> &samples, int outDim, Mat_<float>
 	tripletList.reserve(samples.rows * k);
 
 	for (int i = 0; i < samples.rows; i++) {
-		Mat_<double> A(k,k);
+		Mat_<double> C(k,k);
 
 		for (int u = 0; u < k; u++) {
 			for (int v = u; v < k; v++) {
-				A(u,v) = (samples.row(i) - samples.row(nearestNeighbors(i,u))).dot(samples.row(i) - samples.row(nearestNeighbors(i,v)));
-				A(v,u) = A(u,v);
+				C(u,v) = (samples.row(i) - samples.row(nearestNeighbors(i,u))).dot(samples.row(i) - samples.row(nearestNeighbors(i,v)));
+				C(v,u) = C(u,v);
 			}
 		}
 
 		// regularize when the number of neighbors is greater than the input
 		// dimension
-		if (samples.cols < k) {
-			A = A + Mat_<double>::eye(k,k) * 10E-3 * trace(A)[0];
+		if (k > samples.cols) {
+			C = C + Mat_<double>::eye(k,k) * 10E-3 * trace(C)[0];
 		}
 
-		Map<MatrixXd,RowMajor> eigA((double*)A.data, A.rows, A.cols);
+		Map<MatrixXd,RowMajor> eigC((double*)C.data, C.rows, C.cols);
 
-		LDLT<MatrixXd> solver(eigA);
+		LDLT<MatrixXd> solver(eigC);
 
 		Mat_<double> weights(k,1);
 		Map<MatrixXd,RowMajor> eigWeights((double*)weights.data, weights.rows, weights.cols);
@@ -83,7 +83,7 @@ void locallyLinearEmbeddings(const Mat_<float> &samples, int outDim, Mat_<float>
 		normWeights = weights / weightsSum;
 
 		for (int j = 0; j < k; j++) {
-			tripletList.push_back(Triplet<double>(i, nearestNeighbors(i,j), normWeights(j)));
+			tripletList.push_back(Triplet<double>(nearestNeighbors(i,j), i, normWeights(j)));
 		}
 	}
 

@@ -102,6 +102,8 @@
     <ClCompile Include="SegmentationGraph.cpp" />
     <ClCompile Include="SegmentAttributes.cpp" />
     <ClCompile Include="SegmentAttributesTest.cpp" />
+    <ClCompile Include="SpectralClustering.cpp" />
+    <ClCompile Include="SpectralClusteringTest.cpp" />
     <ClCompile Include="SpectrumDistanceClassifier.cpp" />
     <ClCompile Include="SpectrumDistanceClassifierTest.cpp" />
     <ClCompile Include="TrainableStatModel.cpp" />
@@ -129,6 +131,8 @@
     <ClInclude Include="SegmentationGraph.hpp" />
     <ClInclude Include="SegmentAttributes.h" />
     <ClInclude Include="SegmentAttributesTest.h" />
+    <ClInclude Include="SpectralClustering.h" />
+    <ClInclude Include="SpectralClusteringTest.h" />
     <ClInclude Include="SpectrumDistanceClassifier.h" />
     <ClInclude Include="SpectrumDistanceClassifierTest.h" />
     <ClInclude Include="TrainableStatModel.h" />

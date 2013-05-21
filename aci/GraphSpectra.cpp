@@ -80,56 +80,134 @@ Mat_<double> normalizedLaplacian(const WeightedGraph &graph) {
 	return degrees * unnormalized * degrees;
 }
 
-Eigen::SparseMatrix<double> normalizedSparseLaplacian(const WeightedGraph &graph, Eigen::VectorXd &degrees) {
-	assert(noLoops(graph));
-	assert(bidirectional(graph));
-	// We first compute the degree of each vertex while initializing the diagonal
-	// triplets.
+Eigen::SparseMatrix<double> normalizedSparseLaplacian(const WeightedGraph &graph, bool bidirectional, Eigen::VectorXd &degrees) {
+	// first we compute the degrees
 	degrees = Eigen::VectorXd::Zero(graph.numberOfVertices());
-	typedef Eigen::Triplet<double> T;
-	vector<T> triplets;
-	// the diagonal is non zero + one non zero element per edge, divided by 2 because of bidirectional rep
-	triplets.reserve(graph.numberOfVertices() + graph.getEdges().size()/2);
+
+	if (!bidirectional) {
+		for (int i = 0; i < graph.getEdges().size(); i++) {
+			Edge edge = graph.getEdges()[i];
+
+			degrees(edge.source) += edge.weight;
+
+			if (edge.destination != edge.source) {
+				degrees(edge.destination) += edge.weight;
+			}
+		}
+	} else {
+		for (int i = 0; i < graph.getEdges().size(); i++) {
+			Edge edge = graph.getEdges()[i];
+
+			if (edge.source != edge.destination) {
+				degrees(edge.source) += edge.weight;
+			} else {
+				degrees(edge.source) += edge.weight / 2;
+			}
+		}
+	}
+
+	cout<<degrees<<endl;
+
+	// then we ccompute triplets for the off diagonal elements while computing the
+	// diagonal elements
+	vector<Eigen::Triplet<double> > tripletList;
+	tripletList.reserve(graph.numberOfVertices() + 2 * graph.getEdges().size());
+	Eigen::VectorXd diagonal = Eigen::VectorXd::Ones(graph.numberOfVertices());
+
+	if (!bidirectional) {
+		for (int i = 0; i < graph.getEdges().size(); i++) {
+			Edge edge = graph.getEdges()[i];
+			if (degrees(edge.source) >= 10E-8 && degrees(edge.destination) >= 10E-8) {
+				float coeff = -edge.weight/sqrt(degrees(edge.source) * degrees(edge.destination));
+
+				if (edge.source == edge.destination) {
+					diagonal(edge.source) += coeff;
+				} else {
+					tripletList.push_back(Eigen::Triplet<double>(edge.source, edge.destination, coeff));
+					tripletList.push_back(Eigen::Triplet<double>(edge.destination, edge.source, coeff));
+				}
+			}
+		}
+	} else {
+		for (int i = 0; i < graph.getEdges().size(); i++) {
+			Edge edge = graph.getEdges()[i];
+			if (degrees(edge.source) >= 10E-8 && degrees(edge.destination) >= 10E-8) {
+				float coeff = -edge.weight/sqrt(degrees(edge.source) * degrees(edge.destination));
+
+				if (edge.source == edge.destination) {
+					diagonal(edge.source) += coeff / 2;
+				} else {
+					tripletList.push_back(Eigen::Triplet<double>(edge.source, edge.destination, coeff));
+				}
+			}
+		}
+	}
+
+	// adding diagonal triplets
+	for (int i = 0; i < graph.numberOfVertices(); i++) {
+		tripletList.push_back(Eigen::Triplet<double>(i,i,diagonal(i)));
+	}
+
+	Eigen::SparseMatrix<double> lapl(graph.numberOfVertices(), graph.numberOfVertices());
+
+	lapl.setFromTriplets(tripletList.begin(), tripletList.end());
+
+	return lapl;
+}
+
+Eigen::SparseMatrix<double> randomWalkSparseLaplacian(const WeightedGraph &graph, bool bidirectional, Eigen::VectorXd &degrees) {
+	// first we compute the degrees
+	degrees = Eigen::VectorXd(graph.numberOfVertices());
+
+	if (!bidirectional) {
+		for (int i = 0; i < graph.getEdges().size(); i++) {
+			Edge edge = graph.getEdges()[i];
+
+			degrees(edge.source) += edge.weight;
+			degrees(edge.destination) += edge.weight;
+		}
+	} else {
+		for (int i = 0; i < graph.getEdges().size(); i++) {
+			Edge edge = graph.getEdges()[i];
+
+			degrees(edge.source) += edge.weight;
+		}
+	}
+
+	// we add the diagonal elements
+	vector<Eigen::Triplet<double> > tripletList;
+	tripletList.reserve(graph.numberOfVertices() + 2 * graph.getEdges().size());
 
 	for (int i = 0; i < graph.numberOfVertices(); i++) {
-		double selfLoopWeight = 0;
-
-		for (int j = 0; j < (int)graph.getAdjacencyList(i).size(); j++) {
-			HalfEdge edge = graph.getAdjacencyList(i)[j];
-
-			degrees(i) += edge.weight;
-
-			if (i == edge.destination) {
-				selfLoopWeight += edge.weight;
-			}
-		}
-
-		triplets.push_back(T(i,i,1 - (degrees(i) != 0 ? selfLoopWeight / degrees(i) : 0)));
+		tripletList.push_back(Eigen::Triplet<double>(i,i,1));
 	}
 
-	// Then we compute the coefficient for each edge
-	for (int i = 0; i < (int)graph.getEdges().size(); i++) {
-		Edge edge = graph.getEdges()[i];
-		double denominator = sqrt(degrees(edge.source) * degrees(edge.destination));
-
-		// only adds a triplet if the weights and degrees are non zero
-		// to avoid NaN due to 0/0. This may happen in weighted graphs with
-		// edges weighted to 0 or very close to 0.
-		if (edge.weight > 0 && denominator > 0) {
-			// only add coeff if it is absolutely greater than an arbitrary epsilon
-			double coeff = -edge.weight / denominator;
-
-			if (abs(coeff) > 10E-8) {
-				triplets.push_back(T(edge.source, edge.destination, coeff));
+	// then we add the off-diagonal elements
+	if (!bidirectional) {
+		for (int i = 0; i < graph.getEdges().size(); i++) {
+			Edge edge = graph.getEdges()[i];
+			
+			if (degrees(edge.source) >= 10E-8) {
+				tripletList.push_back(Eigen::Triplet<double>(edge.source, edge.destination, -edge.weight/degrees(edge.source)));
+			}
+			if (degrees(edge.destination) >= 10E-8) {
+				tripletList.push_back(Eigen::Triplet<double>(edge.destination, edge.source, -edge.weight/degrees(edge.destination)));
+			}
+		}
+	} else {
+		for (int i = 0; i < graph.getEdges().size(); i++) {
+			Edge edge = graph.getEdges()[i];
+			
+			if (degrees(edge.source) >= 10E-8) {
+				tripletList.push_back(Eigen::Triplet<double>(edge.source, edge.destination, -edge.weight/degrees(edge.source)));
 			}
 		}
 	}
 
-	Eigen::SparseMatrix<double> normalized(graph.numberOfVertices(), graph.numberOfVertices());
+	Eigen::SparseMatrix<double> lapl(graph.numberOfVertices(), graph.numberOfVertices());
+	lapl.setFromTriplets(tripletList.begin(), tripletList.end());
 
-	normalized.setFromTriplets(triplets.begin(), triplets.end());
-
-	return normalized;
+	return lapl;
 }
 
 // ARPACK routine for lanczos algorithm
@@ -141,6 +219,21 @@ extern "C" void dsaupd_(int *ido, char *bmat, int *n, char *which,
 
 // ARPACK routine for sparse eigenvectors computation from dsaupd_'s results
 extern "C" void dseupd_(int *rvec, char *All, int *select, double *d,
+			double *v1, int *ldv1, double *sigma, 
+			char *bmat, int *n, char *which, int *nev,
+			double *tol, double *resid, int *ncv, double *v2,
+			int *ldv2, int *iparam, int *ipntr, double *workd,
+			double *workl, int *lworkl, int *ierr);
+
+// ARPACK routine for non symmetric eigensolver
+extern "C" void dnaupd_(int *ido, char *bmat, int *n, char *which,
+			int *nev, double *tol, double *resid, int *ncv,
+			double *v, int *ldv, int *iparam, int *ipntr,
+			double *workd, double *workl, int *lworkl,
+			int *info);
+
+// ARPACK routine for sparse eigenvectors computation from dnaupd_'s results
+extern "C" void dneupd_(int *rvec, char *All, int *select, double *d,
 			double *v1, int *ldv1, double *sigma, 
 			char *bmat, int *n, char *which, int *nev,
 			double *tol, double *resid, int *ncv, double *v2,
@@ -168,8 +261,15 @@ void symmetricSparseEigenSolver(const Eigen::SparseMatrix<double> &L, char *whic
 	symmetricSparseEigenSolver(L.rows(), which, nev, maxIterations, evalues, evectors, mult);
 }
 
-void symmetricSparseEigenSolver(int order, char *which, int nev, int maxIterations, Eigen::VectorXd &evalues, Eigen::MatrixXd &evectors, MatrixVectorMult &mult) {
-	//parameters to dsaupd_ . See ARPACK's dsaupd man page for more info.
+void nonSymmetricSparseEigenSolver(const Eigen::SparseMatrix<double> &L, char *which, int nev, int maxIterations, Eigen::VectorXd &evalues, Eigen::MatrixXd &evectors) {
+	EigenMult mult(&L);
+
+	nonSymmetricSparseEigenSolver(L.rows(), which, nev, maxIterations, evalues, evectors, mult);
+}
+
+
+static inline void generalSparseEigenSolver(bool symmetric, int order, char *which, int nev, int maxIterations, Eigen::VectorXd &evalues, Eigen::MatrixXd &evectors, MatrixVectorMult &mult) {
+	//parameters to dnaupd_ / dsaupd_ . See ARPACK's dsaupd (or dnaupd) man page for more info.
 	int ido = 0;
 	char bmat[2] = "I";
 	int n = order;
@@ -185,9 +285,13 @@ void symmetricSparseEigenSolver(int order, char *which, int nev, int maxIteratio
 	double *workl = new double[lworkl];
 	int info = 0;
 
-	// iteratively runnind dsaupd_
+	// iteratively runnind dsaupd_ / dnaupd_
 	while (ido != 99) {
-		dsaupd_(&ido, bmat, &n, which, &nev, &tol, resid, &ncv, v, &ldv, iparam, ipntr, workd, workl, &lworkl, &info);
+		if (symmetric) {
+			dsaupd_(&ido, bmat, &n, which, &nev, &tol, resid, &ncv, v, &ldv, iparam, ipntr, workd, workl, &lworkl, &info);
+		} else {
+			dnaupd_(&ido, bmat, &n, which, &nev, &tol, resid, &ncv, v, &ldv, iparam, ipntr, workd, workl, &lworkl, &info);
+		}
 
 		// checking for errors
 		if (info != 0 && info != 1) {
@@ -205,7 +309,7 @@ void symmetricSparseEigenSolver(int order, char *which, int nev, int maxIteratio
 		}
 	}
 
-	// running dseupd to figure out eigenvalues and eigenvectors
+	// running dseupd_ / dneupd_ to figure out eigenvalues and eigenvectors
 	// from the results of dsaup
 	int rvec = 1;
 	char howmny[4] = "All";
@@ -214,7 +318,11 @@ void symmetricSparseEigenSolver(int order, char *which, int nev, int maxIteratio
 	double *d = new double[2 * ncv];
 	int ierr;
 
-	dseupd_(&rvec, howmny, select, d, v, &ldv, &sigma, bmat, &n, which, &nev, &tol, resid, &ncv, v, &ldv, iparam, ipntr, workd, workl, &lworkl, &ierr);
+	if (symmetric) {
+		dseupd_(&rvec, howmny, select, d, v, &ldv, &sigma, bmat, &n, which, &nev, &tol, resid, &ncv, v, &ldv, iparam, ipntr, workd, workl, &lworkl, &ierr);
+	} else {
+		dneupd_(&rvec, howmny, select, d, v, &ldv, &sigma, bmat, &n, which, &nev, &tol, resid, &ncv, v, &ldv, iparam, ipntr, workd, workl, &lworkl, &ierr);
+	}
 
 	if (ierr != 0) {
 		cout<<"dseupd error "<<ierr<<endl;
@@ -238,4 +346,12 @@ void symmetricSparseEigenSolver(int order, char *which, int nev, int maxIteratio
 	delete[] workl;
 	delete[] select;
 	delete[] d;
+}
+
+void symmetricSparseEigenSolver(int order, char *which, int nev, int maxIterations, Eigen::VectorXd &evalues, Eigen::MatrixXd &evectors, MatrixVectorMult &mult) {
+	generalSparseEigenSolver(true, order, which, nev, maxIterations, evalues, evectors, mult);
+}
+
+void nonSymmetricSparseEigenSolver(int order, char *which, int nev, int maxIterations, Eigen::VectorXd &evalues, Eigen::MatrixXd &evectors, MatrixVectorMult &mult) {
+	generalSparseEigenSolver(false, order, which, nev, maxIterations, evalues, evectors, mult);
 }

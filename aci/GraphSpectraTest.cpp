@@ -124,7 +124,9 @@ void randomBidirectional(WeightedGraph& graph, WeightedGraph& bidir, int nbEdges
 }
 
 void testSparseEigenSolver(WeightedGraph &graph) {
-	SparseMatrix<double> L = normalizedSparseLaplacian(graph);
+	VectorXd degrees;
+
+	SparseMatrix<double> L = normalizedSparseLaplacian(graph, true, degrees);
 	MatrixXd dense(L);
 
 	VectorXd actualEval;

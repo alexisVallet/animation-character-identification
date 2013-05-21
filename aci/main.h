@@ -7,3 +7,4 @@
 #include <boost\graph\boyer_myrvold_planar_test.hpp>
 
 #include "LocallyLinearEmbeddingsTest.h"
+#include "SpectralClusteringTest.h"

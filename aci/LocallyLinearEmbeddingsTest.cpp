@@ -41,7 +41,7 @@ void testLocallyLinearEmbeddings() {
 		}
 	}
 
-	locallyLinearEmbeddings(testSamples, 2, embeddings, 6);
+	locallyLinearEmbeddings(testSamples, 2, embeddings, 8);
 
 	ofstream coordsCsv, samplesCsv, embeddingsCsv;
 

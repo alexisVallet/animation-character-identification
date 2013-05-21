@@ -13,6 +13,7 @@ using namespace std;
 using namespace cv;
 
 typedef Mat_<double> (*MatrixRepresentation)(const WeightedGraph&);
+typedef Eigen::SparseMatrix<double> (*SparseRepresentation)(const WeightedGraph &);
 
 /**
  * Computes the unnormalized laplacian matrix L of a weighted graph, defined
@@ -53,10 +54,16 @@ Eigen::SparseMatrix<double> sparseLaplacian(const WeightedGraph &graph, bool bid
 Mat_<double> normalizedLaplacian(const WeightedGraph &graph);
 
 /**
- * Same as normalizedLaplacian, but returns a sparse matrix data structure. Assumes
- * a bidirectional graph representation without loops.
+ * Same as normalizedLaplacian, but returns a sparse matrix data structure.
  */
-Eigen::SparseMatrix<double> normalizedSparseLaplacian(const WeightedGraph &graph, Eigen::VectorXd &degrees = Eigen::VectorXd(1));
+Eigen::SparseMatrix<double> normalizedSparseLaplacian(const WeightedGraph &graph, bool bidirectional, Eigen::VectorXd &degrees);
+
+/**
+ * Compute the normalized sparse laplacian as defined by (Shi and Malik 2000).
+ * This matrix representation is NOT symmetric. Assumes the input graph is simple
+ * eg. no loops or more than 1 edge between 2 given vertices.
+ */
+Eigen::SparseMatrix<double> randomWalkSparseLaplacian(const WeightedGraph &graph, bool bidirectional, Eigen::VectorXd &degrees);
 
 /**
  * Computes the normalized laplacian of the graph in a upper triangular symmetric packed 
@@ -84,6 +91,23 @@ void packedStorageNormalizedLaplacian(const WeightedGraph &graph, double *L);
  * @param evectors output n by nev sized matrix of eigenvectors of L.
  */
 void symmetricSparseEigenSolver(const Eigen::SparseMatrix<double> &L, char *which, int nev, int maxIterations, Eigen::VectorXd &evalues, Eigen::MatrixXd &evectors);
+
+/**
+ * Solves a sparse, non-symmetric eigen system, computing a specific number of largest or smallest
+ * eigenvalues and eigenvectors. Internally uses ARPACK's routines.
+ *
+ * @param L n by n square symmetric matrix to compute eigenvalues/eigenvectors from.
+ * @param which string indicating which eigenvalues/eigenvectors to compute:
+ * "LA" for the nev largest (algebraic) eigenvalues
+ * "SA" for the nev smallest (algebraic) eigenvalues
+ * "LM" for the nev largest (in magnitude) eigenvalues
+ * "SM" for the nev smalles (in magnitude) eigenvalues
+ * "BE" for nev eigenvalues, half from each end of the spectrum.
+ * @param nev the number of eigenvalues/eigenvectors to compute.
+ * @param evalues output nev-sized vector of eigenvalus of L.
+ * @param evectors output n by nev sized matrix of eigenvectors of L.
+ */
+void nonSymmetricSparseEigenSolver(const Eigen::SparseMatrix<double> &L, char *which, int nev, int maxIterations, Eigen::VectorXd &evalues, Eigen::MatrixXd &evectors);
 
 /**
  * Base functor class for user-defined matrix vector multiplication.
@@ -132,3 +156,21 @@ public:
  * @param mult user defined matrix vector multiplication routine.
  */
 void symmetricSparseEigenSolver(int order, char *which, int nev, int maxIterations, Eigen::VectorXd &evalues, Eigen::MatrixXd &evectors, MatrixVectorMult &mult);
+
+/**
+ * Same as nonSymmetricSparseEigenSolver, taking a user-defined matrix-vector multiplication
+ * routine as parameter.
+ *
+ * @param order order of the matrix.
+ * @param which string indicating which eigenvalues/eigenvectors to compute:
+ * "LA" for the nev largest (algebraic) eigenvalues
+ * "SA" for the nev smallest (algebraic) eigenvalues
+ * "LM" for the nev largest (in magnitude) eigenvalues
+ * "SM" for the nev smalles (in magnitude) eigenvalues
+ * "BE" for nev eigenvalues, half from each end of the spectrum.
+ * @param nev the number of eigenvalues/eigenvectors to compute.
+ * @param evalues output nev-sized vector of eigenvalus of L.
+ * @param evectors output n by nev sized matrix of eigenvectors of L.
+ * @param mult user defined matrix vector multiplication routine.
+ */
+void nonSymmetricSparseEigenSolver(int order, char *which, int nev, int maxIterations, Eigen::VectorXd &evalues, Eigen::MatrixXd &evectors, MatrixVectorMult &mult);
