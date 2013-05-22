@@ -1,25 +1,31 @@
 #include "SpectralClusteringTest.h"
 
-static SparseMatrix<double> _sparseLaplacian(const WeightedGraph &graph) {
+#define SIGMA ((double)1)
+
+static SparseMatrix<double> _sparseLaplacian(const WeightedGraph &graph, bool bidirectional) {
 	VectorXd degrees;
 
-	return randomWalkSparseLaplacian(graph, false, degrees);
+	return sparseLaplacian(graph, false, degrees);
+}
+
+static double simFunc(const VectorXd &s1, const VectorXd &s2) {
+	return exp(-(s1 - s2).squaredNorm() / pow(SIGMA, 2));
 }
 
 void testSpectralClustering() {
-	WeightedGraph testGraph(6, 3);
+	MatrixXd samples(6,2);
 
-	testGraph.addEdge(0,2,10);
-	testGraph.addEdge(2,4,10);
-	testGraph.addEdge(4,0,10);
-	testGraph.addEdge(2,1,1);
-	testGraph.addEdge(1,3,10);
-	testGraph.addEdge(3,5,10);
-	testGraph.addEdge(5,1,10);
+	samples.row(0) = Vector2d(0,0);
+	samples.row(2) = Vector2d(1,1);
+	samples.row(4) = Vector2d(0,2);
+	samples.row(1) = Vector2d(5,1);
+	samples.row(3) = Vector2d(6,2);
+	samples.row(5) = Vector2d(6,0);
 
 	VectorXi classLabels;
+	KNearestGraph graphRep(2);
 
-	spectralClustering(testGraph, _sparseLaplacian, 2, classLabels, false, false);
+	spectralClustering(samples, simFunc, graphRep, _sparseLaplacian, 2, classLabels, false, true);
 
 	cout<<classLabels<<endl;
 }

@@ -13,7 +13,7 @@ using namespace std;
 using namespace cv;
 
 typedef Mat_<double> (*MatrixRepresentation)(const WeightedGraph&);
-typedef Eigen::SparseMatrix<double> (*SparseRepresentation)(const WeightedGraph &);
+typedef Eigen::SparseMatrix<double> (*SparseRepresentation)(const WeightedGraph &, bool bidirectional);
 
 /**
  * Computes the unnormalized laplacian matrix L of a weighted graph, defined
