@@ -12,6 +12,8 @@
 #include "DisjointSet.hpp"
 #include "Kernels.h"
 
+#define TWK_DEBUG false
+
 using namespace std;
 using namespace cv;
 using namespace boost;
@@ -24,18 +26,49 @@ static int previous(int iteration) {
   return !current(iteration);
 }
 
-static void computeNeighbors(WeightedGraph &graph, graph_t &bGraph, embedding_t &embedding, vector<vector<int> > &circNeighbors) {
-	for (int v1 = 0; v1 < graph.numberOfVertices(); v1++) {
-		property_traits<embedding_t>::value_type::const_iterator it;
-		for (it = embedding[v1].begin(); it != embedding[v1].end(); it++) {
-			// The neighbor is the vertex of the edge which is not v1.
-			int neighbor = 
-				get(vertex_index, bGraph, target(*it, bGraph)) ==  v1 ? 
-				get(vertex_index, bGraph, source(*it, bGraph)) : 
-				get(vertex_index, bGraph, target(*it, bGraph));
+/**
+ * Function class to compare neighbors of a vertex in circular order.
+ */
+class CircularCompare {
+private:
+	int src;
+	const vector<Vec2f> *centers;
 
-			circNeighbors[v1].push_back(neighbor);
+public:
+	/**
+	 * Initialize the comparison function with a given source vertex
+	 */
+	CircularCompare(int src, const vector<Vec2f> *centers)
+		: src(src), centers(centers)
+	{
+
+	}
+
+	bool operator() (const int &dst1, const int &dst2) {
+		Vec2f 
+			v1 = (*centers)[dst1] - (*centers)[src], 
+			v2 = (*centers)[dst2] - (*centers)[src];
+		double angle1 = atan2(v1[0], v1[1]);
+		double angle2 = atan2(v2[0], v2[1]);
+
+		return angle1 < angle2;
+	}
+};
+
+static void computeNeighbors(const WeightedGraph &graph, DisjointSetForest &segmentation, const vector<Vec2f> &embedding, vector<vector<int> > &circNeighbors) {
+	circNeighbors = vector<vector<int> >(graph.numberOfVertices());
+
+	for (int i = 0; i < graph.numberOfVertices(); i++) {
+		circNeighbors[i] = vector<int>();
+		circNeighbors[i].reserve(graph.getAdjacencyList(i).size());
+
+		for (int j = 0; j < graph.getAdjacencyList(i).size(); j++) {
+			circNeighbors[i].push_back(graph.getAdjacencyList(i)[j].destination);
 		}
+
+		CircularCompare comp(i, &embedding);
+
+		sort(circNeighbors[i].begin(), circNeighbors[i].end(), comp);
 	}
 }
 
@@ -43,46 +76,39 @@ static void computeNeighbors(WeightedGraph &graph, graph_t &bGraph, embedding_t 
  * Computes the tree walk kernel between two labelled graphs given
  * a basis kernel function. It is assumed that each graph is undirected,
  * with each edge duplicated in both the source and destination's
- * adjacency list. Both graphs must be planar.
+ * adjacency list.
+ *
+ * Unlike Bach and Harchaoui's initial formulation, this does not assume
+ * the graphs are planar. Indeed, segmentation methods considering pixels
+ * in 8-connexity neighborhood, of in feature-space neighborhood may not
+ * result in a planar segmentation graph at all. If it is planar, the embedding
+ * can be computed in O(n) using the Boyer-Myrvold algorithm for instance, but
+ * such an embedding may not correspond to the spatial layout of the segments in
+ * the image.
+ *
+ * This implementation therefore uses a user defined embedding for each graph,
+ * and computes the circular ordering from this embedding.
  *
  * @param basisKernel basis kernel function, taking 2 labels as parameters,
  * with the associated area for each segment.
  * @param segmentation1 segmentation corresponding to graph1
- * @param graph1 the first graph
+ * @param graph1 first segmentation graph
+ * @param embedding1 plane (not necessarily planar) embedding for vertices in graph1
  * @param segmentation2 segmentation corresponding to graph2
- * @param graph2 the second graph
- * @return the tree walk kernel value between graph1 and graph2.
+ * @param graph2 second segmentation graph
+ * @param embedding2 plane (not necessarily planar) embedding for vertices in graph2
  */
 template < typename T >
 double treeWalkKernel(
 	double (*basisKernel)(int area1, const T &l1, int area2, const T &l2), 
 	int depth, 
-	int arity, 
+	int arity,
 	DisjointSetForest &segmentation1, 
-	LabeledGraph<T> &graph1,
+	const LabeledGraph<T> &graph1,
+	const vector<Vec2f> &embedding1,
 	DisjointSetForest &segmentation2,
-	LabeledGraph<T> &graph2) {
-	// data structures for boost's boyer myrvold planarity test implementation
-	graph_t 
-		bGraph1 = graph1.toBoostGraph(),
-		bGraph2 = graph2.toBoostGraph();
-	embedding_storage_t 
-		embedding_storage1(num_vertices(bGraph1)),
-		embedding_storage2(num_vertices(bGraph2));
-	embedding_t
-		embedding1(embedding_storage1.begin(), get(vertex_index,bGraph1)),
-		embedding2(embedding_storage2.begin(), get(vertex_index,bGraph2));
-
-	// computes planar embeddings for both graphs to get a circular
-	// ordering of edges out of each vertex.
-	bool isPlanar1 = boyer_myrvold_planarity_test(
-		boyer_myrvold_params::graph = bGraph1,
-		boyer_myrvold_params::embedding = embedding1);
-	bool isPlanar2 = boyer_myrvold_planarity_test(
-		boyer_myrvold_params::graph = bGraph2,
-		boyer_myrvold_params::embedding = embedding2);
-	assert(isPlanar1 && isPlanar2);
-
+	const LabeledGraph<T> &graph2,
+	const vector<Vec2f> &embedding2) {
 	// basisKernels contains the basis kernel for each pair of vertices in
 	// the two graphs, computed once and for all.
 	Mat_<double> basisKernels = Mat_<double>::zeros(graph1.numberOfVertices(), graph2.numberOfVertices());
@@ -97,18 +123,30 @@ double treeWalkKernel(
 	// neighbors for each vertex in each graph in the circular order given
 	// by the embeddings.
 	vector<vector<int> > 
-		circNeighbors1(graph1.numberOfVertices()), 
-		circNeighbors2(graph2.numberOfVertices());
+		circNeighbors1, 
+		circNeighbors2;
 
 	//initializes neighbors in circular order
-	computeNeighbors(graph1, bGraph1, embedding1, circNeighbors1);
-	computeNeighbors(graph2, bGraph2, embedding2, circNeighbors2);
+	computeNeighbors(graph1, segmentation1, embedding1, circNeighbors1);
+	computeNeighbors(graph2, segmentation2, embedding2, circNeighbors2);
+
+	if (TWK_DEBUG) {
+		cout<<"neighbors of graph 1:"<<endl;
+		for (int i = 0; i < graph1.numberOfVertices(); i++) {
+			cout<<i<<" : ";
+
+			for (int j = 0; j < circNeighbors1[i].size(); j++) {
+				cout<<circNeighbors1[i][j]<<", ";
+			}
+			cout<<endl;
+		}
+	}
 
 	// initializes basis kernels
 	for (int v1 = 0; v1 < graph1.numberOfVertices(); v1++) {
 		for (int v2 = 0; v2 < graph2.numberOfVertices(); v2++) {
 			basisKernels(v1,v2) = basisKernel(
-				segmentation1.getComponentSize(v1), 
+				segmentation1.getComponentSize(v1),
 				graph1.getLabel(v1),
 				segmentation2.getComponentSize(v2),
 				graph2.getLabel(v2));
@@ -152,10 +190,6 @@ double treeWalkKernel(
 				}
 
 				double res = basisKernels(v1,v2) * sum;
-
-				// as the basis kernels can be very small non zero values,
-				// the previous operation tends to create underflows. Hence
-				// the check.
 
 				depthKernels[current(d)](v1,v2) = res;
 			}

@@ -78,29 +78,9 @@ void averageColorLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, Disjo
 }
 
 void gravityCenterLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, const WeightedGraph &segGraph, LabeledGraph<Matx<float, 2, 1> > &labeledGraph) {
-	assert(image.rows == mask.rows && image.cols == mask.cols);
 	assert(segmentation.getNumberOfComponents() == segGraph.numberOfVertices());
-	
-	vector<Vec2f> gravityCenters;
-	gravityCenters.reserve(segmentation.getNumberOfComponents());
-
-	for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
-		gravityCenters.push_back(Vec2f(0,0));
-	}
-	map<int,int> rootIndexes = segmentation.getRootIndexes();
-
-	for (int i = 0; i < image.rows; i++) {
-		for (int j = 0; j < image.cols; j++) {
-			if (mask(i,j) > 0) {
-				int root = segmentation.find(toRowMajor(image.cols, j, i));
-				int segmentIndex = rootIndexes[root];
-				Vec2f position = Vec2f((float)i,(float)j);
-
-				gravityCenters[segmentIndex] += position / (float)segmentation.getComponentSize(root);
-			}
-		}
-	}
-
+	vector<Vec2f> centers;
+	gravityCenters(image, mask, segmentation, centers);
 	labeledGraph = LabeledGraph<Matx<float,2,1> >(segGraph.numberOfVertices());
 
 	labeledGraph.copyEdges(segGraph);
@@ -108,8 +88,8 @@ void gravityCenterLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, Disj
 	for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
 		Matx<float, 2, 1> gravityCenter(2,1);
 
-		gravityCenter(0,0) = gravityCenters[i](0) / image.rows;
-		gravityCenter(1,0) = gravityCenters[i](1) / image.cols;
+		gravityCenter(0,0) = centers[i](0) / image.rows;
+		gravityCenter(1,0) = centers[i](1) / image.cols;
 
 		labeledGraph.addLabel(i, gravityCenter);
 	}

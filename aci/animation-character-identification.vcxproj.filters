@@ -79,6 +79,9 @@
     <ClCompile Include="SpectralClusteringTest.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="TreeWalkKernelTest.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisjointSet.hpp">
@@ -160,6 +163,12 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="SpectralClusteringTest.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="TreeWalkKernelTest.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="TWKSpectralClustering.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

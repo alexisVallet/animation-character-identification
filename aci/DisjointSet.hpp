@@ -94,3 +94,13 @@ public:
    */
   void fuseSmallComponents(WeightedGraph &segmentedGraph, int minSize, const Mat_<float> &mask);
 };
+
+/**
+ * Computes the gravity center for each segment of an image.
+ *
+ * @param image image to compute the gravity centers from.
+ * @param mask mask for the image.
+ * @param segmentation a segmentation of the image.
+ * @param centers output vector containing the gravity center for each segment.
+ */
+void gravityCenters(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, vector<Vec2f> &centers);

@@ -1,6 +1,6 @@
 #include "SpectralClustering.h"
 
-void spectralClustering(const MatrixXd &samples, double (*simFunc)(const VectorXd&, const VectorXd&), SimilarityGraphRepresentation &graphRep, SparseRepresentation matRep, int k, VectorXi &classLabels, bool normalize, bool symmetric) {
+void spectralClustering(const MatrixXd &samples, SimilarityFunction &simFunc, SimilarityGraphRepresentation &graphRep, SparseRepresentation matRep, int k, VectorXi &classLabels, bool normalize, bool symmetric) {
 	WeightedGraph graph;
 
 	graphRep(samples, simFunc, graph);
@@ -61,7 +61,7 @@ NeighborhoodGraph::NeighborhoodGraph(double radius)
 
 }
 
-void NeighborhoodGraph::operator() (const MatrixXd &samples, double (*simFunc)(const VectorXd&, const VectorXd&), WeightedGraph &graph) const {
+void NeighborhoodGraph::operator() (const MatrixXd &samples, SimilarityFunction &simFunc, WeightedGraph &graph) const {
 	graph = WeightedGraph(samples.rows());
 
 	for (int i = 0; i < samples.rows(); i++) {
@@ -79,27 +79,25 @@ KNearestGraph::KNearestGraph(int k)
 
 }
 
-typedef double (*SimFunc)(const VectorXd&, const VectorXd&);
-
 class IsMoreSimilar {
 private:
 	const MatrixXd *samples;
 	int reference;
-	SimFunc simFunc;
+	SimilarityFunction *simFunc;
 
 public:
-	IsMoreSimilar(const MatrixXd *samples, int reference, SimFunc simFunc)
-		: samples(samples), reference(reference), simFunc(simFunc)
+	IsMoreSimilar(const MatrixXd *samples, int reference, SimilarityFunction &simFunc)
+		: samples(samples), reference(reference), simFunc(&simFunc)
 	{
 
 	}
 
 	bool operator() (int s1, int s2) {
-		return simFunc(samples->row(s1), samples->row(reference)) > simFunc(samples->row(s2), samples->row(reference));
+		return (*simFunc)(samples->row(s1), samples->row(reference)) > (*simFunc)(samples->row(s2), samples->row(reference));
 	}
 };
 
-void KNearestGraph::operator() (const MatrixXd &samples, double (*simFunc)(const VectorXd&, const VectorXd&), WeightedGraph &graph) const {
+void KNearestGraph::operator() (const MatrixXd &samples, SimilarityFunction &simFunc, WeightedGraph &graph) const {
 	assert(samples.rows() > k);
 	MatrixXd adjMat = MatrixXd::Zero(samples.rows(), samples.rows());
 	graph = WeightedGraph(samples.rows());
@@ -141,7 +139,7 @@ MutualKNearestGraph::MutualKNearestGraph(int k)
 
 }
 
-void MutualKNearestGraph::operator() (const MatrixXd &samples, double (*simFunc)(const VectorXd&, const VectorXd&), WeightedGraph &graph) const {
+void MutualKNearestGraph::operator() (const MatrixXd &samples, SimilarityFunction &simFunc, WeightedGraph &graph) const {
 	assert(samples.rows() > k);
 	MatrixXd adjMat = MatrixXd::Zero(samples.rows(), samples.rows());
 	graph = WeightedGraph(samples.rows());
@@ -180,7 +178,7 @@ CompleteGraph::CompleteGraph() {
 
 }
 
-void CompleteGraph::operator() (const MatrixXd &samples, double (*simFunc)(const VectorXd&, const VectorXd&), WeightedGraph &graph) const {
+void CompleteGraph::operator() (const MatrixXd &samples, SimilarityFunction &simFunc, WeightedGraph &graph) const {
 	graph = WeightedGraph(samples.rows(), samples.rows() - 1);
 
 	for (int i = 0; i < samples.rows(); i++) {

@@ -8,3 +8,4 @@
 
 #include "LocallyLinearEmbeddingsTest.h"
 #include "SpectralClusteringTest.h"
+#include "TreeWalkKernelTest.h"
