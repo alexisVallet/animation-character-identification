@@ -10,6 +10,7 @@ var searchData=
   ['getrootindexes',['getRootIndexes',['../class_disjoint_set_forest.html#a6a1edb88b34acf06cf214c97ff4ad473',1,'DisjointSetForest']]],
   ['getstatmodel',['getStatModel',['../class_trainable_stat_model.html#a3e2487f4366375c8004e59d09f8a0f99',1,'TrainableStatModel::getStatModel()'],['../class_bayes_model.html#ad2245e700e4c27f34b6654d4a8598b1c',1,'BayesModel::getStatModel()'],['../class_k_nearest_model.html#ae1b0212eba134e72293b5e4be1369f89',1,'KNearestModel::getStatModel()'],['../class_a_n_n_model.html#a8d971b9fa044dedd88dfcafc9aa0f8b8',1,'ANNModel::getStatModel()']]],
   ['gravitycenterlabels',['gravityCenterLabels',['../_segment_attributes_8h.html#a30cd11f3189d58357fad3981388738e3',1,'SegmentAttributes.cpp']]],
+  ['gravitycenters',['gravityCenters',['../_disjoint_set_8hpp.html#a005776dd29d6482a805acf239ce7395c',1,'DisjointSet.cpp']]],
   ['gridgraph',['gridGraph',['../_image_graphs_8h.html#a30ada09a56806ed50a5a8ed9633675cf',1,'ImageGraphs.cpp']]],
   ['groundgraph',['groundGraph',['../_segmentation_graph_8hpp.html#a7537903f00d222dc94e3e94dfd3ed258',1,'SegmentationGraph.cpp']]]
 ];

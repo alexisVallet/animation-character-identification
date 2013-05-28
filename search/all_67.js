@@ -13,6 +13,7 @@ var searchData=
   ['graphspectra_2eh',['GraphSpectra.h',['../_graph_spectra_8h.html',1,'']]],
   ['graphspectratest_2eh',['GraphSpectraTest.h',['../_graph_spectra_test_8h.html',1,'']]],
   ['gravitycenterlabels',['gravityCenterLabels',['../_segment_attributes_8h.html#a30cd11f3189d58357fad3981388738e3',1,'SegmentAttributes.cpp']]],
+  ['gravitycenters',['gravityCenters',['../_disjoint_set_8hpp.html#a005776dd29d6482a805acf239ce7395c',1,'DisjointSet.cpp']]],
   ['gridgraph',['gridGraph',['../_image_graphs_8h.html#a30ada09a56806ed50a5a8ed9633675cf',1,'ImageGraphs.cpp']]],
   ['groundgraph',['groundGraph',['../_segmentation_graph_8hpp.html#a7537903f00d222dc94e3e94dfd3ed258',1,'SegmentationGraph.cpp']]]
 ];

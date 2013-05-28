@@ -80,6 +80,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">TreeWalkKernel.hpp File Reference</div>  </div>
@@ -111,14 +113,25 @@ This graph shows which files directly or indirectly include this file:</div>
 </div>
 <p><a href="_tree_walk_kernel_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_compare.html">CircularCompare</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a490bb6d2f04eec58a71950566ecb3e94"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a490bb6d2f04eec58a71950566ecb3e94"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>TWK_DEBUG</b>&#160;&#160;&#160;false</td></tr>
+<tr class="separator:a490bb6d2f04eec58a71950566ecb3e94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a93667d074017e3d009117524d6260205"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a93667d074017e3d009117524d6260205"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_tree_walk_kernel_8hpp.html#a93667d074017e3d009117524d6260205">treeWalkKernel</a> (double(*basisKernel)(int area1, const T &amp;l1, int area2, const T &amp;l2), int depth, int arity, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation1, <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; T &gt; &amp;graph1, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation2, <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; T &gt; &amp;graph2)</td></tr>
-<tr class="separator:a93667d074017e3d009117524d6260205"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4fba19bbe8130c027cf34f653da135f"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:aa4fba19bbe8130c027cf34f653da135f"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_tree_walk_kernel_8hpp.html#aa4fba19bbe8130c027cf34f653da135f">treeWalkKernel</a> (double(*basisKernel)(int area1, const T &amp;l1, int area2, const T &amp;l2), int depth, int arity, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation1, const <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; T &gt; &amp;graph1, const vector&lt; Vec2f &gt; &amp;embedding1, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation2, const <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; T &gt; &amp;graph2, const vector&lt; Vec2f &gt; &amp;embedding2)</td></tr>
+<tr class="separator:aa4fba19bbe8130c027cf34f653da135f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a93667d074017e3d009117524d6260205"></a>
+<a class="anchor" id="aa4fba19bbe8130c027cf34f653da135f"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -151,8 +164,14 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>graph1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const vector&lt; Vec2f &gt; &amp;&#160;</td>
+          <td class="paramname"><em>embedding1</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -163,8 +182,14 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>graph2</em>&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>graph2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const vector&lt; Vec2f &gt; &amp;&#160;</td>
+          <td class="paramname"><em>embedding2</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -173,25 +198,28 @@ template&lt;typename T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Computes the tree walk kernel between two labelled graphs given a basis kernel function. It is assumed that each graph is undirected, with each edge duplicated in both the source and destination's adjacency list. Both graphs must be planar.</p>
+<p>Computes the tree walk kernel between two labelled graphs given a basis kernel function. It is assumed that each graph is undirected, with each edge duplicated in both the source and destination's adjacency list.</p>
+<p>Unlike Bach and Harchaoui's initial formulation, this does not assume the graphs are planar. Indeed, segmentation methods considering pixels in 8-connexity neighborhood, of in feature-space neighborhood may not result in a planar segmentation graph at all. If it is planar, the embedding can be computed in O(n) using the Boyer-Myrvold algorithm for instance, but such an embedding may not correspond to the spatial layout of the segments in the image.</p>
+<p>This implementation therefore uses a user defined embedding for each graph, and computes the circular ordering from this embedding.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">basisKernel</td><td>basis kernel function, taking 2 labels as parameters, with the associated area for each segment. </td></tr>
     <tr><td class="paramname">segmentation1</td><td>segmentation corresponding to graph1 </td></tr>
-    <tr><td class="paramname">graph1</td><td>the first graph </td></tr>
+    <tr><td class="paramname">graph1</td><td>first segmentation graph </td></tr>
+    <tr><td class="paramname">embedding1</td><td>plane (not necessarily planar) embedding for vertices in graph1 </td></tr>
     <tr><td class="paramname">segmentation2</td><td>segmentation corresponding to graph2 </td></tr>
-    <tr><td class="paramname">graph2</td><td>the second graph </td></tr>
+    <tr><td class="paramname">graph2</td><td>second segmentation graph </td></tr>
+    <tr><td class="paramname">embedding2</td><td>plane (not necessarily planar) embedding for vertices in graph2 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>the tree walk kernel value between graph1 and graph2. </dd></dl>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu May 16 2013 17:51:01 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue May 28 2013 18:19:40 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>
