@@ -90,30 +90,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 
 <p><code>#include &lt;<a class="el" href="_spectral_clustering_8h_source.html">SpectralClustering.h</a>&gt;</code></p>
-<div class="dynheader">
-Inheritance diagram for CompleteGraph:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_complete_graph__inherit__graph.png" border="0" usemap="#_complete_graph_inherit__map" alt="Inheritance graph"/></div>
-<map name="_complete_graph_inherit__map" id="_complete_graph_inherit__map">
-</map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
-<div class="dynheader">
-Collaboration diagram for CompleteGraph:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_complete_graph__coll__graph.png" border="0" usemap="#_complete_graph_coll__map" alt="Collaboration graph"/></div>
-<map name="_complete_graph_coll__map" id="_complete_graph_coll__map">
-</map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a425032aae138e9a0b529c4aa6ac410b9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_complete_graph.html#a425032aae138e9a0b529c4aa6ac410b9">operator()</a> (const MatrixXd &amp;samples, <a class="el" href="class_similarity_function.html">SimilarityFunction</a> &amp;simFunc, <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph) const </td></tr>
-<tr class="separator:a425032aae138e9a0b529c4aa6ac410b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0321c345399cfdd682e5466c571e4e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_complete_graph.html#ac0321c345399cfdd682e5466c571e4e7">operator()</a> (const MatrixXd &amp;similarity, <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph) const </td></tr>
+<tr class="separator:ac0321c345399cfdd682e5466c571e4e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Complete graph representation of a similarity matrix. All pair of distinct vertices are linked by exactly one edge weighted by similarity. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a425032aae138e9a0b529c4aa6ac410b9"></a>
+<a class="anchor" id="ac0321c345399cfdd682e5466c571e4e7"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -124,13 +110,7 @@ Public Member Functions</h2></td></tr>
           <td class="memname">void CompleteGraph::operator() </td>
           <td>(</td>
           <td class="paramtype">const MatrixXd &amp;&#160;</td>
-          <td class="paramname"><em>samples</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_similarity_function.html">SimilarityFunction</a> &amp;&#160;</td>
-          <td class="paramname"><em>simFunc</em>, </td>
+          <td class="paramname"><em>similarity</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -159,7 +139,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implements <a class="el" href="class_similarity_graph_representation.html#a88e5aa0f55b40ac929775c7be8900b34">SimilarityGraphRepresentation</a>.</p>
+<p>Implements <a class="el" href="class_similarity_graph_representation.html#aed27147f028a31899e4165f706d15406">SimilarityGraphRepresentation</a>.</p>
 
 </div>
 </div>
@@ -170,7 +150,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue May 28 2013 18:19:40 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 29 2013 17:51:26 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

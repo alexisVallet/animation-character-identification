@@ -98,19 +98,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">template</span> &lt; <span class="keyword">typename</span> _Tp, <span class="keywordtype">int</span> m, <span class="keywordtype">int</span> n &gt;</div>
 <div class="line"><a name="l00020"></a><span class="lineno"><a class="code" href="class_mat_kernel.html">   20</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_mat_kernel.html">MatKernel</a> {</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">virtual</span> <span class="keyword">typename</span> <a class="code" href="struct_labeling.html">Labeling&lt;_Tp, m, n&gt;::type</a> getLabeling() <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">double</span> operator() (<span class="keyword">const</span> Matx&lt;_Tp, m, n&gt;&amp;, <span class="keyword">const</span> Matx&lt;_Tp, m, n&gt;&amp;) <span class="keyword">const</span> = 0;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;};</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">void</span> fusePartitions(<span class="keyword">const</span> <a class="code" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph, vector&lt;int&gt; &amp;inSubgraph, vector&lt;int&gt; &amp;vertexIdx, vector&lt;DisjointSetForest&gt; &amp;partitions, <a class="code" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;partition);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<a class="code" href="class_weighted_graph.html">WeightedGraph</a> removeIsolatedVertices(<a class="code" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph, vector&lt;int&gt; &amp;vertexMap);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<a class="code" href="class_disjoint_set_forest.html">DisjointSetForest</a> addIsolatedVertices(<a class="code" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph, <a class="code" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, vector&lt;int&gt; &amp;vertexMap);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">double</span> operator() (<span class="keyword">const</span> Matx&lt;_Tp, m, n&gt;&amp;, <span class="keyword">const</span> Matx&lt;_Tp, m, n&gt;&amp;) <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;};</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">template</span> &lt; <span class="keyword">typename</span> _Tp, <span class="keywordtype">int</span> m, <span class="keywordtype">int</span> n &gt;</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="code" href="class_labeled_mat_kernel.html">   29</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_labeled_mat_kernel.html">LabeledMatKernel</a> : <span class="keyword">public</span> <a class="code" href="class_mat_kernel.html">MatKernel</a>&lt;_Tp, m, n&gt; {</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">virtual</span> <span class="keyword">typename</span> <a class="code" href="struct_labeling.html">Labeling&lt;_Tp, m, n&gt;::type</a> getLabeling() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">double</span> operator() (<span class="keyword">const</span> Matx&lt;_Tp, m, n&gt;&amp;, <span class="keyword">const</span> Matx&lt;_Tp, m, n&gt;&amp;) <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;};</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keywordtype">void</span> fusePartitions(<span class="keyword">const</span> <a class="code" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph, vector&lt;int&gt; &amp;inSubgraph, vector&lt;int&gt; &amp;vertexIdx, vector&lt;DisjointSetForest&gt; &amp;partitions, <a class="code" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;partition);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<a class="code" href="class_weighted_graph.html">WeightedGraph</a> removeIsolatedVertices(<a class="code" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph, vector&lt;int&gt; &amp;vertexMap);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<a class="code" href="class_disjoint_set_forest.html">DisjointSetForest</a> addIsolatedVertices(<a class="code" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph, <a class="code" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, vector&lt;int&gt; &amp;vertexMap);</div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue May 28 2013 18:19:39 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 29 2013 17:51:25 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

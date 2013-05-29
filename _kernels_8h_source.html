@@ -107,7 +107,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">double</span> <a class="code" href="_kernels_8h.html#ac0f353b14c63201ca6677c220002a3d6">khi2Kernel</a>(<span class="keywordtype">int</span> binsPerChannel, <span class="keywordtype">float</span> lambda, <span class="keywordtype">float</span> mu, <span class="keywordtype">float</span> gamma, <span class="keywordtype">int</span> area1, <span class="keyword">const</span> Mat &amp;h1, <span class="keywordtype">int</span> area2, <span class="keyword">const</span> Mat &amp;h2);</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">template</span> &lt; <span class="keyword">typename</span> _Tp, <span class="keywordtype">int</span> m, <span class="keywordtype">int</span> n &gt;</div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="code" href="_kernels_8h.html#a285a91c14475adb4264c9b1cff6a0b83">   47</a></span>&#160;<a class="code" href="class_weighted_graph.html">WeightedGraph</a> <a class="code" href="_kernels_8h.html#a285a91c14475adb4264c9b1cff6a0b83">weighEdgesByKernel</a>(<span class="keyword">const</span> Mat_&lt;Vec3b&gt; &amp;image, <span class="keyword">const</span> Mat_&lt;float&gt; &amp;mask, <a class="code" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, <span class="keyword">const</span> <a class="code" href="class_mat_kernel.html">MatKernel&lt;_Tp, m, n&gt;</a> &amp;kernel, <span class="keyword">const</span> <a class="code" href="class_labeled_graph.html">LabeledGraph</a>&lt;Matx&lt;_Tp, m, n&gt; &gt; &amp;unweightedGraph) {</div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="code" href="_kernels_8h.html#ae57c77f08b23d70f359640e49a01be72">   47</a></span>&#160;<a class="code" href="class_weighted_graph.html">WeightedGraph</a> <a class="code" href="_kernels_8h.html#ae57c77f08b23d70f359640e49a01be72">weighEdgesByKernel</a>(<span class="keyword">const</span> Mat_&lt;Vec3b&gt; &amp;image, <span class="keyword">const</span> Mat_&lt;float&gt; &amp;mask, <a class="code" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, <span class="keyword">const</span> <a class="code" href="class_labeled_mat_kernel.html">LabeledMatKernel&lt;_Tp, m, n&gt;</a> &amp;kernel, <span class="keyword">const</span> <a class="code" href="class_weighted_graph.html">WeightedGraph</a> &amp;unweightedGraph) {</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="class_labeled_graph.html">LabeledGraph&lt;Matx&lt;_Tp, m, n&gt;</a> &gt; labeled;</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    kernel.getLabeling()(image, mask, segmentation, unweightedGraph, labeled);</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
@@ -122,7 +122,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordflow">return</span> weighted;</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;}</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno"><a class="code" href="class_compound_gaussian_kernel.html">   65</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_compound_gaussian_kernel.html">CompoundGaussianKernel</a> : <span class="keyword">public</span> <a class="code" href="class_mat_kernel.html">MatKernel</a>&lt;float, 8, 1&gt; {</div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="code" href="class_compound_gaussian_kernel.html">   65</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_compound_gaussian_kernel.html">CompoundGaussianKernel</a> : <span class="keyword">public</span> <a class="code" href="class_labeled_mat_kernel.html">LabeledMatKernel</a>&lt;float, 8, 1&gt; {</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keyword">private</span>:</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">double</span> alphaC;</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">double</span> alphaX;</div>
@@ -138,7 +138,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue May 28 2013 18:19:39 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 29 2013 17:51:25 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

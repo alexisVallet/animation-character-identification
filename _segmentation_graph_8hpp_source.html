@@ -98,41 +98,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;Mat_&lt;int&gt; computeBorderLengths(<a class="code" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, <a class="code" href="class_weighted_graph.html">WeightedGraph</a> &amp;gridGraph);</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">template</span> &lt; <span class="keyword">typename</span> T &gt;</div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="code" href="_segmentation_graph_8hpp.html#a011e891ef6e5cd300f91c7be49c4046e">   38</a></span>&#160;<a class="code" href="class_labeled_graph.html">LabeledGraph&lt;T&gt;</a> <a class="code" href="_segmentation_graph_8hpp.html#a011e891ef6e5cd300f91c7be49c4046e">segmentationGraph</a>(<span class="keyword">const</span> Mat_&lt;Vec&lt;uchar,3&gt; &gt; &amp;image, <a class="code" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, <a class="code" href="class_weighted_graph.html">WeightedGraph</a> &amp;grid) {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="keywordtype">int</span> numberOfComponents = segmentation.<a class="code" href="class_disjoint_set_forest.html#a6eb268df6da7cb4f003307e6b2acd08a">getNumberOfComponents</a>();</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <a class="code" href="class_labeled_graph.html">LabeledGraph&lt;T&gt;</a> graph(numberOfComponents);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  vector&lt;vector&lt;bool&gt; &gt; adjMatrix(numberOfComponents, vector&lt;bool&gt;(numberOfComponents, <span class="keyword">false</span>));</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  map&lt;int,int&gt; rootIndexes = segmentation.<a class="code" href="class_disjoint_set_forest.html#a6a1edb88b34acf06cf214c97ff4ad473">getRootIndexes</a>();</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="comment">//Mat_&lt;int&gt; borderLengths = computeBorderLengths(segmentation, grid);</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="comment">// for each pair of neighboring pixels</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; (int)grid.<a class="code" href="class_weighted_graph.html#aa7298cc529e17edcb37672f8a99d6b9d">getEdges</a>().size(); i++) {</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <a class="code" href="struct_edge.html">Edge</a> edge = grid.<a class="code" href="class_weighted_graph.html#aa7298cc529e17edcb37672f8a99d6b9d">getEdges</a>()[i];</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">int</span> srcRoot = rootIndexes[segmentation.<a class="code" href="class_disjoint_set_forest.html#ab2343dd6ea1c02409e5bef492bf0d515">find</a>(edge.source)];</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">int</span> dstRoot = rootIndexes[segmentation.<a class="code" href="class_disjoint_set_forest.html#ab2343dd6ea1c02409e5bef492bf0d515">find</a>(edge.destination)];</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="comment">// if they are not in the same segment and there isn&#39;t</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="comment">// already an edge between them, add one.</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">if</span> (srcRoot != dstRoot &amp;&amp; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    !adjMatrix[srcRoot][dstRoot] &amp;&amp;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    !adjMatrix[dstRoot][srcRoot]) {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      adjMatrix[srcRoot][dstRoot] = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      adjMatrix[dstRoot][srcRoot] = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      graph.<a class="code" href="class_weighted_graph.html#a3bf3d91dd58ff3fc39fdb82034a7aa51">addEdge</a>(srcRoot, dstRoot, 1<span class="comment">/*(float)borderLengths(srcRoot, dstRoot)*/</span>);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    }</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  }</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  <span class="keywordflow">return</span> graph;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;}</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;vector&lt;Vec&lt;float,2&gt; &gt; segmentCenters(<span class="keyword">const</span> Mat_&lt;Vec&lt;uchar,3&gt; &gt; &amp;image, <a class="code" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<a class="code" href="class_labeled_graph.html">LabeledGraph&lt;Mat&gt;</a> groundGraph(<span class="keyword">const</span> <a class="code" href="class_labeled_graph.html">LabeledGraph&lt;Mat&gt;</a> &amp;unGrounded);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<a class="code" href="class_weighted_graph.html">WeightedGraph</a> segmentationGraph(<span class="keyword">const</span> Mat_&lt;Vec&lt;uchar,3&gt; &gt; &amp;image, <a class="code" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, <span class="keyword">const</span> <a class="code" href="class_weighted_graph.html">WeightedGraph</a> &amp;grid);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;vector&lt;Vec&lt;float,2&gt; &gt; segmentCenters(<span class="keyword">const</span> Mat_&lt;Vec&lt;uchar,3&gt; &gt; &amp;image, <a class="code" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<a class="code" href="class_labeled_graph.html">LabeledGraph&lt;Mat&gt;</a> groundGraph(<span class="keyword">const</span> <a class="code" href="class_labeled_graph.html">LabeledGraph&lt;Mat&gt;</a> &amp;unGrounded);</div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue May 28 2013 18:19:39 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 29 2013 17:51:25 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

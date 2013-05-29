@@ -81,7 +81,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">TreeWalkKernel.hpp File Reference</div>  </div>
@@ -96,6 +95,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <code>#include &quot;<a class="el" href="_labeled_graph_8hpp_source.html">LabeledGraph.hpp</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_disjoint_set_8hpp_source.html">DisjointSet.hpp</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_kernels_8h_source.html">Kernels.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_graph_partitions_8h_source.html">GraphPartitions.h</a>&quot;</code><br/>
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for TreeWalkKernel.hpp:</div>
 <div class="dyncontent">
@@ -118,29 +118,23 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_circular_compare.html">CircularCompare</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a490bb6d2f04eec58a71950566ecb3e94"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a490bb6d2f04eec58a71950566ecb3e94"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>TWK_DEBUG</b>&#160;&#160;&#160;false</td></tr>
-<tr class="separator:a490bb6d2f04eec58a71950566ecb3e94"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aa4fba19bbe8130c027cf34f653da135f"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:aa4fba19bbe8130c027cf34f653da135f"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_tree_walk_kernel_8hpp.html#aa4fba19bbe8130c027cf34f653da135f">treeWalkKernel</a> (double(*basisKernel)(int area1, const T &amp;l1, int area2, const T &amp;l2), int depth, int arity, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation1, const <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; T &gt; &amp;graph1, const vector&lt; Vec2f &gt; &amp;embedding1, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation2, const <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; T &gt; &amp;graph2, const vector&lt; Vec2f &gt; &amp;embedding2)</td></tr>
-<tr class="separator:aa4fba19bbe8130c027cf34f653da135f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1434caec077ce70f0547aa66a245dbd"><td class="memTemplParams" colspan="2">template&lt;typename _Tp , int m, int n&gt; </td></tr>
+<tr class="memitem:aa1434caec077ce70f0547aa66a245dbd"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_tree_walk_kernel_8hpp.html#aa1434caec077ce70f0547aa66a245dbd">treeWalkKernel</a> (const <a class="el" href="class_mat_kernel.html">MatKernel</a>&lt; _Tp, m, n &gt; &amp;basisKernel, int depth, int arity, const <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Matx&lt; _Tp, m, n &gt; &gt; &amp;graph1, const vector&lt; Vec2f &gt; &amp;embedding1, const <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Matx&lt; _Tp, m, n &gt; &gt; &amp;graph2, const vector&lt; Vec2f &gt; &amp;embedding2)</td></tr>
+<tr class="separator:aa1434caec077ce70f0547aa66a245dbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="aa4fba19bbe8130c027cf34f653da135f"></a>
+<a class="anchor" id="aa1434caec077ce70f0547aa66a245dbd"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename _Tp , int m, int n&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">double treeWalkKernel </td>
           <td>(</td>
-          <td class="paramtype">double(*)(int area1, const T &amp;l1, int area2, const T &amp;l2)&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_mat_kernel.html">MatKernel</a>&lt; _Tp, m, n &gt; &amp;&#160;</td>
           <td class="paramname"><em>basisKernel</em>, </td>
         </tr>
         <tr>
@@ -158,13 +152,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;&#160;</td>
-          <td class="paramname"><em>segmentation1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Matx&lt; _Tp, m, n &gt; &gt; &amp;&#160;</td>
           <td class="paramname"><em>graph1</em>, </td>
         </tr>
         <tr>
@@ -176,13 +164,7 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;&#160;</td>
-          <td class="paramname"><em>segmentation2</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Matx&lt; _Tp, m, n &gt; &gt; &amp;&#160;</td>
           <td class="paramname"><em>graph2</em>, </td>
         </tr>
         <tr>
@@ -219,7 +201,7 @@ template&lt;typename T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue May 28 2013 18:19:40 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 29 2013 17:51:26 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

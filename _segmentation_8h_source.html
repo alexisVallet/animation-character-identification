@@ -103,28 +103,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define CONNECTIVITY CONNECTIVITY_4</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define MAX_SEGMENTS 250</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">template</span> &lt; <span class="keyword">typename</span> _Tp, <span class="keywordtype">int</span> m, <span class="keywordtype">int</span> n &gt;</div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="code" href="_segmentation_8h.html#a9d8b0829c2438c7d07b0dcc1fd6dc34a">   33</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="_segmentation_8h.html#a9d8b0829c2438c7d07b0dcc1fd6dc34a">segment</a>(<span class="keyword">const</span> Mat_&lt;Vec3b&gt; &amp;image, <span class="keyword">const</span> Mat_&lt;float&gt; &amp;mask, <a class="code" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, <a class="code" href="class_labeled_graph.html">LabeledGraph</a>&lt;Matx&lt;_Tp, m, n&gt; &gt; &amp;segGraph, <span class="keywordtype">int</span> felzenszwalbScale) {</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    assert(felzenszwalbScale &gt;= 0);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <a class="code" href="class_weighted_graph.html">WeightedGraph</a> grid = gridGraph(image, CONNECTIVITY, mask, euclidDistance, <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">int</span> minCompSize = countNonZero(mask) / MAX_SEGMENTS;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    segmentation = felzenszwalbSegment(felzenszwalbScale, grid, minCompSize, mask);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    segGraph = segmentationGraph&lt;Matx&lt;_Tp, m, n&gt; &gt;(image, segmentation, grid);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">if</span> (DEBUG_SEGMENTATION) {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        imshow(<span class="stringliteral">&quot;image&quot;</span>, image);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        waitKey(0);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        Mat regionImage = segmentation.toRegionImage(image);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        segGraph.drawGraph(segmentCenters(image, segmentation), regionImage);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        imshow(<span class="stringliteral">&quot;segmentation graph&quot;</span>, regionImage);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        cout&lt;&lt;<span class="stringliteral">&quot;number of components: &quot;</span>&lt;&lt;segmentation.getNumberOfComponents()&lt;&lt;endl;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        waitKey(0);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    }</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keywordtype">void</span> segment(<span class="keyword">const</span> Mat_&lt;Vec3b&gt; &amp;image, <span class="keyword">const</span> Mat_&lt;float&gt; &amp;mask, <a class="code" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, <a class="code" href="class_weighted_graph.html">WeightedGraph</a> &amp;segGraph, <span class="keywordtype">int</span> felzenszwalbScale);</div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue May 28 2013 18:19:39 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 29 2013 17:51:25 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

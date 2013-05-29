@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.3.1"/>
-<title>Animation character identification: TWKSpectralClustering Class Reference</title>
+<title>Animation character identification: TWKSpectralClustering&lt; _Tp, m, n &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -85,7 +85,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="class_t_w_k_spectral_clustering-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">TWKSpectralClustering Class Reference</div>  </div>
+<div class="title">TWKSpectralClustering&lt; _Tp, m, n &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -93,20 +93,28 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a18b760c37b6e1c0400852c5eab8f1a02"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_w_k_spectral_clustering.html#a18b760c37b6e1c0400852c5eab8f1a02">embed</a> (const vector&lt; pair&lt; Mat_&lt; Vec3b &gt;, Mat_&lt; float &gt; &gt; &gt; &amp;dataSet, int outDim, MatrixXd &amp;embeddings)</td></tr>
-<tr class="separator:a18b760c37b6e1c0400852c5eab8f1a02"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd3fb2551e3e87f808de56a74d156fc7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_w_k_spectral_clustering.html#abd3fb2551e3e87f808de56a74d156fc7">cluster</a> (const vector&lt; pair&lt; Mat_&lt; Vec3b &gt;, Mat_&lt; float &gt; &gt; &gt; &amp;dataSet, VectorXi &amp;classLabels)</td></tr>
-<tr class="separator:abd3fb2551e3e87f808de56a74d156fc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75bc2cca60976fd16118627600699d78"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_w_k_spectral_clustering.html#a75bc2cca60976fd16118627600699d78">TWKSpectralClustering</a> (const vector&lt; pair&lt; Mat_&lt; Vec3b &gt;, Mat_&lt; float &gt; &gt; &gt; &amp;dataSet, const <a class="el" href="class_mat_kernel.html">MatKernel</a>&lt; _Tp, m, n &gt; *kernelFunc, int depth, int arrity)</td></tr>
+<tr class="separator:a75bc2cca60976fd16118627600699d78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabd50f9ee4ae5fb6047f05a1b04a14f5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_t_w_k_spectral_clustering.html#aabd50f9ee4ae5fb6047f05a1b04a14f5">embed</a> (vector&lt; <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &gt; &amp;segmentations, const vector&lt; <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Matx&lt; _Tp, m, n &gt; &gt; &gt; &amp;samples, int outDim, MatrixXd &amp;embeddings)</td></tr>
+<tr class="separator:aabd50f9ee4ae5fb6047f05a1b04a14f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This class implements clustering of animation images using similarity information from the tree walk kernels between their segmentation graphs, clustered by spectral clustering. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="abd3fb2551e3e87f808de56a74d156fc7"></a>
+<div class="textblock"><h3>template&lt;typename _Tp, int m, int n&gt;<br/>
+class TWKSpectralClustering&lt; _Tp, m, n &gt;</h3>
+
+<p>This class implements clustering of animation images using similarity information from the tree walk kernels between their segmentation graphs, clustered by spectral clustering. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a75bc2cca60976fd16118627600699d78"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename _Tp , int m, int n&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void TWKSpectralClustering::cluster </td>
+          <td class="memname"><a class="el" href="class_t_w_k_spectral_clustering.html">TWKSpectralClustering</a>&lt; _Tp, m, n &gt;::<a class="el" href="class_t_w_k_spectral_clustering.html">TWKSpectralClustering</a> </td>
           <td>(</td>
           <td class="paramtype">const vector&lt; pair&lt; Mat_&lt; Vec3b &gt;, Mat_&lt; float &gt; &gt; &gt; &amp;&#160;</td>
           <td class="paramname"><em>dataSet</em>, </td>
@@ -114,8 +122,20 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">VectorXi &amp;&#160;</td>
-          <td class="paramname"><em>classLabels</em>&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_mat_kernel.html">MatKernel</a>&lt; _Tp, m, n &gt; *&#160;</td>
+          <td class="paramname"><em>kernelFunc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>depth</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>arrity</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -123,27 +143,43 @@ Public Member Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<p>Clusters the images through spectral clustering, with similarity computed by tree walk kernels of segmentation graphs.</p>
+<p>Initializes the clustering algorithm with a specific kernel function for the tree walk kernel computation, and a specific dataset to compute it from.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">dataSet</td><td>images and masks to cluster. </td></tr>
-    <tr><td class="paramname">classLabels</td><td>output vector of class labels. </td></tr>
+    <tr><td class="paramname">kernelFunc</td><td>kernel function (and associated graph labeling) to use for tree walk kernel computation. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a class="anchor" id="a18b760c37b6e1c0400852c5eab8f1a02"></a>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="aabd50f9ee4ae5fb6047f05a1b04a14f5"></a>
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename _Tp , int m, int n&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void TWKSpectralClustering::embed </td>
+          <td class="memname">void <a class="el" href="class_t_w_k_spectral_clustering.html">TWKSpectralClustering</a>&lt; _Tp, m, n &gt;::embed </td>
           <td>(</td>
-          <td class="paramtype">const vector&lt; pair&lt; Mat_&lt; Vec3b &gt;, Mat_&lt; float &gt; &gt; &gt; &amp;&#160;</td>
-          <td class="paramname"><em>dataSet</em>, </td>
+          <td class="paramtype">vector&lt; <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>segmentations</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const vector&lt; <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Matx&lt; _Tp, m, n &gt; &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>samples</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -163,11 +199,16 @@ Public Member Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<p>Computes the embeddings in outDim dimensional space for the images in the dataset, using only the first part of the spectral clustering algorithm (eg. before the K-means step).</p>
+<p>Computes the embeddings in outDim dimensional space for the images segmentation graphs, using only the first part of the spectral clustering algorithm (eg. before the K-means step).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">dataSet</td><td>data set of images and respective masks to embed in outDim dimensional space. </td></tr>
+    <tr><td class="paramname">dataSet</td><td>image and masks to embed in outDim dimensional space. </td></tr>
     <tr><td class="paramname">outDim</td><td>dimension of the output space, ie. the number of columns of the embeddings matrix. </td></tr>
     <tr><td class="paramname">embeddings</td><td>output matrix of size n by outDim where n is the number of image in the dataset. Contains embeddings of input images as rows of the matrix. </td></tr>
   </table>
@@ -182,7 +223,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue May 28 2013 18:19:40 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 29 2013 17:51:26 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

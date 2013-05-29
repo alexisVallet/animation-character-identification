@@ -96,168 +96,151 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_labeled_graph_8hpp.html">LabeledGraph.hpp</a>&quot;</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_disjoint_set_8hpp.html">DisjointSet.hpp</a>&quot;</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_kernels_8h.html">Kernels.h</a>&quot;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#define TWK_DEBUG false</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">using namespace </span>cv;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">using namespace </span>boost;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">static</span> <span class="keywordtype">int</span> current(<span class="keywordtype">int</span> iteration) {</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  <span class="keywordflow">return</span> iteration % 2;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;}</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">static</span> <span class="keywordtype">int</span> previous(<span class="keywordtype">int</span> iteration) {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <span class="keywordflow">return</span> !current(iteration);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;}</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="code" href="class_circular_compare.html">   32</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_circular_compare.html">CircularCompare</a> {</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">int</span> src;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">const</span> vector&lt;Vec2f&gt; *centers;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="code" href="class_circular_compare.html#a5f569823dcd0c2bcb66285f3c271ee30">   41</a></span>&#160;    <a class="code" href="class_circular_compare.html">CircularCompare</a>(<span class="keywordtype">int</span> src, <span class="keyword">const</span> vector&lt;Vec2f&gt; *centers)</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        : src(src), centers(centers)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    }</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">bool</span> operator() (<span class="keyword">const</span> <span class="keywordtype">int</span> &amp;dst1, <span class="keyword">const</span> <span class="keywordtype">int</span> &amp;dst2) {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        Vec2f </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            v1 = (*centers)[dst1] - (*centers)[src], </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            v2 = (*centers)[dst2] - (*centers)[src];</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordtype">double</span> angle1 = atan2(v1[0], v1[1]);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordtype">double</span> angle2 = atan2(v2[0], v2[1]);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordflow">return</span> angle1 &lt; angle2;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    }</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;};</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> computeNeighbors(<span class="keyword">const</span> <a class="code" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph, <a class="code" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, <span class="keyword">const</span> vector&lt;Vec2f&gt; &amp;embedding, vector&lt;vector&lt;int&gt; &gt; &amp;circNeighbors) {</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    circNeighbors = vector&lt;vector&lt;int&gt; &gt;(graph.<a class="code" href="class_weighted_graph.html#ac6c8807a6c023525baec8525553c03eb">numberOfVertices</a>());</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; graph.<a class="code" href="class_weighted_graph.html#ac6c8807a6c023525baec8525553c03eb">numberOfVertices</a>(); i++) {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        circNeighbors[i] = vector&lt;int&gt;();</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        circNeighbors[i].reserve(graph.<a class="code" href="class_weighted_graph.html#ab6952debe4a19bdfadce2f31c229107d">getAdjacencyList</a>(i).size());</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; graph.<a class="code" href="class_weighted_graph.html#ab6952debe4a19bdfadce2f31c229107d">getAdjacencyList</a>(i).size(); j++) {</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            circNeighbors[i].push_back(graph.<a class="code" href="class_weighted_graph.html#ab6952debe4a19bdfadce2f31c229107d">getAdjacencyList</a>(i)[j].destination);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        }</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <a class="code" href="class_circular_compare.html">CircularCompare</a> comp(i, &amp;embedding);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        sort(circNeighbors[i].begin(), circNeighbors[i].end(), comp);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    }</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="keyword">template</span> &lt; <span class="keyword">typename</span> T &gt;</div>
-<div class="line"><a name="l00102"></a><span class="lineno"><a class="code" href="_tree_walk_kernel_8hpp.html#aa4fba19bbe8130c027cf34f653da135f">  102</a></span>&#160;<span class="keywordtype">double</span> <a class="code" href="_tree_walk_kernel_8hpp.html#aa4fba19bbe8130c027cf34f653da135f">treeWalkKernel</a>(</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordtype">double</span> (*basisKernel)(<span class="keywordtype">int</span> area1, <span class="keyword">const</span> T &amp;l1, <span class="keywordtype">int</span> area2, <span class="keyword">const</span> T &amp;l2), </div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordtype">int</span> depth, </div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordtype">int</span> arity,</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <a class="code" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation1, </div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keyword">const</span> <a class="code" href="class_labeled_graph.html">LabeledGraph&lt;T&gt;</a> &amp;graph1,</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keyword">const</span> vector&lt;Vec2f&gt; &amp;embedding1,</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <a class="code" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation2,</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keyword">const</span> <a class="code" href="class_labeled_graph.html">LabeledGraph&lt;T&gt;</a> &amp;graph2,</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keyword">const</span> vector&lt;Vec2f&gt; &amp;embedding2) {</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="comment">// basisKernels contains the basis kernel for each pair of vertices in</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="comment">// the two graphs, computed once and for all.</span></div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    Mat_&lt;double&gt; basisKernels = Mat_&lt;double&gt;::zeros(graph1.<a class="code" href="class_weighted_graph.html#ac6c8807a6c023525baec8525553c03eb">numberOfVertices</a>(), graph2.<a class="code" href="class_weighted_graph.html#ac6c8807a6c023525baec8525553c03eb">numberOfVertices</a>());</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="comment">// depthKernels contains the current iteration&#39;s results as well as the previous</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="comment">// iteration&#39;s results, swapped at each iteration in a &quot;ping-pong&quot; fashion.</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    Mat_&lt;double&gt; depthKernels[2] = {</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        Mat_&lt;double&gt;::zeros(graph1.<a class="code" href="class_weighted_graph.html#ac6c8807a6c023525baec8525553c03eb">numberOfVertices</a>(), graph2.<a class="code" href="class_weighted_graph.html#ac6c8807a6c023525baec8525553c03eb">numberOfVertices</a>()),</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        Mat_&lt;double&gt;::zeros(graph1.<a class="code" href="class_weighted_graph.html#ac6c8807a6c023525baec8525553c03eb">numberOfVertices</a>(), graph2.<a class="code" href="class_weighted_graph.html#ac6c8807a6c023525baec8525553c03eb">numberOfVertices</a>())</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    };</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="comment">// neighbors for each vertex in each graph in the circular order given</span></div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="comment">// by the embeddings.</span></div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    vector&lt;vector&lt;int&gt; &gt; </div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        circNeighbors1, </div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        circNeighbors2;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="comment">//initializes neighbors in circular order</span></div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    computeNeighbors(graph1, segmentation1, embedding1, circNeighbors1);</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    computeNeighbors(graph2, segmentation2, embedding2, circNeighbors2);</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="keywordflow">if</span> (TWK_DEBUG) {</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        cout&lt;&lt;<span class="stringliteral">&quot;neighbors of graph 1:&quot;</span>&lt;&lt;endl;</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; graph1.<a class="code" href="class_weighted_graph.html#ac6c8807a6c023525baec8525553c03eb">numberOfVertices</a>(); i++) {</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;            cout&lt;&lt;i&lt;&lt;<span class="stringliteral">&quot; : &quot;</span>;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; circNeighbors1[i].size(); j++) {</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                cout&lt;&lt;circNeighbors1[i][j]&lt;&lt;<span class="stringliteral">&quot;, &quot;</span>;</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            }</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            cout&lt;&lt;endl;</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        }</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    }</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="comment">// initializes basis kernels</span></div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> v1 = 0; v1 &lt; graph1.<a class="code" href="class_weighted_graph.html#ac6c8807a6c023525baec8525553c03eb">numberOfVertices</a>(); v1++) {</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> v2 = 0; v2 &lt; graph2.<a class="code" href="class_weighted_graph.html#ac6c8807a6c023525baec8525553c03eb">numberOfVertices</a>(); v2++) {</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            basisKernels(v1,v2) = basisKernel(</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                segmentation1.<a class="code" href="class_disjoint_set_forest.html#a1cff99abb287144053618e07479dee46">getComponentSize</a>(v1),</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                graph1.<a class="code" href="class_labeled_graph.html#a4493f08c6e5e981a5b477a61246c26ff">getLabel</a>(v1),</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                segmentation2.<a class="code" href="class_disjoint_set_forest.html#a1cff99abb287144053618e07479dee46">getComponentSize</a>(v2),</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                graph2.<a class="code" href="class_labeled_graph.html#a4493f08c6e5e981a5b477a61246c26ff">getLabel</a>(v2));</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            depthKernels[previous(0)](v1,v2) = basisKernels(v1,v2);</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        }</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    }</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    cout&lt;&lt;basisKernels&lt;&lt;endl;</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <span class="comment">// computes kernels for each depth up to the maximum depth</span></div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> d = 0; d &lt; depth; d++) {</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> v1 = 0; v1 &lt; graph1.<a class="code" href="class_weighted_graph.html#ac6c8807a6c023525baec8525553c03eb">numberOfVertices</a>(); v1++) {</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> v2 = 0; v2 &lt; graph2.<a class="code" href="class_weighted_graph.html#ac6c8807a6c023525baec8525553c03eb">numberOfVertices</a>(); v2++) {</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                <span class="keywordtype">double</span> sum = 0;</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    </div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;                <span class="comment">// summing for neighbor intervals of cardinal lower</span></div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;                <span class="comment">// than arity</span></div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;                <span class="keywordflow">for</span> (<span class="keywordtype">int</span> iSize = 1; iSize &lt;= arity; iSize++) {</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                    <span class="comment">// if the size is greater than either number of</span></div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;                    <span class="comment">// neighbors, there are no such neighbor intervals</span></div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;                    <span class="keywordflow">if</span> (iSize &gt; (<span class="keywordtype">int</span>)circNeighbors1[v1].size() || iSize &gt; (int)circNeighbors2[v2].size()) {</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;                        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_graph_partitions_8h.html">GraphPartitions.h</a>&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">using namespace </span>cv;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">using namespace </span>boost;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">static</span> <span class="keywordtype">int</span> current(<span class="keywordtype">int</span> iteration) {</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  <span class="keywordflow">return</span> iteration % 2;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;}</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">static</span> <span class="keywordtype">int</span> previous(<span class="keywordtype">int</span> iteration) {</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  <span class="keywordflow">return</span> !current(iteration);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;}</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="code" href="class_circular_compare.html">   31</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_circular_compare.html">CircularCompare</a> {</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">int</span> src;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">const</span> vector&lt;Vec2f&gt; *centers;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="code" href="class_circular_compare.html#a5f569823dcd0c2bcb66285f3c271ee30">   40</a></span>&#160;    <a class="code" href="class_circular_compare.html">CircularCompare</a>(<span class="keywordtype">int</span> src, <span class="keyword">const</span> vector&lt;Vec2f&gt; *centers)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        : src(src), centers(centers)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    {</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    }</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">bool</span> operator() (<span class="keyword">const</span> <span class="keywordtype">int</span> &amp;dst1, <span class="keyword">const</span> <span class="keywordtype">int</span> &amp;dst2) {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        Vec2f </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            v1 = (*centers)[dst1] - (*centers)[src], </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            v2 = (*centers)[dst2] - (*centers)[src];</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordtype">double</span> angle1 = atan2(v1[0], v1[1]);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordtype">double</span> angle2 = atan2(v2[0], v2[1]);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">return</span> angle1 &lt; angle2;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    }</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;};</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">static</span> <span class="keywordtype">void</span> computeNeighbors(<span class="keyword">const</span> <a class="code" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph, <span class="keyword">const</span> vector&lt;Vec2f&gt; &amp;embedding, vector&lt;vector&lt;int&gt; &gt; &amp;circNeighbors) {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    circNeighbors = vector&lt;vector&lt;int&gt; &gt;(graph.<a class="code" href="class_weighted_graph.html#ac6c8807a6c023525baec8525553c03eb">numberOfVertices</a>());</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; graph.<a class="code" href="class_weighted_graph.html#ac6c8807a6c023525baec8525553c03eb">numberOfVertices</a>(); i++) {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        circNeighbors[i] = vector&lt;int&gt;();</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        circNeighbors[i].reserve(graph.<a class="code" href="class_weighted_graph.html#ab6952debe4a19bdfadce2f31c229107d">getAdjacencyList</a>(i).size());</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; graph.<a class="code" href="class_weighted_graph.html#ab6952debe4a19bdfadce2f31c229107d">getAdjacencyList</a>(i).size(); j++) {</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            circNeighbors[i].push_back(graph.<a class="code" href="class_weighted_graph.html#ab6952debe4a19bdfadce2f31c229107d">getAdjacencyList</a>(i)[j].destination);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <a class="code" href="class_circular_compare.html">CircularCompare</a> comp(i, &amp;embedding);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        sort(circNeighbors[i].begin(), circNeighbors[i].end(), comp);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="keyword">template</span> &lt; <span class="keyword">typename</span> _Tp, <span class="keywordtype">int</span> m, <span class="keywordtype">int</span> n &gt;</div>
+<div class="line"><a name="l00101"></a><span class="lineno"><a class="code" href="_tree_walk_kernel_8hpp.html#aa1434caec077ce70f0547aa66a245dbd">  101</a></span>&#160;<span class="keywordtype">double</span> <a class="code" href="_tree_walk_kernel_8hpp.html#aa1434caec077ce70f0547aa66a245dbd">treeWalkKernel</a>(</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keyword">const</span> <a class="code" href="class_mat_kernel.html">MatKernel&lt;_Tp, m, n&gt;</a> &amp;basisKernel, </div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordtype">int</span> depth, </div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordtype">int</span> arity,</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keyword">const</span> <a class="code" href="class_labeled_graph.html">LabeledGraph</a>&lt;Matx&lt;_Tp, m, n&gt; &gt; &amp;graph1,</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keyword">const</span> vector&lt;Vec2f&gt; &amp;embedding1,</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keyword">const</span> <a class="code" href="class_labeled_graph.html">LabeledGraph</a>&lt;Matx&lt;_Tp, m, n&gt; &gt; &amp;graph2,</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keyword">const</span> vector&lt;Vec2f&gt; &amp;embedding2) {</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="comment">// basisKernels contains the basis kernel for each pair of vertices in</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="comment">// the two graphs, computed once and for all.</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    Mat_&lt;double&gt; basisKernels = Mat_&lt;double&gt;::zeros(graph1.numberOfVertices(), graph2.numberOfVertices());</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="comment">// depthKernels contains the current iteration&#39;s results as well as the previous</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="comment">// iteration&#39;s results, swapped at each iteration in a &quot;ping-pong&quot; fashion.</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    Mat_&lt;double&gt; depthKernels[2] = {</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        Mat_&lt;double&gt;::zeros(graph1.numberOfVertices(), graph2.numberOfVertices()),</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        Mat_&lt;double&gt;::zeros(graph1.numberOfVertices(), graph2.numberOfVertices())</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    };</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="comment">// neighbors for each vertex in each graph in the circular order given</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="comment">// by the embeddings.</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    vector&lt;vector&lt;int&gt; &gt; </div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        circNeighbors1, </div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        circNeighbors2;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="comment">//initializes neighbors in circular order</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    computeNeighbors(graph1, embedding1, circNeighbors1);</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    computeNeighbors(graph2, embedding2, circNeighbors2);</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="comment">// initializes basis kernels</span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> v1 = 0; v1 &lt; graph1.numberOfVertices(); v1++) {</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> v2 = 0; v2 &lt; graph2.numberOfVertices(); v2++) {</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            basisKernels(v1,v2) = basisKernel(</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;                graph1.getLabel(v1),</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                graph2.getLabel(v2));</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;            depthKernels[previous(0)](v1,v2) = basisKernels(v1,v2);</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        }</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    }</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    cout&lt;&lt;basisKernels&lt;&lt;endl;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <span class="comment">// computes kernels for each depth up to the maximum depth</span></div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> d = 0; d &lt; depth; d++) {</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> v1 = 0; v1 &lt; graph1.numberOfVertices(); v1++) {</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> v2 = 0; v2 &lt; graph2.numberOfVertices(); v2++) {</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                <span class="keywordtype">double</span> sum = 0;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    </div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                <span class="comment">// summing for neighbor intervals of cardinal lower</span></div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                <span class="comment">// than arity</span></div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                <span class="keywordflow">for</span> (<span class="keywordtype">int</span> iSize = 1; iSize &lt;= arity; iSize++) {</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                    <span class="comment">// if the size is greater than either number of</span></div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                    <span class="comment">// neighbors, there are no such neighbor intervals</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;                    <span class="keywordflow">if</span> (iSize &gt; (<span class="keywordtype">int</span>)circNeighbors1[v1].size() || iSize &gt; (int)circNeighbors2[v2].size()) {</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;                        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                    }</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                    <span class="comment">// for each neighbor interval i (resp j) of v1 (resp v2)</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; (int)circNeighbors1[v1].size(); i++) {</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;                        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; (int)circNeighbors2[v2].size(); j++) {</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                            <span class="keywordtype">double</span> product = 1;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                            <span class="comment">// for each neighbor r (resp s) of v1 (resp v2) in i (resp j)</span></div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;                            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> r = i; r &lt; i + iSize; r++) {</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;                                <span class="keywordflow">for</span> (<span class="keywordtype">int</span> s = j; s &lt; j + iSize; s++) {</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                                    <span class="keywordtype">int</span> neighbor1 = circNeighbors1[v1][r % circNeighbors1[v1].size()];</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                                    <span class="keywordtype">int</span> neighbor2 = circNeighbors2[v2][s % circNeighbors2[v2].size()];</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;                                    </div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;                                    product *= depthKernels[previous(d)](neighbor1, neighbor2);</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;                                }</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                            }</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;                            sum += product;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;                        }</div>
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;                    }</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                    <span class="comment">// for each neighbor interval i (resp j) of v1 (resp v2)</span></div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;                    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; (int)circNeighbors1[v1].size(); i++) {</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; (int)circNeighbors2[v2].size(); j++) {</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;                            <span class="keywordtype">double</span> product = 1;</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                            <span class="comment">// for each neighbor r (resp s) of v1 (resp v2) in i (resp j)</span></div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;                            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> r = i; r &lt; i + iSize; r++) {</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;                                <span class="keywordflow">for</span> (<span class="keywordtype">int</span> s = j; s &lt; j + iSize; s++) {</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;                                    <span class="keywordtype">int</span> neighbor1 = circNeighbors1[v1][r % circNeighbors1[v1].size()];</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;                                    <span class="keywordtype">int</span> neighbor2 = circNeighbors2[v2][s % circNeighbors2[v2].size()];</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;                                    </div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;                                    product *= depthKernels[previous(d)](neighbor1, neighbor2);</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                                }</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;                            }</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;                            sum += product;</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                        }</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;                    }</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;                }</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                <span class="keywordtype">double</span> res = basisKernels(v1,v2) * sum;</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;                depthKernels[current(d)](v1,v2) = res;</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;            }</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        }</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    }</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    Scalar result = sum(depthKernels[previous(depth)]);</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    <span class="comment">// sum and return the results of the last iteration</span></div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <span class="keywordflow">return</span> result[0];</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;}</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                }</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                <span class="keywordtype">double</span> res = basisKernels(v1,v2) * sum;</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                depthKernels[current(d)](v1,v2) = res;</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;            }</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        }</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    }</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    Scalar result = sum(depthKernels[previous(depth)]);</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    <span class="comment">// sum and return the results of the last iteration</span></div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    <span class="keywordflow">return</span> result[0];</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue May 28 2013 18:19:40 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 29 2013 17:51:25 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

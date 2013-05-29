@@ -8,8 +8,8 @@ var searchData=
   ['train',['train',['../class_trainable_stat_model.html#a5cb70c5e9e6f3e7f09e7f0ee666ddc25',1,'TrainableStatModel::train()'],['../class_bayes_model.html#a72af01b372a06ebac227e0bb4fd4a7de',1,'BayesModel::train()'],['../class_k_nearest_model.html#ae5278bb119540c9263bc96ad0eeea469',1,'KNearestModel::train()'],['../class_a_n_n_model.html#a2da3c5c659871364f9bcead4980b70f1',1,'ANNModel::train()']]],
   ['trainablestatmodel',['TrainableStatModel',['../class_trainable_stat_model.html',1,'']]],
   ['trainablestatmodel_2eh',['TrainableStatModel.h',['../_trainable_stat_model_8h.html',1,'']]],
-  ['treewalkkernel',['treeWalkKernel',['../_tree_walk_kernel_8hpp.html#aa4fba19bbe8130c027cf34f653da135f',1,'TreeWalkKernel.hpp']]],
+  ['treewalkkernel',['treeWalkKernel',['../_tree_walk_kernel_8hpp.html#aa1434caec077ce70f0547aa66a245dbd',1,'TreeWalkKernel.hpp']]],
   ['treewalkkernel_2ehpp',['TreeWalkKernel.hpp',['../_tree_walk_kernel_8hpp.html',1,'']]],
-  ['twkspectralclustering',['TWKSpectralClustering',['../class_t_w_k_spectral_clustering.html',1,'']]],
+  ['twkspectralclustering',['TWKSpectralClustering',['../class_t_w_k_spectral_clustering.html',1,'TWKSpectralClustering&lt; _Tp, m, n &gt;'],['../class_t_w_k_spectral_clustering.html#a75bc2cca60976fd16118627600699d78',1,'TWKSpectralClustering::TWKSpectralClustering()']]],
   ['twkspectralclustering_2eh',['TWKSpectralClustering.h',['../_t_w_k_spectral_clustering_8h.html',1,'']]]
 ];

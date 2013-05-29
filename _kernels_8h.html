@@ -124,9 +124,9 @@ Functions</h2></td></tr>
 <tr class="separator:a5ad67c55d5b982d8789190a08c353159"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0f353b14c63201ca6677c220002a3d6"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_kernels_8h.html#ac0f353b14c63201ca6677c220002a3d6">khi2Kernel</a> (int binsPerChannel, float lambda, float mu, float gamma, int area1, const Mat &amp;h1, int area2, const Mat &amp;h2)</td></tr>
 <tr class="separator:ac0f353b14c63201ca6677c220002a3d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a285a91c14475adb4264c9b1cff6a0b83"><td class="memTemplParams" colspan="2">template&lt;typename _Tp , int m, int n&gt; </td></tr>
-<tr class="memitem:a285a91c14475adb4264c9b1cff6a0b83"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_weighted_graph.html">WeightedGraph</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_kernels_8h.html#a285a91c14475adb4264c9b1cff6a0b83">weighEdgesByKernel</a> (const Mat_&lt; Vec3b &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, const <a class="el" href="class_mat_kernel.html">MatKernel</a>&lt; _Tp, m, n &gt; &amp;kernel, const <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Matx&lt; _Tp, m, n &gt; &gt; &amp;unweightedGraph)</td></tr>
-<tr class="separator:a285a91c14475adb4264c9b1cff6a0b83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae57c77f08b23d70f359640e49a01be72"><td class="memTemplParams" colspan="2">template&lt;typename _Tp , int m, int n&gt; </td></tr>
+<tr class="memitem:ae57c77f08b23d70f359640e49a01be72"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_weighted_graph.html">WeightedGraph</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_kernels_8h.html#ae57c77f08b23d70f359640e49a01be72">weighEdgesByKernel</a> (const Mat_&lt; Vec3b &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, const <a class="el" href="class_labeled_mat_kernel.html">LabeledMatKernel</a>&lt; _Tp, m, n &gt; &amp;kernel, const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;unweightedGraph)</td></tr>
+<tr class="separator:ae57c77f08b23d70f359640e49a01be72"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="a42e2a507a8b0d47b99cad3e995543b23"></a>
@@ -285,7 +285,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a285a91c14475adb4264c9b1cff6a0b83"></a>
+<a class="anchor" id="ae57c77f08b23d70f359640e49a01be72"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -312,13 +312,13 @@ template&lt;typename _Tp , int m, int n&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="class_mat_kernel.html">MatKernel</a>&lt; _Tp, m, n &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_labeled_mat_kernel.html">LabeledMatKernel</a>&lt; _Tp, m, n &gt; &amp;&#160;</td>
           <td class="paramname"><em>kernel</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Matx&lt; _Tp, m, n &gt; &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;&#160;</td>
           <td class="paramname"><em>unweightedGraph</em>&#160;</td>
         </tr>
         <tr>
@@ -343,7 +343,7 @@ template&lt;typename _Tp , int m, int n&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue May 28 2013 18:19:40 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 29 2013 17:51:25 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

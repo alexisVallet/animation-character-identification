@@ -87,26 +87,73 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;Eigen/Dense&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_spectral_clustering_8h.html">SpectralClustering.h</a>&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_tree_walk_kernel_8hpp.html">TreeWalkKernel.hpp</a>&quot;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">using namespace </span>Eigen;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">using namespace </span>cv;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;opencv2/opencv.hpp&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_graph_partitions_8h.html">GraphPartitions.h</a>&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_spectral_clustering_8h.html">SpectralClustering.h</a>&quot;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_tree_walk_kernel_8hpp.html">TreeWalkKernel.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_felzenszwalb_8hpp.html">Felzenszwalb.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_segmentation_8h.html">Segmentation.h</a>&quot;</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno"><a class="code" href="class_t_w_k_spectral_clustering.html">   18</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_t_w_k_spectral_clustering.html">TWKSpectralClustering</a> {</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <a class="code" href="class_t_w_k_spectral_clustering.html">TWKSpectralClustering</a>();</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">void</span> embed(<span class="keyword">const</span> vector&lt;pair&lt;Mat_&lt;Vec3b&gt;, Mat_&lt;float&gt; &gt; &gt; &amp;dataSet, <span class="keywordtype">int</span> outDim, MatrixXd &amp;embeddings);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">void</span> cluster(<span class="keyword">const</span> vector&lt;pair&lt;Mat_&lt;Vec3b&gt;, Mat_&lt;float&gt; &gt; &gt; &amp;dataSet, VectorXi &amp;classLabels);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;};</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">using namespace </span>Eigen;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">using namespace </span>cv;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">static</span> SparseMatrix&lt;double&gt; sparseLaplacian_(<span class="keyword">const</span> <a class="code" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph, <span class="keywordtype">bool</span> bidirectional) {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    VectorXd degrees;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordflow">return</span> sparseLaplacian(graph, bidirectional, degrees);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;}</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">template</span> &lt; <span class="keyword">typename</span> _Tp, <span class="keywordtype">int</span> m, <span class="keywordtype">int</span> n &gt;</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="code" href="class_t_w_k_spectral_clustering.html">   29</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_t_w_k_spectral_clustering.html">TWKSpectralClustering</a> {</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">const</span> vector&lt;pair&lt;Mat_&lt;Vec3b&gt;, Mat_&lt;float&gt; &gt; &gt; dataSet;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> depth;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> arity;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">const</span> <a class="code" href="class_mat_kernel.html">MatKernel&lt;_Tp, m, n&gt;</a> *kernelFunc;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="code" href="class_t_w_k_spectral_clustering.html#a75bc2cca60976fd16118627600699d78">   44</a></span>&#160;    <a class="code" href="class_t_w_k_spectral_clustering.html">TWKSpectralClustering</a>(<span class="keyword">const</span> vector&lt;pair&lt;Mat_&lt;Vec3b&gt;, Mat_&lt;float&gt; &gt; &gt; &amp;dataSet, <span class="keyword">const</span> <a class="code" href="class_mat_kernel.html">MatKernel&lt;_Tp, m, n&gt;</a> *kernelFunc, <span class="keywordtype">int</span> depth, <span class="keywordtype">int</span> arrity)</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        : dataSet(dataSet), kernelFunc(kernelFunc), depth(depth), arity(arity)</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    }</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="code" href="class_t_w_k_spectral_clustering.html#aabd50f9ee4ae5fb6047f05a1b04a14f5">   62</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_t_w_k_spectral_clustering.html#aabd50f9ee4ae5fb6047f05a1b04a14f5">embed</a>(vector&lt;DisjointSetForest&gt; &amp;segmentations, <span class="keyword">const</span> vector&lt;<a class="code" href="class_labeled_graph.html">LabeledGraph</a>&lt;Matx&lt;_Tp, m, n&gt; &gt; &gt; &amp;samples, <span class="keywordtype">int</span> outDim, MatrixXd &amp;embeddings) {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        assert(samples.size() == this-&gt;dataSet.size());</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        assert(segmentations.size() == samples.size());</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        cout&lt;&lt;<span class="stringliteral">&quot;computing gravity centers&quot;</span>&lt;&lt;endl;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="comment">// compute gravity centers</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        vector&lt;vector&lt;Vec2f&gt; &gt; centers(samples.size());</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; samples.size(); i++) {</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            gravityCenters(this-&gt;dataSet[i].first, this-&gt;dataSet[i].second, segmentations[i], centers[i]);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        }</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        cout&lt;&lt;<span class="stringliteral">&quot;computing similarity matrix&quot;</span>&lt;&lt;endl;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="comment">// compute similarity matrix from all pairs tree walk kernels. This is a </span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="comment">// symmetric matrix because the tree walk kernel is a kernel function,</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="comment">// assuming the inner kernel is (which we do assume).</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        MatrixXd S(samples.size(), samples.size());</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; samples.size(); i++) {</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = i; j &lt; samples.size(); j++) {</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                S(i,j) = treeWalkKernel&lt;_Tp, m, n&gt;(*this-&gt;kernelFunc, this-&gt;depth, this-&gt;arity, samples[i], centers[i], samples[j], centers[j]);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                S(j,i) = S(i,j);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            }</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        }</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        cout&lt;&lt;<span class="stringliteral">&quot;computing spectral embedding&quot;</span>&lt;&lt;endl;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        spectralEmbedding(S, <a class="code" href="class_k_nearest_graph.html">KNearestGraph</a>(10), sparseLaplacian_, outDim, embeddings, <span class="keyword">false</span>, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    }</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="comment">//void cluster(const vector&lt;LabeledGraph&lt;Matx&lt;_Tp, m, n&gt; &gt; &gt; &amp;samples, VectorXi &amp;classLabels);</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;};</div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue May 28 2013 18:19:40 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 29 2013 17:51:25 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

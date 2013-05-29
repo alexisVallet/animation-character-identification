@@ -90,33 +90,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 
 <p><code>#include &lt;<a class="el" href="_spectral_clustering_8h_source.html">SpectralClustering.h</a>&gt;</code></p>
-<div class="dynheader">
-Inheritance diagram for MutualKNearestGraph:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_mutual_k_nearest_graph__inherit__graph.png" border="0" usemap="#_mutual_k_nearest_graph_inherit__map" alt="Inheritance graph"/></div>
-<map name="_mutual_k_nearest_graph_inherit__map" id="_mutual_k_nearest_graph_inherit__map">
-</map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
-<div class="dynheader">
-Collaboration diagram for MutualKNearestGraph:</div>
-<div class="dyncontent">
-<div class="center"><img src="class_mutual_k_nearest_graph__coll__graph.png" border="0" usemap="#_mutual_k_nearest_graph_coll__map" alt="Collaboration graph"/></div>
-<map name="_mutual_k_nearest_graph_coll__map" id="_mutual_k_nearest_graph_coll__map">
-</map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a9a112bfdc70bd39455baa1d8091e0817"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9a112bfdc70bd39455baa1d8091e0817"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>MutualKNearestGraph</b> (int k)</td></tr>
 <tr class="separator:a9a112bfdc70bd39455baa1d8091e0817"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abbe3ada9696a6c3fa632c8e27dae2393"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mutual_k_nearest_graph.html#abbe3ada9696a6c3fa632c8e27dae2393">operator()</a> (const MatrixXd &amp;samples, <a class="el" href="class_similarity_function.html">SimilarityFunction</a> &amp;simFunc, <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph) const </td></tr>
-<tr class="separator:abbe3ada9696a6c3fa632c8e27dae2393"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0032c88882068e68ec2d5be94c24d4b8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mutual_k_nearest_graph.html#a0032c88882068e68ec2d5be94c24d4b8">operator()</a> (const MatrixXd &amp;similarity, <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph) const </td></tr>
+<tr class="separator:a0032c88882068e68ec2d5be94c24d4b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>K-nearest neighbor graph representation of a similarity matrix. A pair of vertices in the graph are connected to each other iff both of them are among the K-nearest neighbors of the other. Edges are weighted by similarity. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="abbe3ada9696a6c3fa632c8e27dae2393"></a>
+<a class="anchor" id="a0032c88882068e68ec2d5be94c24d4b8"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -127,13 +113,7 @@ Public Member Functions</h2></td></tr>
           <td class="memname">void MutualKNearestGraph::operator() </td>
           <td>(</td>
           <td class="paramtype">const MatrixXd &amp;&#160;</td>
-          <td class="paramname"><em>samples</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_similarity_function.html">SimilarityFunction</a> &amp;&#160;</td>
-          <td class="paramname"><em>simFunc</em>, </td>
+          <td class="paramname"><em>similarity</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -162,7 +142,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implements <a class="el" href="class_similarity_graph_representation.html#a88e5aa0f55b40ac929775c7be8900b34">SimilarityGraphRepresentation</a>.</p>
+<p>Implements <a class="el" href="class_similarity_graph_representation.html#aed27147f028a31899e4165f706d15406">SimilarityGraphRepresentation</a>.</p>
 
 </div>
 </div>
@@ -173,7 +153,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue May 28 2013 18:19:40 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 29 2013 17:51:26 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>
