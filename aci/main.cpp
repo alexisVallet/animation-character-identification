@@ -117,7 +117,7 @@ int main(int argc, char** argv) {
             
             Mat_<Vec3b> white_back = dataSet[i].first;
             
-            ContourDetectionforAnime(dataSet[i].first,0.05,0.3,5);
+            ContourDetectionforAnime(dataSet[i].first,0.1,0.3,5);
  
             imshow("src", dataSet[i].first);
             waitKey(0);

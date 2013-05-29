@@ -147,8 +147,25 @@ void ContourDetectionforAnime(Mat_<Vec3b> &src, float threshold_a , float thresh
     
     while(!contourStack.empty()){
         //TODO : 線を繋げる処理を書く
-       if( contourStack.top()[0], contourStack.top()[1]);
-    
+        Vec2i v = contourStack.top();
+        if( pixel_state(v) == Candidate ){
+            pixel_state(v) = Contour;
+            contourStack.push(v + Vec2i( 1, 0));
+            contourStack.push(v + Vec2i(-1, 0));
+            contourStack.push(v + Vec2i( 0, 1));
+            contourStack.push(v + Vec2i( 0,-1));
+            contourStack.push(v + Vec2i( 1,-1));
+            contourStack.push(v + Vec2i( 1, 1));
+            contourStack.push(v + Vec2i(-1,-1));
+            contourStack.push(v + Vec2i(-1, 1));
+            
+            dest(v) = 255;
+        }else{
+            pixel_state(v) = Not_Contour;
+            
+            cand(v) = 0;
+        };
+        contourStack.pop();
     }
     
     //---------------------------------------------------------------------------------------------
@@ -164,8 +181,9 @@ void ContourDetectionforAnime(Mat_<Vec3b> &src, float threshold_a , float thresh
     Mat_<Vec3b> image;
     merge(img,image);
     
-    
+    imshow("gray", gray);
     imshow("Lapracianed", laplacianed+ 0.5);
     imshow("line detected", image);
+    //imshow("line Connected", pixel_state * 127);
     
 }
