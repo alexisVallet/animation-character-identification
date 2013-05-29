@@ -44,7 +44,7 @@ double khi2Kernel(int binsPerChannel, float lambda, float mu, float gamma, int a
  * @return graph identical to the input graph with edges weighted by the kernel function.
  */
 template < typename _Tp, int m, int n >
-WeightedGraph weighEdgesByKernel(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, const MatKernel<_Tp, m, n> &kernel, const LabeledGraph<Matx<_Tp, m, n> > &unweightedGraph) {
+WeightedGraph weighEdgesByKernel(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, const LabeledMatKernel<_Tp, m, n> &kernel, const WeightedGraph &unweightedGraph) {
 	LabeledGraph<Matx<_Tp, m, n> > labeled;
 	kernel.getLabeling()(image, mask, segmentation, unweightedGraph, labeled);
 
@@ -62,7 +62,7 @@ WeightedGraph weighEdgesByKernel(const Mat_<Vec3b> &image, const Mat_<float> &ma
 /**
  * Functor for computing similarity between 2 neighboring segments.
  */
-class CompoundGaussianKernel : public MatKernel<float, 8, 1> {
+class CompoundGaussianKernel : public LabeledMatKernel<float, 8, 1> {
 private:
 	double alphaC;
 	double alphaX;

@@ -109,6 +109,8 @@
     <ClCompile Include="TrainableStatModel.cpp" />
     <ClCompile Include="TreeWalkKernel.cpp" />
     <ClCompile Include="TreeWalkKernelTest.cpp" />
+    <ClCompile Include="TWKSpectralClustering.cpp" />
+    <ClCompile Include="TWKSpectralClusteringTest.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="WeightedGraph.cpp" />
   </ItemGroup>
@@ -140,6 +142,7 @@
     <ClInclude Include="TrainableStatModel.h" />
     <ClInclude Include="TreeWalkKernel.hpp" />
     <ClInclude Include="TreeWalkKernelTest.h" />
+    <ClInclude Include="TWKSpectralClusteringTest.h" />
     <ClInclude Include="Utils.hpp" />
     <ClInclude Include="WeightedGraph.hpp" />
   </ItemGroup>

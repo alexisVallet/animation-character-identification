@@ -2,4 +2,4 @@
 
 #include "TreeWalkKernel.hpp"
 
-void treeWalkKernelTest();
+//void treeWalkKernelTest();

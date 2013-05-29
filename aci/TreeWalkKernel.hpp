@@ -11,8 +11,7 @@
 #include "LabeledGraph.hpp"
 #include "DisjointSet.hpp"
 #include "Kernels.h"
-
-#define TWK_DEBUG false
+#include "GraphPartitions.h"
 
 using namespace std;
 using namespace cv;
@@ -55,7 +54,7 @@ public:
 	}
 };
 
-static void computeNeighbors(const WeightedGraph &graph, DisjointSetForest &segmentation, const vector<Vec2f> &embedding, vector<vector<int> > &circNeighbors) {
+static void computeNeighbors(const WeightedGraph &graph, const vector<Vec2f> &embedding, vector<vector<int> > &circNeighbors) {
 	circNeighbors = vector<vector<int> >(graph.numberOfVertices());
 
 	for (int i = 0; i < graph.numberOfVertices(); i++) {
@@ -98,16 +97,14 @@ static void computeNeighbors(const WeightedGraph &graph, DisjointSetForest &segm
  * @param graph2 second segmentation graph
  * @param embedding2 plane (not necessarily planar) embedding for vertices in graph2
  */
-template < typename T >
+template < typename _Tp, int m, int n >
 double treeWalkKernel(
-	double (*basisKernel)(int area1, const T &l1, int area2, const T &l2), 
+	const MatKernel<_Tp, m, n> &basisKernel, 
 	int depth, 
 	int arity,
-	DisjointSetForest &segmentation1, 
-	const LabeledGraph<T> &graph1,
+	const LabeledGraph<Matx<_Tp, m, n> > &graph1,
 	const vector<Vec2f> &embedding1,
-	DisjointSetForest &segmentation2,
-	const LabeledGraph<T> &graph2,
+	const LabeledGraph<Matx<_Tp, m, n> > &graph2,
 	const vector<Vec2f> &embedding2) {
 	// basisKernels contains the basis kernel for each pair of vertices in
 	// the two graphs, computed once and for all.
@@ -127,28 +124,14 @@ double treeWalkKernel(
 		circNeighbors2;
 
 	//initializes neighbors in circular order
-	computeNeighbors(graph1, segmentation1, embedding1, circNeighbors1);
-	computeNeighbors(graph2, segmentation2, embedding2, circNeighbors2);
-
-	if (TWK_DEBUG) {
-		cout<<"neighbors of graph 1:"<<endl;
-		for (int i = 0; i < graph1.numberOfVertices(); i++) {
-			cout<<i<<" : ";
-
-			for (int j = 0; j < circNeighbors1[i].size(); j++) {
-				cout<<circNeighbors1[i][j]<<", ";
-			}
-			cout<<endl;
-		}
-	}
+	computeNeighbors(graph1, embedding1, circNeighbors1);
+	computeNeighbors(graph2, embedding2, circNeighbors2);
 
 	// initializes basis kernels
 	for (int v1 = 0; v1 < graph1.numberOfVertices(); v1++) {
 		for (int v2 = 0; v2 < graph2.numberOfVertices(); v2++) {
 			basisKernels(v1,v2) = basisKernel(
-				segmentation1.getComponentSize(v1),
 				graph1.getLabel(v1),
-				segmentation2.getComponentSize(v2),
 				graph2.getLabel(v2));
 			depthKernels[previous(0)](v1,v2) = basisKernels(v1,v2);
 		}

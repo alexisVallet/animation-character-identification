@@ -6,7 +6,7 @@ static double testKernel(int area1, const Vec3b &c1, int area2, const Vec3b &c2)
 	return exp(-pow(norm(Vec3f(c1), Vec3f(c2)), 2) / pow(TWK_SIGMA, 2));
 }
 
-void treeWalkKernelTest() {
+/*void treeWalkKernelTest() {
 	LabeledGraph<Vec3b> graph1(4,3);
 	DisjointSetForest seg1(4);
 	vector<Vec2f> embedding1;
@@ -44,4 +44,4 @@ void treeWalkKernelTest() {
 	double res = treeWalkKernel<Vec3b>(testKernel, 2, 2, seg1, graph1, embedding1, seg2, graph2, embedding2);
 
 	cout<<"res = "<<res<<endl;
-}
+}*/

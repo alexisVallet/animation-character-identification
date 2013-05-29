@@ -12,7 +12,7 @@ static double simFunc(const VectorXd &s1, const VectorXd &s2) {
 	return exp(-(s1 - s2).squaredNorm() / pow(SIGMA, 2));
 }
 
-void testSpectralClustering() {
+/*void testSpectralClustering() {
 	MatrixXd samples(6,2);
 
 	samples.row(0) = Vector2d(0,0);
@@ -29,3 +29,4 @@ void testSpectralClustering() {
 
 	cout<<classLabels<<endl;
 }
+*/

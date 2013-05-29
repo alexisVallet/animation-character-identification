@@ -2,4 +2,4 @@
 
 #include "SpectralClustering.h"
 
-void testSpectralClustering();
+//void testSpectralClustering();

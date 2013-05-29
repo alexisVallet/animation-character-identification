@@ -14,20 +14,6 @@ using namespace cv;
 using namespace Eigen;
 
 /**
- * Abstract class for similarity function objects between vector samples.
- */
-class SimilarityFunction {
-public:
-	/**
-	 * Some measure of similarity between 2 vector samples, should be larger
-	 * as vectors are closer.
-	 * @param s1 sample to compare to s2.
-	 * @param s2 sample to compare to s1.
-	 */
-	virtual double operator() (const VectorXd& s1, const VectorXd& s2) const = 0;
-};
-
-/**
  * Abstract class for graph representation function objects to be applied on 
  * data samples.
  */
@@ -39,15 +25,14 @@ public:
 	 * @param simFunc input similarity matrix or function.
 	 * @param graph output similarity graph.
 	 */
-	virtual void operator() (const MatrixXd &samples, SimilarityFunction &simFunc, WeightedGraph &graph) const = 0;
+	virtual void operator() (const MatrixXd &similarity, WeightedGraph &graph) const = 0;
 };
 
 /**
  * Spectral clustering of a set of samples by the k smallest eigenvectors 
  * for a specific matrix representation of a specific graph representation.
  *
- * @param samples samples to cluster.
- * @param simFunc similarity function.
+ * @param similarity similarity matrix.
  * @param graphRep graph representation to use for clustering.
  * @param matRep a sparse matrix graph representation. The representation is sparse
  * for efficient smallest eigenvectors computation.
@@ -58,29 +43,16 @@ public:
  * @param bidirectional indicates whether the graph representation is bidirectional
  * or not.
  */
-void spectralClustering(const MatrixXd &samples, SimilarityFunction &simFunc, SimilarityGraphRepresentation &graphRep, SparseRepresentation matRep, int k, VectorXi &classLabels, bool normalize = false, bool symmetric = true);
+void spectralClustering(const MatrixXd &similarity, SimilarityGraphRepresentation &graphRep, SparseRepresentation matRep, int k, VectorXi &classLabels, bool normalize = false, bool symmetric = true);
 
 /**
- * General spectral clustering routine, clustering an arbitrary weighted graph
- * by the k smallest (by their corresponding eigenvalues) eigenvectors of a
- * specific matrix representation.
- *
- * @param simGraph similarity graph, meaning weights indicate how similar vertices
- * are.
- * @param matRep a sparse matrix graph representation. The representation is sparse
- * for efficient smallest eigenvectors computation.
- * @param k the number of clusters.
- * @param normalize indicates whether the spectral embedding coordinates should be
- * normalized. Useful in the case of normalized spectral clustering as defined by
- * Ng - Jordan - Weiss algorithm.
- * @param bidirectional indicates whether the graph representation is bidirectional
- * or not.
+ * Spectral embedding according to similarity matrix in k-dimensional space.
  */
-void spectralClustering(const WeightedGraph &simGraph, SparseRepresentation matRep, int k, VectorXi &classLabels, bool normalize = false, bool symmetric = true, bool bidirectional = false);
+void spectralEmbedding(const MatrixXd &similarity, SimilarityGraphRepresentation &graphRep, SparseRepresentation matRep, int k, MatrixXd &embeddings, bool normalize = false, bool symmetric = true);
 
 /**
  * Neighborhood graph representation of a similarity matrix. Each vertex in the graph
- * is connected by an unweighted edge to each of its numbers closer than a given radius.
+ * is connected by an unweighted edge to each of its neighbors closer than a given radius.
  */
 class NeighborhoodGraph : SimilarityGraphRepresentation {
 private:
@@ -89,7 +61,7 @@ private:
 public:
 	NeighborhoodGraph(double radius);
 
-	void operator() (const MatrixXd &samples, SimilarityFunction &simFunc, WeightedGraph &graph) const;
+	void operator() (const MatrixXd &similarity, WeightedGraph &graph) const;
 };
 
 /**
@@ -104,7 +76,7 @@ private:
 public:
 	KNearestGraph(int k);
 
-	void operator() (const MatrixXd &samples, SimilarityFunction &simFunc, WeightedGraph &graph) const;
+	void operator() (const MatrixXd &similarity, WeightedGraph &graph) const;
 };
 
 /**
@@ -119,7 +91,7 @@ private:
 public:
 	MutualKNearestGraph(int k);
 
-	void operator() (const MatrixXd &samples, SimilarityFunction &simFunc, WeightedGraph &graph) const;
+	void operator() (const MatrixXd &similarity, WeightedGraph &graph) const;
 };
 
 /**
@@ -130,5 +102,5 @@ class CompleteGraph : public SimilarityGraphRepresentation {
 public:
 	CompleteGraph();
 
-	void operator() (const MatrixXd &samples, SimilarityFunction &simFunc, WeightedGraph &graph) const;
+	void operator() (const MatrixXd &similarity, WeightedGraph &graph) const;
 };

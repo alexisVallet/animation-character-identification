@@ -230,22 +230,18 @@ static void equalizeGrayscaleHistogram(const Mat_<uchar> &image, const Mat_<floa
 void equalizeColorHistogram(const Mat_<Vec3b> &image, const Mat_<float> &mask, Mat_<Vec3b> &equalized) {
 	Mat_<Vec3b> hsvImage;
 
-	cout<<"converting to HSV"<<endl;
 	cvtColor(image, hsvImage, CV_BGR2HSV);
 
-	cout<<"splitting"<<endl;
 	vector<Mat_<uchar> > channels(3);
 
 	split(image, channels);
 
-	cout<<"equalizing Hue"<<endl;
 	Mat_<uchar> equalizedHue;
 
 	equalizeGrayscaleHistogram(channels[0], mask, equalizedHue);
 
 	channels[0] = equalizedHue;
 
-	cout<<"merging back equalized hsv"<<endl;
 	Mat_<Vec3b> equalizedHsv;
 	
 	for (int i = 1; i < 3; i++) {
@@ -254,7 +250,6 @@ void equalizeColorHistogram(const Mat_<Vec3b> &image, const Mat_<float> &mask, M
 
 	merge(channels, equalizedHsv);
 
-	cout<<"converting back to BGR"<<endl;
 	cvtColor(equalizedHsv, equalized, CV_HSV2BGR);
 }
 

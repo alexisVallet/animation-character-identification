@@ -106,8 +106,6 @@ Eigen::SparseMatrix<double> normalizedSparseLaplacian(const WeightedGraph &graph
 		}
 	}
 
-	cout<<degrees<<endl;
-
 	// then we ccompute triplets for the off diagonal elements while computing the
 	// diagonal elements
 	vector<Eigen::Triplet<double> > tripletList;

@@ -19,14 +19,14 @@ void runClassificationFor(
 		int fk = felzScales[fki];
 		// segmentation with various parameters
 		vector<DisjointSetForest> segmentations;
-		vector<LabeledGraph<Matx<float,8,1> > > segGraphs;
+		vector<WeightedGraph> segGraphs;
 		segmentations.reserve(dataSet.size());
 
 		for (int i = 0; i < (int)dataSet.size(); i++) {
 			DisjointSetForest segmentation;
-			LabeledGraph<Matx<float,8,1> > segGraph;
+			WeightedGraph segGraph;
 
-			segment<float,8,1>(dataSet[i].first, dataSet[i].second, segmentation, segGraph, fk);
+			segment(dataSet[i].first, dataSet[i].second, segmentation, segGraph, fk);
 			segmentations.push_back(segmentation);
 			segGraphs.push_back(segGraph);
 		}
@@ -49,7 +49,7 @@ void runClassificationFor(
 
 						graphsToClassify.reserve(dataSet.size());
 						for (int i = 0; i < (int)dataSet.size(); i++) {
-							graphsToClassify.push_back(weighEdgesByKernel(dataSet[i].first, dataSet[i].second, segmentations[i], simFunc, segGraphs[i]));
+							graphsToClassify.push_back(weighEdgesByKernel<float,8,1>(dataSet[i].first, dataSet[i].second, segmentations[i], simFunc, segGraphs[i]));
 						}
 
 						KNearestModel nnModel(1);
@@ -87,7 +87,7 @@ void parameterTuning(ostream &outStream) {
 
 		preProcessing(dataSet[i].first, dataSet[i].second, processedImage, processedMask);
 		preProcessedDataset.push_back(pair<Mat_<Vec3b>, Mat_<float> >(processedImage, processedMask));
-	}	
+	}
 
 	vector<int> felzScale;
 	vector<double> alphaX, alphaC, alphaS;

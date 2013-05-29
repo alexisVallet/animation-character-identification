@@ -14,10 +14,19 @@ struct Labeling {
 };
 
 /**
- * Base class for specifying vertex label and similariy function for a graph.
+ * Base class for specifying similariy function for a graph.
  */
 template < typename _Tp, int m, int n >
 class MatKernel {
+public:
+	virtual double operator() (const Matx<_Tp, m, n>&, const Matx<_Tp, m, n>&) const = 0;
+};
+
+/**
+ * Same as MatKernel, with the associated graph labeling built in.
+ */
+template < typename _Tp, int m, int n >
+class LabeledMatKernel : public MatKernel<_Tp, m, n> {
 public:
 	virtual typename Labeling<_Tp, m, n>::type getLabeling() const = 0;
 	virtual double operator() (const Matx<_Tp, m, n>&, const Matx<_Tp, m, n>&) const = 0;

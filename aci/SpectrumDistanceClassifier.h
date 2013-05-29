@@ -63,6 +63,4 @@ public:
 	 * @return a recognition rate within the real interval [0; 1].
 	 */
 	float leaveOneOutRecognitionRate(vector<WeightedGraph> samples, const Mat_<int> &classes);
-
-
 };
