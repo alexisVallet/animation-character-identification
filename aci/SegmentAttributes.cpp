@@ -45,6 +45,23 @@ void colorHistogramLabels(
 		}
 }
 
+void segmentAreaLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, const WeightedGraph &segGraph, LabeledGraph<Matx<float,1,1> > &labeledGraph) {
+	assert(image.rows == mask.rows && image.cols == mask.cols);
+	assert(segmentation.getNumberOfComponents() == segGraph.numberOfVertices());
+	map<int,int> rootIndexes = segmentation.getRootIndexes();
+	vector<int> reverseRootIndexes(segmentation.getNumberOfComponents());
+
+	for (map<int,int>::iterator it = rootIndexes.begin(); it != rootIndexes.end(); it++) {
+		reverseRootIndexes[it->second] = it->first;
+	}
+
+	labeledGraph = LabeledGraph<Matx<float,1,1> >(segmentation.getNumberOfComponents());
+
+	for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
+		labeledGraph.addLabel(i, segmentation.getComponentSize(reverseRootIndexes[i]));
+	}
+}
+
 void averageColorLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, const WeightedGraph &segGraph, LabeledGraph<Matx<float,3,1> > &labeledGraph) {
 	assert(image.rows == mask.rows && image.cols == mask.cols);
 	assert(segmentation.getNumberOfComponents() == segGraph.numberOfVertices());

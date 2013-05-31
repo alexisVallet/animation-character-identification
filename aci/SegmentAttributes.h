@@ -13,6 +13,17 @@
 #include <math.h>
 
 /**
+ * Labels vertices of a segmentation graph by the area of the segment.
+ *
+ * @param image image to compute average colors from.
+ * @param mask mask of pixels to take into account.
+ * @param segmentation a segmentation of the image.
+ * @param segGraph graph to add labels to.
+ * @param labeledGraph output graph with labels added.
+ */
+void segmentAreaLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, const WeightedGraph &segGraph, LabeledGraph<Matx<float,1,1> > &labeledGraph);
+
+/**
  * Labels vertices of a segmentation graph by the average color of the segment.
  *
  * @param image image to compute average colors from.

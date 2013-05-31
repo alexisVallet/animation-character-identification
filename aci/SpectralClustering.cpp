@@ -4,12 +4,20 @@ static void spectralEmbedding_(const WeightedGraph &simGraph, SparseRepresentati
 	assert(k >= 1);
 
 	// compute the matrix representation of the graph
-	SparseMatrix<double> rep = matRep(simGraph, bidirectional);
+	SparseMatrix<double> rep = matRep(simGraph, false);
 
 	// compute its k smallest eigenvectors
 	VectorXd eigenvalues;
 
-	symmetricSparseEigenSolver(rep, "SM", k, simGraph.numberOfVertices(), eigenvalues, embeddings);
+	if (symmetric) {
+		symmetricSparseEigenSolver(rep, "SA", k + 1, simGraph.numberOfVertices(), eigenvalues, embeddings);
+	} else {
+		nonSymmetricSparseEigenSolver(rep, "SA", k + 1, simGraph.numberOfVertices(), eigenvalues, embeddings);
+	}
+
+	embeddings = embeddings.block(0, 1, simGraph.numberOfVertices(), k);
+
+	cout<<"graph:"<<endl<<simGraph<<endl;
 
 	// normalize embedding coordinates if necessary
 	if (normalize) {
@@ -57,8 +65,6 @@ void spectralEmbedding(const MatrixXd &similarity, SimilarityGraphRepresentation
 
 	spectralEmbedding_(simGraph, matRep, k, embeddings, normalize, symmetric);
 }
-
-
 
 NeighborhoodGraph::NeighborhoodGraph(double radius) 
 	: radius(radius)

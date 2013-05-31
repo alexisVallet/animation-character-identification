@@ -137,14 +137,12 @@ double treeWalkKernel(
 		}
 	}
 
-	cout<<basisKernels<<endl;
-
 	// computes kernels for each depth up to the maximum depth
 	for (int d = 0; d < depth; d++) {
 		for (int v1 = 0; v1 < graph1.numberOfVertices(); v1++) {
 			for (int v2 = 0; v2 < graph2.numberOfVertices(); v2++) {
 				double sum = 0;
-	
+
 				// summing for neighbor intervals of cardinal lower
 				// than arity
 				for (int iSize = 1; iSize <= arity; iSize++) {
@@ -171,7 +169,7 @@ double treeWalkKernel(
 						}
 					}
 				}
-
+				
 				double res = basisKernels(v1,v2) * sum;
 
 				depthKernels[current(d)](v1,v2) = res;
@@ -180,7 +178,7 @@ double treeWalkKernel(
 	}
 
 	Scalar result = sum(depthKernels[previous(depth)]);
-
+	
 	// sum and return the results of the last iteration
 	return result[0];
 }

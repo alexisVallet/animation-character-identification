@@ -1,0 +1,37 @@
+function plotRecognitionData( csvFilename, colX, colY)
+%PLOTRECOGNITIONDATA plots recognition rates data as computed by
+% animation-character-identification.exe .
+
+recognitionRates = csvread(csvFilename);
+
+[rows cols] = size(recognitionRates);
+
+if colX < 1 || colX > cols || colY < 1 || colY > cols
+    ME = MException('colX or colY is out of bounds');
+    throw(ME);
+end
+
+nbXValues = 0;
+nbYPerX = [];
+prevValue = -1;
+
+% first count the number of different value in colX
+for i=1:rows
+    if prevValue ~= recognitionRates(i, colX)
+        prevValue = recognitionRates(i, colX);
+        nbXValues = nbXValues + 1;
+        nbYPerX = [nbYPerX 1];
+    else
+        nbYPerX(length(nbYPerX)) = nbYPerX(length(nbYPerX)) + 1;
+    end
+end
+
+means = zeros(nbXValues);
+mins = zeros(nbXValues);
+maxs = zeros(nbXValues);
+
+for i=1:nbXValues
+   means = mean(recognitionRates( 
+end
+
+end

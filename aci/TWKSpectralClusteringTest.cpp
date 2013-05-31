@@ -3,6 +3,7 @@
 #define FELZ_SCALE 1000
 #define TWK_DEPTH 2
 #define TWK_ARITY 2
+#define TWK_NBCLASSES 12
 
 void testTWKSpectralClustering(ostream &out) {
 	cout<<"loading dataset"<<endl;
@@ -12,7 +13,7 @@ void testTWKSpectralClustering(ostream &out) {
 	vector<pair<Mat_<Vec3b>, Mat_<float> > > dataSet;
 	Mat_<int> classes;
 
-	loadDataSet("../test/dataset/", names, 12, 5, dataSet, classes);
+	loadDataSet("../test/dataset/", names, TWK_NBCLASSES, 5, dataSet, classes);
 
 	cout<<"preprocessing"<<endl;
 	// pre-processing data set
@@ -45,25 +46,22 @@ void testTWKSpectralClustering(ostream &out) {
 	
 	cout<<"labeling"<<endl;
 	// labeling
-	vector<LabeledGraph<Matx<float,8,1> > > labeled;
-	CompoundGaussianKernel gaussKernel(5,5,5);
+	vector<LabeledGraph<Matx<float,4,1> > > labeled;
+	TWBasisKernel twKernel(5, 0);
 
 	for (int i = 0; i < (int)dataSet.size(); i++) {	
-		LabeledGraph<Matx<float,8,1> > labeledGraph;
+		LabeledGraph<Matx<float,4,1> > labeledGraph;
 
-		gaussKernel.getLabeling()(preProcessedDataset[i].first, preProcessedDataset[i].second, segmentations[i], segGraphs[i], labeledGraph);
+		twKernel.getLabeling()(preProcessedDataset[i].first, preProcessedDataset[i].second, segmentations[i], segGraphs[i], labeledGraph);
 
 		labeled.push_back(labeledGraph);
 	}
 
-	cout<<"embedding"<<endl;
+	cout<<"clustering"<<endl;
 	// embedding
-	TWKSpectralClustering<float,8,1> clustering(preProcessedDataset, (MatKernel<float,8,1>*)&gaussKernel, TWK_DEPTH, TWK_ARITY);
-	MatrixXd embeddings;
-
-	clustering.embed(segmentations, labeled, 2, embeddings);
-
-	for (int i = 0; i < (int)dataSet.size(); i++) {
-		out<<embeddings(i,0)<<", "<<embeddings(i,1)<<endl;
-	}
+	TWKSpectralClustering<float,4,1> clustering(preProcessedDataset, (MatKernel<float,4,1>*)&twKernel, TWK_DEPTH, TWK_ARITY);
+	VectorXi classLabels;
+	
+	clustering.cluster(segmentations, labeled, TWK_NBCLASSES, classLabels);
+	cout<<classLabels<<endl;
 }
