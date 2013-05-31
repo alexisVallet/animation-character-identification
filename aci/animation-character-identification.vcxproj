@@ -132,6 +132,7 @@
     <ClInclude Include="PreProcessing.h" />
     <ClInclude Include="Segmentation.h" />
     <ClInclude Include="SegmentationGraph.hpp" />
+    <ClInclude Include="SpectrumDistanceClustering.h" />
     <ClInclude Include="TWKSpectralClustering.h" />
     <ClInclude Include="SegmentAttributes.h" />
     <ClInclude Include="SegmentAttributesTest.h" />

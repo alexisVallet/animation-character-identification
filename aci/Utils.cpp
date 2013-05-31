@@ -290,3 +290,19 @@ void resizeImage(const Mat_<Vec<uchar,3> > &image, const Mat_<float> &mask, Mat_
 		resizedMask = mask;
 	}
 }
+
+static double cvIndexing(const Mat_<double> &m, int i, int j) {
+	return m(i,j);
+}
+
+static double eigenIndexing(const Eigen::MatrixXd &m, int i, int j) {
+	return m(i,j);
+}
+
+void cvMatToCsv(const Mat_<double> &matrix, ostream &out) {
+	matToCsv<Mat_<double> >(matrix, matrix.rows, matrix.cols, cvIndexing, out);
+}
+
+void eigenMatToCsv(const Eigen::MatrixXd &matrix, ostream &out) {
+	matToCsv<Eigen::MatrixXd>(matrix, matrix.rows(), matrix.cols(), eigenIndexing, out);
+}

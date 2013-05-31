@@ -133,3 +133,35 @@ void vconcatX(const Matx<_Tp, m1, n> &mat1, const Matx<_Tp, m2, n> &mat2, Matx<_
 
 	res = Matx<_Tp, m1 + m2, n>(dres);
 }
+
+template < typename MatType >
+void matToCsv(const MatType &matrix, int rows, int cols, double (*indexing)(const MatType &m, int i, int j), ostream &out) {
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			out<<indexing(matrix, i, j);
+
+			if (j < cols - 1) {
+				out<<", ";
+			}
+		}
+		out<<endl;
+	}
+}
+
+/**
+ * Outputs a csv file representation of an openCV matrix to an arbitrary
+ * output stream.
+ *
+ * @param matrix matrix to output as csv file.
+ * @param out output stream to send csv data to.
+ */
+void cvMatToCsv(const Mat_<double> &matrix, ostream &out);
+
+/**
+ * Outputs a csv file representation of an Eigen matrix to an arbitrary
+ * output stream.
+ *
+ * @param matrix matrix to output as csv file.
+ * @param out output stream to send csv data to.
+ */
+void eigenMatToCsv(const Eigen::MatrixXd &matrix, ostream &out);

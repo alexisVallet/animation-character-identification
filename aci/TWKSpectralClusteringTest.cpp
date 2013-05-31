@@ -3,7 +3,7 @@
 #define FELZ_SCALE 1000
 #define TWK_DEPTH 2
 #define TWK_ARITY 2
-#define TWK_NBCLASSES 12
+#define TWK_NBCLASSES 3
 
 void testTWKSpectralClustering(ostream &out) {
 	cout<<"loading dataset"<<endl;
@@ -57,11 +57,20 @@ void testTWKSpectralClustering(ostream &out) {
 		labeled.push_back(labeledGraph);
 	}
 
-	cout<<"clustering"<<endl;
-	// embedding
+	cout<<"3d embeddings"<<endl;
 	TWKSpectralClustering<float,4,1> clustering(preProcessedDataset, (MatKernel<float,4,1>*)&twKernel, TWK_DEPTH, TWK_ARITY);
-	VectorXi classLabels;
+	MatrixXd embeddings;
+
+	clustering.embed(segmentations, labeled, 3, embeddings);
+
+	eigenMatToCsv(embeddings, out);
 	
+	for (int i = 0; i < TWK_NBCLASSES; i++) {
+		cout<<"\'"<<names[i]<<"\'"<<endl;
+	}
+
+	cout<<"clustering"<<endl;
+	VectorXi classLabels;
 	clustering.cluster(segmentations, labeled, TWK_NBCLASSES, classLabels);
 	cout<<classLabels<<endl;
 }

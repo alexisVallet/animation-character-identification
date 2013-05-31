@@ -1,4 +1,4 @@
-function plot2dEmbedding(embedding, step)
+function plot2dEmbedding(embedding, step, labels)
 
 [rows cols] = size(embedding);
 
@@ -12,6 +12,10 @@ for i=1:step:rows
 end
 
 scatter(embedding(:,1), embedding(:,2), 10, colors, 'filled');
+
+I = 1:step:rows;
+p = findobj(gca,'Type','Patch');
+legend(p(I), labels)
 
 end
 

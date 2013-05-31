@@ -1,5 +1,7 @@
 #include "SpectralClustering.h"
 
+#define DEBUG_SEPCTRALCLUSTERING false
+
 static void spectralEmbedding_(const WeightedGraph &simGraph, SparseRepresentation matRep, int k, MatrixXd &embeddings, bool normalize = false, bool symmetric = true) {
 	assert(k >= 1);
 
@@ -10,20 +12,28 @@ static void spectralEmbedding_(const WeightedGraph &simGraph, SparseRepresentati
 	VectorXd eigenvalues;
 
 	if (symmetric) {
-		symmetricSparseEigenSolver(rep, "SA", k + 1, simGraph.numberOfVertices(), eigenvalues, embeddings);
+		symmetricSparseEigenSolver(rep, "SM", k + 1, simGraph.numberOfVertices(), eigenvalues, embeddings);
 	} else {
-		nonSymmetricSparseEigenSolver(rep, "SA", k + 1, simGraph.numberOfVertices(), eigenvalues, embeddings);
+		nonSymmetricSparseEigenSolver(rep, "SM", k + 1, simGraph.numberOfVertices(), eigenvalues, embeddings);
 	}
 
 	embeddings = embeddings.block(0, 1, simGraph.numberOfVertices(), k);
-
-	cout<<"graph:"<<endl<<simGraph<<endl;
-
+	
 	// normalize embedding coordinates if necessary
 	if (normalize) {
 		for (int i = 0; i < simGraph.numberOfVertices(); i++) {
 			embeddings.row(i).normalize();
 		}
+	}
+
+	if (DEBUG_SEPCTRALCLUSTERING) {
+		cout<<"laplacian: "<<endl<<rep<<endl;
+		MatrixXd dense(rep);
+		SelfAdjointEigenSolver<MatrixXd> solver(dense);
+		cout<<"expected eigenvalues: "<<solver.eigenvalues()<<endl;
+		cout<<"expected eigenvectors:"<<endl<<solver.eigenvectors().block(0,1,simGraph.numberOfVertices(),k)<<endl;
+		cout<<"actual eigenvalues: "<<eigenvalues<<endl;
+		cout<<"actual eigenvectors:"<<endl<<embeddings<<endl<<endl;
 	}
 }
 

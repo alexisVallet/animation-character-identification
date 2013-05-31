@@ -55,7 +55,7 @@ public:
 static SparseMatrix<double> sparseLaplacian_(const WeightedGraph &graph, bool bidirectional) {
 	VectorXd degrees;
 
-	return sparseLaplacian(graph, bidirectional, degrees);
+	return randomWalkSparseLaplacian(graph, bidirectional, degrees);
 }
 
 /**
@@ -126,7 +126,7 @@ public:
 		MatrixXd S;
 
 		similarityMatrix(segmentations, samples, S);
-		spectralEmbedding(S, KNearestGraph(10), sparseLaplacian_, outDim, embeddings, false, true);
+		spectralEmbedding(S, KNearestGraph(10), sparseLaplacian_, outDim, embeddings, false, false);
 	}
 
 	/**
@@ -142,6 +142,6 @@ public:
 		 MatrixXd S;
 
 		similarityMatrix(segmentations, samples, S);
-		spectralClustering(S, KNearestGraph(10), sparseLaplacian_, nbClasses, classLabels, false, true);
+		spectralClustering(S, KNearestGraph(10), sparseLaplacian_, nbClasses, classLabels, false, false);
 	}
 };

@@ -231,12 +231,13 @@ extern "C" void dnaupd_(int *ido, char *bmat, int *n, char *which,
 			int *info);
 
 // ARPACK routine for sparse eigenvectors computation from dnaupd_'s results
-extern "C" void dneupd_(int *rvec, char *All, int *select, double *d,
-			double *v1, int *ldv1, double *sigma, 
-			char *bmat, int *n, char *which, int *nev,
-			double *tol, double *resid, int *ncv, double *v2,
-			int *ldv2, int *iparam, int *ipntr, double *workd,
-			double *workl, int *lworkl, int *ierr);
+extern "C" void dneupd_(int *rvec, char *howmny, int *select, double *dr,
+			double *di, double *z, int *ldz, double *sigmar, double *sigmai,
+			double *workev, char *bmat, int *n, char *which,
+			int *nev, double *tol, double *resid, int *ncv,
+			double *v, int *ldv, int *iparam, int *ipntr,
+			double *workd, double *workl, int *lworkl,
+			int *info);
 
 EigenMult::EigenMult(const Eigen::SparseMatrix<double> *L) 
 	: L(L)
@@ -279,7 +280,7 @@ static inline void generalSparseEigenSolver(bool symmetric, int order, char *whi
 	int iparam[11] = {1, 0, maxIterations, 1, 2, 0, 1, 0};
 	int ipntr[11];
 	double *workd = new double[3*n];
-	int lworkl = (8 + ncv) * ncv;
+	int lworkl = symmetric ? (8 + ncv) * ncv : ncv * (6 + 3 * ncv);
 	double *workl = new double[lworkl];
 	int info = 0;
 
@@ -293,6 +294,7 @@ static inline void generalSparseEigenSolver(bool symmetric, int order, char *whi
 
 		// checking for errors
 		if (info != 0 && info != 1) {
+			cout<<"which = "<<which<<endl;
 			cout<<"dsaupd failed, info = "<<info<<endl;
 			exit(EXIT_FAILURE);
 		}
@@ -309,23 +311,47 @@ static inline void generalSparseEigenSolver(bool symmetric, int order, char *whi
 
 	// running dseupd_ / dneupd_ to figure out eigenvalues and eigenvectors
 	// from the results of dsaup
-	int rvec = 1;
-	char howmny[4] = "All";
-	int *select = new int[ncv];
-	double sigma;
-	double *d = new double[2 * ncv];
-	int ierr;
-
+	double *d = new double[symmetric ? 2 * ncv : nev + 1];
+	
 	if (symmetric) {
+		int rvec = 1;
+		char howmny[4] = "All";
+		int *select = new int[ncv];
+		double sigma;
+		int ierr;
+
 		dseupd_(&rvec, howmny, select, d, v, &ldv, &sigma, bmat, &n, which, &nev, &tol, resid, &ncv, v, &ldv, iparam, ipntr, workd, workl, &lworkl, &ierr);
+
+		if (ierr != 0) {
+			cout<<"dseupd error "<<ierr<<endl;
+			exit(EXIT_FAILURE);
+		}
+
+		delete[] select;
 	} else {
-		dneupd_(&rvec, howmny, select, d, v, &ldv, &sigma, bmat, &n, which, &nev, &tol, resid, &ncv, v, &ldv, iparam, ipntr, workd, workl, &lworkl, &ierr);
+		int rvec = 0;
+		char howmny = 'A';
+		int *select = new int[ncv];
+		double *di = new double[nev + 1];
+		double *z = new double[n * (nev + 1)];
+		int ldz = max(1, n);
+		double sigmar;
+		double sigmai;
+		double *workev = new double[3 * ncv];
+
+		dneupd_(&rvec, &howmny, select, d, di, z, &ldz, &sigmar, &sigmai, workev,  bmat, &n, which, &nev, &tol, resid, &ncv, v, &ldv, iparam, ipntr, workd, workl, &lworkl, &info);
+
+		if (info != 0) {
+			cout<<"dneupd error "<<info<<endl;
+			exit(EXIT_FAILURE);
+		}
+
+		delete[] select;
+		delete[] di;
+		delete[] z;
+		delete[] workev;
 	}
 
-	if (ierr != 0) {
-		cout<<"dseupd error "<<ierr<<endl;
-		exit(EXIT_FAILURE);
-	}
 	// copying values to output arrays
 	evalues = Eigen::VectorXd(nev);
 	evectors = Eigen::MatrixXd(order, nev);
@@ -342,7 +368,6 @@ static inline void generalSparseEigenSolver(bool symmetric, int order, char *whi
 	delete[] v;
 	delete[] workd;
 	delete[] workl;
-	delete[] select;
 	delete[] d;
 }
 
