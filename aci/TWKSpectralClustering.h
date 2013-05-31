@@ -14,6 +14,10 @@ using namespace std;
 using namespace Eigen;
 using namespace cv;
 
+enum SpectralClusteringType {
+	UNNORMALIZED, NORMALIZED_SYMMETRIC, NORMALIZED_RANDOMWALK
+};
+
 /**
  * Basis kernel for tree walk kernels applied to animation character images,
  * as defined by (Nakagawa, 2013). Computes similarity using area and average
