@@ -88,6 +88,9 @@
     <ClCompile Include="TWKSpectralClusteringTest.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="SpectrumDistanceClustering.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisjointSet.hpp">
@@ -181,6 +184,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="SpectrumDistanceClustering.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SegmentationGraphClustering.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

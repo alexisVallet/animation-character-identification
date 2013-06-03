@@ -106,6 +106,7 @@
     <ClCompile Include="SpectralClusteringTest.cpp" />
     <ClCompile Include="SpectrumDistanceClassifier.cpp" />
     <ClCompile Include="SpectrumDistanceClassifierTest.cpp" />
+    <ClCompile Include="SpectrumDistanceClustering.cpp" />
     <ClCompile Include="TrainableStatModel.cpp" />
     <ClCompile Include="TreeWalkKernel.cpp" />
     <ClCompile Include="TreeWalkKernelTest.cpp" />
@@ -132,6 +133,7 @@
     <ClInclude Include="PreProcessing.h" />
     <ClInclude Include="Segmentation.h" />
     <ClInclude Include="SegmentationGraph.hpp" />
+    <ClInclude Include="SegmentationGraphClustering.h" />
     <ClInclude Include="SpectrumDistanceClustering.h" />
     <ClInclude Include="TWKSpectralClustering.h" />
     <ClInclude Include="SegmentAttributes.h" />

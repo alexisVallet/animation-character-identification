@@ -58,7 +58,7 @@ void testTWKSpectralClustering(ostream &out) {
 	}
 
 	cout<<"3d embeddings"<<endl;
-	TWKSpectralClustering<float,4,1> clustering(preProcessedDataset, (MatKernel<float,4,1>*)&twKernel, TWK_DEPTH, TWK_ARITY);
+	TWKSpectralClustering<float,4,1> clustering(preProcessedDataset, (MatKernel<float,4,1>*)&twKernel, TWK_DEPTH, TWK_ARITY, NORMALIZED_SYMMETRIC);
 	MatrixXd embeddings;
 
 	clustering.embed(segmentations, labeled, 3, embeddings);

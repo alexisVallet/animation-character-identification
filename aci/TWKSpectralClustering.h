@@ -3,8 +3,10 @@
 
 #include <Eigen/Dense>
 #include <opencv2/opencv.hpp>
+#include <algorithm>
 
 #include "GraphPartitions.h"
+#include "SegmentationGraphClustering.h"
 #include "SpectralClustering.h"
 #include "TreeWalkKernel.hpp"
 #include "Felzenszwalb.hpp"
@@ -56,10 +58,22 @@ public:
 	double operator() (const Matx<float,4,1> &l1, const Matx<float,4,1> &l2) const;
 };
 
-static SparseMatrix<double> sparseLaplacian_(const WeightedGraph &graph, bool bidirectional) {
+static SparseMatrix<double> unnormalizedLaplacian_(const WeightedGraph &graph, bool bidirectional) {
+	VectorXd degrees;
+
+	return sparseLaplacian(graph, bidirectional, degrees);
+}
+
+static SparseMatrix<double> rwLaplacian_(const WeightedGraph &graph, bool bidirectional) {
 	VectorXd degrees;
 
 	return randomWalkSparseLaplacian(graph, bidirectional, degrees);
+}
+
+static SparseMatrix<double> symLaplacian_(const WeightedGraph &graph, bool bidirectional) {
+	VectorXd degrees;
+
+	return normalizedSparseLaplacian(graph, bidirectional, degrees);
 }
 
 /**
@@ -68,8 +82,9 @@ static SparseMatrix<double> sparseLaplacian_(const WeightedGraph &graph, bool bi
  * spectral clustering.
  */
 template < typename _Tp, int m, int n >
-class TWKSpectralClustering {
+class TWKSpectralClustering : public SegmentationGraphClustering<_Tp, m, n> {
 private:
+	const SpectralClusteringType clusteringType;
 	const vector<pair<Mat_<Vec3b>, Mat_<float> > > dataSet;
 	const int depth;
 	const int arity;
@@ -100,16 +115,43 @@ private:
 		}
 	}
 
+	SparseRepresentation getSparseRep() {
+		switch (this->clusteringType) {
+		case UNNORMALIZED:
+			return unnormalizedLaplacian_;
+		case NORMALIZED_SYMMETRIC:
+			return symLaplacian_;
+		case NORMALIZED_RANDOMWALK:
+			return rwLaplacian_;
+		};
+	}
+
+	bool normalize() {
+		return this->clusteringType == NORMALIZED_SYMMETRIC;
+	}
+
+	bool symmetric() {
+		return this->clusteringType != NORMALIZED_RANDOMWALK;
+	}
+
 public:
 	/**
 	 * Initializes the clustering algorithm with a specific kernel function for
 	 * the tree walk kernel computation, and a specific dataset to compute it from.
 	 *
-	 * @param kernelFunc kernel function (and associated graph labeling) to use
-	 * for tree walk kernel computation.
+	 * @param dataSet original image and mask dataset to cluster.
+	 * @param kernelFunc basis kernel for tree walk kernel.
+	 * @param depth maximum depth of tree walks.
+	 * @param arity maximum arity of tree walks.
+	 * @param clusteringType spectral clustering algorithm to use. UNNORMALIZED uses
+	 * the combinatorial Laplacian, NORMALIZED_SYMMETRIC uses the normalized Laplacian
+	 * by Ng, Jordan and Weiss's definition with an additional normalization step
+	 * and UNNORMALIZED_RANDOMWALK uses the non symmetric normalized "random walk" 
+	 * Laplacian as defined by Shi and Malik. See (Luxburg, 2007) for a detailed
+	 * overview of each approach.
 	 */
-	TWKSpectralClustering(const vector<pair<Mat_<Vec3b>, Mat_<float> > > &dataSet, const MatKernel<_Tp, m, n> *kernelFunc, int depth, int arity)
-		: dataSet(dataSet), kernelFunc(kernelFunc), depth(depth), arity(arity)
+	TWKSpectralClustering(const vector<pair<Mat_<Vec3b>, Mat_<float> > > &dataSet, const MatKernel<_Tp, m, n> *kernelFunc, int depth, int arity, SpectralClusteringType clusteringType)
+		: dataSet(dataSet), kernelFunc(kernelFunc), depth(depth), arity(arity), clusteringType(clusteringType)
 	{
 
 	}
@@ -130,7 +172,7 @@ public:
 		MatrixXd S;
 
 		similarityMatrix(segmentations, samples, S);
-		spectralEmbedding(S, KNearestGraph(10), sparseLaplacian_, outDim, embeddings, false, false);
+		spectralEmbedding(S, KNearestGraph(min(10, (int)samples.size() -1)), this->getSparseRep(), outDim, embeddings, this->normalize(), this->symmetric());
 	}
 
 	/**
@@ -140,12 +182,12 @@ public:
 	 * @param segmentations segmentations corresponding to the graphs.
 	 * @param samples segmentation graphs to cluster.
 	 * @param nbClasses number of classes to cluster the graphs into.
-	 * @param classLabels class label for each graph, in the {0, ..., nbClasses - 1} set.
+	 * @param classLabels class label for each graph, in the {0, 1, ..., nbClasses - 1} set.
 	 */
 	void cluster(vector<DisjointSetForest> &segmentations, const vector<LabeledGraph<Matx<_Tp, m, n> > > &samples, int nbClasses, VectorXi &classLabels) {
 		 MatrixXd S;
 
 		similarityMatrix(segmentations, samples, S);
-		spectralClustering(S, KNearestGraph(10), sparseLaplacian_, nbClasses, classLabels, false, false);
+		spectralClustering(S, KNearestGraph(min(10, (int)samples.size() - 1)), this->getSparseRep(), nbClasses, classLabels, this->normalize(), this->symmetric());
 	}
 };
