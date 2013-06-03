@@ -30,13 +30,21 @@ public:
 	SpectrumDistanceClustering(SparseRepresentation matRep, bool symmetric, int k);
 
 	/**
+	 * Embeds segmentation graph into k-space using the k smallest non-zero
+	 * eigenvalues. Assumes graphs are connected.
+	 *
+	 * @param samples segmentation graphs to cluster.
+	 * @param embeddings output n by k matrix containing the embeddings as rows.
+	 */
+	void embed(const vector<WeightedGraph> &samples, MatrixXd &embeddings);
+
+	/**
 	 * Clusters segmentation graphs of images by clustering of their respective
 	 * spectra by the K-means algorithm.
 	 *
-	 * @param segmentations segmentations of images corresponding to the graphs.
 	 * @param samples segmentation graphs to cluster.
 	 * @param nbClasses number of classes to cluster the graphs into.
-	 * @param classLabels class label for each graph, in the {0, 1, ..., nbClasses - 1} set.
+	 * @param classLabels output class label for each graph, in the {0, 1, ..., nbClasses - 1} set.
 	 */
-	void cluster(vector<DisjointSetForest> &segmentations, const vector<WeightedGraph> &samples, int nbClasses, VectorXi &classLabels);
+	void cluster(const vector<WeightedGraph> &samples, int nbClasses, VectorXi &classLabels);
 };

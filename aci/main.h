@@ -9,3 +9,4 @@
 #include "SpectralClusteringTest.h"
 #include "TreeWalkKernelTest.h"
 #include "TWKSpectralClusteringTest.h"
+#include "SpectrumDistanceClusteringTest.h"

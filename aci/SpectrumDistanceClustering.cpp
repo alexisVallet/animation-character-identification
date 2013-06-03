@@ -6,12 +6,14 @@ SpectrumDistanceClustering::SpectrumDistanceClustering(SparseRepresentation matR
 
 }
 
-void SpectrumDistanceClustering::cluster(vector<DisjointSetForest> &segmentations, const vector<WeightedGraph> &samples, int nbClasses, VectorXi &classLabels) {
-	// compute specrum for each graph
+void SpectrumDistanceClustering::embed(const vector<WeightedGraph> &samples, MatrixXd &embeddings) {
 	MatrixXd spectra(samples.size(), k + 1);
 
 	for (int i = 0; i < (int)samples.size(); i++) {
 		SparseMatrix<double> representation = this->matRep(samples[i], false);
+		if (representation.rows() < this->k + 2) {
+			representation.resize(this->k + 2, this->k + 2);
+		}
 		VectorXd evalues;
 		MatrixXd evectors;
 
@@ -24,7 +26,14 @@ void SpectrumDistanceClustering::cluster(vector<DisjointSetForest> &segmentation
 		spectra.row(i) = evalues;
 	}
 
-	spectra = spectra.block(0, 1, samples.size(), k);
+	embeddings = spectra.block(0, 1, samples.size(), k);
+}
+
+void SpectrumDistanceClustering::cluster(const vector<WeightedGraph> &samples, int nbClasses, VectorXi &classLabels) {
+	// compute specrum for each graph
+	MatrixXd spectra;
+
+	this->embed(samples, spectra);
 
 	// clustering of spectra using K-means
 	Mat_<double> cvSpectra(samples.size(), k, spectra.data());

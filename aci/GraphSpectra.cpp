@@ -294,8 +294,11 @@ static inline void generalSparseEigenSolver(bool symmetric, int order, char *whi
 
 		// checking for errors
 		if (info != 0 && info != 1) {
-			cout<<"which = "<<which<<endl;
 			cout<<"dsaupd failed, info = "<<info<<endl;
+			cout<<"which = "<<which<<endl;
+			cout<<"order = "<<order<<endl;
+			cout<<"nev = "<<nev<<endl;
+			cout<<"ncv = "<<ncv<<endl;
 			exit(EXIT_FAILURE);
 		}
 
