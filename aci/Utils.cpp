@@ -299,10 +299,16 @@ static double eigenIndexing(const Eigen::MatrixXd &m, int i, int j) {
 	return m(i,j);
 }
 
-void cvMatToCsv(const Mat_<double> &matrix, ostream &out) {
+void cvMatToCsv(const Mat_<double> &matrix, ofstream &out) {
 	matToCsv<Mat_<double> >(matrix, matrix.rows, matrix.cols, cvIndexing, out);
 }
 
-void eigenMatToCsv(const Eigen::MatrixXd &matrix, ostream &out) {
+void eigenMatToCsv(const Eigen::MatrixXd &matrix, ofstream &out) {
 	matToCsv<Eigen::MatrixXd>(matrix, matrix.rows(), matrix.cols(), eigenIndexing, out);
+}
+
+void eigenToCv(const Eigen::MatrixXd &eigenMat, Mat_<double> &cvMat) {
+	cvMat = Mat_<double>(eigenMat.rows(), eigenMat.cols(), (double*)eigenMat.data());
+
+	cvMat = cvMat.t();
 }

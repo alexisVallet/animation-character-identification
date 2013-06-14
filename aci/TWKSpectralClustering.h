@@ -172,7 +172,8 @@ public:
 		MatrixXd S;
 
 		similarityMatrix(segmentations, samples, S);
-		spectralEmbedding(S, KNearestGraph(min(10, (int)samples.size() -1)), this->getSparseRep(), outDim, embeddings, this->normalize(), this->symmetric());
+		DenseSimilarityMatrix m(&S);
+		spectralEmbedding(m, KNearestGraph(min(10, (int)samples.size() -1)), this->getSparseRep(), outDim, embeddings, this->normalize(), this->symmetric());
 	}
 
 	/**
@@ -188,6 +189,7 @@ public:
 		 MatrixXd S;
 
 		similarityMatrix(segmentations, samples, S);
-		spectralClustering(S, KNearestGraph(min(10, (int)samples.size() - 1)), this->getSparseRep(), nbClasses, classLabels, this->normalize(), this->symmetric());
+		DenseSimilarityMatrix m(&S);
+		spectralClustering(m, KNearestGraph(min(10, (int)samples.size() - 1)), this->getSparseRep(), nbClasses, classLabels, this->normalize(), this->symmetric());
 	}
 };

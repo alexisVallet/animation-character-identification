@@ -46,6 +46,7 @@ class WeightedGraph {
 private:
   vector<vector<HalfEdge> > adjacencyLists;
   vector<Edge> edges;
+  vector<double> degrees;
 
 public:
   WeightedGraph(); // should not be called
@@ -123,6 +124,16 @@ public:
    * @param graph graph to copy edges from.
    */
   void copyEdges(const WeightedGraph &graph);
+
+  /**
+   * Returns the (undirected) weighted degree of a given vertex. The weighted
+   * degree of vertex v is defined as the sum of the weights of all edges incident
+   * to v. This method runs in constant time.
+   *
+   * @param vertex vertex to get the degree of.
+   * @return the weighted degree of the vertex.
+   */
+  double degree(int vertex) const;
 };
 
 /**

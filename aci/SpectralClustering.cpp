@@ -2,6 +2,24 @@
 
 #define DEBUG_SEPCTRALCLUSTERING false
 
+DenseSimilarityMatrix::DenseSimilarityMatrix(const MatrixXd *m) 
+	: m(m)
+{
+
+}
+
+double DenseSimilarityMatrix::operator() (int i, int j) const {
+	return (*this->m)(i,j);
+}
+
+int DenseSimilarityMatrix::rows() const {
+	return this->m->rows();
+}
+
+int DenseSimilarityMatrix::cols() const {
+	return this->m->cols();
+}
+
 static void spectralEmbedding_(const WeightedGraph &simGraph, SparseRepresentation matRep, int k, MatrixXd &embeddings, bool normalize = false, bool symmetric = true) {
 	assert(k >= 1);
 
@@ -37,7 +55,7 @@ static void spectralEmbedding_(const WeightedGraph &simGraph, SparseRepresentati
 	}
 }
 
-void spectralClustering(const MatrixXd &similarity, SimilarityGraphRepresentation &graphRep, SparseRepresentation matRep, int k, VectorXi &classLabels, bool normalize, bool symmetric) {
+void spectralClustering(SimilarityMatrix &similarity, SimilarityGraphRepresentation &graphRep, SparseRepresentation matRep, int k, VectorXi &classLabels, bool normalize, bool symmetric) {
 	WeightedGraph simGraph;
 
 	graphRep(similarity, simGraph);
@@ -68,7 +86,40 @@ void spectralClustering(const MatrixXd &similarity, SimilarityGraphRepresentatio
 	}
 }
 
-void spectralEmbedding(const MatrixXd &similarity, SimilarityGraphRepresentation &graphRep, SparseRepresentation matRep, int k, MatrixXd &embeddings, bool normalize, bool symmetric) {
+class SelfTuningKernelMatrix : public SimilarityMatrix {
+private:
+	Mat_<double> samples;
+	const int k;
+	flann::Index *knnIndex;
+
+public:
+	SelfTuningKernelMatrix(const MatrixXd &samples, int k) 
+		: k(k)
+	{
+		eigenToCv(samples, this->samples);
+	}
+
+	// TODO
+	double operator() (int i, int j)  const {
+		assert(false);
+
+		return 0;
+	}
+
+	int rows() const {
+		return samples.rows;
+	}
+
+	int cols() const {
+		return samples.rows;
+	}
+};
+
+void selfTuningSpectralClustering(const MatrixXd &samples, int nbClusters, VectorXi &classLabels) {
+
+}
+
+void spectralEmbedding(SimilarityMatrix &similarity, SimilarityGraphRepresentation &graphRep, SparseRepresentation matRep, int k, MatrixXd &embeddings, bool normalize, bool symmetric) {
 	WeightedGraph simGraph;
 
 	graphRep(similarity, simGraph);
@@ -82,7 +133,7 @@ NeighborhoodGraph::NeighborhoodGraph(double radius)
 
 }
 
-void NeighborhoodGraph::operator() (const MatrixXd &similarity, WeightedGraph &graph) const {
+void NeighborhoodGraph::operator() (SimilarityMatrix &similarity, WeightedGraph &graph) const {
 	graph = WeightedGraph(similarity.rows());
 
 	for (int i = 0; i < similarity.rows(); i++) {
@@ -103,10 +154,10 @@ KNearestGraph::KNearestGraph(int k)
 class IsMoreSimilar {
 private:
 	const int reference;
-	const MatrixXd *similarity;
+	const SimilarityMatrix *similarity;
 
 public:
-	IsMoreSimilar(int reference, const MatrixXd *similarity)
+	IsMoreSimilar(int reference, const SimilarityMatrix *similarity)
 		: reference(reference), similarity(similarity)
 	{
 
@@ -117,7 +168,7 @@ public:
 	}
 };
 
-void KNearestGraph::operator() (const MatrixXd &similarity, WeightedGraph &graph) const {
+void KNearestGraph::operator() (SimilarityMatrix &similarity, WeightedGraph &graph) const {
 	assert(similarity.rows() > k);
 	MatrixXd adjMat = MatrixXd::Zero(similarity.rows(), similarity.rows());
 	graph = WeightedGraph(similarity.rows());
@@ -159,7 +210,7 @@ MutualKNearestGraph::MutualKNearestGraph(int k)
 
 }
 
-void MutualKNearestGraph::operator() (const MatrixXd &similarity, WeightedGraph &graph) const {
+void MutualKNearestGraph::operator() (SimilarityMatrix &similarity, WeightedGraph &graph) const {
 	assert(similarity.rows() > k);
 	MatrixXd adjMat = MatrixXd::Zero(similarity.rows(), similarity.rows());
 	graph = WeightedGraph(similarity.rows());
@@ -198,7 +249,7 @@ CompleteGraph::CompleteGraph() {
 
 }
 
-void CompleteGraph::operator() (const MatrixXd &similarity, WeightedGraph &graph) const {
+void CompleteGraph::operator() (SimilarityMatrix &similarity, WeightedGraph &graph) const {
 	graph = WeightedGraph(similarity.rows(), similarity.rows() - 1);
 
 	for (int i = 0; i < similarity.rows(); i++) {

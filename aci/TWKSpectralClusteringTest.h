@@ -7,4 +7,4 @@
 #include "Segmentation.h"
 #include "TWKSpectralClustering.h"
 
-void testTWKSpectralClustering(ostream &out);
+void testTWKSpectralClustering(ofstream &out, int depth, int arity, SpectralClusteringType clusteringType, const vector<pair<Mat_<Vec3b>, Mat_<float> > > &dataSet, const vector<WeightedGraph> &segGraphs, vector<DisjointSetForest> &segmentations);

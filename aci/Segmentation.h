@@ -14,10 +14,6 @@
 using namespace std;
 using namespace cv;
 
-#define DEBUG_SEGMENTATION false
-#define CONNECTIVITY CONNECTIVITY_4
-#define MAX_SEGMENTS 250
-
 /**
  * Segmentation method which compute a graph from an animation character image,
  * without background - the background pixels to ignore are specified as 0 in

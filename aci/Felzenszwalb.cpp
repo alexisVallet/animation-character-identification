@@ -4,16 +4,21 @@ static bool compareWeights(Edge edge1, Edge edge2) {
   return edge1.weight < edge2.weight;
 }
 
-DisjointSetForest felzenszwalbSegment(int k, WeightedGraph graph, int minCompSize, Mat_<float> mask) {
+DisjointSetForest felzenszwalbSegment(int k, WeightedGraph graph, int minCompSize, Mat_<float> mask, ScaleType scaleType) {
 	// sorts edge in increasing weight order
 	vector<Edge> edges = graph.getEdges();
 	sort(edges.begin(), edges.end(), compareWeights);
 
 	// initializes the disjoint set forest to keep track of components, as
-	// well as structures to keep track of component size and internal
+	// well as structures to keep track of component size, degree and internal
 	// differences.
 	DisjointSetForest segmentation(graph.numberOfVertices());
 	vector<float> internalDifferences(graph.numberOfVertices(), 0);
+	vector<float> volumes(graph.numberOfVertices());
+
+	for (int i = 0; i < graph.numberOfVertices(); i++) {
+		volumes[i] = graph.degree(i);
+	}
 
 	// Goes through the edges, and fuses vertices if they pass a check,
 	// updating internal differences.
@@ -21,13 +26,22 @@ DisjointSetForest felzenszwalbSegment(int k, WeightedGraph graph, int minCompSiz
 		Edge currentEdge = edges[i];
 		int root1 = segmentation.find(currentEdge.source);
 		int root2 = segmentation.find(currentEdge.destination);
+		float thresh1 = 
+			scaleType == CARDINALITY ? 
+			(float)segmentation.getComponentSize(root1) :
+			volumes[root1];
+		float thresh2 =
+			scaleType == CARDINALITY ?
+			(float)segmentation.getComponentSize(root2) :
+		    volumes[root2];
 		float mInt = min(internalDifferences[root1] 
-			+ ((float)k)/((float)segmentation.getComponentSize(root1)),
+			+ ((float)k)/thresh1,
 			internalDifferences[root2] 
-		    + ((float)k)/((float)segmentation.getComponentSize(root2)));
+		    + ((float)k)/thresh2);
 
 		if (root1 != root2 && currentEdge.weight <= mInt) {
 			int newRoot = segmentation.setUnion(root1,root2);
+			volumes[newRoot] = volumes[root1] + volumes[root2];
 			internalDifferences[newRoot] = currentEdge.weight;
 		}
 	}

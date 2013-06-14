@@ -4,6 +4,8 @@
 #include <utility>
 #include <opencv2/opencv.hpp>
 #include <Eigen/Sparse>
+#include <iostream>
+#include <fstream>
 
 using namespace std;
 using namespace cv;
@@ -135,7 +137,7 @@ void vconcatX(const Matx<_Tp, m1, n> &mat1, const Matx<_Tp, m2, n> &mat2, Matx<_
 }
 
 template < typename MatType >
-void matToCsv(const MatType &matrix, int rows, int cols, double (*indexing)(const MatType &m, int i, int j), ostream &out) {
+void matToCsv(const MatType &matrix, int rows, int cols, double (*indexing)(const MatType &m, int i, int j), ofstream &out) {
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < cols; j++) {
 			out<<indexing(matrix, i, j);
@@ -155,7 +157,7 @@ void matToCsv(const MatType &matrix, int rows, int cols, double (*indexing)(cons
  * @param matrix matrix to output as csv file.
  * @param out output stream to send csv data to.
  */
-void cvMatToCsv(const Mat_<double> &matrix, ostream &out);
+void cvMatToCsv(const Mat_<double> &matrix, ofstream &out);
 
 /**
  * Outputs a csv file representation of an Eigen matrix to an arbitrary
@@ -164,4 +166,16 @@ void cvMatToCsv(const Mat_<double> &matrix, ostream &out);
  * @param matrix matrix to output as csv file.
  * @param out output stream to send csv data to.
  */
-void eigenMatToCsv(const Eigen::MatrixXd &matrix, ostream &out);
+void eigenMatToCsv(const Eigen::MatrixXd &matrix, ofstream &out);
+
+/**
+ * Create an OpenCV matrix header from an Eigen matrix without copying data.
+ * This is kind of a hack, may result in unwanted behaviour when modifying
+ * either matrix, and has not been tested outside of the win32 platform. Be 
+ * careful using this, preferably only use it with matrices you know you won't
+ * modify.
+ *
+ * @param eigenMat input Eigen matrix.
+ * @param cvMat output OpenCV matrix.
+ */
+void eigenToCv(const Eigen::MatrixXd &eigenMat, Mat_<double> &cvMat);

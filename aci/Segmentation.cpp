@@ -1,10 +1,14 @@
 #include "Segmentation.h"
 
+#define DEBUG_SEGMENTATION true
+#define CONNECTIVITY CONNECTIVITY_4
+#define MAX_SEGMENTS 250
+
 void segment(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, WeightedGraph &segGraph, int felzenszwalbScale) {
 	assert(felzenszwalbScale >= 0);
 	WeightedGraph grid = gridGraph(image, CONNECTIVITY, mask, euclidDistance, false);
 	int minCompSize = countNonZero(mask) / MAX_SEGMENTS;
-	segmentation = felzenszwalbSegment(felzenszwalbScale, grid, minCompSize, mask);
+	segmentation = felzenszwalbSegment(felzenszwalbScale, grid, minCompSize, mask, VOLUME);
 	segGraph = segmentationGraph(image, segmentation, grid);
 
 	if (DEBUG_SEGMENTATION) {

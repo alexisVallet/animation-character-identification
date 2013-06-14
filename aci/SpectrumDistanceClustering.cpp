@@ -7,26 +7,41 @@ SpectrumDistanceClustering::SpectrumDistanceClustering(SparseRepresentation matR
 }
 
 void SpectrumDistanceClustering::embed(const vector<WeightedGraph> &samples, MatrixXd &embeddings) {
-	MatrixXd spectra(samples.size(), k + 1);
+	MatrixXd spectra(samples.size(), k + 2);
 
 	for (int i = 0; i < (int)samples.size(); i++) {
+		cout<<"computing spectrum of matrix "<<i<<endl;
 		SparseMatrix<double> representation = this->matRep(samples[i], false);
-		if (representation.rows() < this->k + 2) {
-			representation.resize(this->k + 2, this->k + 2);
+		if (representation.rows() < this->k + 3) {
+			cout<<"resizing"<<endl;
+			vector<Triplet<double> > tripletList;
+			tripletList.reserve(representation.nonZeros());
+			
+			for (int j = 0; j < representation.outerSize(); ++j) {
+				for (SparseMatrix<double>::InnerIterator it(representation,j); it; ++it) {
+					tripletList.push_back(Triplet<double>(it.row(), it.col(), it.value()));
+				}
+			}
+
+			representation.resize(this->k + 3, this->k + 3);
+			representation.setFromTriplets(tripletList.begin(), tripletList.end());
 		}
+		cout<<"representation computed"<<endl;
 		VectorXd evalues;
 		MatrixXd evectors;
 
 		if (this->symmetric) {
-			symmetricSparseEigenSolver(representation, "SM", this->k + 1, (int)samples.size(), evalues, evectors);
+			symmetricSparseEigenSolver(representation, "SM", this->k + 2, (int)samples.size(), evalues, evectors);
 		} else {
-			nonSymmetricSparseEigenSolver(representation, "SM", this->k + 1, (int)samples.size(), evalues, evectors);
+			nonSymmetricSparseEigenSolver(representation, "SR", this->k + 2, (int)samples.size(), evalues, evectors);
 		}
 
 		spectra.row(i) = evalues;
+		cout<<evalues<<endl;
+		cout<<"eigenvalues computed"<<endl;
 	}
 
-	embeddings = spectra.block(0, 1, samples.size(), k);
+	embeddings = spectra.block(0, 2, samples.size(), k);
 }
 
 void SpectrumDistanceClustering::cluster(const vector<WeightedGraph> &samples, int nbClasses, VectorXi &classLabels) {

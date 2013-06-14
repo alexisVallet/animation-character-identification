@@ -94,6 +94,12 @@
     <ClCompile Include="SpectrumDistanceClusteringTest.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="SubspaceComparison.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SubspaceComparisonTest.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisjointSet.hpp">
@@ -193,6 +199,12 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="SpectrumDistanceClusteringTest.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SubspaceComparison.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SubspaceComparisonTest.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

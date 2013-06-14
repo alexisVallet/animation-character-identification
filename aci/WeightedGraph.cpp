@@ -5,7 +5,7 @@ WeightedGraph::WeightedGraph() {
 }
 
 WeightedGraph::WeightedGraph(int numberOfVertices, int maxDegree) 
-  : adjacencyLists(numberOfVertices)
+  : adjacencyLists(numberOfVertices), degrees(numberOfVertices, 0)
 {
   if (maxDegree > 0) {
     for (int i = 0; i < numberOfVertices; i++) {
@@ -21,16 +21,22 @@ void WeightedGraph::addEdge(int source, int destination, float weight = 1) {
   assert(source >= 0 && source < this->numberOfVertices());
   assert(destination >= 0 && destination < this->numberOfVertices());
 
+  // add the half edge to the adjacency list
   toAdd.destination = destination;
   toAdd.weight = weight;
   this->adjacencyLists[source].push_back(toAdd);
 
+  // add the full edge to the edge list
   Edge fullEdge;
 
   fullEdge.source = source;
   fullEdge.destination = destination;
   fullEdge.weight = weight;
   this->edges.push_back(fullEdge);
+
+  // updates degrees
+  this->degrees[source] += weight;
+  this->degrees[destination] += weight;
 }
 
 const vector<Edge> &WeightedGraph::getEdges() const {
@@ -224,6 +230,12 @@ void WeightedGraph::copyEdges(const WeightedGraph &graph) {
 
 		this->addEdge(edge.source, edge.destination, edge.weight);
 	}
+}
+
+double WeightedGraph::degree(int vertex) const {
+	assert(vertex >= 0 && vertex < this->numberOfVertices());
+
+	return this->degrees[vertex];
 }
 
 bool compareGraphSize(const WeightedGraph& g1, const WeightedGraph& g2) {
