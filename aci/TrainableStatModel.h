@@ -124,3 +124,22 @@ public:
     
     void clear();
 };
+
+/**
+ * Wrapper class around the C-SVM classifier.
+ */
+class SVMModel : public TrainableStatModel {
+private:
+	CvSVM internalStatModel;
+
+public:
+	SVMModel();
+
+	CvStatModel *getStatModel();
+
+	void train(const Mat &trainData, const Mat &expectedResponses, const Mat &sampleIdx);
+
+	float predict(const Mat &samples);
+
+	void clear();
+};

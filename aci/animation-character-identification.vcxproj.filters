@@ -100,6 +100,12 @@
     <ClCompile Include="SubspaceComparisonTest.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="EigenspaceComparisonClassifier.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="svm.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisjointSet.hpp">
@@ -195,9 +201,6 @@
     <ClInclude Include="SpectrumDistanceClustering.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="SegmentationGraphClustering.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="SpectrumDistanceClusteringTest.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -205,6 +208,12 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="SubspaceComparisonTest.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="EigenspaceComparisonClassifier.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="svm.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

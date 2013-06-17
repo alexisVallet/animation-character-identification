@@ -1,7 +1,9 @@
 #pragma once
 
+#include <iostream>
 #include <Eigen/Dense>
-#include <queue>
+
+#include "Utils.hpp"
 
 using namespace Eigen;
 using namespace std;
@@ -54,3 +56,12 @@ void canonicalAngles(const MatrixXd &A, const MatrixXd &B, MatrixXd &U, MatrixXd
  * range(A) and range(B).
  */
 void subspacesIntersection(const MatrixXd &A, const MatrixXd &B, MatrixXd &C);
+
+/**
+ * Computes the distance between 2 equidimensional subspaces represented each by
+ * an orthonormal basis. Distance is defined as in Matrix Computations, 1996.
+ *
+ * @param A n by m matrix containing an orthonormal basis as columns.
+ * @param B n by m matrix containing an orthonormal basis as columns.
+ */
+double subspaceDistance(const MatrixXd &A, const MatrixXd &B);

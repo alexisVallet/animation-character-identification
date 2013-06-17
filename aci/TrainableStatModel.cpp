@@ -113,3 +113,27 @@ float ANNModel::predict(const Mat& samples) {
 void ANNModel::clear() {
     
 }
+
+SVMModel::SVMModel() {
+
+}
+
+CvStatModel *SVMModel::getStatModel() {
+	return &this->internalStatModel;
+}
+
+void SVMModel::train(const Mat &trainData, const Mat &expectedResponses, const Mat &sampleIdx) {
+	this->internalStatModel.train_auto(trainData, expectedResponses, Mat(), sampleIdx, CvSVMParams());
+}
+
+float SVMModel::predict(const Mat &samples) {
+	Mat results;
+
+	this->internalStatModel.predict(samples, results);
+
+	return results.at<float>(0,0);
+}
+
+void SVMModel::clear() {
+	this->internalStatModel.clear();
+}

@@ -85,6 +85,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DisjointSet.cpp" />
+    <ClCompile Include="EigenspaceComparisonClassifier.cpp" />
     <ClCompile Include="Felzenszwalb.cpp" />
     <ClCompile Include="GraphPartitions.cpp" />
     <ClCompile Include="GraphSpectra.cpp" />
@@ -110,6 +111,7 @@
     <ClCompile Include="SpectrumDistanceClusteringTest.cpp" />
     <ClCompile Include="SubspaceComparison.cpp" />
     <ClCompile Include="SubspaceComparisonTest.cpp" />
+    <ClCompile Include="svm.cpp" />
     <ClCompile Include="TrainableStatModel.cpp" />
     <ClCompile Include="TreeWalkKernel.cpp" />
     <ClCompile Include="TreeWalkKernelTest.cpp" />
@@ -120,6 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisjointSet.hpp" />
+    <ClInclude Include="EigenspaceComparisonClassifier.h" />
     <ClInclude Include="Felzenszwalb.hpp" />
     <ClInclude Include="GraphPartitions.h" />
     <ClInclude Include="GraphSpectra.h" />
@@ -136,11 +139,11 @@
     <ClInclude Include="PreProcessing.h" />
     <ClInclude Include="Segmentation.h" />
     <ClInclude Include="SegmentationGraph.hpp" />
-    <ClInclude Include="SegmentationGraphClustering.h" />
     <ClInclude Include="SpectrumDistanceClustering.h" />
     <ClInclude Include="SpectrumDistanceClusteringTest.h" />
     <ClInclude Include="SubspaceComparison.h" />
     <ClInclude Include="SubspaceComparisonTest.h" />
+    <ClInclude Include="svm.h" />
     <ClInclude Include="TWKSpectralClustering.h" />
     <ClInclude Include="SegmentAttributes.h" />
     <ClInclude Include="SegmentAttributesTest.h" />

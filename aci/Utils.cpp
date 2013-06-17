@@ -312,3 +312,18 @@ void eigenToCv(const Eigen::MatrixXd &eigenMat, Mat_<double> &cvMat) {
 
 	cvMat = cvMat.t();
 }
+
+int approxNonzeros(const Eigen::MatrixXd m, double tol) {
+	assert(tol >= 0);
+	int nbNonzeros = 0;
+
+	for (int i = 0; i < m.rows(); i++) {
+		for (int j = 0; j < m.cols(); j++) {
+			if (abs(m(i,j)) >= tol) {
+				nbNonzeros++;
+			}
+		}
+	}
+
+	return nbNonzeros;
+}

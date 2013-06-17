@@ -169,7 +169,8 @@ void cvMatToCsv(const Mat_<double> &matrix, ofstream &out);
 void eigenMatToCsv(const Eigen::MatrixXd &matrix, ofstream &out);
 
 /**
- * Create an OpenCV matrix header from an Eigen matrix without copying data.
+ * Create an OpenCV matrix header from 
+ * an Eigen matrix without copying data.
  * This is kind of a hack, may result in unwanted behaviour when modifying
  * either matrix, and has not been tested outside of the win32 platform. Be 
  * careful using this, preferably only use it with matrices you know you won't
@@ -179,3 +180,13 @@ void eigenMatToCsv(const Eigen::MatrixXd &matrix, ofstream &out);
  * @param cvMat output OpenCV matrix.
  */
 void eigenToCv(const Eigen::MatrixXd &eigenMat, Mat_<double> &cvMat);
+
+/**
+ * Computes the number of approximately non zero coefficient in a matrix,
+ * up to some tolerance.
+ *
+ * @param m matrix to compute the number of nonzeros from.
+ * @param tol nonegative tolerance, a coefficient will be considered
+ * 0 iff it is absolutely lower than or equal than tol.
+ */
+int approxNonzeros(const Eigen::MatrixXd m, double tol = 10E-8);
