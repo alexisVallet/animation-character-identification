@@ -5,10 +5,13 @@
 
 #include "WeightedGraph.hpp"
 #include "DisjointSet.hpp"
-#include "SegmentationGraphClustering.h"
 #include "GraphPartitions.h"
 #include "Kernels.h"
 #include "GraphSpectra.h"
+
+using namespace std;
+using namespace cv;
+using namespace Eigen;
 
 /**
  * Clusters segmentation graphs of images by clustering of their respective

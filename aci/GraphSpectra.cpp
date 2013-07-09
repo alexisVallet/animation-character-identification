@@ -381,3 +381,19 @@ void symmetricSparseEigenSolver(int order, char *which, int nev, int maxIteratio
 void nonSymmetricSparseEigenSolver(int order, char *which, int nev, int maxIterations, Eigen::VectorXd &evalues, Eigen::MatrixXd &evectors, MatrixVectorMult &mult) {
 	generalSparseEigenSolver(false, order, which, nev, maxIterations, evalues, evectors, mult);
 }
+
+int eigenGap(Eigen::VectorXd eigenvalues, double epsilon) {
+	int k = 0;
+	double largestGap = 0;
+
+	for (int i = 0; i < eigenvalues.size() - 1; i++) {
+		double gap = eigenvalues(i + 1) - eigenvalues(i);
+
+		if (gap > largestGap + epsilon) {
+			largestGap = gap;
+			k = i;
+		}
+	}
+
+	return k;
+}

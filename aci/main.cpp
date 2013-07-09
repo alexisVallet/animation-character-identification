@@ -1,5 +1,6 @@
 #include "main.h"
 
+#define TEST false
 #define NBCLASSES 12
 #define FELZ_SCALE 10000
 #define DEPTH 2
@@ -7,5 +8,40 @@
 #define STATFOLDER "../stats/"
 
 int main(int argc, char** argv) {
-	testSubspaceComparison();
+	if (TEST) {
+		testSubspaceComparison();
+	} else {
+		cout<<"loading dataset..."<<endl;
+		char *charaNames[] = {"rufy", "ray", "miku", "majin", "lupin", "kouji", "jigen", "conan", "chirno", "char", "asuka", "amuro", NULL};
+		vector<pair<Mat_<Vec3b>, Mat_<float> > > dataSet;
+		Mat_<int> classes;
+
+		loadDataSet("../test/dataset/", charaNames, 5, dataSet, classes);
+		
+		cout<<"preprocessing..."<<endl;
+		vector<pair<Mat_<Vec3b>, Mat_<float> > > processedDataSet;
+		processedDataSet.reserve(dataSet.size());
+
+		for (int i = 0; i < (int)dataSet.size(); i++) {
+			Mat_<Vec3b> processedImage;
+			Mat_<float> processedMask;
+
+			preProcessing(dataSet[i].first, dataSet[i].second, processedImage, processedMask);
+			processedDataSet.push_back(pair<Mat_<Vec3b>, Mat_<float> >(processedImage, processedMask));
+		}
+
+		cout<<"segmentation..."<<endl;
+		vector<pair<DisjointSetForest, WeightedGraph> > segmentations;
+		segmentations.reserve(dataSet.size());
+
+		for (int i = 0; i < (int)dataSet.size(); i++) {
+			DisjointSetForest segmentation;
+			WeightedGraph segmentationGraph;
+
+			segment(processedDataSet[i].first, processedDataSet[i].second, segmentation, segmentationGraph, FELZ_SCALE);
+			segmentations.push_back(pair<DisjointSetForest, WeightedGraph>(segmentation, segmentationGraph));
+		}
+
+		
+	}
 }

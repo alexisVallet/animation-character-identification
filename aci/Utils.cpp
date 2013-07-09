@@ -28,7 +28,11 @@ static bool isMask(const Mat_<float> &mask) {
 	return true;
 }
 
-void loadDataSet(char* folderName, char** charaNames, int nbCharas, int nbImagesPerChara, vector<pair<Mat_<Vec<uchar,3> >,Mat_<float> > > &images, Mat_<int> &classes) {
+void loadDataSet(char* folderName, char** charaNames, int nbImagesPerChara, vector<pair<Mat_<Vec<uchar,3> >,Mat_<float> > > &images, Mat_<int> &classes) {
+	int nbCharas = 0;
+	while (charaNames[nbCharas] != NULL) {
+		nbCharas++;
+	}
 	images = vector<pair<Mat_<Vec<uchar,3> >,Mat_<float> > >(nbCharas * nbImagesPerChara);
 	classes = Mat_<int>(nbCharas * nbImagesPerChara, 1);
 

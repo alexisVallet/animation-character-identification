@@ -5,7 +5,6 @@
 #define K_STEP 500
 #define L_MIN 1
 
-
 void runClassificationFor(
 	ostream &outStream,
 	const vector<pair<Mat_<Vec3b>,Mat_<float> > > &dataSet,
@@ -52,8 +51,8 @@ void runClassificationFor(
 							graphsToClassify.push_back(weighEdgesByKernel<float,8,1>(dataSet[i].first, dataSet[i].second, segmentations[i], simFunc, segGraphs[i]));
 						}
 
-						KNearestModel nnModel(1);
-						SpectrumDistanceClassifier classifier(&nnModel, laplacian, l);
+						SVMModel svmModel;
+						SpectrumDistanceClassifier classifier(&svmModel, laplacian, l);
 
 						float rate = classifier.leaveOneOutRecognitionRate(graphsToClassify, classes);
 						float eigenvaluesFraction = (float)l/(float)largestNbVertices;
@@ -70,11 +69,11 @@ void parameterTuning(ostream &outStream) {
 	cout<<"loading dataset"<<endl;
 	// loading dataset
 	char *folder = "../test/dataset/";
-	char *names[] = {"amuro", "asuka", "char", "chirno", "conan", "jigen", "kouji", "lupin", "majin", "miku", "ray", "rufy"};
+	char *names[] = {"amuro", "asuka", "char", "chirno", "conan", "jigen", "kouji", "lupin", "majin", "miku", "ray", "rufy", NULL};
 	vector<pair<Mat_<Vec3b>, Mat_<float> > > dataSet;
 	Mat_<int> classes;
 
-	loadDataSet("../test/dataset/", names, 12, 5, dataSet, classes);
+	loadDataSet("../test/dataset/", names, 5, dataSet, classes);
 
 	cout<<"preprocessing"<<endl;
 	// pre-processing data set

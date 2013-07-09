@@ -13,6 +13,7 @@ using namespace std;
 using namespace cv;
 
 typedef Mat_<double> (*MatrixRepresentation)(const WeightedGraph&);
+
 typedef Eigen::SparseMatrix<double> (*SparseRepresentation)(const WeightedGraph &, bool bidirectional);
 
 /**
@@ -174,3 +175,11 @@ void symmetricSparseEigenSolver(int order, char *which, int nev, int maxIteratio
  * @param mult user defined matrix vector multiplication routine.
  */
 void nonSymmetricSparseEigenSolver(int order, char *which, int nev, int maxIterations, Eigen::VectorXd &evalues, Eigen::MatrixXd &evectors, MatrixVectorMult &mult);
+
+/**
+ * Computes the eigengap of a vector of eigenvalues.
+ *
+ * @param eigenvalues vector of eigenvalues sorted in ascending order.
+ * @return the index of the eigengap, that is k such that |ek - ek+1| is largest.
+ */
+int eigenGap(Eigen::VectorXd eigenvalues, double epsilon = 10E-4);

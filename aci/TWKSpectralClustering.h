@@ -6,7 +6,6 @@
 #include <algorithm>
 
 #include "GraphPartitions.h"
-#include "SegmentationGraphClustering.h"
 #include "SpectralClustering.h"
 #include "TreeWalkKernel.hpp"
 #include "Felzenszwalb.hpp"
@@ -82,7 +81,7 @@ static SparseMatrix<double> symLaplacian_(const WeightedGraph &graph, bool bidir
  * spectral clustering.
  */
 template < typename _Tp, int m, int n >
-class TWKSpectralClustering : public SegmentationGraphClustering<_Tp, m, n> {
+class TWKSpectralClustering {
 private:
 	const SpectralClusteringType clusteringType;
 	const vector<pair<Mat_<Vec3b>, Mat_<float> > > dataSet;

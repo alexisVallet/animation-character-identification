@@ -100,10 +100,10 @@
     <ClCompile Include="SubspaceComparisonTest.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="EigenspaceComparisonClassifier.cpp">
+    <ClCompile Include="svm.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="svm.cpp">
+    <ClCompile Include="PrincipalAnglesClassifier.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -210,10 +210,10 @@
     <ClInclude Include="SubspaceComparisonTest.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="EigenspaceComparisonClassifier.h">
+    <ClInclude Include="svm.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="svm.h">
+    <ClInclude Include="PrincipalAnglesClassifier.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
