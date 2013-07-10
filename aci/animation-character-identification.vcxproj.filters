@@ -106,6 +106,9 @@
     <ClCompile Include="PrincipalAnglesClassifier.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="PrincipalAnglesClassifierTest.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisjointSet.hpp">
@@ -214,6 +217,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="PrincipalAnglesClassifier.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="PrincipalAnglesClassifierTest.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

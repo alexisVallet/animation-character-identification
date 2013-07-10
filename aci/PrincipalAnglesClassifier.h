@@ -56,4 +56,14 @@ public:
 	 * @param testSample sample to predict the class label of.
 	 */
 	int predict(WeightedGraph &testSample);
+
+	/**
+	 * Compute a recognition rate using leave one out cross validation from
+	 * a set of labeled samples.
+	 *
+	 * @param samples set of labeled samples to compute the recognition rate
+	 * from.
+	 * @return a recognition rate for the samples.
+	 */
+	float leaveOneOutRecognitionRate(vector<pair<WeightedGraph,int> > samples);
 };

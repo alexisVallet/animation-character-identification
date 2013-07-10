@@ -1,6 +1,6 @@
 #include "Segmentation.h"
 
-#define DEBUG_SEGMENTATION true
+#define DEBUG_SEGMENTATION false
 #define CONNECTIVITY CONNECTIVITY_4
 #define MAX_SEGMENTS 250
 

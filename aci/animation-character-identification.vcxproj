@@ -99,6 +99,7 @@
     <ClCompile Include="ParameterTuning.cpp" />
     <ClCompile Include="PreProcessing.cpp" />
     <ClCompile Include="PrincipalAnglesClassifier.cpp" />
+    <ClCompile Include="PrincipalAnglesClassifierTest.cpp" />
     <ClCompile Include="Segmentation.cpp" />
     <ClCompile Include="SegmentationGraph.cpp" />
     <ClCompile Include="SegmentAttributes.cpp" />
@@ -136,6 +137,7 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="ParameterTuning.h" />
     <ClInclude Include="PreProcessing.h" />
+    <ClInclude Include="PrincipalAnglesClassifierTest.h" />
     <ClInclude Include="PrincipalAnglesClassifier.h" />
     <ClInclude Include="Segmentation.h" />
     <ClInclude Include="SegmentationGraph.hpp" />

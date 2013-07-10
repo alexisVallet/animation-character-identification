@@ -17,7 +17,7 @@ float TrainableStatModel::leaveOneOutCrossValidation(const Mat_<float> &samples,
 			correctResults++;
 		}
 
-		//cout<<"actual = "<<actual<<", expected = "<<classes(i,0)<<endl;
+		cout<<"actual = "<<actual<<", expected = "<<classes(i,0)<<endl;
 
 		sampleIdx(i, 0) = i;
 	}
@@ -27,7 +27,7 @@ float TrainableStatModel::leaveOneOutCrossValidation(const Mat_<float> &samples,
 
 BayesModel::BayesModel() {
 }
-    
+
 CvStatModel *BayesModel::getStatModel() {
     return (CvStatModel*)&(this->internalStatModel);
 }
@@ -114,8 +114,9 @@ void ANNModel::clear() {
     
 }
 
-SVMModel::SVMModel() {
-
+SVMModel::SVMModel(CvSVMParams params) 
+	: params(params)
+{
 }
 
 CvStatModel *SVMModel::getStatModel() {
@@ -123,7 +124,7 @@ CvStatModel *SVMModel::getStatModel() {
 }
 
 void SVMModel::train(const Mat &trainData, const Mat &expectedResponses, const Mat &sampleIdx) {
-	this->internalStatModel.train_auto(trainData, expectedResponses, Mat(), sampleIdx, CvSVMParams());
+	this->internalStatModel.train(trainData, expectedResponses, Mat(), sampleIdx, this->params);
 }
 
 float SVMModel::predict(const Mat &samples) {

@@ -51,7 +51,8 @@ void runClassificationFor(
 							graphsToClassify.push_back(weighEdgesByKernel<float,8,1>(dataSet[i].first, dataSet[i].second, segmentations[i], simFunc, segGraphs[i]));
 						}
 
-						SVMModel svmModel;
+						CvSVMParams params;
+						SVMModel svmModel(params);
 						SpectrumDistanceClassifier classifier(&svmModel, laplacian, l);
 
 						float rate = classifier.leaveOneOutRecognitionRate(graphsToClassify, classes);

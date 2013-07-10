@@ -126,14 +126,15 @@ public:
 };
 
 /**
- * Wrapper class around the C-SVM classifier.
+ * Wrapper class around the C-SVM classifier with gaussian kernel function
  */
 class SVMModel : public TrainableStatModel {
 private:
 	CvSVM internalStatModel;
+	CvSVMParams params;
 
 public:
-	SVMModel();
+	SVMModel(CvSVMParams params);
 
 	CvStatModel *getStatModel();
 

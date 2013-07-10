@@ -10,25 +10,43 @@ void PrincipalAnglesClassifier::graphPrincipalAngles(const WeightedGraph &graph,
 		// compute laplacian matrix
 		SparseMatrix<double> laplacian = this->representation(graph, this->bidirectional);
 
+		// add padding for the laplacian so arpack can compute all the eigenvalues
+		SparseMatrix<double> paddedLaplacian(graph.numberOfVertices() + 1, graph.numberOfVertices() +1);
+		vector<Triplet<double> > tripletList;
+		tripletList.reserve(laplacian.nonZeros());
+
+		for (int i = 0; i < laplacian.outerSize(); ++i) {
+			for (SparseMatrix<double>::InnerIterator it(laplacian,i); it; ++it) {
+				tripletList.push_back(Triplet<double>(it.row(), it.col(), it.value()));
+			}
+		}
+		paddedLaplacian.setFromTriplets(tripletList.begin(), tripletList.end());
+		cout<<"L = "<<endl<<paddedLaplacian<<endl;
+
 		// compute eigenvalues and eigenvectors of the laplacian
 		VectorXd evalues;
 		MatrixXd evectors;
 		int nev = min(graph.numberOfVertices(), this->vsize);
 
 		if (this->symmetric) {
-			symmetricSparseEigenSolver(laplacian, "SM", nev, laplacian.rows(), evalues, evectors);
+			symmetricSparseEigenSolver(paddedLaplacian, "SM", nev, laplacian.rows(), evalues, evectors);
 		} else {
-			nonSymmetricSparseEigenSolver(laplacian, "SM", nev, laplacian.rows(), evalues, evectors);
+			nonSymmetricSparseEigenSolver(paddedLaplacian, "SM", nev, laplacian.rows(), evalues, evectors);
 		}
+
+		cout<<"evalues = "<<evalues<<endl;
+		cout<<"evectors = "<<endl<<evectors<<endl;
 
 		// compute the eigengap
 		int k = eigenGap(evalues);
+		cout<<"eigengap at "<<k<<endl;
 
 		// compute principal angles cosines with appropriately padded matrices
 		int n = graph.numberOfVertices();
 		MatrixXd U, V;
 
-		canonicalAngles(id.block(0,0,n,n), evectors.block(0,0,n,k), U, V, cosines);
+		canonicalAngles(id.block(0,0,n,n), evectors.block(0,0,n,k + 1), U, V, cosines);
+		cout<<"canonical angles = "<<cosines<<endl;
 }
 
 void PrincipalAnglesClassifier::train(const vector<pair<WeightedGraph, int> > &trainingSet) {
@@ -64,4 +82,24 @@ int PrincipalAnglesClassifier::predict(WeightedGraph &testSample) {
 	}
 
 	return this->statModel->predict(paddedCosines);
+}
+
+float PrincipalAnglesClassifier::leaveOneOutRecognitionRate(vector<pair<WeightedGraph,int> > samples) {
+	Mat_<float> sampleVectors = Mat_<float>::zeros(samples.size(), this->vsize);
+	Mat_<int> classes(samples.size(), 1);
+	MatrixXd canonicalBasis = MatrixXd::Identity(this->vsize, this->vsize);
+	
+	for (int i = 0; i < (int)samples.size(); i++) {
+		VectorXd cosines;
+
+		this->graphPrincipalAngles(samples[i].first, canonicalBasis, cosines);
+
+		for (int j = 0; j < cosines.size(); j++) {
+			sampleVectors(i,j) = cosines(j);
+		}
+
+		classes(i,0) = samples[i].second;
+	}
+
+	return this->statModel->leaveOneOutCrossValidation(sampleVectors, classes);
 }
