@@ -15,6 +15,61 @@ Mat_<double> laplacian(const WeightedGraph &graph) {
 	return result;
 }
 
+MatrixXd eigLaplacian(const WeightedGraph &graph) {
+	MatrixXd result = MatrixXd::Zero(graph.numberOfVertices(), graph.numberOfVertices());
+
+	for (int i = 0; i < graph.getEdges().size(); i++) {
+		Edge edge = graph.getEdges()[i];
+
+		result(edge.source, edge.destination) = -edge.weight;
+		result(edge.destination, edge.source) = -edge.weight;
+		result(edge.source, edge.source) += edge.weight;
+		result(edge.destination, edge.destination) += edge.weight;
+	}
+
+	return result;
+}
+
+Mat_<double> normalizedLaplacian(const WeightedGraph &graph) {
+	Mat_<double> unnormalized = laplacian(graph);
+	Mat_<double> degrees = Mat_<double>::zeros(graph.numberOfVertices(), graph.numberOfVertices());
+
+	for (int i = 0; i < (int)graph.getEdges().size(); i++) {
+		Edge edge = graph.getEdges()[i];
+
+		degrees(edge.source, edge.source) += edge.weight;
+		degrees(edge.destination, edge.destination) += edge.weight;
+	}
+
+	for (int i = 0; i < graph.numberOfVertices(); i++) {
+		if (degrees(i,i) >= 10E-8) {
+			degrees(i,i) = 1/sqrt(degrees(i,i));
+		}
+	}
+
+	return degrees * unnormalized * degrees;
+}
+
+MatrixXd eigNormalizedLaplacian(const WeightedGraph &graph) {
+	MatrixXd unnormalized = eigLaplacian(graph);
+	MatrixXd degrees = MatrixXd::Zero(graph.numberOfVertices(), graph.numberOfVertices());
+
+	for (int i = 0; i < (int)graph.getEdges().size(); i++) {
+		Edge edge = graph.getEdges()[i];
+
+		degrees(edge.source, edge.source) += edge.weight;
+		degrees(edge.destination, edge.destination) += edge.weight;
+	}
+
+	for (int i = 0; i < graph.numberOfVertices(); i++) {
+		if (degrees(i,i) >= 10E-8) {
+			degrees(i,i) = 1/sqrt(degrees(i,i));
+		}
+	}
+
+	return degrees * unnormalized * degrees;
+}
+
 Eigen::SparseMatrix<double> sparseLaplacian(const WeightedGraph &graph, bool bidirectional, Eigen::VectorXd &degrees) {
 	// we construct the triplet list without the diagonal first, computing the degrees
 	// as we do so, then add the degree triplets.
@@ -62,23 +117,7 @@ Eigen::SparseMatrix<double> sparseLaplacian(const WeightedGraph &graph, bool bid
 	return result;
 }
 
-Mat_<double> normalizedLaplacian(const WeightedGraph &graph) {
-	Mat_<double> unnormalized = laplacian(graph);
-	Mat_<double> degrees = Mat_<double>::zeros(graph.numberOfVertices(), graph.numberOfVertices());
 
-	for (int i = 0; i < (int)graph.getEdges().size(); i++) {
-		Edge edge = graph.getEdges()[i];
-
-		degrees(edge.source, edge.source) += edge.weight;
-		degrees(edge.destination, edge.destination) += edge.weight;
-	}
-
-	for (int i = 0; i < graph.numberOfVertices(); i++) {
-		degrees(i,i) = 1/sqrt(degrees(i,i));
-	}
-
-	return degrees * unnormalized * degrees;
-}
 
 Eigen::SparseMatrix<double> normalizedSparseLaplacian(const WeightedGraph &graph, bool bidirectional, Eigen::VectorXd &degrees) {
 	// first we compute the degrees

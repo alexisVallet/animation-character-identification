@@ -11,15 +11,9 @@ bool compareGraphSize_(const pair<WeightedGraph, int> &p1, const pair<WeightedGr
 	return compareGraphSize(p1.first, p2.first);
 }
 
-SparseMatrix<double> normalizedSparseLaplacian_(const WeightedGraph &graph, bool bidirectional) {
-	VectorXd degrees;
-
-	return normalizedSparseLaplacian(graph, bidirectional, degrees);
-}
-
 int main(int argc, char** argv) {
 	if (TEST) {
-		testPrincipalAnglesClassifier();
+		testSubspaceComparison();
 	} else {
 		cout<<"loading dataset..."<<endl;
 		char *charaNames[] = {"rufy", "ray", "miku", "majin", "lupin", "kouji", "jigen", "conan", "chirno", "char", "asuka", "amuro", NULL};
@@ -58,7 +52,7 @@ int main(int argc, char** argv) {
 		// compute maximum number of vertices
 		int maxNbVertices = max_element(segmentations.begin(), segmentations.end(), compareGraphSize_)->first.numberOfVertices();
 		KNearestModel statModel(1);
-		PrincipalAnglesClassifier classifier(&statModel, normalizedSparseLaplacian_, false, true, maxNbVertices);
+		PrincipalAnglesClassifier classifier(&statModel, eigNormalizedLaplacian, false, true, maxNbVertices);
 		float recognitionRate = classifier.leaveOneOutRecognitionRate(segmentations);
 
 		cout<<"Recognition rate "<<recognitionRate<<endl;

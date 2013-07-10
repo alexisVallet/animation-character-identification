@@ -1,11 +1,5 @@
 #include "PrincipalAnglesClassifierTest.h"
 
-static SparseMatrix<double> normalizedSparseLaplacian_(const WeightedGraph &graph, bool bidirectional) {
-	VectorXd degrees;
-
-	return normalizedSparseLaplacian(graph, bidirectional, degrees);
-}
-
 void testPrincipalAnglesClassifier() {
 	WeightedGraph g(2), h(3);
 
@@ -17,7 +11,7 @@ void testPrincipalAnglesClassifier() {
 
 	KNearestModel statModel(1);
 
-	PrincipalAnglesClassifier classifier(&statModel, normalizedSparseLaplacian_, false, true, 3);
+	PrincipalAnglesClassifier classifier(&statModel, eigNormalizedLaplacian, false, true, 3);
 
 	vector<pair<WeightedGraph,int> > dataSet;
 	dataSet.reserve(4);

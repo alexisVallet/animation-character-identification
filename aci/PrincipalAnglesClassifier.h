@@ -21,7 +21,7 @@ using namespace Eigen;
 class PrincipalAnglesClassifier {
 private:
 	TrainableStatModel *statModel;
-	const SparseRepresentation representation;
+	const DenseRepresentation representation;
 	const bool bidirectional;
 	const bool symmetric;
 	const int vsize;
@@ -41,7 +41,7 @@ public:
 	 * @param symmetric true iff the matrix representation is symmetric.
 	 * @param vsize size of the vectors to classify.
 	 */
-	PrincipalAnglesClassifier(TrainableStatModel *statModel, SparseRepresentation representation, bool bidirectional, bool symmetric, int vsize);
+	PrincipalAnglesClassifier(TrainableStatModel *statModel, DenseRepresentation representation, bool bidirectional, bool symmetric, int vsize);
 
 	/**
 	 * Trains the classifier using a specific training set.

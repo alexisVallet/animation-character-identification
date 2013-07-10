@@ -10,4 +10,5 @@
 #include "Segmentation.h"
 #include "PrincipalAnglesClassifier.h"
 
+#include "SubspaceComparisonTest.h"
 #include "PrincipalAnglesClassifierTest.h"
