@@ -77,14 +77,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\GraphSpectra.h" />
-    <ClInclude Include="..\GraphSpectraTest.h" />
     <ClInclude Include="..\LabeledGraph.hpp" />
     <ClInclude Include="..\Utils.hpp" />
     <ClInclude Include="..\WeightedGraph.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\GraphSpectra.cpp" />
-    <ClCompile Include="..\GraphSpectraTest.cpp" />
     <ClCompile Include="..\Utils.cpp" />
     <ClCompile Include="..\WeightedGraph.cpp" />
   </ItemGroup>
