@@ -4,19 +4,10 @@
     <ClCompile Include="DisjointSet.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="WeightedGraph.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="Felzenszwalb.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="GraphPartitions.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphSpectra.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphSpectraTest.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="ImageGraphs.cpp">
@@ -46,9 +37,6 @@
     <ClCompile Include="TreeWalkKernel.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Utils.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="SegmentAttributes.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -71,12 +59,6 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="LocallyLinearEmbeddingsTest.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="SpectralClustering.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="SpectralClusteringTest.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="TreeWalkKernelTest.cpp">
@@ -120,12 +102,6 @@
     <ClInclude Include="GraphPartitions.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="GraphSpectra.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphSpectraTest.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="ImageGraphs.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -144,9 +120,6 @@
     <ClInclude Include="SegmentationGraph.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="LabeledGraph.hpp">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="SpectrumDistanceClassifier.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -154,12 +127,6 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="TreeWalkKernel.hpp">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils.hpp">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="WeightedGraph.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="SegmentAttributes.h">
@@ -184,12 +151,6 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="LocallyLinearEmbeddingsTest.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="SpectralClustering.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="SpectralClusteringTest.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="TreeWalkKernelTest.h">

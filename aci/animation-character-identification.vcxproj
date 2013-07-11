@@ -87,8 +87,6 @@
     <ClCompile Include="DisjointSet.cpp" />
     <ClCompile Include="Felzenszwalb.cpp" />
     <ClCompile Include="GraphPartitions.cpp" />
-    <ClCompile Include="GraphSpectra.cpp" />
-    <ClCompile Include="GraphSpectraTest.cpp" />
     <ClCompile Include="ImageGraphs.cpp" />
     <ClCompile Include="ImageGraphsTest.cpp" />
     <ClCompile Include="Kernels.cpp" />
@@ -104,8 +102,6 @@
     <ClCompile Include="SegmentationGraph.cpp" />
     <ClCompile Include="SegmentAttributes.cpp" />
     <ClCompile Include="SegmentAttributesTest.cpp" />
-    <ClCompile Include="SpectralClustering.cpp" />
-    <ClCompile Include="SpectralClusteringTest.cpp" />
     <ClCompile Include="SpectrumDistanceClassifier.cpp" />
     <ClCompile Include="SpectrumDistanceClassifierTest.cpp" />
     <ClCompile Include="SpectrumDistanceClustering.cpp" />
@@ -118,20 +114,15 @@
     <ClCompile Include="TreeWalkKernelTest.cpp" />
     <ClCompile Include="TWKSpectralClustering.cpp" />
     <ClCompile Include="TWKSpectralClusteringTest.cpp" />
-    <ClCompile Include="Utils.cpp" />
-    <ClCompile Include="WeightedGraph.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisjointSet.hpp" />
     <ClInclude Include="Felzenszwalb.hpp" />
     <ClInclude Include="GraphPartitions.h" />
-    <ClInclude Include="GraphSpectra.h" />
-    <ClInclude Include="GraphSpectraTest.h" />
     <ClInclude Include="ImageGraphs.h" />
     <ClInclude Include="ImageGraphsTest.h" />
     <ClInclude Include="Kernels.h" />
     <ClInclude Include="KuwaharaFilter.h" />
-    <ClInclude Include="LabeledGraph.hpp" />
     <ClInclude Include="LocallyLinearEmbeddings.h" />
     <ClInclude Include="LocallyLinearEmbeddingsTest.h" />
     <ClInclude Include="main.h" />
@@ -149,16 +140,20 @@
     <ClInclude Include="TWKSpectralClustering.h" />
     <ClInclude Include="SegmentAttributes.h" />
     <ClInclude Include="SegmentAttributesTest.h" />
-    <ClInclude Include="SpectralClustering.h" />
-    <ClInclude Include="SpectralClusteringTest.h" />
     <ClInclude Include="SpectrumDistanceClassifier.h" />
     <ClInclude Include="SpectrumDistanceClassifierTest.h" />
     <ClInclude Include="TrainableStatModel.h" />
     <ClInclude Include="TreeWalkKernel.hpp" />
     <ClInclude Include="TreeWalkKernelTest.h" />
     <ClInclude Include="TWKSpectralClusteringTest.h" />
-    <ClInclude Include="Utils.hpp" />
-    <ClInclude Include="WeightedGraph.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="spectral-clustering\spectral-clustering.vcxproj">
+      <Project>{b53cc091-1046-44e5-b8f6-52ef089f1396}</Project>
+    </ProjectReference>
+    <ProjectReference Include="spectral-graph-theory\spectral-graph-theory.vcxproj">
+      <Project>{fadedffd-50e2-470b-adc4-48759e2f80ae}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

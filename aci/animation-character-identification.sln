@@ -5,6 +5,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "animation-character-identif
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C20B313F-8344-4AC5-B7E6-9FC6C3E26D43}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "spectral-graph-theory", "spectral-graph-theory\spectral-graph-theory.vcxproj", "{FADEDFFD-50E2-470B-ADC4-48759E2F80AE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "spectral-clustering", "spectral-clustering\spectral-clustering.vcxproj", "{B53CC091-1046-44E5-B8F6-52EF089F1396}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -15,6 +19,14 @@ Global
 		{F4EB0446-0C96-54E3-8983-6FE8DCF837FB}.Debug|Win32.Build.0 = Debug|Win32
 		{F4EB0446-0C96-54E3-8983-6FE8DCF837FB}.Release|Win32.ActiveCfg = Release|Win32
 		{F4EB0446-0C96-54E3-8983-6FE8DCF837FB}.Release|Win32.Build.0 = Release|Win32
+		{FADEDFFD-50E2-470B-ADC4-48759E2F80AE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FADEDFFD-50E2-470B-ADC4-48759E2F80AE}.Debug|Win32.Build.0 = Debug|Win32
+		{FADEDFFD-50E2-470B-ADC4-48759E2F80AE}.Release|Win32.ActiveCfg = Release|Win32
+		{FADEDFFD-50E2-470B-ADC4-48759E2F80AE}.Release|Win32.Build.0 = Release|Win32
+		{B53CC091-1046-44E5-B8F6-52EF089F1396}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B53CC091-1046-44E5-B8F6-52EF089F1396}.Debug|Win32.Build.0 = Debug|Win32
+		{B53CC091-1046-44E5-B8F6-52EF089F1396}.Release|Win32.ActiveCfg = Release|Win32
+		{B53CC091-1046-44E5-B8F6-52EF089F1396}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
