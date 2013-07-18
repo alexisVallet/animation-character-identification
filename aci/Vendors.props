@@ -8,6 +8,7 @@
     <LibraryPath>$(SolutionDir)../vendors/ARPACK/lib;$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSDK_LibraryPath_x86)</LibraryPath>
     <ReferencePath>$(VCInstallDir)atlmfc\lib;$(VCInstallDir)lib</ReferencePath>
     <_PropertySheetDisplayName>Vendors</_PropertySheetDisplayName>
+    <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>

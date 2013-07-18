@@ -1,109 +1,119 @@
 #include "PrincipalAnglesClassifier.h"
 
-#define TEST_PRINCIPALANGLESCLASSIFIER true
-
-PrincipalAnglesClassifier::PrincipalAnglesClassifier(TrainableStatModel* statModel, DenseRepresentation representation, bool bidirectional, bool symmetric, int vsize)
-	: statModel(statModel), representation(representation), bidirectional(bidirectional), symmetric(symmetric), vsize(vsize)
+PrincipalAnglesClassifier::PrincipalAnglesClassifier(SimilarityMeasure similarity, DenseRepresentation laplacian, bool symmetric) 
+	: similarity(similarity), laplacian(laplacian), symmetric(symmetric)
 {
 
 }
 
-void PrincipalAnglesClassifier::graphPrincipalAngles(const WeightedGraph &graph, const MatrixXd &id, VectorXd &cosines) {
-		// compute laplacian matrix
-		MatrixXd laplacian = this->representation(graph);
+MatrixXd PrincipalAnglesClassifier::graphSubspace(const WeightedGraph &graph) {
+	// compute the laplacian matrix of the sample as well as
+	// its eigenvalues and eigenvectors
+	MatrixXd laplacianMatrix = this->laplacian(graph);
+	VectorXd eigenvalues;
+	MatrixXd eigenvectors;
 
-		// compute eigenvalues and eigenvectors of the laplacian
-		VectorXd evalues;
-		MatrixXd evectors;
-		int nev = min(graph.numberOfVertices(), this->vsize);
+	// distinguishes the cases of symmetric matrices for better performance.
+	// Some Laplacian matrices, e.g. the random walk Laplacian, are not
+	// symmetric.
+	if (this->symmetric) {
+		SelfAdjointEigenSolver<MatrixXd> solver(laplacianMatrix);
 
-		if (this->symmetric) {
-			SelfAdjointEigenSolver<MatrixXd> solver(laplacian);
+		eigenvalues = solver.eigenvalues();
+		eigenvectors = solver.eigenvectors();
+	} else {
+		EigenSolver<MatrixXd> solver(laplacianMatrix);
 
-			evalues = solver.eigenvalues();
-			evectors = solver.eigenvectors();
-		} else {
-			EigenSolver<MatrixXd> solver(laplacian);
-
-			// as general eigen solving may yield complex values, here we
-			// assume that if the Laplacian is not symmetric - for instance
-			// with the random walk Laplacian - then it still has real eigenvalues.
-			evalues = solver.eigenvalues().real();
-			evectors = solver.eigenvectors().real();
-		}
-
-		
-
-		// compute the eigengap
-		int k = eigenGap(evalues);
-		
-
-		// compute principal angles cosines with appropriately padded matrices
-		int n = graph.numberOfVertices();
-		MatrixXd U, V;
-
-		canonicalAngles(id.block(0,0,n,n), evectors.block(0,0,n,k + 1), U, V, cosines);
-		
-		if (TEST_PRINCIPALANGLESCLASSIFIER) {
-			/*cout<<"L = "<<endl<<laplacian<<endl;
-			cout<<"evalues = "<<evalues<<endl;
-			cout<<"evectors = "<<endl<<evectors<<endl;
-			cout<<"eigengap at "<<k<<endl;*/
-			cout<<"canonical angles = "<<cosines.transpose()<<endl;
-		}
-}
-
-void PrincipalAnglesClassifier::train(const vector<pair<WeightedGraph, int> > &trainingSet) {
-	Mat_<double> trainData = Mat_<double>::zeros(trainingSet.size(), this->vsize);
-	Mat_<int> expectedResponses(trainingSet.size(), 1);
-	MatrixXd canonicalBasis = MatrixXd::Identity(this->vsize, this->vsize);
-
-	for (int i = 0; i < (int)trainingSet.size(); i++) {
-		VectorXd cosines;
-
-		this->graphPrincipalAngles(trainingSet[i].first, canonicalBasis, cosines);
-		
-		// copy canonical angle cosines into training matrix padded with zeros
-		for (int j = 0; j < (int)cosines.size(); j++) {
-			trainData(i,j) = cosines(j);
-		}
-		expectedResponses(i,0) = trainingSet[i].second;
+		eigenvalues = solver.eigenvalues().real();
+		eigenvectors = solver.eigenvectors().real();
 	}
 
-	this->statModel->train(trainData, expectedResponses, Mat());
+	// compute the eigengap k, and keep only the k first eigenvectors.
+	int k = eigenGap(eigenvalues) + 1;
+
+	return eigenvectors.block(0, 0, eigenvectors.rows(), k);
 }
 
-int PrincipalAnglesClassifier::predict(WeightedGraph &testSample) {
+void PrincipalAnglesClassifier::train(const vector<pair<WeightedGraph,int> > &trainingSet) {
+	this->subspaces.reserve(trainingSet.size());
+
+	for (int i = 0; i < trainingSet.size(); i++) {
+		// compute and register the subspace into the training data.
+		this->subspaces.push_back(
+			pair<MatrixXd, int>(
+				this->graphSubspace(trainingSet[i].first), 
+				trainingSet[i].second));
+	}
+}
+
+double PrincipalAnglesClassifier::similarityFunction(const MatrixXd &s1, const MatrixXd &s2) {
+	// compute canonical angles between the two subspaces
 	VectorXd cosines;
-	MatrixXd canonicalBasis = MatrixXd::Identity(this->vsize, this->vsize);
+	MatrixXd U, V;
 
-	this->graphPrincipalAngles(testSample, canonicalBasis, cosines);
+	canonicalAngles(s1, s2, U, V, cosines);
 
-	Mat_<double> paddedCosines = Mat_<double>::zeros(1, this->vsize);
-
-	for (int i = 0; i < (int)cosines.size(); i++) {
-		paddedCosines(0,i) = cosines(i);
-	}
-
-	return this->statModel->predict(paddedCosines);
+	// Depending on the desired similarity, either
+	// return the average cosine or the maximum cosine.
+	// Since the canonical angles are in the [0;pi/2] range, cosines closest to 1
+	// correspond to more similar dimensions, hence the use of the maximum and
+	// average cosine directly instead of angles. Although the relationship between
+	// cosine and angle is not linear, so this may not be so good.
+	switch (this->similarity) {
+	case PrincipalAnglesClassifier::AVERAGE_ANGLE :
+		return cosines.mean();
+		break;
+	case PrincipalAnglesClassifier::SMALLEST_ANGLE :
+		return cosines.maxCoeff();
+		break;
+	};
 }
 
-float PrincipalAnglesClassifier::leaveOneOutRecognitionRate(vector<pair<WeightedGraph,int> > samples) {
-	Mat_<float> sampleVectors = Mat_<float>::zeros(samples.size(), this->vsize);
-	Mat_<int> classes(samples.size(), 1);
-	MatrixXd canonicalBasis = MatrixXd::Identity(this->vsize, this->vsize);
-	
-	for (int i = 0; i < (int)samples.size(); i++) {
-		VectorXd cosines;
+static MatrixXd zeroPadding(const MatrixXd &toPad, int newRows, int newCols) {
+	assert(newRows >= toPad.rows() && newCols >= toPad.cols());
+	MatrixXd padded = MatrixXd::Zero(newRows, newCols);
 
-		this->graphPrincipalAngles(samples[i].first, canonicalBasis, cosines);
+	padded.block(0,0,toPad.rows(),toPad.cols()) = toPad;
 
-		for (int j = 0; j < cosines.size(); j++) {
-			sampleVectors(i,j) = cosines(j);
+	return padded;
+}
+
+static bool compareNbRows(const pair<MatrixXd,int> t1, const pair<MatrixXd,int> t2) {
+	return t1.first.rows() < t2.first.rows();
+}
+
+int PrincipalAnglesClassifier::predict(const WeightedGraph &testSample) {
+	// compute the test graph subspace, pad it appropriately with zeros
+	MatrixXd testSubspace = this->graphSubspace(testSample);
+	// compute the dimension of the embedding space by taking the largest subspace
+	// dimension. The dimension of the subspace is the number of rows in the basis
+	// matrix, which in turns corresponds to the number of vertices of the graph.
+	int dimension = 
+		max(
+			testSample.numberOfVertices(), 
+			max_element(
+				this->subspaces.begin(), 
+				this->subspaces.end(), 
+				compareNbRows)->first.rows());
+	MatrixXd paddedTest = zeroPadding(testSubspace, dimension, testSubspace.cols());
+
+	// compute similarities between the test sample and all training samples,
+	// keeps the max.
+	double maxSimilarity = 0;
+	int maxIdx = 0;
+
+	for (int i = 0; i < this->subspaces.size(); i++) {
+		MatrixXd paddedTraining = 
+			zeroPadding(
+				this->subspaces[i].first, 
+				dimension, 
+				this->subspaces[i].first.cols());
+		double currentSimilarity = this->similarityFunction(paddedTest, paddedTraining);
+		if (currentSimilarity > maxSimilarity) {
+			maxSimilarity = currentSimilarity;
+			maxIdx = i;
 		}
-
-		classes(i,0) = samples[i].second;
 	}
 
-	return this->statModel->leaveOneOutCrossValidation(sampleVectors, classes);
+	return this->subspaces[maxIdx].second;
 }

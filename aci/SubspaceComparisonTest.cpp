@@ -89,25 +89,6 @@ void testCanonicalAngles() {
 	cout<<cosines<<endl;
 
 	assert(cosines.isApprox(expectedCos, 10E-4));
-
-	double IData[] = {
-		1, 0, 0,
-		0, 1, 0,
-		0, 0, 1
-	};
-	double CData[] = {
-		0.5, 12,
-		38, 52,
-		13, 40
-	};
-	Map<MatT> I(IData, 3, 3);
-	Map<MatT> C(CData, 3, 2);
-	cout<<I<<endl;
-	cout<<C<<endl;
-	
-	canonicalAngles(I,C,U,V,cosines);
-
-	cout<<cosines<<endl;
 }
 
 void testSubspaceComparison() {

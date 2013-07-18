@@ -47,14 +47,5 @@ int main(int argc, char** argv) {
 			WeightedGraph weightedSegGraph = weighEdgesByKernel<float,8,1>(processedDataSet[i].first, processedDataSet[i].second, segmentation, edgeWeights, segmentationGraph);
 			segmentations.push_back(pair<WeightedGraph,int>(weightedSegGraph, classes(i,0)));
 		}
-
-		cout<<"classification..."<<endl;
-		// compute maximum number of vertices
-		int maxNbVertices = max_element(segmentations.begin(), segmentations.end(), compareGraphSize_)->first.numberOfVertices();
-		KNearestModel statModel(1);
-		PrincipalAnglesClassifier classifier(&statModel, eigNormalizedLaplacian, false, true, maxNbVertices);
-		float recognitionRate = classifier.leaveOneOutRecognitionRate(segmentations);
-
-		cout<<"Recognition rate "<<recognitionRate<<endl;
 	}
 }

@@ -77,9 +77,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\SpectralClustering.h" />
+    <ClInclude Include="..\SpectralClusteringTest.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\SpectralClustering.cpp" />
+    <ClCompile Include="..\SpectralClusteringTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\spectral-graph-theory\spectral-graph-theory.vcxproj">

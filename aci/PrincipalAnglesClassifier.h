@@ -13,57 +13,58 @@ using namespace std;
 using namespace Eigen;
 
 /**
- * CLassifies graphs according to the principal angles of the space spanned
- * by the first eigenvectors of its laplacian against the canonical basis.
- * Note that the number of eigenvectors taken per graph is not constant, and
- * is determined through the eigengap heuristic.
+ * Classifies weighted graphs using the principal angles as a measure of
+ * similarity between the subspaces spanned by their smallest Laplacian
+ * eigenvectors. Determines the number of eigenvectors to take using the
+ * eigengap heuristic.
  */
 class PrincipalAnglesClassifier {
+public:
+	enum SimilarityMeasure { AVERAGE_ANGLE, SMALLEST_ANGLE };
+
 private:
-	TrainableStatModel *statModel;
-	const DenseRepresentation representation;
-	const bool bidirectional;
-	const bool symmetric;
-	const int vsize;
+	vector<pair<MatrixXd,int> > subspaces;
+	SimilarityMeasure similarity;
+	DenseRepresentation laplacian;
+	bool symmetric;
 
-	void graphPrincipalAngles(const WeightedGraph &graph, const MatrixXd &id, VectorXd &cosines);
-
+	double similarityFunction(const MatrixXd &s1, const MatrixXd &s2);
+	MatrixXd graphSubspace(const WeightedGraph &graph);
 public:
 	/**
-	 * Initializes the classifier with a specific statistical model (e.g. SVM,
-	 * KNN, ANN...) and some sparse matrix representation for the graphs which may
-	 * or may not be symmetric, as specified by a flag.
+	 * Initializes the classifier, specifying the type of similarity measure
+	 * to use between subspaces and the Laplacian matrix to use.
 	 *
-	 * @param statModel statistical model to classify principal angles vectors with.
-	 * @param representation sparse matrix representation for some Laplacian matrix.
-	 * @param bidirectional true iff the matrix representation requires bidirectional
-	 * graph data structure.
-	 * @param symmetric true iff the matrix representation is symmetric.
-	 * @param vsize size of the vectors to classify.
+	 * @param similarity type of similarity measure to use between subspaces, 
+	 * between two cases:
+	 * - AVERAGE : similarity is computed using the average canonical angle.
+	 * - SMALLEST : similarity is computed using only the smallest canonical angle.
+	 * @param laplacian type of laplacian matrix to use.
+	 * @param symmetric true iff the chosen laplacian matrix is symmetric.
 	 */
-	PrincipalAnglesClassifier(TrainableStatModel *statModel, DenseRepresentation representation, bool bidirectional, bool symmetric, int vsize);
+	PrincipalAnglesClassifier(SimilarityMeasure similarity, DenseRepresentation laplacian, bool symmetric);
 
 	/**
-	 * Trains the classifier using a specific training set.
+	 * Trains the classifier using some training samples, associated with
+	 * an integer class label.
+	 * Computes and stores the subspaces spanned by the smallest eigenvectors
+	 * of each graph's Laplacian, using the eigengap heuristic to determine
+	 * eigenvectors to take into account.
 	 *
-	 * @param trainingSet set of (sample,class) pairs to train the classifier with.
+	 * @param trainingSet vector containing pairs of samples with their associated
+	 * integer class label.
 	 */
-	void train(const vector<pair<WeightedGraph, int> > &trainingSet);
+	void train(const vector<pair<WeightedGraph,int> > &trainingSet);
 
 	/**
-	 * Predicts the class label of a test sample after training.
+	 * Predicts the class label of a test sample from the last training data.
+	 * Must have called the train method before this method.
+	 * Returns the label of the most similar training sample, where similarity
+	 * is measured either through average canonical angle between subspaces or
+	 * smallest canonical angle.
 	 *
-	 * @param testSample sample to predict the class label of.
+	 * @param testSample test graph to predict the class label of.
+	 * @return the predicted class label of testSample.
 	 */
-	int predict(WeightedGraph &testSample);
-
-	/**
-	 * Compute a recognition rate using leave one out cross validation from
-	 * a set of labeled samples.
-	 *
-	 * @param samples set of labeled samples to compute the recognition rate
-	 * from.
-	 * @return a recognition rate for the samples.
-	 */
-	float leaveOneOutRecognitionRate(vector<pair<WeightedGraph,int> > samples);
+	int predict(const WeightedGraph &testSample);
 };

@@ -11,8 +11,6 @@ void testPrincipalAnglesClassifier() {
 
 	KNearestModel statModel(1);
 
-	PrincipalAnglesClassifier classifier(&statModel, eigNormalizedLaplacian, false, true, 3);
-
 	vector<pair<WeightedGraph,int> > dataSet;
 	dataSet.reserve(4);
 	pair<WeightedGraph,int> p1(g,0), p2(h,1);
@@ -20,6 +18,4 @@ void testPrincipalAnglesClassifier() {
 	dataSet.push_back(p1);
 	dataSet.push_back(p2);
 	dataSet.push_back(p2);
-
-	classifier.leaveOneOutRecognitionRate(dataSet);
 }
