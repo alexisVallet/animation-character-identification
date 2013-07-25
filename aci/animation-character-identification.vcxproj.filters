@@ -94,6 +94,12 @@
     <ClCompile Include="SimilarityKNN.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="DirichletEigenSubspaceClassifier.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="DirichletEigenSubspaceClassifierTest.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisjointSet.hpp">
@@ -187,6 +193,12 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="SimilarityKNN.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="DirichletEigenSubspaceClassifier.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="DirichletEigenSubspaceClassifierTest.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
