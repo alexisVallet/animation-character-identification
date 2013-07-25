@@ -9,7 +9,7 @@ void segment(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetFores
 	WeightedGraph grid = gridGraph(image, CONNECTIVITY, mask, euclidDistance, false);
 	int minCompSize = countNonZero(mask) / MAX_SEGMENTS;
 	segmentation = felzenszwalbSegment(felzenszwalbScale, grid, minCompSize, mask, VOLUME);
-	segGraph = segmentationGraph(image, segmentation, grid);
+	segGraph = segmentationGraph(segmentation, grid);
 
 	if (DEBUG_SEGMENTATION) {
 		imshow("image", image);

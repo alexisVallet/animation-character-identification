@@ -144,13 +144,53 @@ void testSparseEigenSolver(WeightedGraph &graph) {
 	cout<<"actual:"<<endl<<actualEvec<<endl;
 }
 
+static void testBFS() {
+	WeightedGraph test(8);
+	int edges[] = {
+		0, 1,
+		0, 2,
+		1, 3,
+		1, 4,
+		1, 5,
+		2, 5,
+		2, 6,
+		4, 7
+	};
+	int expected[] = {
+		0, 1, 2, 3, 4, 5, 6, 7
+	};
+
+	for (int i = 0; i < 8; i++) {
+		int src = edges[toRowMajor(2, 0, i)];
+		int dst = edges[toRowMajor(2, 1, i)];
+
+		test.addEdge(src, dst, 1);
+		test.addEdge(dst, src, 1);
+	}
+
+	vector<int> actual = breadthFirstSearch(test, 0);
+
+	for (int i = 0; i < actual.size(); i++) {
+		cout<<actual[i]<<", ";
+	}
+	cout<<endl;
+
+	assert(actual.size() == test.numberOfVertices());
+
+	for (int i = 0; i < test.numberOfVertices(); i++) {
+		assert(expected[i] == actual[i]);
+	}
+}
+
 void testGraphSpectra() {
-	for (int i = 0; i < 100; i++) {
+	testBFS();
+
+	/*for (int i = 0; i < 100; i++) {
 		WeightedGraph randomGraph(50);
 		WeightedGraph bidir(50);
 
 		randomBidirectional(randomGraph, bidir, 200);
 
 		testDenseLaplacian(randomGraph);
-	}
+	}*/
 }

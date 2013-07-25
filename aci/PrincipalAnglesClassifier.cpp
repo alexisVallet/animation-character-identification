@@ -1,7 +1,9 @@
 #include "PrincipalAnglesClassifier.h"
 
-PrincipalAnglesClassifier::PrincipalAnglesClassifier(SimilarityMeasure similarity, DenseRepresentation laplacian, bool symmetric) 
-	: similarity(similarity), laplacian(laplacian), symmetric(symmetric)
+#define DEBUG_PRINCIPALANGLESCLASSIFIER true
+
+PrincipalAnglesClassifier::PrincipalAnglesClassifier(SimilarityMeasure similarity, DenseRepresentation laplacian, bool symmetric, bool smallestEigenvalues) 
+	: similarity(similarity), laplacian(laplacian), symmetric(symmetric), smallestEigenvalues(smallestEigenvalues)
 {
 
 }
@@ -11,7 +13,7 @@ MatrixXd PrincipalAnglesClassifier::graphSubspace(const WeightedGraph &graph) {
 	// its eigenvalues and eigenvectors
 	MatrixXd laplacianMatrix = this->laplacian(graph);
 	VectorXd eigenvalues;
-	MatrixXd eigenvectors;
+	MatrixXd eigenvectors;	
 
 	// distinguishes the cases of symmetric matrices for better performance.
 	// Some Laplacian matrices, e.g. the random walk Laplacian, are not
@@ -31,7 +33,20 @@ MatrixXd PrincipalAnglesClassifier::graphSubspace(const WeightedGraph &graph) {
 	// compute the eigengap k, and keep only the k first eigenvectors.
 	int k = eigenGap(eigenvalues) + 1;
 
-	return eigenvectors.block(0, 0, eigenvectors.rows(), k);
+	if (DEBUG_PRINCIPALANGLESCLASSIFIER) {
+		cout<<"L:"<<endl<<laplacianMatrix<<endl;
+		cout<<"eigenvalues:"<<endl<<eigenvalues<<endl;
+		cout<<"eigengap = "<<k<<endl;
+	}
+
+	// distinguish the case where we want smallest eigenvalue eigenvectors from
+	// the case of the largest eigenvalue eigenvectors. The latter only happens
+	// when we use the adjacency matrix directly.
+	if (this->smallestEigenvalues) {
+		return eigenvectors.block(0, 0, eigenvectors.rows(), k);
+	} else {
+		return eigenvectors.block(0, eigenvectors.cols() - k, eigenvectors.rows(), k);
+	}
 }
 
 void PrincipalAnglesClassifier::train(const vector<pair<WeightedGraph,int> > &trainingSet) {
@@ -52,6 +67,12 @@ double PrincipalAnglesClassifier::similarityFunction(const MatrixXd &s1, const M
 	MatrixXd U, V;
 
 	canonicalAngles(s1, s2, U, V, cosines);
+
+	if (DEBUG_PRINCIPALANGLESCLASSIFIER) {
+		cout<<"s1:"<<endl<<s1<<endl;
+		cout<<"s2:"<<endl<<s2<<endl;
+		cout<<"canonical angles cosines:"<<endl<<cosines<<endl;
+	}
 
 	// Depending on the desired similarity, either
 	// return the average cosine or the maximum cosine.

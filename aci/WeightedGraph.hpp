@@ -12,6 +12,7 @@
 #include <assert.h>
 #include <iostream>
 #include <vector>
+#include <queue>
 #include <utility>
 #include <opencv2/opencv.hpp>
 #include <boost/graph/adjacency_list.hpp>
@@ -184,3 +185,15 @@ void inducedSubgraphs(const WeightedGraph &graph, const vector<int> &inSubgraph,
  * @return True iff g1 has strictly less vertices than g2.
  */
 bool compareGraphSize(const WeightedGraph& g1, const WeightedGraph& g2);
+
+/**
+ * Graph traversal using breadth first search. Returns the order of the traversal
+ * in a vector v, e.g. v[0] is the first explored vertex, v[1] the second, etc.
+ * Assumes a bidirectional graph data structure.
+ *
+ * @param graph graph to traverse with n vertices.
+ * @param startingVertex vertex in the graph to start the traversal from.
+ * @return the order of the traversal in a vector v, e.g. v[0] is the first 
+ * explored vertex, v[1] the second, etc.
+ */
+vector<int> breadthFirstSearch(const WeightedGraph &graph, int startingVertex);

@@ -78,14 +78,21 @@ Mat_<double> normalizedLaplacian(const WeightedGraph &graph);
 MatrixXd eigNormalizedLaplacian(const WeightedGraph &graph);
 
 /**
+ * Computes the adjacency matrix of a simple weighted graph. It is a
+ * square, symmetrical matrix.
+ *
+ * @param graph graph to compute the adjacency matrix of.
+ * @return adjacency matrix of the graph.
+ */
+MatrixXd eigAdjacencyMatrix(const WeightedGraph &graph);
+
+/**
  * Same as laplacian, but returns a sparse matrix data structure.
  * Useful when dealing with graphs with a lot of vertices, but
  * relatively few edges (for instances grid graphs, nearest neighbor
  * graphs, large planar graphs).
  */
 Eigen::SparseMatrix<double> sparseLaplacian(const WeightedGraph &graph, bool bidirectional, Eigen::VectorXd &degrees);
-
-
 
 /**
  * Same as normalizedLaplacian, but returns a sparse matrix data structure.

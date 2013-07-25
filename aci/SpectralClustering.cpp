@@ -115,9 +115,6 @@ public:
 	}
 };
 
-void selfTuningSpectralClustering(const MatrixXd &samples, int nbClusters, VectorXi &classLabels) {
-
-}
 
 void spectralEmbedding(SimilarityMatrix &similarity, SimilarityGraphRepresentation &graphRep, SparseRepresentation matRep, int k, MatrixXd &embeddings, bool normalize, bool symmetric) {
 	WeightedGraph simGraph;

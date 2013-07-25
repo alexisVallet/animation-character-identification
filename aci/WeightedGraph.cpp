@@ -241,3 +241,41 @@ double WeightedGraph::degree(int vertex) const {
 bool compareGraphSize(const WeightedGraph& g1, const WeightedGraph& g2) {
 	return g1.numberOfVertices() < g2.numberOfVertices();
 }
+
+vector<int> breadthFirstSearch(const WeightedGraph &graph, int startingVertex) {
+	vector<bool> marks(graph.numberOfVertices(), false);
+	vector<int> bfsOrder;
+	bfsOrder.reserve(graph.numberOfVertices());
+
+	// slight variation on the usual BFS for possibly disconnected graphs: iterates 
+	// on all vertices starting from a specific user-defined one. The ending 
+	// condition looks a bit weird, but it just means we stop when we have gone full 
+	// circle.
+	int root = startingVertex;
+	do {
+		if (!marks[root]) {
+			queue<int> toVisit;
+			marks[root] = true;
+			toVisit.push(root);
+
+			while (!toVisit.empty()) {
+				int current = toVisit.front();
+				toVisit.pop();
+				bfsOrder.push_back(current);
+
+				for (int j = 0; j < (int)graph.getAdjacencyList(current).size(); j++) {
+					HalfEdge edge = graph.getAdjacencyList(current)[j];
+					int neighbor = edge.destination;
+
+					if (!marks[neighbor]) {
+						marks[neighbor] = true;
+						toVisit.push(neighbor);
+					}
+				}
+			}
+		}
+		root = (root + 1) % graph.numberOfVertices();
+	} while (root != startingVertex);
+
+	return bfsOrder;
+}

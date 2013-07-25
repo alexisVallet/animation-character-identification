@@ -70,6 +70,19 @@ MatrixXd eigNormalizedLaplacian(const WeightedGraph &graph) {
 	return degrees * unnormalized * degrees;
 }
 
+MatrixXd eigAdjacencyMatrix(const WeightedGraph &graph) {
+	MatrixXd adjMat = MatrixXd::Zero(graph.numberOfVertices(), graph.numberOfVertices());
+
+	for (int i = 0; i < graph.getEdges().size(); i++) {
+		Edge edge = graph.getEdges()[i];
+
+		adjMat(edge.source, edge.destination) = edge.weight;
+		adjMat(edge.destination, edge.source) = edge.weight;
+	}
+
+	return adjMat;
+}
+
 Eigen::SparseMatrix<double> sparseLaplacian(const WeightedGraph &graph, bool bidirectional, Eigen::VectorXd &degrees) {
 	// we construct the triplet list without the diagonal first, computing the degrees
 	// as we do so, then add the degree triplets.

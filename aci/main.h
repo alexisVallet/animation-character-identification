@@ -10,4 +10,4 @@
 #include "Segmentation.h"
 #include "PrincipalAnglesClassifier.h"
 
-#include "SubspaceComparisonTest.h"
+#include "GraphSpectraTest.h"

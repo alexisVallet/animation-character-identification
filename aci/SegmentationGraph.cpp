@@ -1,6 +1,6 @@
 #include "SegmentationGraph.hpp"
 
-WeightedGraph segmentationGraph(const Mat_<Vec<uchar,3> > &image, DisjointSetForest &segmentation, const WeightedGraph &grid) {
+WeightedGraph segmentationGraph(DisjointSetForest &segmentation, const WeightedGraph &grid) {
 	int numberOfComponents = segmentation.getNumberOfComponents();
 	WeightedGraph graph(numberOfComponents);
 	vector<vector<bool> > adjMatrix(numberOfComponents, vector<bool>(numberOfComponents, false));

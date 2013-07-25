@@ -91,7 +91,7 @@ void spectralClustering(SimilarityMatrix &similarity, SimilarityGraphRepresentat
  * @param nbClusters number of clusters.
  * @param classLabels output vector of class labels corresponding to each sample.
  */
-void selfTuningSpectralClustering(const MatrixXd &samples, int nbClusters, VectorXi &classLabels);
+//void selfTuningSpectralClustering(const MatrixXd &samples, int nbClusters, VectorXi &classLabels);
 
 /**
  * Spectral embedding according to similarity matrix in k-dimensional space.

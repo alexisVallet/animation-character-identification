@@ -91,3 +91,69 @@ DisjointSetForest combineSegmentations(const WeightedGraph &graph, vector<Disjoi
 
   return combination;
 }
+
+class EdgeCompare {
+public:
+	EdgeCompare();
+
+	bool operator()(const Edge &e1, const Edge &e2) {
+		return e1.weight > e2.weight;
+	}
+};
+/*
+typedef fibonacci_heap<Edge, boost::heap::compare<EdgeCompare> > PriorityQueue;
+typedef typename PriorityQueue::handle_type handle_t;
+
+static void updateWeights(PriorityQueue &queue, vector<list<pair<handle_t, int> > > &bidirAdjList, DisjointSetForest &segmentation, int vertex) {
+	for (int i = 0; i < (int)bidirAdjList[vertex].size(); i++) {
+		pair<handle_t, int> dst = bidirAdjList[vertex][i];
+		int srcSize = segmentation.getComponentSize(vertex);
+		int dstSize = segmentation.getComponentSize(dst.second);
+
+		queue.increase(dst.first, srcSize + dstSize);
+	}
+}
+
+void fuseComponentsDownTo(int nbComponents, DisjointSetForest &segmentation, const WeightedGraph& gridGraph) {
+	// Compute the region adjacency graph of the segmentation, weighted by
+	// sum of incident segment cardinality.
+	WeightedGraph rag = segmentationGraph(segmentation, gridGraph);
+
+	// store the edges, weighed by sum of incident segment size, into a min-heap
+	// mutable priority queue data structure.
+	
+	// bidirectional adjacency list data structure for storing incident edges
+	// handles
+	vector<list<pair<handle_t, int> > > bidirAdjList(rag.numberOfVertices());
+	EdgeCompare compare;
+	PriorityQueue queue(compare);
+
+	for (int i = 0; i < (int)rag.getEdges().size(); i++) {
+		Edge edge = rag.getEdges()[i];
+		Edge weighted;
+		int srcSize = segmentation.getComponentSize(edge.source);
+		int dstSize = segmentation.getComponentSize(edge.destination);
+
+		weighted.source = edge.source;
+		weighted.destination = edge.destination;
+		weighted.weight = srcSize + dstSize;
+
+		handle_t edgeHandle = queue.push(weighted);
+
+		bidirAdjList[edge.source].push_back(pair<handle_t, int>(edgeHandle, edge.destination));
+		bidirAdjList[edge.destination].push_back(pair<handle_t, int>(edgeHandle, edge.source));
+	}
+
+	// pop edges from the queue, fusing source and destination until the number of
+	// components is small enough. Update weights accordingly.
+	while (segmentation.getNumberOfComponents() > nbComponents) {
+		Edge smallest = queue.top();
+		queue.pop();
+
+		segmentation.setUnion(smallest.source, smallest.destination);
+
+		updateWeights(queue, bidirAdjList, segmentation, smallest.source);
+		updateWeigths(queue, bidirAdjList, segmentation, smallest.destination);
+	}
+}
+*/

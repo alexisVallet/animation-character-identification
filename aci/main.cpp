@@ -13,7 +13,7 @@ bool compareGraphSize_(const pair<WeightedGraph, int> &p1, const pair<WeightedGr
 
 int main(int argc, char** argv) {
 	if (TEST) {
-		testSubspaceComparison();
+		testGraphSpectra();
 	} else {
 		cout<<"loading dataset..."<<endl;
 		char *charaNames[] = {"rufy", "ray", "miku", "majin", "lupin", "kouji", "jigen", "conan", "chirno", "char", "asuka", "amuro", NULL};

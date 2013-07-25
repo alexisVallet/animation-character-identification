@@ -33,7 +33,7 @@ Mat_<int> computeBorderLengths(DisjointSetForest &segmentation, WeightedGraph &g
  * @param grid grid graph of the image
  * @return the segmentation graph of this image.
  */
-WeightedGraph segmentationGraph(const Mat_<Vec<uchar,3> > &image, DisjointSetForest &segmentation, const WeightedGraph &grid);
+WeightedGraph segmentationGraph(DisjointSetForest &segmentation, const WeightedGraph &grid);
 
 /**
  * Computes the center of gravity of each segment in an image.

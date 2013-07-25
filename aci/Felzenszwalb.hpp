@@ -8,14 +8,17 @@
 #include <vector>
 #include <algorithm>
 #include <opencv2/opencv.hpp>
+#include <boost/heap/fibonacci_heap.hpp>
 
 #include "WeightedGraph.hpp"
 #include "DisjointSet.hpp"
 #include "Utils.hpp"
 #include "ImageGraphs.h"
+#include "SegmentationGraph.hpp"
 
 using namespace std;
 using namespace cv;
+using namespace boost::heap;
 
 /**
  * Type specifying which type of scale measure to use for segment sizes, either
@@ -53,3 +56,17 @@ DisjointSetForest felzenszwalbSegment(int k, WeightedGraph graph, int minCompSiz
  * @param segmentations segmentations of sourceImage to combine.
  */
 DisjointSetForest combineSegmentations(const WeightedGraph &imageGraph, vector<DisjointSetForest> &segmentations);
+
+/**
+ * Fuse small adjacent components recursively until the number of components in
+ * the segmentation is smaller or equal to a given number. Can be used as a post
+ * processing step to Felzenszwalb's algorithm to make sure there are few enough
+ * components.
+ *
+ * @param nbComponents the number of components to reduce the segmentation to.
+ * @param segmentation "over segmentation" to reduce the number of components of.
+ * @param gridGraph grid graph representing the adjacency structure between elements
+ * of the segmentation. Should therefore have n vertices where n is the number of 
+ * elements in the segmentation.
+ */
+//void fuseComponentsDownTo(int nbComponents, DisjointSetForest &segmentation, const WeightedGraph& gridGraph);

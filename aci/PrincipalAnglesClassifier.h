@@ -27,6 +27,7 @@ private:
 	SimilarityMeasure similarity;
 	DenseRepresentation laplacian;
 	bool symmetric;
+	bool smallestEigenvalues;
 
 	double similarityFunction(const MatrixXd &s1, const MatrixXd &s2);
 	MatrixXd graphSubspace(const WeightedGraph &graph);
@@ -41,8 +42,10 @@ public:
 	 * - SMALLEST : similarity is computed using only the smallest canonical angle.
 	 * @param laplacian type of laplacian matrix to use.
 	 * @param symmetric true iff the chosen laplacian matrix is symmetric.
+	 * @param smallestEigenvalues true if we consider the k smallest eigenvalues.
+	 * of the laplacian representation, false if we consider the k largest.
 	 */
-	PrincipalAnglesClassifier(SimilarityMeasure similarity, DenseRepresentation laplacian, bool symmetric);
+	PrincipalAnglesClassifier(SimilarityMeasure similarity, DenseRepresentation laplacian, bool symmetric, bool smallestEigenvalues = true);
 
 	/**
 	 * Trains the classifier using some training samples, associated with
