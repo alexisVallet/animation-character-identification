@@ -279,3 +279,26 @@ vector<int> breadthFirstSearch(const WeightedGraph &graph, int startingVertex) {
 
 	return bfsOrder;
 }
+
+WeightedGraph permuteVertices(const WeightedGraph &graph, const vector<int> &permutation) {
+	assert(graph.numberOfVertices() == permutation.size());
+	// first compute the inverse permutation
+	vector<int> inverse(permutation.size());
+
+	for (int i = 0; i < permutation.size(); i++) {
+		inverse[permutation[i]] = i;
+	}
+
+	// then just add all the edges according to the inverse permutation
+	WeightedGraph permutedGraph(graph.numberOfVertices());
+
+	for (int i = 0; i < (int)graph.getEdges().size(); i++) {
+		Edge edge = graph.getEdges()[i];
+		int newSrc = inverse[edge.source];
+		int newDst = inverse[edge.destination];
+
+		permutedGraph.addEdge(newSrc, newDst, edge.weight);
+	}
+
+	return permutedGraph;
+}

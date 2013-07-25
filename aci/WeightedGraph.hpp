@@ -197,3 +197,13 @@ bool compareGraphSize(const WeightedGraph& g1, const WeightedGraph& g2);
  * explored vertex, v[1] the second, etc.
  */
 vector<int> breadthFirstSearch(const WeightedGraph &graph, int startingVertex);
+
+/**
+ * Permutes the indices of vertices in the graph using some permutation.
+ * The permutation indicates which vertex from the input graph corresponds to
+ * each in the output, eg v[0] in the input will become 0 in the output.
+ *
+ * @param graph graph to permute vertices of.
+ * @param permutation permutation of the vertices.
+ */
+WeightedGraph permuteVertices(const WeightedGraph &graph, const vector<int> &permutation);

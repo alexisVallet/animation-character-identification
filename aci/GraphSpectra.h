@@ -68,7 +68,7 @@ Mat_<double> normalizedLaplacian(const WeightedGraph &graph);
  *
  * NL(u,v) = 1 - w(v,v)/dv			if u = v
  *			 -w(u,v)/sqrt(du*dv)	if u and v are adjacent
- *			0						otherwise
+ *			 0						otherwise
  * Assumes the graph represents each edge only once, ie. that the
  * adjacency lists are not bidirectional.
  *

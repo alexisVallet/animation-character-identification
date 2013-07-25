@@ -157,7 +157,7 @@ static void testBFS() {
 		4, 7
 	};
 	int expected[] = {
-		0, 1, 2, 3, 4, 5, 6, 7
+		5, 1, 2, 0, 3, 4, 6, 7
 	};
 
 	for (int i = 0; i < 8; i++) {
@@ -168,7 +168,7 @@ static void testBFS() {
 		test.addEdge(dst, src, 1);
 	}
 
-	vector<int> actual = breadthFirstSearch(test, 0);
+	vector<int> actual = breadthFirstSearch(test, 5);
 
 	for (int i = 0; i < actual.size(); i++) {
 		cout<<actual[i]<<", ";
@@ -182,8 +182,41 @@ static void testBFS() {
 	}
 }
 
+static void testPermuteVertices() {
+	WeightedGraph test(8);
+	int edges[] = {
+		0, 1,
+		0, 2,
+		1, 3,
+		1, 4,
+		1, 5,
+		2, 5,
+		2, 6,
+		4, 7
+	};
+
+	for (int i = 0; i < 8; i++) {
+		int src = edges[toRowMajor(2, 0, i)];
+		int dst = edges[toRowMajor(2, 1, i)];
+
+		test.addEdge(src, dst, 1);
+		test.addEdge(dst, src, 1);
+	}
+
+	vector<int> permutation = breadthFirstSearch(test, 5);
+	WeightedGraph permuted = permuteVertices(test, permutation);
+
+	for (int i = 0; i < permutation.size(); i++) {
+		cout<<permutation[i]<<" becomes "<<i<<endl;
+	}
+
+	cout<<test<<endl;
+	cout<<permuted<<endl;
+}
+
 void testGraphSpectra() {
 	testBFS();
+	testPermuteVertices();
 
 	/*for (int i = 0; i < 100; i++) {
 		WeightedGraph randomGraph(50);
