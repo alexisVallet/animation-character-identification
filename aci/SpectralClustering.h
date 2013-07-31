@@ -50,6 +50,23 @@ public:
 };
 
 /**
+ * Efficiently wraps around another similarity matrix, hiding some rows
+ * and columns. Effectively models a principal submatrix of a square
+ * matrix.
+ */
+class MaskedSimilarityMatrix : public SimilarityMatrix {
+private:
+	const SimilarityMatrix const *internalMatrix;
+	const vector<int> const *indexes;
+
+public:
+	MaskedSimilarityMatrix(const SimilarityMatrix const *internalMatrix, const vector<int> const *indexes);
+	double operator() (int i, int j) const;
+	int rows() const;
+	int cols() const;
+};
+
+/**
  * Abstract class for graph representation function objects to be applied on 
  * data samples.
  */
@@ -150,5 +167,19 @@ class CompleteGraph : public SimilarityGraphRepresentation {
 public:
 	CompleteGraph();
 
+	void operator() (SimilarityMatrix &similarity, WeightedGraph &graph) const;
+};
+
+/**
+ * Transforms a similarity graph representation into a smaller one masking
+ * some points.
+ */
+class MaskedGraph : public SimilarityGraphRepresentation {
+private:
+	SimilarityGraphRepresentation *internalRep;
+	vector<bool> mask;
+
+public:
+	MaskedGraph(vector<bool> mask, SimilarityGraphRepresentation *internalRep);
 	void operator() (SimilarityMatrix &similarity, WeightedGraph &graph) const;
 };

@@ -99,6 +99,8 @@ Eigen::SparseMatrix<double> sparseLaplacian(const WeightedGraph &graph, bool bid
  */
 Eigen::SparseMatrix<double> normalizedSparseLaplacian(const WeightedGraph &graph, bool bidirectional, Eigen::VectorXd &degrees);
 
+Eigen::SparseMatrix<double> _normalizedSparseLaplacian(const WeightedGraph &graph, bool bidirectional);
+
 /**
  * Compute the normalized sparse laplacian as defined by (Shi and Malik 2000).
  * This matrix representation is NOT symmetric. Assumes the input graph is simple

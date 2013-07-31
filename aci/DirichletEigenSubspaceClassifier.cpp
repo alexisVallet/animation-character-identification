@@ -88,3 +88,9 @@ int DirichletEigenSubspaceClassifier::predict(const WeightedGraph &graph, int fa
 
 	return max_element(similarities.begin(), similarities.end(), secondCompare)->second;
 }
+
+int faceSegment(int width, DisjointSetForest &segmentation, const Vector2d &facePosition) {
+	map<int, int> rootIndexes = segmentation.getRootIndexes();
+
+	return rootIndexes[segmentation.find(toRowMajor(width, (int)facePosition(0), (int)facePosition(1)))];
+}

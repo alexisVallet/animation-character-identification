@@ -84,6 +84,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DatasetIO.cpp" />
     <ClCompile Include="DirichletEigenSubspaceClassifier.cpp" />
     <ClCompile Include="DirichletEigenSubspaceClassifierTest.cpp" />
     <ClCompile Include="DisjointSet.cpp" />
@@ -96,7 +97,6 @@
     <ClCompile Include="LocallyLinearEmbeddings.cpp" />
     <ClCompile Include="LocallyLinearEmbeddingsTest.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="ParameterTuning.cpp" />
     <ClCompile Include="PreProcessing.cpp" />
     <ClCompile Include="PrincipalAnglesClassifier.cpp" />
     <ClCompile Include="PrincipalAnglesClassifierTest.cpp" />
@@ -104,7 +104,7 @@
     <ClCompile Include="SegmentationGraph.cpp" />
     <ClCompile Include="SegmentAttributes.cpp" />
     <ClCompile Include="SegmentAttributesTest.cpp" />
-    <ClCompile Include="SimilarityKNN.cpp" />
+    <ClCompile Include="SpectralClusteringSegmentation.cpp" />
     <ClCompile Include="SpectrumDistanceClassifier.cpp" />
     <ClCompile Include="SpectrumDistanceClassifierTest.cpp" />
     <ClCompile Include="SpectrumDistanceClustering.cpp" />
@@ -119,6 +119,8 @@
     <ClCompile Include="TWKSpectralClusteringTest.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CSVIterator.h" />
+    <ClInclude Include="DatasetIO.h" />
     <ClInclude Include="DirichletEigenSubspaceClassifier.h" />
     <ClInclude Include="DirichletEigenSubspaceClassifierTest.h" />
     <ClInclude Include="DisjointSet.hpp" />
@@ -131,14 +133,14 @@
     <ClInclude Include="LocallyLinearEmbeddings.h" />
     <ClInclude Include="LocallyLinearEmbeddingsTest.h" />
     <ClInclude Include="main.h" />
-    <ClInclude Include="ParameterTuning.h" />
+    <ClInclude Include="MultipleGraphsClassifier.h" />
     <ClInclude Include="PreProcessing.h" />
     <ClInclude Include="PrincipalAnglesClassifier.h" />
     <ClInclude Include="PrincipalAnglesClassifierTest.h" />
     <ClInclude Include="Segmentation.h" />
     <ClInclude Include="SegmentationGraph.hpp" />
     <ClInclude Include="SegmentAttributesTest.h" />
-    <ClInclude Include="SimilarityKNN.h" />
+    <ClInclude Include="SpectralClusteringSegmentation.h" />
     <ClInclude Include="SpectrumDistanceClassifierTest.h" />
     <ClInclude Include="SpectrumDistanceClustering.h" />
     <ClInclude Include="SpectrumDistanceClusteringTest.h" />

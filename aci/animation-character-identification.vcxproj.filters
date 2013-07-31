@@ -40,9 +40,6 @@
     <ClCompile Include="Segmentation.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="ParameterTuning.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="PreProcessing.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -91,13 +88,16 @@
     <ClCompile Include="ImageGraphsTest.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="SimilarityKNN.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="DirichletEigenSubspaceClassifier.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="DirichletEigenSubspaceClassifierTest.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="DatasetIO.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SpectralClusteringSegmentation.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -139,9 +139,6 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Segmentation.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="ParameterTuning.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="PreProcessing.h">
@@ -192,13 +189,22 @@
     <ClInclude Include="TreeWalkKernelTest.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="SimilarityKNN.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="DirichletEigenSubspaceClassifier.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="DirichletEigenSubspaceClassifierTest.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CSVIterator.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="DatasetIO.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="MultipleGraphsClassifier.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="SpectralClusteringSegmentation.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

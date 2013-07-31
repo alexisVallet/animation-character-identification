@@ -71,7 +71,7 @@ void parameterTuning(ostream &outStream) {
 	// loading dataset
 	char *folder = "../test/dataset/";
 	char *names[] = {"amuro", "asuka", "char", "chirno", "conan", "jigen", "kouji", "lupin", "majin", "miku", "ray", "rufy", NULL};
-	vector<pair<Mat_<Vec3b>, Mat_<float> > > dataSet;
+	vector<std::<Mat_<Vec3b>, Mat_<float> > > dataSet;
 	Mat_<int> classes;
 
 	loadDataSet("../test/dataset/", names, 5, dataSet, classes);

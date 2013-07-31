@@ -4,9 +4,14 @@
 #include <tuple>
 #include <algorithm>
 #include <Eigen/Dense>
+#include <Eigen/StdVector>
+#include <iostream>
+#include <fstream>
 
 #include "GraphSpectra.h"
 #include "SubspaceComparison.h"
+#include "CSVIterator.h"
+#include "DisjointSet.hpp"
 
 using namespace std;
 using namespace Eigen;
@@ -95,3 +100,27 @@ public:
 	 */
 	int predict(const WeightedGraph &graph, int faceVertex);
 };
+
+/**
+ * Loads precomputed face positioins from a csv file, associated to the
+ * corresponding image name.
+ *
+ * @param filename filename of the csv file to load.
+ * @return a vector of pairs (name_i,p_i) where name_i is the name of the image
+ * and p_i are the coordinates of the face in the image.
+ */
+vector<pair<string,Vector2d>, aligned_allocator<pair<string,Vector2d> > > loadFacePositions(string filename);
+
+/**
+ * computes the face segment as the one containing the face
+ * position. To do this somewhat efficiently, need to compute the
+ * mapping from root to linear index in the graph, and then simply
+ * take the root by find operation on the disjoint set data structure
+ * - modulo a row major transform.
+ *
+ * @param width width of the image (for row major transform)
+ * @param segmentation segmentation of the image.
+ * @param facePosition position of the face in the image.
+ * @return the index of the segment containing the face position.
+ */
+int faceSegment(int width, DisjointSetForest &segmentation, Vector2d facePosition);

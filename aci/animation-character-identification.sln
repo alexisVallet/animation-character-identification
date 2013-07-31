@@ -9,6 +9,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "spectral-graph-theory", "sp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "spectral-clustering", "spectral-clustering\spectral-clustering.vcxproj", "{B53CC091-1046-44E5-B8F6-52EF089F1396}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "face-tagging", "face-tagging\face-tagging.vcxproj", "{FDD45092-CD81-4B3C-B6D9-B007F801D951}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FADEDFFD-50E2-470B-ADC4-48759E2F80AE} = {FADEDFFD-50E2-470B-ADC4-48759E2F80AE}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -27,6 +32,10 @@ Global
 		{B53CC091-1046-44E5-B8F6-52EF089F1396}.Debug|Win32.Build.0 = Debug|Win32
 		{B53CC091-1046-44E5-B8F6-52EF089F1396}.Release|Win32.ActiveCfg = Release|Win32
 		{B53CC091-1046-44E5-B8F6-52EF089F1396}.Release|Win32.Build.0 = Release|Win32
+		{FDD45092-CD81-4B3C-B6D9-B007F801D951}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FDD45092-CD81-4B3C-B6D9-B007F801D951}.Debug|Win32.Build.0 = Debug|Win32
+		{FDD45092-CD81-4B3C-B6D9-B007F801D951}.Release|Win32.ActiveCfg = Release|Win32
+		{FDD45092-CD81-4B3C-B6D9-B007F801D951}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

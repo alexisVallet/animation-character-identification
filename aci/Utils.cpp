@@ -28,54 +28,6 @@ static bool isMask(const Mat_<float> &mask) {
 	return true;
 }
 
-void loadDataSet(char* folderName, char** charaNames, int nbImagesPerChara, vector<pair<Mat_<Vec<uchar,3> >,Mat_<float> > > &images, Mat_<int> &classes) {
-	int nbCharas = 0;
-	while (charaNames[nbCharas] != NULL) {
-		nbCharas++;
-	}
-	images = vector<pair<Mat_<Vec<uchar,3> >,Mat_<float> > >(nbCharas * nbImagesPerChara);
-	classes = Mat_<int>(nbCharas * nbImagesPerChara, 1);
-
-	for (int i = 0; i < nbCharas; i++) {		
-		for (int j = 0; j < nbImagesPerChara; j++) {
-			char suffix[] = {'_', 'a' + j, '.', 'p', 'n', 'g', '\0'};
-			char *fullPath = new char[strlen(folderName) + strlen(charaNames[i]) + strlen(suffix) + 1];
-			char maskSuffix[] = {'-', 'm', 'a', 's', 'k', '.', 'p', 'n', 'g', '\0'};
-			char *maskPath = new char[strlen(folderName) + strlen(charaNames[i]) + strlen(suffix) + strlen(maskSuffix) + 1];
-			
-			strcpy(fullPath, folderName);
-			strcat(fullPath, charaNames[i]);
-			strcat(fullPath, suffix);
-			strcpy(maskPath, fullPath);
-			strcat(maskPath, maskSuffix);
-
-			int rowMajorIndex = toRowMajor(nbImagesPerChara, j, i);
-
-			Mat_<Vec<uchar, 3> > mask = imread(maskPath);
-			vector<Mat_<uchar> > maskChannels;
-
-			split(mask, maskChannels);
-
-			images[rowMajorIndex].first = imread(fullPath);
-
-			Mat_<uchar> thresholdedMask;
-
-			threshold(maskChannels[0], thresholdedMask, 128, 1, THRESH_BINARY_INV);
-
-			images[rowMajorIndex].second = Mat_<float>(thresholdedMask);
-
-			crop(images[rowMajorIndex].first, images[rowMajorIndex].second, images[rowMajorIndex].first, images[rowMajorIndex].second);
-
-			assert(isMask(images[rowMajorIndex].second));
-
-			classes(rowMajorIndex,0) = i;
-
-			delete[] fullPath;
-			delete[] maskPath;
-		}
-	}
-}
-
 Mat_<double> sparseMul(SparseMat_<double> A, Mat_<double> b) {
 	assert(A.size(1) == b.rows);
 	assert(b.cols == 1);

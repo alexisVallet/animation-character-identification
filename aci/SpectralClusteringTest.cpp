@@ -13,12 +13,4 @@ static double simFunc(const VectorXd &s1, const VectorXd &s2) {
 }
 
 void testSpectralClustering() {
-	cout<<"loading dataset..."<<endl;
-	char *charaNames[] = {"rufy", NULL};
-	vector<pair<Mat_<Vec3b>, Mat_<float> > > dataSet;
-	Mat_<int> classes;
-
-	loadDataSet("../test/dataset/", charaNames, 1, dataSet, classes);
-
-	
 }

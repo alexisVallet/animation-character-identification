@@ -58,13 +58,16 @@ static void spectralEmbedding_(const WeightedGraph &simGraph, SparseRepresentati
 void spectralClustering(SimilarityMatrix &similarity, SimilarityGraphRepresentation &graphRep, SparseRepresentation matRep, int k, VectorXi &classLabels, bool normalize, bool symmetric) {
 	WeightedGraph simGraph;
 
+	cout<<"computing graph representation"<<endl;
 	graphRep(similarity, simGraph);
 
 	MatrixXd eigenvectors;
 
+	cout<<"computing spectral embedding"<<endl;
 	spectralEmbedding_(simGraph, matRep, k, eigenvectors, normalize, symmetric);
 
 	// cluster the embedding using K-means
+	cout<<"clustering using kmeans"<<endl;
 	MatrixXf fEigenvectors = eigenvectors.cast<float>();
 	Mat_<float> embeddings(simGraph.numberOfVertices(), k);
 
@@ -254,4 +257,52 @@ void CompleteGraph::operator() (SimilarityMatrix &similarity, WeightedGraph &gra
 			graph.addEdge(i,j,similarity(i, j));
 		}
 	}
+}
+
+MaskedSimilarityMatrix::MaskedSimilarityMatrix(const SimilarityMatrix const *internalMatrix, const vector<int> const *indexes)
+	: internalMatrix(internalMatrix), indexes(indexes)
+{
+
+}
+
+double MaskedSimilarityMatrix::operator() (int i, int j) const {
+	return (*this->internalMatrix)((*this->indexes)[i], (*this->indexes)[j]);
+}
+
+int MaskedSimilarityMatrix::rows() const {
+	return this->indexes->size();
+}
+
+int MaskedSimilarityMatrix::cols() const {
+	return this->indexes->size();
+}
+
+MaskedGraph::MaskedGraph(vector<bool> mask, SimilarityGraphRepresentation *internalRep) 
+	: mask(mask), internalRep(internalRep)
+{
+
+}
+
+void MaskedGraph::operator() (SimilarityMatrix &similarity, WeightedGraph &graph) const {
+	assert(this->mask.size() == similarity.rows());
+	// compute indexes of points to take into account
+	cout<<"computing indexes"<<endl;
+	vector<int> indexes;
+	indexes.reserve(this->mask.size());
+	int k = 0;
+
+	for (int i = 0; i < (int)this->mask.size(); i++) {
+		if (this->mask[i]) {
+			indexes.push_back(k);
+			k++;
+		}
+	}
+
+	// call the internal representation with the masked matrix
+	cout<<"calling internal representation constructor"<<endl;
+	MaskedSimilarityMatrix maskedSim(&similarity, &indexes);
+
+	cout<<"calling internal representation"<<endl;
+	(*this->internalRep)(maskedSim, graph);
+	cout<<"successful"<<endl;
 }

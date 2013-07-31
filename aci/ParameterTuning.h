@@ -5,6 +5,7 @@
 #include "PreProcessing.h"
 #include "Segmentation.h"
 #include "SpectrumDistanceClassifier.h"
+#include "DatasetIO.h"
 
 using namespace std;
 using namespace cv;

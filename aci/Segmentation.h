@@ -25,4 +25,4 @@ using namespace cv;
  * @param segGraph segmentation graph of the image, where vertices are segment
  * and vertices have an edge between them iff the corresponding segment are adjacent.
  */
-void segment(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, WeightedGraph &segGraph, int felzenszwalbScale);
+void segment(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, WeightedGraph &segGraph, int felzenszwalbScale = 10000);
