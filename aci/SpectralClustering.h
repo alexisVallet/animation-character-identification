@@ -14,6 +14,7 @@ using namespace std;
 using namespace cv;
 using namespace Eigen;
 
+
 /**
  * Abstract class for similarity matrices. Implemented in
  * dense matrix from by DenseSimilarityMatrix, but may

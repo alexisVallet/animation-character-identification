@@ -100,6 +100,15 @@
     <ClCompile Include="SpectralClusteringSegmentation.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="MultipleGraphsClassifier.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="PatternVectors.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="PatternVectorsTest.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisjointSet.hpp">
@@ -205,6 +214,12 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="SpectralClusteringSegmentation.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="PatternVectors.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="PatternVectorsTest.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

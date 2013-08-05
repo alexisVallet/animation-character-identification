@@ -3,7 +3,7 @@
 void testDirichletEigenSubspaceClassifier() {
 	cout<<"loading dataset..."<<endl;
 	char *charaNames[] = {"rufy", "ray", "miku", "majin", "lupin", "kouji", "jigen", "conan", "chirno", "char", "asuka", "amuro", NULL};
-	vector<std::tuple<Mat_<Vec3b>, Mat_<float> > > dataSet;
+	vector<std::tuple<Mat_<Vec3b>, Mat_<float>, pair<int,int> > > dataSet;
 	Mat_<int> classes;
 
 	loadDataSet("../test/dataset/", charaNames, 5, dataSet, classes);

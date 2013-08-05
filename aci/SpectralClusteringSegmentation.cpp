@@ -7,16 +7,10 @@ PixelSimilarityMatrix::PixelSimilarityMatrix(const Mat_<Vec3b> &image, double co
 }
 
 double PixelSimilarityMatrix::operator() (int i, int j) const {
-	cout<<"computing similarity between "<<i<<" and "<<j<<endl;
 	pair<int,int> iposition = fromRowMajor(this->image.cols, i);
 	pair<int,int> jposition = fromRowMajor(this->image.cols, j);
 	Vec3b icolor = this->image(iposition.first, iposition.second);
 	Vec3b jcolor = this->image(jposition.first, jposition.second);
-
-	cout<<"jposition = "<<jposition.first<<", "<<jposition.second<<endl;
-	cout<<"iposition = "<<iposition.first<<", "<<iposition.second<<endl;
-	cout<<"icolor = "<<icolor<<endl;
-	cout<<"jcolor = "<<jcolor<<endl;
 
 	return
 		exp(- pow(norm(icolor - jcolor), 2) / pow(this->colorSigma, 2)) *

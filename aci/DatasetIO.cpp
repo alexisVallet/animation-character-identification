@@ -14,13 +14,19 @@ vector<pair<string,Vector2d>, aligned_allocator<pair<string,Vector2d> > > loadFa
 	return facePositions;
 }
 
-void loadDataSet(char* folderName, char** charaNames, int nbImagesPerChara, vector<tuple<Mat_<Vec<uchar,3> >,Mat_<float> > > &images, Mat_<int> &classes) {
+void loadDataSet(char* folderName, char** charaNames, int nbImagesPerChara, vector<tuple<Mat_<Vec<uchar,3> >,Mat_<float>, pair<int,int> > > &images, Mat_<int> &classes) {
 	int nbCharas = 0;
 	while (charaNames[nbCharas] != NULL) {
 		nbCharas++;
 	}
-	images = vector<tuple<Mat_<Vec<uchar,3> >,Mat_<float> > >(nbCharas * nbImagesPerChara);
+	images = vector<tuple<Mat_<Vec<uchar,3> >,Mat_<float>, pair<int,int> > >(nbCharas * nbImagesPerChara);
 	classes = Mat_<int>(nbCharas * nbImagesPerChara, 1);
+
+	// load face positions
+	stringstream faceFilename;
+	faceFilename<<folderName<<"faceData.csv";
+	vector<pair<string,Vector2d>, aligned_allocator<pair<string,Vector2d> > >
+		facePositions = loadFacePositions(faceFilename.str());
 
 	for (int i = 0; i < nbCharas; i++) {		
 		for (int j = 0; j < nbImagesPerChara; j++) {
@@ -36,6 +42,11 @@ void loadDataSet(char* folderName, char** charaNames, int nbImagesPerChara, vect
 			strcat(maskPath, maskSuffix);
 
 			int rowMajorIndex = toRowMajor(nbImagesPerChara, j, i);
+
+			Vector2d facePosition = facePositions[rowMajorIndex].second;
+
+			get<2>(images[rowMajorIndex]) = pair<int,int>(
+				(int)facePosition(0), (int)facePosition(1));
 
 			Mat_<Vec<uchar, 3> > mask = imread(maskPath);
 			vector<Mat_<uchar> > maskChannels;

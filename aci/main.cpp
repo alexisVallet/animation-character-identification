@@ -46,42 +46,39 @@ DisjointSetForest addBackgroundSegment(DisjointSetForest segmentation, const Mat
 }
 
 int main(int argc, char** argv) {
-	cout<<"loading dataset..."<<endl;
-	char *charaNames[] = {"rufy", "ray", "miku", "majin", "lupin", "kouji", "jigen", "conan", "chirno", "char", "asuka", "amuro", NULL};
-	vector<std::tuple<Mat_<Vec3b>, Mat_<float> > > dataSet;
-	Mat_<int> classes;
+	if (TEST) {
+		testPatternVectors();
+	} else {
+		cout<<"loading dataset..."<<endl;
+		char *charaNames[] = {"rufy", "ray", "miku", "majin", "lupin", "kouji", "jigen", "conan", "chirno", "char", "asuka", "amuro", NULL};
+		vector<std::tuple<Mat_<Vec3b>, Mat_<float>, pair<int,int> > > dataSet;
+		Mat_<int> classes;
 
-	loadDataSet("../test/dataset/", charaNames, 5, dataSet, classes);
+		loadDataSet("../test/dataset/", charaNames, 5, dataSet, classes);
 
-	cout<<"preprocessing..."<<endl;
-	vector<pair<Mat_<Vec3b>, Mat_<float> > > processedDataSet;
-	processedDataSet.reserve(dataSet.size());
+		cout<<"preprocessing..."<<endl;
+		vector<pair<Mat_<Vec3b>, Mat_<float> > > processedDataSet;
+		processedDataSet.reserve(dataSet.size());
 
-	for (int i = 0; i < (int)dataSet.size(); i++) {
-		Mat_<Vec3b> processedImage;
-		Mat_<float> processedMask;
+		for (int i = 0; i < (int)dataSet.size(); i++) {
+			Mat_<Vec3b> processedImage;
+			Mat_<float> processedMask;
 
-		preProcessing(get<0>(dataSet[i]), get<1>(dataSet[i]), processedImage, processedMask);
-		processedDataSet.push_back(pair<Mat_<Vec3b>, Mat_<float> >(processedImage, processedMask));
-	}
+			preProcessing(get<0>(dataSet[i]), get<1>(dataSet[i]), processedImage, processedMask);
+			processedDataSet.push_back(pair<Mat_<Vec3b>, Mat_<float> >(processedImage, processedMask));
+		}
 
-	cout<<"segmentation..."<<endl;
-	vector<DisjointSetForest> segmentations;
-	vector<vector<int> > indexes;
-	segmentations.reserve(dataSet.size());
-	indexes.reserve(dataSet.size());
+		cout<<"segmentation..."<<endl;
+		vector<std::tuple<DisjointSetForest, WeightedGraph> > segmentations;
+		segmentations.reserve(dataSet.size());
 
-	for (int i = 0; i < (int)dataSet.size(); i++) {
-		cout<<"computing segmentation"<<endl;
-		DisjointSetForest segmentation = spectralClusteringSegmentation(processedDataSet[i].first, processedDataSet[i].second, 30);
+		for (int i = 0; i < (int)dataSet.size(); i++) {
+			std::tuple<DisjointSetForest, WeightedGraph> segmentation;
 
-		segmentations.push_back(segmentation);
+			segment(processedDataSet[i].first, processedDataSet[i].second, get<0>(segmentation), get<1>(segmentation));
 
-		cout<<"adding background segment for visualisation"<<endl;
-		DisjointSetForest withBackground = addBackgroundSegment(segmentation, processedDataSet[i].second);
-		Mat_<Vec3b> segmentImage = withBackground.toRegionImage(processedDataSet[i].first);
-		imshow("pouet", segmentImage);
-		waitKey(0);
+			segmentations.push_back(segmentation);
+		}
 	}
 
 	return 0;

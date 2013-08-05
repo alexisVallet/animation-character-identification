@@ -7,4 +7,6 @@
 
 #include "DatasetIO.h"
 #include "PreProcessing.h"
-#include "SpectralClusteringSegmentation.h"
+#include "Segmentation.h"
+
+#include "PatternVectorsTest.h"

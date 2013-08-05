@@ -25,4 +25,4 @@ using namespace Eigen;
  * and face position.
  * @param classes class label associated to each character image.
  */
-void loadDataSet(char* folderName, char** charaNames, int nbImagesPerChara, vector<std::tuple<Mat_<Vec<uchar,3> >,Mat_<float> > > &images, Mat_<int> &classes);
+void loadDataSet(char* folderName, char** charaNames, int nbImagesPerChara, vector<std::tuple<Mat_<Vec<uchar,3> >,Mat_<float>, pair<int,int> > > &images, Mat_<int> &classes);

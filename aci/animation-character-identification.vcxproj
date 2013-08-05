@@ -97,6 +97,9 @@
     <ClCompile Include="LocallyLinearEmbeddings.cpp" />
     <ClCompile Include="LocallyLinearEmbeddingsTest.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MultipleGraphsClassifier.cpp" />
+    <ClCompile Include="PatternVectors.cpp" />
+    <ClCompile Include="PatternVectorsTest.cpp" />
     <ClCompile Include="PreProcessing.cpp" />
     <ClCompile Include="PrincipalAnglesClassifier.cpp" />
     <ClCompile Include="PrincipalAnglesClassifierTest.cpp" />
@@ -134,6 +137,8 @@
     <ClInclude Include="LocallyLinearEmbeddingsTest.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="MultipleGraphsClassifier.h" />
+    <ClInclude Include="PatternVectors.h" />
+    <ClInclude Include="PatternVectorsTest.h" />
     <ClInclude Include="PreProcessing.h" />
     <ClInclude Include="PrincipalAnglesClassifier.h" />
     <ClInclude Include="PrincipalAnglesClassifierTest.h" />
