@@ -59,17 +59,32 @@ vector<VectorXd> patternVectors(vector<WeightedGraph> &graphs, int k, int maxGra
 		// compute eigenvectors and eigenvalues of the laplacian
 		SelfAdjointEigenSolver<MatrixXd> eigenSolver(padded);
 
-		VectorXd eigenvalues = eigenSolver.eigenvalues().head(k);
-		MatrixXd eigenvectors = eigenSolver.eigenvectors().block(0,0,maxGraphSize,k);
-		
+		// only take the k smallest eigenvalues/vectors which were
+		// not introduced by padding. Padding introduces additional
+		// isolated vertices, thereby artificially increasing the 
+		// multiplicity of the eigenvalue 0.
+		int paddingDifference = maxGraphSize - graphs[i].numberOfVertices() + 1;
+
+		VectorXd eigenvalues = eigenSolver.eigenvalues().head(k + paddingDifference).tail(k);
+		MatrixXd eigenvectors = eigenSolver.eigenvectors().block(0, paddingDifference, maxGraphSize, k);
+
+		//cout<<"eigenvalues: "<<eigenvalues.transpose()<<endl;
+		//cout<<"eigenvectors: "<<eigenvectors<<endl;
+
 		MatrixXd S(maxGraphSize, k);
 
 		// compute columns of the spectral matrix, and evaluate the 
 		// symmetric polynomials on each of them
 		for (int j = 0; j < k; j++) {
-			VectorXd spectralMatrixCol = sqrt(eigenvalues(j)) * eigenvectors.col(j);
+			// additional condition in case the eigensolver returns some
+			// negative close to 0 value.
+			VectorXd spectralMatrixCol = (eigenvalues(j) > 0 ? sqrt(eigenvalues(j)) : 0) * eigenvectors.col(j);
 
 			S.col(j) = evaluateSymmetricPolynomials(spectralMatrixCol);
+			//cout<<"eigenvalue "<<eigenvalues(j)<<endl;
+			//cout<<"eigenvector "<<eigenvectors.col(j).transpose()<<endl;
+			//cout<<"spectral matrix col: "<<endl<<spectralMatrixCol.transpose()<<endl;
+			//cout<<"evaluates to:"<<endl<<S.col(j).transpose()<<endl;
 		}
 		// form pattern vector from the results of the symmetric 
 		// polynomials by applying logarithmic scaling.

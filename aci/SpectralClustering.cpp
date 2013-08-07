@@ -169,13 +169,11 @@ public:
 };
 
 void KNearestGraph::operator() (SimilarityMatrix &similarity, WeightedGraph &graph) const {
-	cout<<"computing K nearest graph"<<endl;
 	assert(similarity.rows() > k);
 	set<pair<int,int> > adjMat;
 	graph = WeightedGraph(similarity.rows());
 
 	for (int i = 0; i < similarity.rows(); i++) {
-		cout<<"computing k nearest neighbors of sample "<<i<<endl;
 		// compute the k nearest neighbor of this sample
 		IsMoreSimilar comp(i, &similarity);
 		priority_queue<int, vector<int>, IsMoreSimilar> kNearest(comp);

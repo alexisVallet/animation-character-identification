@@ -18,6 +18,16 @@ using namespace std;
 typedef vector<VectorXd> (*SegmentLabeling)(DisjointSetForest &segmentation, const Mat_<Vec3b> &image, const Mat_<float> &mask);
 
 /**
+ * Labels segments by their average color.
+ */
+vector<VectorXd> averageColorLabeling(DisjointSetForest &segmentation, const Mat_<Vec3b> &image, const Mat_<float> &mask);
+
+/**
+ * Labels segments by their gravity center.
+ */
+vector<VectorXd> gravityCenterLabeling(DisjointSetForest &segmentation, const Mat_<Vec3b> &image, const Mat_<float> &mask);
+
+/**
  * Classifier computing one graph for each feature of interest in the
  * animation image - for instance one for position information, one for
  * color informatin, another for shape information.
@@ -28,6 +38,9 @@ private:
 	int k;
 	vector<std::tuple<vector<WeightedGraph>, int > > trainingFeatureGraphs;
 	int maxTrainingGraphSize;
+	int minTrainingGraphSize;
+	double svmSigma;
+	double svmNu;
 
 	/**
 	 * Computes a feature graph of a segmented image.
@@ -39,7 +52,7 @@ private:
 	 * @param mask mask of the image.
 	 * @return the corresponding feature graph.
 	 */
-	WeightedGraph computeFeatureGraph(int feature, DisjointSetForest &segmentation, const Mat_<Vec3b> &image, const Mat_<float> &mask, int faceSegment);
+	WeightedGraph computeFeatureGraph(int feature, DisjointSetForest &segmentation, const Mat_<Vec3b> &image, const Mat_<float> &mask);
 
 public:
 	/**
@@ -67,10 +80,10 @@ public:
 	 * corresponding masks and class labels.
 	 *
 	 * @param trainingSet training set to train the classifier with. Each
-	 * element of the vector is a tuple (S, I, M, f, l) where S is a segmentation
-	 * for image I with mask M, f is the face segment and l is integer class label of the sample.
+	 * element of the vector is a tuple (S, I, M, l) where S is a segmentation
+	 * for image I with mask M, l is integer class label of the sample.
 	 */
-	void train(vector<std::tuple<DisjointSetForest, Mat_<Vec3b>, Mat_<float>, int, int > > trainingSet);
+	void train(vector<std::tuple<DisjointSetForest, Mat_<Vec3b>, Mat_<float>, int > > trainingSet);
 
 	/**
 	 * Predicts the class of a segmented image from previous training
@@ -81,5 +94,5 @@ public:
 	 * @param mask mask of the image.
 	 * @return the predicted class label of the test sample.
 	 */
-	int predict(DisjointSetForest &segmentation, const Mat_<Vec3b> &image, const Mat_<float> &mask, int faceSegment);
+	int predict(DisjointSetForest &segmentation, const Mat_<Vec3b> &image, const Mat_<float> &mask);
 };

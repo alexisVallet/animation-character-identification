@@ -61,7 +61,7 @@ void loadDataSet(char* folderName, char** charaNames, int nbImagesPerChara, vect
 
 			get<1>(images[rowMajorIndex]) = Mat_<float>(thresholdedMask);
 
-			crop(get<0>(images[rowMajorIndex]), get<1>(images[rowMajorIndex]), get<0>(images[rowMajorIndex]), get<1>(images[rowMajorIndex]));
+			//crop(get<0>(images[rowMajorIndex]), get<1>(images[rowMajorIndex]), get<0>(images[rowMajorIndex]), get<1>(images[rowMajorIndex]));
 
 			classes(rowMajorIndex,0) = i;
 

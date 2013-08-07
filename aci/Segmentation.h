@@ -2,6 +2,7 @@
 #pragma once
 
 #include <opencv2/opencv.hpp>
+#include <unordered_map>
 
 #include "WeightedGraph.hpp"
 #include "Utils.hpp"
@@ -26,3 +27,14 @@ using namespace cv;
  * and vertices have an edge between them iff the corresponding segment are adjacent.
  */
 void segment(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, WeightedGraph &segGraph, int felzenszwalbScale = 10000);
+
+/**
+ * Loads a segmentation from a file. Assumes the file is a color image,
+ * where each segment is filled with the exact same color. Greedily fuses
+ * segments of size smaller than a threshold.
+ *
+ * @param mask mask of the image to load a segmentation for.
+ * @param segmentationFilename filename of the segmentation file.
+ * @return segmentation of the image loaded from the file.
+ */
+DisjointSetForest loadSegmentation(Mat_<float> &mask, string segmentationFilename);

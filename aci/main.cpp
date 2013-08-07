@@ -3,6 +3,9 @@
 #define TEST true
 #define NB_SEGMENTS 30
 #define STATFOLDER "../stats/"
+#define COLOR_SIGMA 100
+#define CENTERS_SIGMA 1
+#define NB_EIGENVECTORS 13
 
 DisjointSetForest addBackgroundSegment(DisjointSetForest segmentation, const Mat_<float> &mask) {
 	// compute indexes from the image mask
@@ -46,40 +49,26 @@ DisjointSetForest addBackgroundSegment(DisjointSetForest segmentation, const Mat
 }
 
 int main(int argc, char** argv) {
-	if (TEST) {
-		testPatternVectors();
-	} else {
-		cout<<"loading dataset..."<<endl;
-		char *charaNames[] = {"rufy", "ray", "miku", "majin", "lupin", "kouji", "jigen", "conan", "chirno", "char", "asuka", "amuro", NULL};
-		vector<std::tuple<Mat_<Vec3b>, Mat_<float>, pair<int,int> > > dataSet;
-		Mat_<int> classes;
+	
+	char *charaNames[] = {"rufy", NULL};
+	vector<std::tuple<Mat_<Vec3b>, Mat_<float>, pair<int,int> > > dataSet;
+	Mat_<int> classes;
+	cout<<"loading dataset..."<<endl;
+	loadDataSet("../test/dataset/", charaNames, 5, dataSet, classes);
 
-		loadDataSet("../test/dataset/", charaNames, 5, dataSet, classes);
+	imshow("machin", get<1>(dataSet[4]));
+	imshow("truc", get<0>(dataSet[4]));
+	imshow("bidule", imread("../test/dataset/rufy_e_seg.png"));
+	waitKey(0);
 
-		cout<<"preprocessing..."<<endl;
-		vector<pair<Mat_<Vec3b>, Mat_<float> > > processedDataSet;
-		processedDataSet.reserve(dataSet.size());
+	cout<<"loading segmentation"<<endl;
+	DisjointSetForest segmentation = 
+		loadSegmentation(get<1>(dataSet[4]), "../test/dataset/rufy_e_seg.png");
 
-		for (int i = 0; i < (int)dataSet.size(); i++) {
-			Mat_<Vec3b> processedImage;
-			Mat_<float> processedMask;
+	Mat_<Vec3b> regionImage = segmentation.toRegionImage(get<0>(dataSet[4]));
 
-			preProcessing(get<0>(dataSet[i]), get<1>(dataSet[i]), processedImage, processedMask);
-			processedDataSet.push_back(pair<Mat_<Vec3b>, Mat_<float> >(processedImage, processedMask));
-		}
-
-		cout<<"segmentation..."<<endl;
-		vector<std::tuple<DisjointSetForest, WeightedGraph> > segmentations;
-		segmentations.reserve(dataSet.size());
-
-		for (int i = 0; i < (int)dataSet.size(); i++) {
-			std::tuple<DisjointSetForest, WeightedGraph> segmentation;
-
-			segment(processedDataSet[i].first, processedDataSet[i].second, get<0>(segmentation), get<1>(segmentation));
-
-			segmentations.push_back(segmentation);
-		}
-	}
+	imshow("pouet", regionImage);
+	waitKey(0);
 
 	return 0;
 }

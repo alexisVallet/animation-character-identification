@@ -9,4 +9,4 @@
 #include "PreProcessing.h"
 #include "Segmentation.h"
 
-#include "PatternVectorsTest.h"
+#include "MultipleGraphsClassifier.h"
