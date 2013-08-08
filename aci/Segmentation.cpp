@@ -37,8 +37,6 @@ static bool lexicographicOrder(const Vec3b &v1, const Vec3b &v2) {
 DisjointSetForest loadSegmentation(Mat_<float> &mask, string segmentationFilename) {
 	Mat_<Vec3b> segmentationImage = imread(segmentationFilename);
 
-	cout<<"mask: ("<<mask.rows<<", "<<mask.cols<<"), segmentation: ("<<segmentationImage.rows<<", "<<segmentationImage.cols<<")"<<endl;
-
 	assert(segmentationImage.rows == mask.rows && segmentationImage.cols == mask.cols);
 
 	DisjointSetForest segmentation(segmentationImage.rows * segmentationImage.cols);
@@ -68,7 +66,7 @@ DisjointSetForest loadSegmentation(Mat_<float> &mask, string segmentationFilenam
 			mask, 
 			constOne, 
 			false), 
-		100, 
+		25, 
 		mask);
 
 	return segmentation;
