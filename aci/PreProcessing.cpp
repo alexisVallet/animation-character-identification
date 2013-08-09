@@ -49,7 +49,7 @@ void preProcessing(const Mat_<Vec3b> &rawImage, const Mat_<float> &rawMask, Mat_
 
 	KuwaharaFilter(equalized, filtered, 2 * kuwaharaHalfsize + 1);
 
-	cvtColor(filtered, processedImage, CV_BGR2Lab);
+	cvtColor(filtered, processedImage, CV_BGR2HSV);
 
 	if (DEBUG_PREPROCESSING) {
 		imshow("original", rawImage);

@@ -55,16 +55,16 @@ int main(int argc, char** argv) {
 	cout<<"loading dataset..."<<endl;
 	loadDataSet("../test/dataset/", charaNames, 5, dataSet, classes);
 
-	imshow("machin", get<1>(dataSet[0]));
-	imshow("truc", get<0>(dataSet[0]));
-	imshow("bidule", imread("../test/dataset/lupin_a_seg.png"));
+	imshow("machin", get<1>(dataSet[4]));
+	imshow("truc", get<0>(dataSet[4]));
+	imshow("bidule", imread("../test/dataset/lupin_e_seg.png"));
 	waitKey(0);
 
 	cout<<"loading segmentation"<<endl;
 	DisjointSetForest segmentation = 
-		loadSegmentation(get<1>(dataSet[0]), "../test/dataset/lupin_a_seg.png");
+		loadSegmentation(get<1>(dataSet[4]), "../test/dataset/lupin_e_seg.png");
 
-	Mat_<Vec3b> regionImage = segmentation.toRegionImage(get<0>(dataSet[0]));
+	Mat_<Vec3b> regionImage = segmentation.toRegionImage(get<0>(dataSet[4]));
 
 	imshow("pouet", regionImage);
 	waitKey(0);

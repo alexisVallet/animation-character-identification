@@ -4,9 +4,18 @@
 #define CONNECTIVITY CONNECTIVITY_4
 #define MAX_SEGMENTS 250
 
+static double absoluteDifference(const Mat &m1, const Mat &m2) {
+	uchar c1 = m1.at<uchar>(0,0), c2 = m2.at<uchar>(0,0);
+
+	return (double)(c1 > c2 ? c1 - c2 : c2 - c1);
+}
+
 void segment(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, WeightedGraph &segGraph, int felzenszwalbScale) {
 	assert(felzenszwalbScale >= 0);
-	WeightedGraph grid = gridGraph(image, CONNECTIVITY, mask, euclidDistance, false);
+	// computes felzenszwalb's algorithm on the hue part of the image
+	vector<Mat_<uchar> > channels;
+	split(image, channels);
+	WeightedGraph grid = gridGraph(channels[0], CONNECTIVITY, mask, absoluteDifference, false);
 	int minCompSize = countNonZero(mask) / MAX_SEGMENTS;
 	segmentation = felzenszwalbSegment(felzenszwalbScale, grid, minCompSize, mask, VOLUME);
 	segGraph = segmentationGraph(segmentation, grid);
