@@ -85,8 +85,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DatasetIO.cpp" />
-    <ClCompile Include="DirichletEigenSubspaceClassifier.cpp" />
-    <ClCompile Include="DirichletEigenSubspaceClassifierTest.cpp" />
     <ClCompile Include="DisjointSet.cpp" />
     <ClCompile Include="Felzenszwalb.cpp" />
     <ClCompile Include="GraphPartitions.cpp" />
@@ -124,8 +122,6 @@
   <ItemGroup>
     <ClInclude Include="CSVIterator.h" />
     <ClInclude Include="DatasetIO.h" />
-    <ClInclude Include="DirichletEigenSubspaceClassifier.h" />
-    <ClInclude Include="DirichletEigenSubspaceClassifierTest.h" />
     <ClInclude Include="DisjointSet.hpp" />
     <ClInclude Include="Felzenszwalb.hpp" />
     <ClInclude Include="GraphPartitions.h" />

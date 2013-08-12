@@ -88,12 +88,6 @@
     <ClCompile Include="ImageGraphsTest.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="DirichletEigenSubspaceClassifier.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="DirichletEigenSubspaceClassifierTest.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="DatasetIO.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -196,12 +190,6 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="TreeWalkKernelTest.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="DirichletEigenSubspaceClassifier.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="DirichletEigenSubspaceClassifierTest.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="CSVIterator.h">

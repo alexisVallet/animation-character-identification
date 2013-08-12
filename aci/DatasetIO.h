@@ -8,6 +8,8 @@
 
 #include "Utils.hpp"
 #include "CSVIterator.h"
+#include "DisjointSet.hpp"
+#include "Segmentation.h"
 
 using namespace std;
 using namespace cv;
@@ -25,4 +27,4 @@ using namespace Eigen;
  * and face position.
  * @param classes class label associated to each character image.
  */
-void loadDataSet(char* folderName, char** charaNames, int nbImagesPerChara, vector<std::tuple<Mat_<Vec<uchar,3> >,Mat_<float>, pair<int,int> > > &images, Mat_<int> &classes);
+void loadDataSet(char* folderName, char** charaNames, int nbImagesPerChara, vector<std::tuple<Mat_<Vec<uchar,3> >,Mat_<float> > > &images, Mat_<int> &classes, vector<DisjointSetForest> &manualSegmentations = vector<DisjointSetForest>(), vector<pair<int,int> > &facePositions = vector<pair<int,int> >());

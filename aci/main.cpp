@@ -49,25 +49,12 @@ DisjointSetForest addBackgroundSegment(DisjointSetForest segmentation, const Mat
 }
 
 int main(int argc, char** argv) {
-	char *charaNames[] = {"lupin", NULL};
-	vector<std::tuple<Mat_<Vec3b>, Mat_<float>, pair<int,int> > > dataSet;
+	char *charaNames[] = {"lupin", "rufy", NULL};
+	vector<std::tuple<Mat_<Vec3b>, Mat_<float> > > dataSet;
 	Mat_<int> classes;
 	cout<<"loading dataset..."<<endl;
-	loadDataSet("../test/dataset/", charaNames, 5, dataSet, classes);
-
-	imshow("machin", get<1>(dataSet[4]));
-	imshow("truc", get<0>(dataSet[4]));
-	imshow("bidule", imread("../test/dataset/lupin_e_seg.png"));
-	waitKey(0);
-
-	cout<<"loading segmentation"<<endl;
-	DisjointSetForest segmentation = 
-		loadSegmentation(get<1>(dataSet[4]), "../test/dataset/lupin_e_seg.png");
-
-	Mat_<Vec3b> regionImage = segmentation.toRegionImage(get<0>(dataSet[4]));
-
-	imshow("pouet", regionImage);
-	waitKey(0);
+	vector<DisjointSetForest> manualSegmentations;
+	loadDataSet("../test/dataset/", charaNames, 5, dataSet, classes, manualSegmentations);
 
 	return 0;
 }
