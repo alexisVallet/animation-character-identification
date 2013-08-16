@@ -13,9 +13,6 @@
     <ClCompile Include="ImageGraphs.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Kernels.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="KuwaharaFilter.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -25,13 +22,7 @@
     <ClCompile Include="SegmentationGraph.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="SpectrumDistanceClassifier.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="TrainableStatModel.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="TreeWalkKernel.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="SegmentAttributes.cpp">
@@ -46,40 +37,16 @@
     <ClCompile Include="LocallyLinearEmbeddings.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="TWKSpectralClustering.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="SpectrumDistanceClustering.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="SubspaceComparison.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="svm.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="PrincipalAnglesClassifier.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="TWKSpectralClusteringTest.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="PrincipalAnglesClassifierTest.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="SegmentAttributesTest.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="SpectrumDistanceClassifierTest.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="SpectrumDistanceClusteringTest.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="SubspaceComparisonTest.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="TreeWalkKernelTest.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="LocallyLinearEmbeddingsTest.cpp">
@@ -91,9 +58,6 @@
     <ClCompile Include="DatasetIO.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="SpectralClusteringSegmentation.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="MultipleGraphsClassifier.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -101,6 +65,9 @@
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="PatternVectorsTest.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="MatchingSegmentsClassifier.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -117,9 +84,6 @@
     <ClInclude Include="ImageGraphs.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Kernels.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="KuwaharaFilter.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -129,13 +93,7 @@
     <ClInclude Include="SegmentationGraph.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="SpectrumDistanceClassifier.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="TrainableStatModel.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="TreeWalkKernel.hpp">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="SegmentAttributes.h">
@@ -150,22 +108,10 @@
     <ClInclude Include="LocallyLinearEmbeddings.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="TWKSpectralClustering.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="SpectrumDistanceClustering.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="SubspaceComparison.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="svm.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="PrincipalAnglesClassifier.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="TWKSpectralClusteringTest.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="ImageGraphsTest.h">
@@ -174,22 +120,10 @@
     <ClInclude Include="LocallyLinearEmbeddingsTest.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="PrincipalAnglesClassifierTest.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="SegmentAttributesTest.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="SpectrumDistanceClassifierTest.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="SpectrumDistanceClusteringTest.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="SubspaceComparisonTest.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="TreeWalkKernelTest.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="CSVIterator.h">
@@ -201,13 +135,13 @@
     <ClInclude Include="MultipleGraphsClassifier.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="SpectralClusteringSegmentation.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="PatternVectors.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="PatternVectorsTest.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="MatchingSegmentsClassifier.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

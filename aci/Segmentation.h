@@ -29,6 +29,15 @@ using namespace cv;
 void segment(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, WeightedGraph &segGraph, int felzenszwalbScale = 10000);
 
 /**
+ * Converts a segmentation image, where each color corresponds to a segment,
+ * into a corresponding disjoint set forest data structure representing
+ * the segmentation. Ignores segments smaller than a given size, allowing
+ * manual "imperfect" segmentations. Also puts the background segment at
+ * the last index, yielding a rows * cols + 1 element segmentation.
+ */
+DisjointSetForest segmentationImageToSegmentation(const Mat_<Vec3b> &segmentationImage, const Mat_<float> &mask);
+
+/**
  * Loads a segmentation from a file. Assumes the file is a color image,
  * where each segment is filled with the exact same color. Greedily fuses
  * segments of size smaller than a threshold.

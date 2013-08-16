@@ -3,7 +3,6 @@
 
 #include <opencv2/opencv.hpp>
 
-#include "Kernels.h"
 #include "WeightedGraph.hpp"
 #include "Utils.hpp"
 

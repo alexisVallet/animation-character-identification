@@ -31,13 +31,13 @@ static void removeSmallComponents(const Mat_<float> &mask, Mat_<float> &connecte
 	}
 }
 
-void preProcessing(const Mat_<Vec3b> &rawImage, const Mat_<float> &rawMask, Mat_<Vec3b> &processedImage, Mat_<float> &processedMask, int kuwaharaHalfsize, int maxNbPixels) {
+void preProcessing(const Mat_<Vec3b> &rawImage, const Mat_<float> &rawMask, Mat_<Vec3b> &processedImage, Mat_<float> &processedMask, const Mat_<Vec3b> &manualSegmentation, Mat_<Vec3b> &processedSegmentation, int kuwaharaHalfsize, int maxNbPixels) {
 	assert(kuwaharaHalfsize <= (numeric_limits<uchar>::max() - 1) / 2);
 
 	Mat_<Vec3b> resized;
 	Mat_<float> resizedMask;
 
-	resizeImage(rawImage, rawMask, resized, resizedMask, maxNbPixels);
+	resizeImage(rawImage, rawMask, resized, resizedMask, maxNbPixels, manualSegmentation, processedSegmentation);
 
 	removeSmallComponents(resizedMask, processedMask);
 
@@ -49,7 +49,7 @@ void preProcessing(const Mat_<Vec3b> &rawImage, const Mat_<float> &rawMask, Mat_
 
 	KuwaharaFilter(equalized, filtered, 2 * kuwaharaHalfsize + 1);
 
-	cvtColor(filtered, processedImage, CV_BGR2HSV);
+	cvtColor(filtered, processedImage, CV_BGR2Lab);
 
 	if (DEBUG_PREPROCESSING) {
 		imshow("original", rawImage);

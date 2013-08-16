@@ -1,5 +1,9 @@
 #include "ImageGraphsTest.h"
 
+static double euclidDistance(const Mat& m1, const Mat& m2) {
+	return norm(m1 - m2);
+}
+
 void testGridGraphBidirectional(Mat_<Vec<uchar,3> > &image, Mat_<float> &mask) {
 	WeightedGraph grid = gridGraph(image, CONNECTIVITY_4, mask, euclidDistance, true);
 	WeightedGraph connectedGrid = removeIsolatedVertices(grid);

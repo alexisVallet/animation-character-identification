@@ -3,73 +3,13 @@
 #include "SegmentAttributes.h"
 #define DEBUG_ATTRIBUTES false
 
-static int uniformMap(int binsPerChannel, unsigned char channelValue) {
-	return (int)floor(((float)channelValue/255.0)*(binsPerChannel-1));
-}
-
-void colorHistogramLabels(
-	Mat_<Vec<uchar,3> > &image,
-	DisjointSetForest &segmentation,
-	LabeledGraph<Mat> &segmentationGraph,
-	int binsPerChannel) {
-		int numberOfComponents = segmentation.getNumberOfComponents();
-		map<int,int> rootIndexes = segmentation.getRootIndexes();
-		vector<Mat> histograms(numberOfComponents);
-		int dims[3] = {binsPerChannel, binsPerChannel, binsPerChannel};
-		for (int i = 0; i < numberOfComponents; i++) {
-			histograms[i] = Mat(3, dims, CV_32S);
-
-			for (int j = 0; j < dims[0]; j++) {
-				for (int k = 0; k < dims[1]; k++) {
-					for (int l = 0; l < dims[2]; l++) {
-						histograms[i].at<int>(j,k,l) = 0;
-					}
-				}
-			}
-		}
-
-		for (int i = 0; i < image.rows; i++) {
-			for (int j = 0; j < image.cols; j++) {
-				int pixComp =
-					rootIndexes[segmentation.find(toRowMajor(image.cols,j,i))];
-				Vec<uchar,3> pixColor = image(i,j);
-				int r = uniformMap(binsPerChannel,pixColor[0]);
-				int g = uniformMap(binsPerChannel,pixColor[1]);
-				int b = uniformMap(binsPerChannel,pixColor[2]);
-				histograms[pixComp].at<int>(r, g, b)++;
-			}
-		}
-
-		for (int i = 0; i < numberOfComponents; i++) {
-			segmentationGraph.addLabel(i, histograms[i]);
-		}
-}
-
-void segmentAreaLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, const WeightedGraph &segGraph, LabeledGraph<Matx<float,1,1> > &labeledGraph) {
-	assert(image.rows == mask.rows && image.cols == mask.cols);
-	assert(segmentation.getNumberOfComponents() == segGraph.numberOfVertices());
-	map<int,int> rootIndexes = segmentation.getRootIndexes();
-	vector<int> reverseRootIndexes(segmentation.getNumberOfComponents());
-
-	for (map<int,int>::iterator it = rootIndexes.begin(); it != rootIndexes.end(); it++) {
-		reverseRootIndexes[it->second] = it->first;
-	}
-
-	labeledGraph = LabeledGraph<Matx<float,1,1> >(segmentation.getNumberOfComponents());
-
-	for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
-		labeledGraph.addLabel(i, segmentation.getComponentSize(reverseRootIndexes[i]));
-	}
-}
-
-void averageColorLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, const WeightedGraph &segGraph, LabeledGraph<Matx<float,3,1> > &labeledGraph) {
-	assert(image.rows == mask.rows && image.cols == mask.cols);
-	assert(segmentation.getNumberOfComponents() == segGraph.numberOfVertices());
-	vector<Vec3f> averageColor;
+vector<VectorXd> averageColorLabeling(DisjointSetForest &segmentation, const Mat_<Vec3b> &image, const Mat_<float> &mask) {
+	vector<VectorXd> averageColor;
 	averageColor.reserve(segmentation.getNumberOfComponents());
 
 	for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
-		averageColor.push_back(Vec3f(0,0,0));
+		VectorXd zeros = VectorXd::Zero(3);
+		averageColor.push_back(zeros);
 	}
 	map<int,int> rootIndexes = segmentation.getRootIndexes();
 
@@ -78,38 +18,52 @@ void averageColorLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, Disjo
 			if (mask(i,j) > 0) {
 				int root = segmentation.find(toRowMajor(image.cols, j, i));
 				int segmentIndex = rootIndexes[root];
-				Vec3f pixColor = Vec3f(image(i,j));
+				VectorXd pixColor(3);
+				pixColor(0) = image(i,j)[0];
+				pixColor(1) = image(i,j)[1];
+				pixColor(2) = image(i,j)[2];
 
 				averageColor[segmentIndex] += pixColor / (float)segmentation.getComponentSize(root);
 			}
 		}
 	}
 
-	labeledGraph = LabeledGraph<Matx<float, 3, 1> >(segGraph.numberOfVertices());
-
-	labeledGraph.copyEdges(segGraph);
-
-	for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
-		labeledGraph.addLabel(i, averageColor[i]/255);
-	}
+	return averageColor;
 }
 
-void gravityCenterLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, const WeightedGraph &segGraph, LabeledGraph<Matx<float, 2, 1> > &labeledGraph) {
-	assert(segmentation.getNumberOfComponents() == segGraph.numberOfVertices());
+vector<VectorXd> gravityCenterLabeling(DisjointSetForest &segmentation, const Mat_<Vec3b> &image, const Mat_<float> &mask) {
 	vector<Vec2f> centers;
 	gravityCenters(image, mask, segmentation, centers);
-	labeledGraph = LabeledGraph<Matx<float,2,1> >(segGraph.numberOfVertices());
 
-	labeledGraph.copyEdges(segGraph);
+	vector<VectorXd> eigCenters;
+	eigCenters.reserve(centers.size());
 
-	for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
-		Matx<float, 2, 1> gravityCenter(2,1);
+	for (int i = 0; i < (int)centers.size(); i++) {
+		VectorXd center(2);
 
-		gravityCenter(0,0) = centers[i](0) / image.rows;
-		gravityCenter(1,0) = centers[i](1) / image.cols;
+		center(0) = centers[i](0) / (double)image.rows;
+		center(1) = centers[i](1) / (double)image.cols;
 
-		labeledGraph.addLabel(i, gravityCenter);
+		eigCenters.push_back(center);
 	}
+
+	return eigCenters;
+}
+
+vector<VectorXd> segmentAreaLabeling(DisjointSetForest &segmentation, const Mat_<Vec3b> &image, const Mat_<float> &mask) {
+	vector<VectorXd> areas;
+	areas.reserve(segmentation.getNumberOfComponents());
+	map<int,int> roots = segmentation.getRootIndexes();
+
+	for (map<int,int>::iterator it = roots.begin(); it != roots.end(); it++) {
+		int root = (*it).first;
+		VectorXd area(1);
+		area(0) = segmentation.getComponentSize(root);
+
+		areas.push_back(area);
+	}
+
+	return areas;
 }
 
 void pixelsCovarianceMatrixLabels(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, const WeightedGraph &segGraph, LabeledGraph<Matx<float, 3, 1> > &labeledGraph) {

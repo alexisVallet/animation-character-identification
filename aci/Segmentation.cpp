@@ -43,12 +43,10 @@ static bool lexicographicOrder(const Vec3b &v1, const Vec3b &v2) {
 		  (v1[1] == v2[1] && v1[2] < v2[2])));
 }
 
-DisjointSetForest loadSegmentation(Mat_<float> &mask, string segmentationFilename) {
-	Mat_<Vec3b> segmentationImage = imread(segmentationFilename);
-
+DisjointSetForest segmentationImageToSegmentation(const Mat_<Vec3b> &segmentationImage, const Mat_<float> &mask) {
 	assert(segmentationImage.rows == mask.rows && segmentationImage.cols == mask.cols);
 
-	DisjointSetForest segmentation(segmentationImage.rows * segmentationImage.cols);
+	DisjointSetForest segmentation(segmentationImage.rows * segmentationImage.cols + 1);
 	typedef bool (*keyComp)(const Vec3b&, const Vec3b&);
 	std::map<Vec3b,int, keyComp> colorRepresentant(lexicographicOrder);
 
@@ -68,6 +66,7 @@ DisjointSetForest loadSegmentation(Mat_<float> &mask, string segmentationFilenam
 		}
 	}
 
+	// fuse small components
 	segmentation.fuseSmallComponents(
 		gridGraph(
 			segmentationImage, 
@@ -78,5 +77,20 @@ DisjointSetForest loadSegmentation(Mat_<float> &mask, string segmentationFilenam
 		25, 
 		mask);
 
+	// fuse background pixels into one segment
+	for (int i = 0; i < segmentation.getNumberOfElements(); i++) {
+		pair<int,int> coords = fromRowMajor(mask.cols, i);
+
+		if (mask(coords.first, coords.second) < 0.5) {
+			segmentation.setUnion(segmentationImage.rows * segmentationImage.cols, i);
+		}
+	}
+
 	return segmentation;
+}
+
+DisjointSetForest loadSegmentation(Mat_<float> &mask, string segmentationFilename) {
+	Mat_<Vec3b> segmentationImage = imread(segmentationFilename);
+
+	return segmentationImageToSegmentation(segmentationImage, mask);
 }

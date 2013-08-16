@@ -61,7 +61,7 @@ public:
    * Computes a region image assuming each element in the set forest
    * is a pixel in row major order, labelled by their set representant.
    */
-  Mat_<Vec<uchar,3> > toRegionImage(Mat_<Vec<uchar,3> > sourceImage);
+  Mat_<Vec<uchar,3> > toRegionImage(Mat_<Vec<uchar,3> > sourceImage, vector<Vec3b> colors_ = vector<Vec3b>());
   /**
    * Returns the number of components in the partition.
    *

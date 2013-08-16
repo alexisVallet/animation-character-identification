@@ -1,52 +1,5 @@
 #include "MultipleGraphsClassifier.h"
 
-vector<VectorXd> averageColorLabeling(DisjointSetForest &segmentation, const Mat_<Vec3b> &image, const Mat_<float> &mask) {
-	vector<VectorXd> averageColor;
-	averageColor.reserve(segmentation.getNumberOfComponents());
-
-	for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
-		VectorXd zeros = VectorXd::Zero(3);
-		averageColor.push_back(zeros);
-	}
-	map<int,int> rootIndexes = segmentation.getRootIndexes();
-
-	for (int i = 0; i < image.rows; i++) {
-		for (int j = 0; j < image.cols; j++) {
-			if (mask(i,j) > 0) {
-				int root = segmentation.find(toRowMajor(image.cols, j, i));
-				int segmentIndex = rootIndexes[root];
-				VectorXd pixColor(3);
-				pixColor(0) = image(i,j)[0];
-				pixColor(1) = image(i,j)[1];
-				pixColor(2) = image(i,j)[2];
-
-				averageColor[segmentIndex] += pixColor / (float)segmentation.getComponentSize(root);
-			}
-		}
-	}
-
-	return averageColor;
-}
-
-vector<VectorXd> gravityCenterLabeling(DisjointSetForest &segmentation, const Mat_<Vec3b> &image, const Mat_<float> &mask) {
-	vector<Vec2f> centers;
-	gravityCenters(image, mask, segmentation, centers);
-
-	vector<VectorXd> eigCenters;
-	eigCenters.reserve(centers.size());
-
-	for (int i = 0; i < (int)centers.size(); i++) {
-		VectorXd center(2);
-
-		center(0) = centers[i](0) / (double)image.rows;
-		center(1) = centers[i](1) / (double)image.cols;
-
-		eigCenters.push_back(center);
-	}
-
-	return eigCenters;
-}
-
 MultipleGraphsClassifier::MultipleGraphsClassifier(vector<std::tuple<SegmentLabeling,double> > features, int k) 
 	: features(features), k(k)
 {
@@ -54,17 +7,18 @@ MultipleGraphsClassifier::MultipleGraphsClassifier(vector<std::tuple<SegmentLabe
 
 WeightedGraph MultipleGraphsClassifier::computeFeatureGraph(int feature, DisjointSetForest &segmentation, const Mat_<Vec3b> &image, const Mat_<float> &mask) {
 	vector<VectorXd> featureVectors = get<0>(this->features[feature])(segmentation, image, mask);
-	MatrixXd similarityMatrix = MatrixXd::Zero(segmentation.getNumberOfComponents(), segmentation.getNumberOfComponents());
+	MatrixXd similarityMatrix = MatrixXd::Zero(segmentation.getNumberOfComponents() - 1, segmentation.getNumberOfComponents() - 1);
 
-	// compute the similarity matrix
-	for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
-		for (int j = 0; j < segmentation.getNumberOfComponents(); j++) {
+	// compute the similarity matrix, ignoring background segment
+	// assumes the background segment is at the last index.
+	for (int i = 0; i < segmentation.getNumberOfComponents() - 1; i++) {
+		for (int j = 0; j < segmentation.getNumberOfComponents() - 1; j++) {
 			similarityMatrix(i,j) = exp(-(featureVectors[i] - featureVectors[j]).squaredNorm() / pow(get<1>(this->features[feature]), 2));
 		}
 	}
 
 	// compute k nearest neighbor graph from similarity matrix
-	KNearestGraph kNearest(min(20, segmentation.getNumberOfComponents()));
+	KNearestGraph kNearest(min(20, segmentation.getNumberOfComponents() - 1));
 	WeightedGraph featureGraph;
 	DenseSimilarityMatrix denseSimMat(&similarityMatrix);
 
@@ -98,8 +52,8 @@ void MultipleGraphsClassifier::train(vector<std::tuple<DisjointSetForest, Mat_<V
 		vector<WeightedGraph> featureGraphs;
 		featureGraphs.reserve(this->features.size());
 
-		for (int i = 0; i < (int)this->features.size(); i++) {
-			featureGraphs.push_back(this->computeFeatureGraph(i, segmentation, image, mask));
+		for (int j = 0; j < (int)this->features.size(); j++) {
+			featureGraphs.push_back(this->computeFeatureGraph(j, segmentation, image, mask));
 		}
 
 		this->trainingFeatureGraphs.push_back(std::tuple<vector<WeightedGraph>, int >(featureGraphs, label));

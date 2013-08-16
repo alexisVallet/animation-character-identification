@@ -14,7 +14,7 @@ vector<pair<string,Vector2d>, aligned_allocator<pair<string,Vector2d> > > loadFa
 	return facePositions;
 }
 
-void loadDataSet(char* folderName, char** charaNames, int nbImagesPerChara, vector<std::tuple<Mat_<Vec<uchar,3> >,Mat_<float> > > &images, Mat_<int> &classes, vector<DisjointSetForest> &manualSegmentations, vector<pair<int,int> > &facePositions) {
+void loadDataSet(char* folderName, char** charaNames, int nbImagesPerChara, vector<std::tuple<Mat_<Vec<uchar,3> >,Mat_<float> > > &images, Mat_<int> &classes, vector<Mat_<Vec3b> > &manualSegmentations, vector<pair<int,int> > &facePositions) {
 	int nbCharas = 0;
 	while (charaNames[nbCharas] != NULL) {
 		nbCharas++;
@@ -30,7 +30,7 @@ void loadDataSet(char* folderName, char** charaNames, int nbImagesPerChara, vect
 	facePositions = vector<pair<int,int> >(nbCharas * nbImagesPerChara);
 
 	// load manual segmentations
-	manualSegmentations = vector<DisjointSetForest>();
+	manualSegmentations = vector<Mat_<Vec3b> >();
 	manualSegmentations.reserve(nbCharas * nbImagesPerChara);
 
 	for (int i = 0; i < nbCharas; i++) {		
@@ -73,7 +73,7 @@ void loadDataSet(char* folderName, char** charaNames, int nbImagesPerChara, vect
 			classes(rowMajorIndex,0) = i;
 
 			// load the manual segmentation
-			manualSegmentations.push_back(loadSegmentation(get<1>(images[rowMajorIndex]), segmentationPath.str()));
+			manualSegmentations.push_back(imread(segmentationPath.str()));
 		}
 	}
 }

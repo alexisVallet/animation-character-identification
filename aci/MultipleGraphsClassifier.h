@@ -4,28 +4,13 @@
 #include "DisjointSet.hpp"
 #include "SpectralClustering.h"
 #include "PatternVectors.h"
+#include "SegmentAttributes.h"
 
 #include <tuple>
 #include <Eigen/Dense>
 
 using namespace Eigen;
 using namespace std;
-
-/**
- * Datatype for segment labelling function associating vectors
- * to each segment.
- */
-typedef vector<VectorXd> (*SegmentLabeling)(DisjointSetForest &segmentation, const Mat_<Vec3b> &image, const Mat_<float> &mask);
-
-/**
- * Labels segments by their average color.
- */
-vector<VectorXd> averageColorLabeling(DisjointSetForest &segmentation, const Mat_<Vec3b> &image, const Mat_<float> &mask);
-
-/**
- * Labels segments by their gravity center.
- */
-vector<VectorXd> gravityCenterLabeling(DisjointSetForest &segmentation, const Mat_<Vec3b> &image, const Mat_<float> &mask);
 
 /**
  * Classifier computing one graph for each feature of interest in the

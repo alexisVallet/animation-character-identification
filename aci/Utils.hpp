@@ -111,7 +111,7 @@ void crop(const Mat_<Vec3b> &image, const Mat_<float> &mask, Mat_<Vec3b> &croppe
  * @param resizedImage output resized image.
  * @param resizedMask output resized mask.
  */
-void resizeImage(const Mat_<Vec<uchar,3> > &image, const Mat_<float> &mask, Mat_<Vec<uchar,3> > &resizedImage, Mat_<float> &resizedMask, int maxNbPixels);
+void resizeImage(const Mat_<Vec<uchar,3> > &image, const Mat_<float> &mask, Mat_<Vec<uchar,3> > &resizedImage, Mat_<float> &resizedMask, int maxNbPixelsconst, const Mat_<Vec3b> &manualSegmentation = Mat_<Vec3b>(), Mat_<Vec3b> &resizedSegmentation = Mat_<Vec3b>());
 
 /**
  * Vertical concatenation of matrices whose type and size is known at compile time.

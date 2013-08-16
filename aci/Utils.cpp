@@ -232,7 +232,7 @@ void crop(const Mat_<Vec3b> &image, const Mat_<float> &mask, Mat_<Vec3b> &croppe
 	mask.rowRange(minI, maxI + 1).colRange(minJ, maxJ + 1).copyTo(croppedMask);
 }
 
-void resizeImage(const Mat_<Vec<uchar,3> > &image, const Mat_<float> &mask, Mat_<Vec<uchar,3> > &resizedImage, Mat_<float> &resizedMask, int maxNbPixels) {
+void resizeImage(const Mat_<Vec<uchar,3> > &image, const Mat_<float> &mask, Mat_<Vec<uchar,3> > &resizedImage, Mat_<float> &resizedMask, int maxNbPixels, const Mat_<Vec3b> &manualSegmentation, Mat_<Vec3b> &resizedSegmentation) {
 	assert(maxNbPixels >= 0);
 	int nbPixels = countNonZero(mask);
 
@@ -241,9 +241,15 @@ void resizeImage(const Mat_<Vec<uchar,3> > &image, const Mat_<float> &mask, Mat_
 
 		resize(image, resizedImage, Size(), ratio, ratio);
 		resize(mask, resizedMask, Size(), ratio, ratio, INTER_NEAREST);
+		if (manualSegmentation.rows != 0) {
+			resize(manualSegmentation, resizedSegmentation, Size(), ratio, ratio);
+		}
 	} else {
 		resizedImage = image;
 		resizedMask = mask;
+		if (manualSegmentation.rows != 0) {
+			resizedSegmentation = manualSegmentation;
+		}
 	}
 }
 
