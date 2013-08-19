@@ -10,20 +10,26 @@ using namespace Eigen;
 using namespace std;
 
 /**
- * Computes a mapping from one image segmentation to another, associating
- * to each segment in the larger segmentation its most similar one according
- * to some segment labeling functions.
+ * Computes a one to one relation between the segments of two images,
+ * where related segments are the most similar in the image. Runs in
+ * O(|A||B|) time and O(|A| + |B|) space where A and B are the two
+ * segmentations.
  *
- * @param lSeg larger segmentation.
- * @param lImage image corresponding to the larger segmentation.
- * @param lMask mask corresponding to the larger segmentation.
- * @param sSeg smaller segmentation.
- * @param sImage image corresponding to the smaller segmentation.
- * @param sMask mask corresponding to the smaller segmentation.
- * @param labelingFunctions labeling functions to compute similarity from,
- * with associated scale parameters for the gaussian kernel.
+ * @param lSeg first segmentation.
+ * @param lImage image segmented by lSeg.
+ * @param lMask mask of image lImage.
+ * @param sSeg first segmentation.
+ * @param sImage image segmented by sSeg.
+ * @param sMask mask of image sImage.
+ * @param labelingFunctions segment labeling functions and associated scale
+ * parameters to label segment with, and measure similarity between segments
+ * using the gaussian kernel.
+ * @param ignoreLast true iff the function must ignore the last segment.
+ * Useful when the last segment is the background segment, which is of no
+ * interest.
  */
-vector<pair<int, double> > mostSimilarSegments(
+vector<std::tuple<int, int, double> > mostSimilarSegments(
 	DisjointSetForest &lSeg, const Mat_<Vec3b> &lImage, const Mat_<float> &lMask,
 	DisjointSetForest &sSeg, const Mat_<Vec3b> &sImage, const Mat_<float> &sMask,
-	vector<pair<SegmentLabeling, double> > labelingFunctions);
+	vector<pair<SegmentLabeling, double> > labelingFunctions,
+	bool ignoreLast = false);
