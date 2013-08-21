@@ -77,8 +77,9 @@ DisjointSetForest segmentationImageToSegmentation(const Mat_<Vec3b> &segmentatio
 		25, 
 		mask);
 
+
 	// fuse background pixels into one segment
-	for (int i = 0; i < segmentation.getNumberOfElements(); i++) {
+	for (int i = 0; i < segmentation.getNumberOfElements() - 1; i++) {
 		pair<int,int> coords = fromRowMajor(mask.cols, i);
 
 		if (mask(coords.first, coords.second) < 0.5) {

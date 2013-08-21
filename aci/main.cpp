@@ -2,9 +2,9 @@
 
 #define DEBUG true
 #define STATFOLDER "../stats/"
-#define COLOR_SIGMA 50
+#define COLOR_SIGMA 25
 #define CENTERS_SIGMA 1
-#define AREA_SIGMA 500
+#define AREA_SIGMA 250
 #define NB_EIGENVECTORS 7
 
 DisjointSetForest addBackgroundSegment(DisjointSetForest segmentation, const Mat_<float> &mask) {
@@ -72,20 +72,16 @@ int main(int argc, char** argv) {
 	}
 
 	cout<<"computing matchings..."<<endl;
-
-	vector<pair<SegmentLabeling, double> > labelingFunctions;
-
-	labelingFunctions.push_back(pair<SegmentLabeling, double>(averageColorLabeling, COLOR_SIGMA));
-	labelingFunctions.push_back(pair<SegmentLabeling, double>(segmentAreaLabeling, AREA_SIGMA));
+	MatchingSegmentClassifier classifier(true);
+	cout<<"classifier initialized"<<endl;
 
 	for (int i = 0; i < processedDataset.size(); i++) {
 		for (int j = i + 1; j < processedDataset.size(); j++) {
 			vector<std::tuple<int, int, double> > matching;
 
-			matching = mostSimilarSegments(
+			matching = classifier.mostSimilarSegments(
 				get<2>(processedDataset[i]), get<0>(processedDataset[i]), get<1>(processedDataset[i]),
-				get<2>(processedDataset[j]), get<0>(processedDataset[j]), get<1>(processedDataset[j]),
-				labelingFunctions, true);
+				get<2>(processedDataset[j]), get<0>(processedDataset[j]), get<1>(processedDataset[j]));
 
 			vector<Vec3b> colors1(get<2>(processedDataset[i]).getNumberOfComponents());
 			vector<Vec3b> colors2(get<2>(processedDataset[j]).getNumberOfComponents());

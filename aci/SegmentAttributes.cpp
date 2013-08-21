@@ -51,16 +51,15 @@ vector<VectorXd> gravityCenterLabeling(DisjointSetForest &segmentation, const Ma
 }
 
 vector<VectorXd> segmentAreaLabeling(DisjointSetForest &segmentation, const Mat_<Vec3b> &image, const Mat_<float> &mask) {
-	vector<VectorXd> areas;
-	areas.reserve(segmentation.getNumberOfComponents());
+	vector<VectorXd> areas(segmentation.getNumberOfComponents());
 	map<int,int> roots = segmentation.getRootIndexes();
 
 	for (map<int,int>::iterator it = roots.begin(); it != roots.end(); it++) {
 		int root = (*it).first;
 		VectorXd area(1);
-		area(0) = segmentation.getComponentSize(root);
+		area(0) = (double)segmentation.getComponentSize(root);
 
-		areas.push_back(area);
+		areas[(*it).second] = area;
 	}
 
 	return areas;
