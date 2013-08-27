@@ -14,14 +14,14 @@
  */
 
 /*
- * FuzzyConsequent.h
+ * MamdaniConsequent.h
  *
  *  Created on: 3/12/2012
  *      Author: jcrada
  */
 
-#ifndef FL_FUZZYCONSEQUENT_H
-#define FL_FUZZYCONSEQUENT_H
+#ifndef FL_MAMDANICONSEQUENT_H
+#define FL_MAMDANICONSEQUENT_H
 
 #include "fl/rule/Consequent.h"
 
@@ -29,17 +29,17 @@
 
 namespace fl {
     class Engine;
-    class FuzzyProposition;
+    class MamdaniProposition;
 
-    class FL_EXPORT FuzzyConsequent : public Consequent {
+    class FL_EXPORT MamdaniConsequent : public Consequent {
     protected:
-        std::vector<FuzzyProposition*> _conclusions;
+        std::vector<MamdaniProposition*> _conclusions;
 
     public:
-        FuzzyConsequent();
-        virtual ~FuzzyConsequent();
+        MamdaniConsequent();
+        virtual ~MamdaniConsequent();
         
-        virtual std::vector<FuzzyProposition*> conclusions() const;
+        virtual std::vector<MamdaniProposition*> conclusions() const;
         
         virtual void load(const std::string& consequent, const Engine* engine);
 
@@ -50,4 +50,4 @@ namespace fl {
     };
 
 } 
-#endif /* FL_FUZZYCONSEQUENT_H */
+#endif /* FL_MAMDANICONSEQUENT_H */

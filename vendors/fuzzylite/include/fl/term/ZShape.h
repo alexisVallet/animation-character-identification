@@ -33,22 +33,21 @@ namespace fl {
 
     public:
         ZShape(const std::string& name = "",
-                scalar _start = -fl::inf,
-                scalar _end = fl::inf);
+                scalar _start = -std::numeric_limits<scalar>::infinity(),
+                scalar _end = std::numeric_limits<scalar>::infinity());
 
-        virtual ~ZShape();
 
-        virtual std::string className() const;
-        virtual ZShape* copy() const;
+        std::string className() const;
+        ZShape* copy() const;
 
-        virtual scalar membership(scalar x) const;
-        virtual std::string toString() const;
+        scalar membership(scalar x) const;
+        std::string toString() const;
 
-        virtual void setStart(scalar start);
-        virtual scalar getStart() const;
+        void setStart(scalar start);
+        scalar getStart() const;
 
-        virtual void setEnd(scalar end);
-        virtual scalar getEnd() const;
+        void setEnd(scalar end);
+        scalar getEnd() const;
     };
 }
 #endif	/* ZSHAPE_H */

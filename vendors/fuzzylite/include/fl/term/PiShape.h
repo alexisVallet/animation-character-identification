@@ -36,30 +36,30 @@ namespace fl {
 
     public:
         PiShape(const std::string& name = "",
-                scalar bottomLeft = fl::nan,
-                scalar topLeft = fl::nan,
-                scalar topRight = fl::nan,
-                scalar bottomRight = fl::nan);
+                scalar bottomLeft = std::numeric_limits<scalar>::quiet_NaN(),
+                scalar topLeft = std::numeric_limits<scalar>::quiet_NaN(),
+                scalar topRight = std::numeric_limits<scalar>::quiet_NaN(),
+                scalar bottomRight = std::numeric_limits<scalar>::quiet_NaN());
 
-        virtual ~PiShape();
 
-        virtual std::string className() const;
-        virtual PiShape* copy() const;
+        std::string className() const;
+        PiShape* copy() const;
 
-        virtual scalar membership(scalar x) const;
-        virtual std::string toString() const;
+        scalar membership(scalar x) const;
+        std::string toString() const;
 
-        virtual void setBottomLeft(scalar a);
-        virtual scalar getBottomLeft() const;
 
-        virtual void setTopLeft(scalar b);
-        virtual scalar getTopLeft() const;
+        void setBottomLeft(scalar a);
+        scalar getBottomLeft() const;
 
-        virtual void setTopRight(scalar d);
-        virtual scalar getTopRight() const;
+        void setTopLeft(scalar b);
+        scalar getTopLeft() const;
 
-        virtual void setBottomRight(scalar c);
-        virtual scalar getBottomRight() const;
+        void setTopRight(scalar d);
+        scalar getTopRight() const;
+
+        void setBottomRight(scalar c);
+        scalar getBottomRight() const;
 
     };
 }

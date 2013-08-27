@@ -14,46 +14,46 @@
  */
 
 /*
- * FuzzyRule.h
+ * MamdaniRule.h
  *
  *  Created on: 3/12/2012
  *      Author: jcrada
  */
 
-#ifndef FL_FUZZYRULE_H
-#define FL_FUZZYRULE_H
+#ifndef FL_MAMDANIRULE_H
+#define FL_MAMDANIRULE_H
 
 #include "fl/fuzzylite.h"
 
 #include "fl/rule/Rule.h"
 
 //Needed here for covariant return
-#include "fl/rule/FuzzyAntecedent.h"
-#include "fl/rule/FuzzyConsequent.h"
+#include "fl/rule/mamdani/MamdaniAntecedent.h"
+#include "fl/rule/mamdani/MamdaniConsequent.h"
 
 #include <string>
 
 namespace fl {
-    class FuzzyAntecedent;
-    class FuzzyConsequent;
+    class MamdaniAntecedent;
+    class MamdaniConsequent;
     class Engine;
     
-    class FL_EXPORT FuzzyRule : public Rule {
+    class FL_EXPORT MamdaniRule : public Rule {
     protected:
-        FuzzyAntecedent* _antecedent;
-        FuzzyConsequent* _consequent;
+        MamdaniAntecedent* _antecedent;
+        MamdaniConsequent* _consequent;
     public:
-        FuzzyRule();
-        virtual ~FuzzyRule();
+        MamdaniRule();
+        ~MamdaniRule();
 
-        virtual void setAntecedent(FuzzyAntecedent* antecedent);
-        virtual FuzzyAntecedent* getAntecedent() const;
+        void setAntecedent(MamdaniAntecedent* antecedent);
+        MamdaniAntecedent* getAntecedent() const;
 
-        virtual void setConsequent(FuzzyConsequent* consequent);
-        virtual FuzzyConsequent* getConsequent() const;
+        void setConsequent(MamdaniConsequent* consequent);
+        MamdaniConsequent* getConsequent() const;
 
-        static FuzzyRule* parse(const std::string& rule, const Engine* engine);
+        static MamdaniRule* parse(const std::string& rule, const Engine* engine);
     };
 
 }
-#endif /* FL_FUZZYRULE_H */
+#endif /* FL_MAMDANIRULE_H */

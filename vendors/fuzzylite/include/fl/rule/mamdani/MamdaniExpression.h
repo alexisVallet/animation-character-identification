@@ -14,14 +14,14 @@
  */
 
 /*
- * FuzzyExpression.h
+ * MamdaniExpression.h
  *
  *  Created on: 7/12/2012
  *      Author: jcrada
  */
 
-#ifndef FL_FUZZYEXPRESSION_H
-#define FL_FUZZYEXPRESSION_H
+#ifndef FL_MAMDANIEXPRESSION_H
+#define FL_MAMDANIEXPRESSION_H
 
 #include "fl/fuzzylite.h"
 
@@ -35,39 +35,39 @@ namespace fl {
     class Hedge;
     class Term;
     
-    class FL_EXPORT FuzzyExpression {
+    class FL_EXPORT MamdaniExpression {
     public:
-        bool isOperator;
+        const bool isOperator;
 
-        FuzzyExpression(bool isOperator);
-        virtual ~FuzzyExpression();
+        MamdaniExpression(bool isOperator);
+        virtual ~MamdaniExpression();
 
         virtual std::string toString() const = 0;
     };
 
-    class FL_EXPORT FuzzyProposition : public FuzzyExpression {
+    class FL_EXPORT MamdaniProposition : public MamdaniExpression {
     public:
         Variable* variable;
         std::vector<Hedge*> hedges;
         Term* term;
 
-        FuzzyProposition();
+        MamdaniProposition();
 
         std::string toString() const;
     };
 
 
-    class FL_EXPORT FuzzyOperator : public FuzzyExpression {
+    class FL_EXPORT MamdaniOperator : public MamdaniExpression {
     public:
         std::string name;
-        FuzzyExpression* left;
-        FuzzyExpression* right;
+        MamdaniExpression* left;
+        MamdaniExpression* right;
 
-        FuzzyOperator();
-        ~FuzzyOperator();
+        MamdaniOperator();
+        ~MamdaniOperator();
 
         std::string toString() const;
     };
 
 }
-#endif /* FL_FUZZYEXPRESSION_H */
+#endif /* FL_MAMDANIEXPRESSION_H */

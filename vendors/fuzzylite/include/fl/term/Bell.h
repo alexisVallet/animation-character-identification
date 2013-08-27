@@ -34,26 +34,26 @@ namespace fl {
         scalar _slope;
     public:
         Bell(const std::string& name = "",
-                scalar center = fl::nan,
-                scalar width = fl::nan,
-                scalar slope = fl::nan);
-        virtual ~Bell();
+                scalar center = std::numeric_limits<scalar>::quiet_NaN(),
+                scalar width = std::numeric_limits<scalar>::quiet_NaN(),
+                scalar slope = std::numeric_limits<scalar>::quiet_NaN());
+        ~Bell();
 
-        virtual std::string className() const;
-        virtual Bell* copy() const;
+        std::string className() const;
+        Bell* copy() const;
 
-        virtual scalar membership(scalar x) const;
+        scalar membership(scalar x) const;
 
-        virtual std::string toString() const;
+        std::string toString() const;
 
-        virtual void setCenter(scalar center);
-        virtual scalar getCenter() const;
+        void setCenter(scalar center);
+        scalar getCenter() const;
 
-        virtual void setWidth(scalar width);
-        virtual scalar getWidth() const;
+        void setWidth(scalar width);
+        scalar getWidth() const;
 
-        virtual void setSlope(scalar slope);
-        virtual scalar getSlope() const;
+        void setSlope(scalar slope);
+        scalar getSlope() const;
 
     };
 

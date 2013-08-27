@@ -27,13 +27,8 @@
 
 #include <vector>
 #include <string>
+#include <map>
 
-/**
- * @class fl::Engine
- * @brief A fuzzy engine.
- * @file Engine.cpp
- * 
- */
 
 namespace fl {
 
@@ -47,16 +42,16 @@ namespace fl {
 
     class FL_EXPORT Engine {
     protected:
-        /** The name of the engine used for identification purposes only*/
         std::string _name;
-        /** The input variables registered in the engine*/
         std::vector<InputVariable*> _inputVariables;
-        /** The output variables registered in the engine*/
         std::vector<OutputVariable*> _outputVariables;
-        /** The rule blocks registered in the engine*/
         std::vector<RuleBlock*> _ruleblocks;
-        /** The hedges registered in the engine to be used by fuzzy rules. @see fl::HedgeFactory*/
         std::vector<Hedge*> _hedges;
+
+        virtual TNorm* createTnorm(const std::string& tnorm) const;
+        virtual SNorm* createSnorm(const std::string& snorm) const;
+        virtual Defuzzifier* createDefuzzifier(const std::string& defuzzifier) const;
+
 
     public:
         Engine(const std::string& name = "");
@@ -69,16 +64,10 @@ namespace fl {
                 const std::string& defuzzifier = "CenterOfGravity",
                 int divisions = FL_DIVISIONS);
 
-        virtual bool isReady(std::string* status = NULL) const;
-        
         virtual void process();
 
         virtual void setName(const std::string& name);
         virtual std::string getName() const;
-
-        virtual std::string toStringFis() const;
-        virtual std::string toStringFcl() const;
-        virtual std::string toStringCpp() const;
 
         /**
          * Operations for iterable datatype _inputVariables

@@ -33,15 +33,15 @@ namespace fl {
 
     public:
         Rectangle(const std::string& name = "",
-                scalar minimum = -fl::inf,
-                scalar maximum = fl::inf);
-        virtual ~Rectangle();
+                scalar minimum = -std::numeric_limits<scalar>::infinity(),
+                scalar maximum = std::numeric_limits<scalar>::infinity());
+        ~Rectangle();
 
-        virtual std::string className() const;
-        virtual Rectangle* copy() const;
+        std::string className() const;
+        Rectangle* copy() const;
 
-        virtual scalar membership(scalar x) const;
-        virtual std::string toString() const;
+        scalar membership(scalar x) const;
+        std::string toString() const;
 
         virtual void setMinimum(scalar minimum);
         virtual scalar getMinimum() const;
@@ -51,5 +51,5 @@ namespace fl {
 
     };
 
-}
+} 
 #endif /* FL_RECTANGLE_H */

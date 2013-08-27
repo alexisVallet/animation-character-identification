@@ -26,7 +26,6 @@
 
 #include <iostream>
 #include <sstream>
-#include <limits>
 
 #ifndef FL_VERSION
 #define FL_VERSION "?"
@@ -47,8 +46,6 @@ namespace fl {
     typedef double scalar;
 #endif
 
-	static const scalar nan = std::numeric_limits<scalar>::quiet_NaN();
-    static const scalar inf = std::numeric_limits<scalar>::infinity();
 }
 
 #define FL__FILE__ std::string(__FILE__).substr(std::string(FL_BUILD_PATH).size())
@@ -58,11 +55,11 @@ namespace fl {
 #define FL_AT FL__FILE__, __LINE__, __FUNCTION__
 
 #ifndef FL_DECIMALS
-#define FL_DECIMALS 3//for formatting strings
+#define FL_DECIMALS 3 //for formatting strings
 #endif
 
 #ifndef FL_DIVISIONS
-#define FL_DIVISIONS 200 //for defuzzifiers
+#define FL_DIVISIONS 500 //for defuzzifiers
 #endif
 
 #ifndef FL_PRECISION
@@ -81,13 +78,12 @@ namespace fl {
 #define FL_DEBUG false
 #endif
 
-#define FL_BEGIN_DEBUG_BLOCK if (FL_DEBUG == 1){
+#define FL_BEGIN_DEBUG_BLOCK if (FL_DEBUG){
 #define FL_END_DEBUG_BLOCK }
 
 
 #define FL_DBG(message) FL_BEGIN_DEBUG_BLOCK \
-        std::cout << FL__FILE__ << "::" << __FUNCTION__ << "[" << __LINE__ << "]:" \
-                << message << std::endl;\
+        std::cout << FL_LOG_PREFIX << message << std::endl;\
         FL_END_DEBUG_BLOCK
 
 
@@ -120,9 +116,6 @@ namespace fl {
 //Windows NMake complains I should have pointers in all headers instead of 
 //stack allocated objects. For example, std::string* instead of std::string.
 #pragma warning(disable:4251)
-
-//Ignore conditional expression constant of FL_DBG and alike
-#pragma warning(disable:4127)
 #else 
 #endif
 
@@ -135,17 +128,17 @@ namespace fl {
         static std::string shortVersion();
         static std::string longVersion();
         static std::string author();
-
+        
         static std::string date();
         static std::string platform();
         static std::string configuration();
-
+        
         static std::string floatingPoint();
-
+        
         static int decimals();
         static scalar precision();
         static int defaultDivisions();
-
+        
         static bool logEnabled();
     };
 }

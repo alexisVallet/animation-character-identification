@@ -23,11 +23,11 @@
 #ifndef FL_TNORM_H
 #define	FL_TNORM_H
 
-#include "fl/norm/Norm.h"
+#include "fl/operator/Operator.h"
 
 namespace fl {
 
-    class FL_EXPORT TNorm : public Norm {
+    class FL_EXPORT TNorm : public Operator {
         //dummy class
     };
 

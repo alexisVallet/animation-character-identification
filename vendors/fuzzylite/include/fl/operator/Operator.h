@@ -14,28 +14,34 @@
  */
 
 /* 
- * File:   LargestOfMaximum.h
+ * File:   Operator.h
  * Author: jcrada
  *
- * Created on 8 May 2013, 6:38 PM
+ * Created on 21 December 2012, 9:31 AM
  */
 
-#ifndef FL_LARGESTOFMAXIMUM_H
-#define	FL_LARGESTOFMAXIMUM_H
+#ifndef FL_OPERATOR_H
+#define	FL_OPERATOR_H
 
-#include "fl/defuzzifier/Defuzzifier.h"
+#include "fl/fuzzylite.h"
+
+#include "fl/operator/Operation.h"
+
+#include <string>
 
 namespace fl {
 
-    class FL_EXPORT LargestOfMaximum : public Defuzzifier {
+    class FL_EXPORT Operator {
     public:
-        LargestOfMaximum(int divisions = FL_DIVISIONS);
-        virtual ~LargestOfMaximum();
 
-        virtual std::string className() const;
-        virtual scalar defuzzify(const Term* term, scalar minimum, scalar maximum) const;
+        Operator() { }
+
+        virtual ~Operator() { }
+
+        virtual std::string className() const = 0;
+        virtual scalar compute(scalar a, scalar b) const = 0;
 
     };
 }
-#endif	/* FL_LARGESTOFMAXIMUM_H */
+#endif	/* FL_OPERATOR_H */
 

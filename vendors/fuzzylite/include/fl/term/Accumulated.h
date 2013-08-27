@@ -38,36 +38,36 @@ namespace fl {
         const SNorm* _accumulation;
     public:
         Accumulated(const std::string& name = "",
-                scalar minimum = -fl::inf,
-                scalar maximum = fl::inf,
+                scalar minimum = -std::numeric_limits<scalar>::infinity(),
+                scalar maximum = std::numeric_limits<scalar>::infinity(),
                 const SNorm* accumulation = NULL);
-        virtual ~Accumulated();
+        ~Accumulated();
 
-        virtual std::string className() const;
-        virtual Accumulated* copy() const;
+        std::string className() const;
+        Accumulated* copy() const;
 
-        virtual scalar membership(scalar x) const;
-        virtual std::string toString() const;
+        scalar membership(scalar x) const;
+        std::string toString() const;
 
-        virtual void setMinimum(scalar minimum);
-        virtual scalar getMinimum() const;
+        void setMinimum(scalar minimum);
+        scalar getMinimum() const;
 
-        virtual void setMaximum(scalar maximum);
-        virtual scalar getMaximum() const;
+        void setMaximum(scalar maximum);
+        scalar getMaximum() const;
 
-        virtual void setAccumulation(const SNorm* accumulation);
-        virtual const SNorm* getAccumulation() const;
+        void setAccumulation(const SNorm* accumulation);
+        const SNorm* getAccumulation() const;
 
         /**
          * Operations for std::vector _terms
          */
-        virtual void addTerm(const Term* term);
-        virtual const Term* getTerm(int index) const;
-        virtual const Term* removeTerm(int index);
-        virtual int numberOfTerms() const;
-        virtual const std::vector<const Term*>& terms() const;
-        virtual bool isEmpty() const;
-        virtual void clear();
+        void addTerm(const Term* term);
+        const Term* getTerm(int index) const;
+        const Term* removeTerm(int index);
+        int numberOfTerms() const;
+        const std::vector<const Term*>& terms() const;
+        bool isEmpty() const;
+        void clear();
 
 
 

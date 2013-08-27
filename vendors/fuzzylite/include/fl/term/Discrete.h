@@ -39,6 +39,8 @@ namespace fl {
 
         Discrete(const std::string& name = "");
 
+        Discrete(const std::string& name, int argc, ...) throw (fl::Exception);
+
         Discrete(const std::string& name,
                 const std::vector<scalar>& x,
                 const std::vector<scalar>& y);
@@ -46,20 +48,16 @@ namespace fl {
         Discrete(const std::string& name,
                 const std::vector<std::pair<scalar, scalar> >& xy);
 
-        virtual ~Discrete();
-
-        //Warning: this method is unsafe. Make sure you use it correctly.
-        template <typename T>
-        static Discrete* create(const std::string& name, int argc,
-                T x1, T y1, ...) throw (fl::Exception);
 
 
-        virtual std::string className() const;
-        virtual Discrete* copy() const;
+        ~Discrete();
 
-        virtual scalar membership(scalar x) const;
+        std::string className() const;
+        Discrete* copy() const;
 
-        virtual std::string toString() const;
+        scalar membership(scalar x) const;
+
+        std::string toString() const;
 
 
 

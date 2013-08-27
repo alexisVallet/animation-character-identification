@@ -49,7 +49,7 @@ DisjointSetForest addBackgroundSegment(DisjointSetForest segmentation, const Mat
 }
 
 int main(int argc, char** argv) {
-	char *charaNames[] = {"lupin", NULL};
+	char *charaNames[] = {"lupin", "rufy", NULL};
 	vector<std::tuple<Mat_<Vec3b>, Mat_<float> > > dataset;
 	Mat_<int> classes;
 	cout<<"loading dataset..."<<endl;
@@ -71,33 +71,34 @@ int main(int argc, char** argv) {
 		processedDataset.push_back(processedSample);
 	}
 
-	cout<<"computing matchings..."<<endl;
-	MatchingSegmentClassifier classifier(true);
-	cout<<"classifier initialized"<<endl;
+	cout<<"computing leave one out recognition rate..."<<endl;
+	float rate = 0;
 
-	for (int i = 0; i < processedDataset.size(); i++) {
-		for (int j = i + 1; j < processedDataset.size(); j++) {
-			vector<std::tuple<int, int, double> > matching;
+	// computing leave one out recognition rate
+	for (int i = 0; i < (int)processedDataset.size(); i++) {
+		MatchingSegmentClassifier classifier(true);
+		vector<std::tuple<DisjointSetForest, Mat_<Vec3b>, Mat_<float>, int> > trainingSet;
+		trainingSet.reserve(processedDataset.size() - 1);
 
-			matching = classifier.mostSimilarSegments(
-				get<2>(processedDataset[i]), get<0>(processedDataset[i]), get<1>(processedDataset[i]),
-				get<2>(processedDataset[j]), get<0>(processedDataset[j]), get<1>(processedDataset[j]));
-
-			vector<Vec3b> colors1(get<2>(processedDataset[i]).getNumberOfComponents());
-			vector<Vec3b> colors2(get<2>(processedDataset[j]).getNumberOfComponents());
-
-			for (int k = 0; k < matching.size(); k++) {
-				Vec3b randColor((uchar)rand()%255, (uchar)rand()%255, (uchar)rand()%255);
-				
-				colors1[get<0>(matching[k])] = randColor;
-				colors2[get<1>(matching[k])] = randColor;
+		for (int j = 0; j < (int)processedDataset.size(); j++) {
+			if (i != j) {
+				trainingSet.push_back(std::tuple<DisjointSetForest, Mat_<Vec3b>, Mat_<float>, int>(get<2>(processedDataset[j]), get<0>(processedDataset[j]), get<1>(processedDataset[j]), classes(j,0)));
 			}
+		}
 
-			imshow("seg1", get<2>(processedDataset[i]).toRegionImage(get<0>(processedDataset[i]), colors1));
-			imshow("seg2", get<2>(processedDataset[j]).toRegionImage(get<0>(processedDataset[j]), colors2));
-			waitKey(0);
+		classifier.train(trainingSet);
+
+		int predictedClass = classifier.predict(get<2>(processedDataset[i]), get<0>(processedDataset[i]), get<1>(processedDataset[i]));
+
+		cout<<"sample "<<i<<" is predicted in class "<<predictedClass<<endl;
+		if (predictedClass == classes(i,0)) {
+			rate++;
 		}
 	}
+
+	rate = rate / (float)processedDataset.size();
+
+	cout<<"recognition rate "<<rate<<endl;
 
 	return 0;
 }

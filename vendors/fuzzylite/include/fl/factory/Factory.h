@@ -30,7 +30,6 @@ namespace fl {
     class SNormFactory;
     class DefuzzifierFactory;
     class TermFactory;
-    class HedgeFactory;
 
     class FL_EXPORT Factory {
     protected:
@@ -40,7 +39,6 @@ namespace fl {
         SNormFactory* _snorm;
         DefuzzifierFactory* _defuzzifier;
         TermFactory* _term;
-        HedgeFactory* _hedge;
 
         Factory();
         virtual ~Factory();
@@ -59,9 +57,6 @@ namespace fl {
 
         virtual void setTerm(TermFactory* term);
         virtual TermFactory* term() const;
-
-        virtual void setHedge(HedgeFactory* hedge);
-        virtual HedgeFactory* hedge() const;
 
 
 

@@ -34,23 +34,23 @@ namespace fl {
 
     public:
         Gaussian(const std::string& name = "",
-                scalar mean = fl::nan,
-                scalar sigma = -fl::nan);
-        virtual ~Gaussian();
+                scalar mean = std::numeric_limits<scalar>::quiet_NaN(),
+                scalar sigma = -std::numeric_limits<scalar>::quiet_NaN());
+        ~Gaussian();
 
-        virtual std::string className() const;
-        virtual Gaussian* copy() const;
+        std::string className() const;
+        Gaussian* copy() const;
 
-        virtual scalar membership(scalar x) const;
-        virtual std::string toString() const;
+        scalar membership(scalar x) const;
+        std::string toString() const;
 
-        virtual void setMean(scalar c);
-        virtual scalar getMean() const;
+        void setMean(scalar c);
+        scalar getMean() const;
 
-        virtual void setStandardDeviation(scalar sigma);
-        virtual scalar getStandardDeviation() const;
+        void setStandardDeviation(scalar sigma);
+        scalar getStandardDeviation() const;
 
     };
 
-}
+} 
 #endif /* FL_GAUSSIAN_H */

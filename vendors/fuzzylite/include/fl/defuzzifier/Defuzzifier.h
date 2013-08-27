@@ -20,9 +20,6 @@
  *      Author: jcrada
  */
 
-
-//TODO Check http://en.wikipedia.org/wiki/Defuzzification
-
 #ifndef FL_DEFUZZIFIER_H
 #define FL_DEFUZZIFIER_H
 

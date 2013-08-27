@@ -33,35 +33,33 @@ namespace fl {
         scalar _rising;
         scalar _falling;
         scalar _right;
-
+        
     public:
         SigmoidDifference(const std::string& name = "",
-                scalar left = fl::nan,
-                scalar rising = fl::nan,
-                scalar falling = fl::nan,
-                scalar right = fl::nan);
+                scalar left = std::numeric_limits<scalar>::quiet_NaN(),
+                scalar rising = std::numeric_limits<scalar>::quiet_NaN(),
+                scalar falling = std::numeric_limits<scalar>::quiet_NaN(),
+                scalar right = std::numeric_limits<scalar>::quiet_NaN());
 
-        virtual ~SigmoidDifference();
+        std::string className() const;
+        SigmoidDifference* copy() const;
 
-        virtual std::string className() const;
-        virtual SigmoidDifference* copy() const;
+        scalar membership(scalar x) const;
 
-        virtual scalar membership(scalar x) const;
-
-        virtual std::string toString() const;
+        std::string toString() const;
 
 
-        virtual void setLeft(scalar leftInflection);
-        virtual scalar getLeft() const;
+        void setLeft(scalar leftInflection);
+        scalar getLeft() const;
 
-        virtual void setRising(scalar risingSlope);
-        virtual scalar getRising() const;
-
-        virtual void setFalling(scalar fallingSlope);
-        virtual scalar getFalling() const;
-
-        virtual void setRight(scalar rightInflection);
-        virtual scalar getRight() const;
+        void setRising(scalar risingSlope);
+        scalar getRising() const;
+        
+        void setFalling(scalar fallingSlope);
+        scalar getFalling() const;
+        
+        void setRight(scalar rightInflection);
+        scalar getRight() const;
 
 
 

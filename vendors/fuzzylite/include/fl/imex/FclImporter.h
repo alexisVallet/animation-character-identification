@@ -31,7 +31,7 @@
 #include <vector>
 
 namespace fl {
-    class Norm;
+    class Operator;
     class TNorm;
     class SNorm;
     class Term;
@@ -49,12 +49,11 @@ namespace fl {
         virtual SNorm* extractSNorm(const std::string& line) const;
 
         virtual Term* extractTerm(const std::string& line) const;
-        virtual Term* prepareTerm(Term* term, const Engine* engine) const;
-        
+        //        virtual Term* createInstance(const std::string& termClass, const std::string& name,
+        //                const std::vector<scalar>& params) const;
         virtual Defuzzifier* extractDefuzzifier(const std::string& line) const;
         virtual scalar extractDefaultValue(const std::string& line, bool& lockDefuzzifiedValue) const;
         virtual void extractRange(const std::string& line, scalar& minimum, scalar& maximum) const;
-        virtual void extractLock(const std::string& line, bool& valid, bool& range) const ;
 
     public:
         FclImporter();

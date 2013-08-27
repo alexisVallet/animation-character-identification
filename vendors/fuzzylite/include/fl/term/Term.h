@@ -25,7 +25,7 @@
 
 #include "fl/fuzzylite.h"
 
-#include "fl/norm/Norm.h"
+#include "fl/operator/Operator.h"
 
 #include <string>
 #include <limits>
@@ -45,11 +45,6 @@ namespace fl {
 
         virtual ~Term() { }
 
-        /**
-         * Sets the name of this term. It <b>must</b> contain only AlphaNumeric 
-         * characters
-         * @param name
-         */
         virtual void setName(const std::string& name) {
             this->_name = name;
         }

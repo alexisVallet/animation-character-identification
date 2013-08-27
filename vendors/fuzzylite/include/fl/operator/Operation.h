@@ -35,17 +35,14 @@ namespace fl {
 
     class FL_EXPORT Operation {
     public:
-        template <typename T>
-        static T min(T a, T b);
 
-        template <typename T>
-        static T max(T a, T b);
+        static scalar min(scalar a, scalar b);
 
-        template <typename T>
-        static bool isInf(T x);
+        static scalar max(scalar a, scalar b);
 
-        template <typename T>
-        static bool isNan(T x);
+        static bool isInf(scalar x);
+
+        static bool isNan(scalar x);
 
         //Is less than
 
@@ -63,20 +60,7 @@ namespace fl {
 
         static bool isGE(scalar a, scalar b, scalar tolerance = FL_PRECISION);
 
-        static scalar scale(scalar x, scalar fromMin, scalar fromMax,
-                scalar toMin, scalar toMax);
-
-        static scalar plus(scalar a, scalar b);
-        static scalar minus(scalar a, scalar b);
-        static scalar multiplies(scalar a, scalar b);
-        static scalar divides(scalar a, scalar b);
-        static scalar modulus(scalar a, scalar b);
-        static scalar logical_and(scalar a, scalar b);
-        static scalar logical_or(scalar a, scalar b);
-        static scalar negate(scalar a);
-
-        static int isValidForName(int character);
-
+        static scalar scale(scalar x, scalar fromMin, scalar fromMax, scalar toMin, scalar toMax);
 
         static std::string findReplace(const std::string& str, const std::string& find,
                 const std::string& replace, bool replaceAll = true);
@@ -84,25 +68,25 @@ namespace fl {
         static std::vector<std::string> split(const std::string& str,
                 const std::string& delimiter = " ", bool ignoreEmpty = true);
 
+        static std::string leftTrim(const std::string& text);
+
+        static std::string rightTrim(const std::string& text);
+
         static std::string trim(const std::string& text);
 
-        static std::string format(const std::string& text, int matchesChar(int),
-                const std::string& replacement = "");
-
         static scalar toScalar(const std::string& x, bool quiet = false,
-                scalar alternative = fl::nan) throw (fl::Exception);
+                scalar alternative = std::numeric_limits<scalar>::quiet_NaN())
+        throw (fl::Exception);
 
-        static bool isNumeric(const std::string& x);
+        static std::string str(int x);
+        static std::string str(scalar x, int precision = FL_DECIMALS);
 
-        template <typename T>
-        static std::string str(T x, int decimals = FL_DECIMALS);
+        static std::string str(int items, scalar* x, const std::string& separator = ",",
+                int precision = FL_DECIMALS);
 
         template <typename T>
         static std::string str(const std::vector<T>& x,
-                const std::string& separator = ", ");
-
-        template <typename T>
-        static std::string str(int items, const std::string& separator, T first, ...);
+                const std::string& separator = ", ", int precision = FL_DECIMALS);
     };
 
     typedef Operation Op;

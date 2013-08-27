@@ -32,8 +32,8 @@ namespace fl {
         scalar _input;
     public:
         InputVariable(const std::string& name = "", 
-                scalar minimum = -fl::inf,
-                scalar maximum = fl::inf);
+                scalar minimum = -std::numeric_limits<scalar>::infinity(),
+                scalar maximum = std::numeric_limits<scalar>::infinity());
         virtual ~InputVariable();
 
         virtual void setInput(scalar input);

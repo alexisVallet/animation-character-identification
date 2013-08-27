@@ -38,25 +38,25 @@ namespace fl {
         Thresholded(const Term* term = NULL, scalar threshold = 1.0,
                 const TNorm* activationOperator = NULL);
 
-        virtual ~Thresholded();
+        ~Thresholded();
 
-        virtual std::string className() const;
-        virtual Thresholded* copy() const;
+        std::string className() const;
+        Thresholded* copy() const;
 
-        virtual scalar membership(scalar x) const;
+        scalar membership(scalar x) const;
 
-        virtual void setTerm(const Term* term);
-        virtual const Term* getTerm() const;
+        void setTerm(const Term* term);
+        const Term* getTerm() const;
 
-        virtual void setThreshold(scalar threshold);
-        virtual scalar getThreshold() const;
+        void setThreshold(scalar threshold);
+        scalar getThreshold() const;
 
-        virtual void setActivation(const TNorm* activation);
-        virtual const TNorm* getActivation() const;
+        void setActivation(const TNorm* activation);
+        const TNorm* getActivation() const;
 
-        virtual std::string toString() const;
+        std::string toString() const;
 
     };
 
-}
+} 
 #endif /* FL_THRESHOLDED_H */

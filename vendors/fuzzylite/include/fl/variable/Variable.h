@@ -27,7 +27,7 @@
 
 
 #include "fl/defuzzifier/Centroid.h"
-#include "fl/norm/Norm.h"
+#include "fl/operator/Operator.h"
 
 #include <string>
 #include <vector>
@@ -56,8 +56,8 @@ namespace fl {
 
     public:
         Variable(const std::string& name = "",
-                scalar minimum = -fl::inf,
-                scalar maximum = fl::inf);
+                scalar minimum = -std::numeric_limits<scalar>::infinity(),
+                scalar maximum = std::numeric_limits<scalar>::infinity());
         Variable(const Variable& copy);
 
         virtual ~Variable();
@@ -73,7 +73,7 @@ namespace fl {
         virtual void setMaximum(scalar maximum);
         virtual scalar getMaximum() const;
 
-        virtual std::string fuzzify(scalar x, int decimals = FL_DECIMALS) const;
+        virtual std::string fuzzify(scalar x) const;
         virtual Term* highestMembership(scalar x, scalar* yhighest = NULL) const;
 
         virtual std::string toString() const;
@@ -89,7 +89,6 @@ namespace fl {
         virtual bool hasTerm(const std::string& name) const;
         virtual Term* removeTerm(int index);
         virtual int numberOfTerms() const;
-        virtual bool isEmpty() const ;
         virtual const std::vector<Term*>& terms() const;
 
     };
