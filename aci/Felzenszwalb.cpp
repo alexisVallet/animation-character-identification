@@ -4,6 +4,10 @@ static bool compareWeights(Edge edge1, Edge edge2) {
   return edge1.weight < edge2.weight;
 }
 
+static double constOne(const Mat& m1, const Mat& m2) {
+	return 1;
+}
+
 DisjointSetForest felzenszwalbSegment(int k, WeightedGraph graph, int minCompSize, Mat_<float> mask, ScaleType scaleType) {
 	// sorts edge in increasing weight order
 	vector<Edge> edges = graph.getEdges();
@@ -63,7 +67,9 @@ DisjointSetForest felzenszwalbSegment(int k, WeightedGraph graph, int minCompSiz
 		}
 	}
 
-	segmentation.fuseSmallComponents(graph, minCompSize, mask);
+	WeightedGraph grid = gridGraph(Mat_<Vec3b>::zeros(mask.rows, mask.cols), CONNECTIVITY_4, mask, constOne, false);
+
+	segmentation.fuseSmallComponents(grid, minCompSize, mask);
 
 	return segmentation;
 }

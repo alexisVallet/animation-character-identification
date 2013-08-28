@@ -1,6 +1,7 @@
 #include "ImageGraphs.h"
 
 #define MIN_EDGE_WEIGHT 0
+#define HUE_FACTOR (10./500.)
 
 WeightedGraph gridGraph(const Mat_<Vec<uchar,3> > &image, ConnectivityType connectivity, Mat_<float> mask, double (*simFunc)(const Mat&, const Mat&), bool bidirectional) {
 	assert(image.rows == mask.rows && image.cols == mask.cols);
@@ -45,24 +46,32 @@ WeightedGraph gridGraph(const Mat_<Vec<uchar,3> > &image, ConnectivityType conne
 	return grid;
 }
 
-Mat pixelFeatures(const Mat_<Vec<uchar,3> > &image, const Mat_<float> &mask, vector<int> &indexToVertex) {
+typedef Mat (*PixelFeature)(float x, float y, const Vec3f &hsvPixel);
+
+static Mat positionHueFeature(float x, float y, const Vec3f &hsvPixel) {
+	Mat feature(3,1, CV_32F);
+
+	feature.at<float>(0,0) = x;
+	feature.at<float>(1,0) = y;
+	feature.at<float>(2,0) = HUE_FACTOR * hsvPixel(0);
+
+	return feature;
+}
+
+Mat pixelFeatures(const Mat_<Vec3f> &image, const Mat_<float> &mask, vector<int> &indexToVertex, PixelFeature feature, int featureSize) {
 	int nonZeros = countNonZero(mask);
 	// computes the set of features of the image
-	Mat features(nonZeros, 5, CV_32F);
+	Mat features(nonZeros, featureSize, CV_32F);
 	int index = 0;
 	indexToVertex = vector<int>(nonZeros,-1);
 	
 	for (int i = 0; i < image.rows; i++) {
 		for (int j = 0; j < image.cols; j++) {
 			if (mask(i,j) > 0) {
-				Vec<uchar,3> color = image(i,j);
+				Vec3f color = image(i,j);
 
-				// computing the feature vector, normalizing coordinates between 0 and 1
-				features.at<float>(index,0) = (float)i / (float)image.rows;
-				features.at<float>(index,1) = (float)j / (float)image.cols;
-				features.at<float>(index,2) = (float)color[0] / (float)255.;
-				features.at<float>(index,3) = (float)color[1] / (float)255.;
-				features.at<float>(index,4) = (float)color[2] / (float)255.;
+				Mat featureValue = feature((float)j/(float)image.cols, (float)i/(float)image.rows, color).t();
+				featureValue.copyTo(features.row(index));
 
 				indexToVertex[index] = toRowMajor(image.cols, j, i);
 
@@ -74,10 +83,10 @@ Mat pixelFeatures(const Mat_<Vec<uchar,3> > &image, const Mat_<float> &mask, vec
 	return features;
 }
 
-WeightedGraph kNearestGraph(const Mat_<Vec<uchar,3> > &image, const Mat_<float> mask, int k, double (*simFunc)(const Mat&, const Mat&), bool bidirectional) {
+WeightedGraph kNearestGraph(const Mat_<Vec3f> &image, const Mat_<float> mask, int k, double (*simFunc)(const Mat&, const Mat&), bool bidirectional) {
 	vector<int> indexToVertex;
-	Mat features = pixelFeatures(image, mask, indexToVertex);
-	flann::Index flannIndex(features, flann::KMeansIndexParams(16, 5));
+	Mat features = pixelFeatures(image, mask, indexToVertex, positionHueFeature, 3);
+	flann::Index flannIndex(features, flann::KMeansIndexParams(16, 3));
 	WeightedGraph nnGraph(image.rows * image.cols);
 	set<pair<int,int> > edges;
 
@@ -98,7 +107,7 @@ WeightedGraph kNearestGraph(const Mat_<Vec<uchar,3> > &image, const Mat_<float> 
 				int second = max(source, destination);
 
 				if (edges.find(pair<int,int>(first, second)) == edges.end()) {
-					float weight = (float)simFunc(features.row(i), features.row(indices[j])) + MIN_EDGE_WEIGHT;
+					float weight = (float)simFunc(features.row(i), features.row(indices[j]));
 
 					edges.insert(pair<int,int>(first, second));
 					nnGraph.addEdge(source, destination, weight);

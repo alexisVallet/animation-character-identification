@@ -31,4 +31,4 @@ using namespace cv;
  * @param kuwaharaHalfsize window halfsize for the Kuwahara filtering algorithm.
  * @param maxNbPixels maximum allowed number of non-masked pixels for resizing.
  */
-void preProcessing(const Mat_<Vec3b> &rawImage, const Mat_<float> &rawMask, Mat_<Vec3b> &processedImage, Mat_<float> &processedMask, const Mat_<Vec3b> &manualSegmentation = Mat_<Vec3b>(), Mat_<Vec3b> &processedSegmentation = Mat_<Vec3b>(), int kuwaharaHalfsize = DEFAULT_KUWAHARA_HALFSIZE, int maxNbPixels = DEFAULT_MAX_NB_PIXELS);
+void preProcessing(const Mat_<Vec3b> &rawImage, const Mat_<float> &rawMask, Mat_<Vec3f> &processedImage, Mat_<float> &processedMask, const Mat_<Vec3b> &manualSegmentation = Mat_<Vec3f>(), Mat_<Vec3b> &processedSegmentation = Mat_<Vec3b>(), int kuwaharaHalfsize = DEFAULT_KUWAHARA_HALFSIZE, int maxNbPixels = DEFAULT_MAX_NB_PIXELS);

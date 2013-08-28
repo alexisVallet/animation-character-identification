@@ -2,7 +2,7 @@
 
 #define DEBUG_SEGMENTATION false
 #define CONNECTIVITY CONNECTIVITY_4
-#define MAX_SEGMENTS 250
+#define MAX_SEGMENTS 20
 
 static double absoluteDifference(const Mat &m1, const Mat &m2) {
 	uchar c1 = m1.at<uchar>(0,0), c2 = m2.at<uchar>(0,0);
@@ -10,25 +10,17 @@ static double absoluteDifference(const Mat &m1, const Mat &m2) {
 	return (double)(c1 > c2 ? c1 - c2 : c2 - c1);
 }
 
-void segment(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, WeightedGraph &segGraph, int felzenszwalbScale) {
-	assert(felzenszwalbScale >= 0);
-	// computes felzenszwalb's algorithm on the hue part of the image
-	vector<Mat_<uchar> > channels;
-	split(image, channels);
-	WeightedGraph grid = gridGraph(channels[0], CONNECTIVITY, mask, absoluteDifference, false);
-	int minCompSize = countNonZero(mask) / MAX_SEGMENTS;
-	segmentation = felzenszwalbSegment(felzenszwalbScale, grid, minCompSize, mask, VOLUME);
-	segGraph = segmentationGraph(segmentation, grid);
+static double euclidDistance(const Mat &m1, const Mat &m2) {
+	return norm(m1 - m2);
+}
 
-	if (DEBUG_SEGMENTATION) {
-		imshow("image", image);
-		waitKey(0);
-		Mat regionImage = segmentation.toRegionImage(image);
-		segGraph.drawGraph(segmentCenters(image, segmentation), regionImage);
-		imshow("segmentation graph", regionImage);
-		cout<<"number of components: "<<segmentation.getNumberOfComponents()<<endl;
-		waitKey(0);
-	}
+void segment(const Mat_<Vec3f> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, int felzenszwalbScale) {
+	assert(felzenszwalbScale >= 0);
+	cout<<"computing k nearest graph"<<endl;
+	WeightedGraph nnGraph = kNearestGraph(image, mask, 10, euclidDistance, true);
+	int minCompSize = countNonZero(mask) / MAX_SEGMENTS;
+	cout<<"segmenting graph"<<endl;
+	segmentation = felzenszwalbSegment(felzenszwalbScale, nnGraph, minCompSize, mask, VOLUME);
 }
 
 static double constOne(const Mat &m1, const Mat &m2) {

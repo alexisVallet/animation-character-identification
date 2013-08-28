@@ -82,12 +82,14 @@
     <ClInclude Include="..\LabeledGraph.hpp" />
     <ClInclude Include="..\Utils.hpp" />
     <ClInclude Include="..\WeightedGraph.hpp" />
+    <ClInclude Include="SimilarityGraphs.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\GraphSpectra.cpp" />
     <ClCompile Include="..\GraphSpectraTest.cpp" />
     <ClCompile Include="..\Utils.cpp" />
     <ClCompile Include="..\WeightedGraph.cpp" />
+    <ClCompile Include="SimilarityGraphs.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
