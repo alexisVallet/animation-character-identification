@@ -49,7 +49,7 @@ DisjointSetForest addBackgroundSegment(DisjointSetForest segmentation, const Mat
 }
 
 int main(int argc, char** argv) {
-	char *charaNames[] = {"lupin", "rufy", NULL};
+	char *charaNames[] = {"rufy", "ray", "miku", NULL};
 	vector<std::tuple<Mat_<Vec3b>, Mat_<float> > > dataset;
 	Mat_<int> classes;
 	cout<<"loading dataset..."<<endl;
@@ -73,17 +73,18 @@ int main(int argc, char** argv) {
 
 	for (int i = 0; i < (int)processedDataset.size(); i++) {
 		DisjointSetForest segmentation;
+		Mat_<Vec3f> bgr, hsv;
 
-		Mat_<Vec3f> rgbImage, hsvImage;
-		
-		cout<<"converting back to RGB"<<endl;
-		cvtColor(get<0>(processedDataset[i]), rgbImage, CV_Lab2RGB);
-		cout<<"converting to HSV"<<endl;
-		cvtColor(rgbImage, hsvImage, CV_RGB2HSV);
-
+		cvtColor(get<0>(processedDataset[i]), bgr, CV_Lab2BGR);
+		cvtColor(bgr, hsv, CV_BGR2HSV);
 		cout<<"segmenting"<<endl;
-		segment(hsvImage, get<1>(processedDataset[i]), segmentation);
+		segment(hsv, get<1>(processedDataset[i]), segmentation);
 
+		vector<Mat_<float> > channels;
+
+		split(hsv, channels);
+		imshow("bgr", bgr);
+		imshow("hue", channels[0] / 360.);
 		imshow("segmentation", segmentation.toRegionImage(get<0>(processedDataset[i])));
 		waitKey(0);
 	}

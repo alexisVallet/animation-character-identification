@@ -3,7 +3,7 @@
 #include "SegmentAttributes.h"
 #define DEBUG_ATTRIBUTES false
 
-vector<VectorXd> averageColorLabeling(DisjointSetForest &segmentation, const Mat_<Vec3b> &image, const Mat_<float> &mask) {
+vector<VectorXd> averageColorLabeling(DisjointSetForest &segmentation, const Mat_<Vec3f> &image, const Mat_<float> &mask) {
 	vector<VectorXd> averageColor;
 	averageColor.reserve(segmentation.getNumberOfComponents());
 
@@ -31,7 +31,37 @@ vector<VectorXd> averageColorLabeling(DisjointSetForest &segmentation, const Mat
 	return averageColor;
 }
 
-vector<VectorXd> gravityCenterLabeling(DisjointSetForest &segmentation, const Mat_<Vec3b> &image, const Mat_<float> &mask) {
+vector<VectorXd> averageHueLabeling(DisjointSetForest &segmentation, const Mat_<Vec3f> &image, const Mat_<float> &mask) {
+	Mat_<Vec3f> rgb, hsv;
+
+	cvtColor(image, rgb, CV_Lab2RGB);
+	cvtColor(rgb, hsv, CV_RGB2HSV);
+
+	vector<Mat_<float> > channels;
+
+	split(hsv, channels);
+
+	vector<VectorXd> averageHues;
+	averageHues.reserve(segmentation.getNumberOfComponents());
+	for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
+		averageHues.push_back(VectorXd::Zero(1));
+	}
+	map<int,int> rootIndexes = segmentation.getRootIndexes();
+
+	for (int i = 0; i < image.rows; i++) {
+		for (int j = 0; j < image.cols; j++) {
+			if (mask(i,j) > 0) {
+				int root = segmentation.find(toRowMajor(image.cols, j, i));
+				
+				averageHues[rootIndexes[root]](0) += channels[0](i,j) / (double)segmentation.getComponentSize(root);
+			}
+		}
+	}
+
+	return averageHues;
+}
+
+vector<VectorXd> gravityCenterLabeling(DisjointSetForest &segmentation, const Mat_<Vec3f> &image, const Mat_<float> &mask) {
 	vector<Vec2f> centers;
 	gravityCenters(image, mask, segmentation, centers);
 
@@ -50,7 +80,7 @@ vector<VectorXd> gravityCenterLabeling(DisjointSetForest &segmentation, const Ma
 	return eigCenters;
 }
 
-vector<VectorXd> segmentAreaLabeling(DisjointSetForest &segmentation, const Mat_<Vec3b> &image, const Mat_<float> &mask) {
+vector<VectorXd> segmentAreaLabeling(DisjointSetForest &segmentation, const Mat_<Vec3f> &image, const Mat_<float> &mask) {
 	vector<VectorXd> areas(segmentation.getNumberOfComponents());
 	map<int,int> roots = segmentation.getRootIndexes();
 

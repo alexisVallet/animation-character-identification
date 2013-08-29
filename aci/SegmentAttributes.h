@@ -19,19 +19,24 @@ using namespace Eigen;
  * Datatype for segment labelling function associating vectors
  * to each segment.
  */
-typedef vector<VectorXd> (*SegmentLabeling)(DisjointSetForest &segmentation, const Mat_<Vec3b> &image, const Mat_<float> &mask);
+typedef vector<VectorXd> (*SegmentLabeling)(DisjointSetForest &segmentation, const Mat_<Vec3f> &image, const Mat_<float> &mask);
 
 /**
  * Labels segments by their average color.
  */
-vector<VectorXd> averageColorLabeling(DisjointSetForest &segmentation, const Mat_<Vec3b> &image, const Mat_<float> &mask);
+vector<VectorXd> averageColorLabeling(DisjointSetForest &segmentation, const Mat_<Vec3f> &image, const Mat_<float> &mask);
+
+/**
+ * Labels segments by their average hue.
+ */
+vector<VectorXd> averageHueLabeling(DisjointSetForest &segmentation, const Mat_<Vec3f> &image, const Mat_<float> &mask);
 
 /**
  * Labels segments by their gravity center.
  */
-vector<VectorXd> gravityCenterLabeling(DisjointSetForest &segmentation, const Mat_<Vec3b> &image, const Mat_<float> &mask);
+vector<VectorXd> gravityCenterLabeling(DisjointSetForest &segmentation, const Mat_<Vec3f> &image, const Mat_<float> &mask);
 
 /**
  * Labels segments by their area in number of pixels.
  */
-vector<VectorXd> segmentAreaLabeling(DisjointSetForest &segmentation, const Mat_<Vec3b> &image, const Mat_<float> &mask);
+vector<VectorXd> segmentAreaLabeling(DisjointSetForest &segmentation, const Mat_<Vec3f> &image, const Mat_<float> &mask);

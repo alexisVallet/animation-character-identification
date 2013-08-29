@@ -2,7 +2,7 @@
 
 #define DEBUG_SEGMENTATION false
 #define CONNECTIVITY CONNECTIVITY_4
-#define MAX_SEGMENTS 20
+#define MAX_SEGMENTS 500
 
 static double absoluteDifference(const Mat &m1, const Mat &m2) {
 	uchar c1 = m1.at<uchar>(0,0), c2 = m2.at<uchar>(0,0);
@@ -14,13 +14,43 @@ static double euclidDistance(const Mat &m1, const Mat &m2) {
 	return norm(m1 - m2);
 }
 
+static bool compareHueDiff(std::tuple<int,int,double> e1, std::tuple<int,int,double> e2) {
+	return get<2>(e1) < get<2>(e2);
+}
+
+void fuseByHue(const Mat_<Vec3f> &image, const Mat_<float> &mask, DisjointSetForest &overSegmentation, DisjointSetForest &segmentation) {
+	segmentation = overSegmentation;
+	vector<VectorXd> averageHues = averageHueLabeling(overSegmentation, image, mask);
+	vector<std::tuple<int,int,double> > edges;
+	edges.reserve((overSegmentation.getNumberOfComponents() - 1) * overSegmentation.getNumberOfComponents() / 2);
+
+	for (int i = 1; i < overSegmentation.getNumberOfComponents(); i++) {
+		for (int j = i + 1; j < overSegmentation.getNumberOfComponents(); j++) {
+			edges.push_back(std::tuple<int,int,double>(i,j, abs(averageHues[i](0) - averageHues[j](0))));
+		}
+	}
+
+	sort(edges.begin(), edges.end(), compareHueDiff);
+	vector<int> reverseIndexes(overSegmentation.getNumberOfComponents(), -1);
+	map<int,int> rootIndexes = overSegmentation.getRootIndexes();
+
+	for (map<int,int>::iterator it = rootIndexes.begin(); it != rootIndexes.end(); it++) {
+		reverseIndexes[(*it).second] = (*it).first;
+	}
+
+	for (int i = 0; i < (int)edges.size()/10 ; i++) {
+		std::tuple<int,int,double> edge = edges[i];
+
+		segmentation.setUnion(reverseIndexes[get<0>(edge)], reverseIndexes[get<1>(edge)]);
+	}
+}
+
 void segment(const Mat_<Vec3f> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, int felzenszwalbScale) {
 	assert(felzenszwalbScale >= 0);
-	cout<<"computing k nearest graph"<<endl;
-	WeightedGraph nnGraph = kNearestGraph(image, mask, 10, euclidDistance, true);
+	WeightedGraph graph = gridGraph(image, CONNECTIVITY_4, mask, euclidDistance, false);
 	int minCompSize = countNonZero(mask) / MAX_SEGMENTS;
-	cout<<"segmenting graph"<<endl;
-	segmentation = felzenszwalbSegment(felzenszwalbScale, nnGraph, minCompSize, mask, VOLUME);
+	DisjointSetForest overSegmentation = felzenszwalbSegment(felzenszwalbScale, graph, minCompSize, mask, VOLUME);
+	fuseByHue(image, mask, overSegmentation, segmentation);
 }
 
 static double constOne(const Mat &m1, const Mat &m2) {

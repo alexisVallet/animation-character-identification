@@ -26,7 +26,7 @@ using namespace cv;
  * @param segGraph segmentation graph of the image, where vertices are segment
  * and vertices have an edge between them iff the corresponding segment are adjacent.
  */
-void segment(const Mat_<Vec3f> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, int felzenszwalbScale = 1);
+void segment(const Mat_<Vec3f> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, int felzenszwalbScale = 1000);
 
 /**
  * Converts a segmentation image, where each color corresponds to a segment,

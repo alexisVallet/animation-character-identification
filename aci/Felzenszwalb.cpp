@@ -67,9 +67,7 @@ DisjointSetForest felzenszwalbSegment(int k, WeightedGraph graph, int minCompSiz
 		}
 	}
 
-	WeightedGraph grid = gridGraph(Mat_<Vec3b>::zeros(mask.rows, mask.cols), CONNECTIVITY_4, mask, constOne, false);
-
-	segmentation.fuseSmallComponents(grid, minCompSize, mask);
+	segmentation.fuseSmallComponents(graph, minCompSize, mask);
 
 	return segmentation;
 }

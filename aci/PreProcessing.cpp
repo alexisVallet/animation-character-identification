@@ -43,7 +43,8 @@ void preProcessing(const Mat_<Vec3b> &rawImage, const Mat_<float> &rawMask, Mat_
 
 	Mat_<Vec3b> equalized;
 	
-	equalizeColorHistogram(resized, processedMask, equalized);
+	//equalizeColorHistogram(resized, processedMask, equalized);
+	equalized = resized;
 
 	Mat_<Vec3b> filtered;
 
@@ -54,11 +55,32 @@ void preProcessing(const Mat_<Vec3b> &rawImage, const Mat_<float> &rawMask, Mat_
 	cvtColor(filteredFloat, processedImage, CV_BGR2Lab);
 
 	if (DEBUG_PREPROCESSING) {
-		imshow("original", rawImage);
-		imshow("original mask", rawMask);
+		imshow("raw", rawImage);
 		imshow("resized", resized);
-		imshow("resized mask", resizedMask);
-		imshow("connected mask", processedMask);
+		imshow("equalized", equalized);
+		imshow("filtered", filtered);
+		imshow("filteredFloat", filteredFloat);
+		vector<Mat_<float> > channels;
+
+		split(processedImage, channels);
+
+		imshow("L", channels[0]/100.);
+		imshow("a", (channels[1] + 127.)/256.);
+		imshow("b", (channels[2] + 127.)/256.);
+
+		Mat_<Vec3f> hsv;
+
+		cout<<"converting"<<endl;
+		cvtColor(filteredFloat, hsv, CV_BGR2HSV);
+
+		vector<Mat_<float> > hsvChannels;
+
+		cout<<"splitting"<<endl;
+		split(hsv, hsvChannels);
+
+		cout<<"displaying"<<endl;
+		imshow("hue", hsvChannels[0] / 360.);
+
 		waitKey(0);
 	}
 }

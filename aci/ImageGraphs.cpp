@@ -1,9 +1,9 @@
 #include "ImageGraphs.h"
 
 #define MIN_EDGE_WEIGHT 0
-#define HUE_FACTOR (10./500.)
+#define HUE_FACTOR (1./500.)
 
-WeightedGraph gridGraph(const Mat_<Vec<uchar,3> > &image, ConnectivityType connectivity, Mat_<float> mask, double (*simFunc)(const Mat&, const Mat&), bool bidirectional) {
+WeightedGraph gridGraph(const Mat_<Vec3f> &image, ConnectivityType connectivity, Mat_<float> mask, double (*simFunc)(const Mat&, const Mat&), bool bidirectional) {
 	assert(image.rows == mask.rows && image.cols == mask.cols);
 	WeightedGraph grid(image.cols*image.rows, 4);
 	// indicates neigbor positions depending on connectivity
@@ -16,7 +16,7 @@ WeightedGraph gridGraph(const Mat_<Vec<uchar,3> > &image, ConnectivityType conne
 			if (mask(i,j) >= 0.5) {
 				int centerIndex = toRowMajor(image.cols, j,i);
 				assert(centerIndex >= 0 && centerIndex < grid.numberOfVertices());
-				Vec<uchar,3> centerIntensity = image(i,j);
+				Vec3f centerIntensity = image(i,j);
       
 				for (int n = 0; n < numberOfNeighbors[connectivity]; n++) {
 					int neighborRow = i + rowOffsets[connectivity][n];
@@ -26,7 +26,7 @@ WeightedGraph gridGraph(const Mat_<Vec<uchar,3> > &image, ConnectivityType conne
 						neighborCol >= 0 && neighborCol < image.cols &&
 						mask(neighborRow, neighborCol) >= 0.5) {
 						int neighborIndex = toRowMajor(image.cols, neighborCol, neighborRow);
-						Vec<uchar,3> neighborIntensity = image(neighborRow, neighborCol);
+						Vec3f neighborIntensity = image(neighborRow, neighborCol);
 	  
 						assert(neighborIndex >= 0 && neighborIndex < grid.numberOfVertices());
 						
