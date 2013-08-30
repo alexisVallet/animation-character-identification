@@ -49,7 +49,7 @@ DisjointSetForest addBackgroundSegment(DisjointSetForest segmentation, const Mat
 }
 
 int main(int argc, char** argv) {
-	char *charaNames[] = {"rufy", "ray", "miku", NULL};
+	char *charaNames[] = {"rufy", "ray", "miku", "majin", "lupin", "kouji", "jigen", "conan", "chirno", "char", "asuka", "amuro", NULL};
 	vector<std::tuple<Mat_<Vec3b>, Mat_<float> > > dataset;
 	Mat_<int> classes;
 	cout<<"loading dataset..."<<endl;
