@@ -130,6 +130,12 @@ Eigen::SparseMatrix<double> sparseLaplacian(const WeightedGraph &graph, bool bid
 	return result;
 }
 
+Eigen::SparseMatrix<double> _sparseLaplacian(const WeightedGraph &graph, bool bidirectional) {
+	VectorXd degrees;
+
+	return sparseLaplacian(graph, bidirectional, degrees);
+}
+
 Eigen::SparseMatrix<double> normalizedSparseLaplacian(const WeightedGraph &graph, bool bidirectional, Eigen::VectorXd &degrees) {
 	// first we compute the degrees
 	degrees = Eigen::VectorXd::Zero(graph.numberOfVertices());

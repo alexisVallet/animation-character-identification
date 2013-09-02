@@ -94,6 +94,8 @@ MatrixXd eigAdjacencyMatrix(const WeightedGraph &graph);
  */
 Eigen::SparseMatrix<double> sparseLaplacian(const WeightedGraph &graph, bool bidirectional, Eigen::VectorXd &degrees);
 
+Eigen::SparseMatrix<double> _sparseLaplacian(const WeightedGraph &graph, bool bidirectional);
+
 /**
  * Same as normalizedLaplacian, but returns a sparse matrix data structure.
  */

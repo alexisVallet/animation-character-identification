@@ -222,7 +222,7 @@ void MatchingSegmentClassifier::train(vector<std::tuple<DisjointSetForest, Mat_<
 	}
 }
 
-int MatchingSegmentClassifier::predict(DisjointSetForest &segmentation, const Mat_<Vec3f> &image, const Mat_<float> &mask, int *nearestNeighborIndex) {
+int MatchingSegmentClassifier::predict(DisjointSetForest &segmentation, const Mat_<Vec3f> &image, const Mat_<float> &mask, int *nearestNeighborIndex, int k) {
 	vector<vector<VectorXd> > segmentLabels;
 
 	this->computeSegmentLabels(segmentation, image, mask, segmentLabels);
@@ -262,4 +262,33 @@ int MatchingSegmentClassifier::predict(DisjointSetForest &segmentation, const Ma
 	}
 
 	return get<2>(this->trainingLabels[nearestNeighbor]);
+}
+
+void MatchingSegmentClassifier::similarityMatrix(vector<std::tuple<DisjointSetForest, Mat_<Vec3f>, Mat_<float> > > &samples, MatrixXd &similarity) {
+	similarity = MatrixXd::Zero(samples.size(), samples.size());
+	vector<vector<int> > compSizes(samples.size());
+
+	for (int i = 0; i < (int)samples.size(); i++) {
+		compSizes[i] = vector<int>(get<0>(samples[i]).getNumberOfComponents());
+
+		map<int,int> rootIndexes1 = get<0>(samples[i]).getRootIndexes();
+
+		for (map<int,int>::iterator it = rootIndexes1.begin(); it != rootIndexes1.end(); it++) {
+			compSizes[i][(*it).second] = get<0>(samples[i]).getComponentSize((*it).first);
+		}
+	}
+
+	for (int i = 0; i < samples.size(); i++) {
+		for (int j = i + 1; j < samples.size(); j++) {
+			vector<std::tuple<int,int,double> > matching = this->mostSimilarSegments(
+				get<0>(samples[i]), get<1>(samples[i]), get<1>(samples[i]),
+				get<0>(samples[j]), get<1>(samples[j]), get<1>(samples[j]));
+
+			for (int k = 0; k < matching.size(); k++) {
+				similarity(i,j) += (compSizes[i][get<0>(matching[k])] + compSizes[j][get<1>(matching[k])]) * get<2>(matching[k]);
+			}
+
+			similarity(j,i) = similarity(i,j);
+		}
+	}
 }

@@ -61,6 +61,8 @@ void spectralClustering(SimilarityMatrix &similarity, SimilarityGraphRepresentat
 
 	Mat labels;
 
+	cout<<embeddings.colRange(0,5)<<endl;
+
 	kmeans(embeddings, k, labels, TermCriteria(), 1, KMEANS_RANDOM_CENTERS);
 
 	// compute the corresponding clusters in the larger space

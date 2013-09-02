@@ -62,58 +62,26 @@ int main(int argc, char** argv) {
 		segmentations.push_back(segmentation);
 	}
 
-	cout<<"classification"<<endl;
+	cout<<"embedding"<<endl;
+	MatchingSegmentClassifier classifier(true);
+	
 
-	float rate = 0;
-	double maxClassLabel;
+	typedef std::tuple<DisjointSetForest, Mat_<Vec3f>, Mat_<float> > Sample;
 
-	minMaxLoc(classes, NULL, &maxClassLabel);
+	vector<Sample> samples;
+	samples.reserve(dataset.size());
 
-	MatrixXi confusion = MatrixXi::Zero(maxClassLabel + 1, maxClassLabel + 1);
-
-	for (int i = 0; i < (int)processedDataset.size(); i++) {
-		typedef std::tuple<DisjointSetForest, Mat_<Vec3f>, Mat_<float>, int > TrainingSample;
-		MatchingSegmentClassifier classifier(true);
-		vector<TrainingSample> trainingSet;
-		trainingSet.reserve(processedDataset.size() - 1);
-
-		for (int j = 0; j < (int)processedDataset.size(); j++) {
-			if (i != j) {
-				trainingSet.push_back(TrainingSample(segmentations[j], get<0>(processedDataset[j]), get<1>(processedDataset[j]), classes(j,0)));
-			}
-		}
-
-		classifier.train(trainingSet);
-		int nearestNeighbor;
-		int actual = classifier.predict(segmentations[i], get<0>(processedDataset[i]), get<1>(processedDataset[i]), &nearestNeighbor);
-
-		int nnIndex = nearestNeighbor < i ? nearestNeighbor : nearestNeighbor + 1;
-
-		cout<<"predicted sample "<<i<<" in class "<<actual<<", expected "<<classes(i,0)<<endl;
-
-		vector<std::tuple<int,int,double> > similarSegments = classifier.mostSimilarSegments(
-			segmentations[i], get<0>(processedDataset[i]), get<1>(processedDataset[i]),
-			segmentations[nnIndex], get<0>(processedDataset[nnIndex]), get<1>(processedDataset[nnIndex]));
-
-		Mat_<Vec3b> match1, match2;
-		matchingImages(similarSegments, segmentations[i], segmentations[nnIndex], get<0>(processedDataset[i]), get<0>(processedDataset[nnIndex]), match1, match2);
-		imshow("test sample", get<0>(dataset[i]));
-		imshow("nearest neighbor", get<0>(dataset[nnIndex]));
-		imshow("test sample matching", match1);
-		imshow("nearest neighbor matching", match2);
-		waitKey(0);
-
-		if (actual == classes(i,0)) {
-			rate++;
-		}
-
-		confusion(classes(i,0), actual)++;
+	for (int i = 0; i < (int)dataset.size(); i++) {
+		samples.push_back(Sample(segmentations[i], get<0>(processedDataset[i]), get<1>(processedDataset[i])));
 	}
 
-	rate = rate / (float)processedDataset.size();
+	MatrixXd similarity;
+	classifier.similarityMatrix(samples, similarity);
+	VectorXi classLabels;
+	
+	spectralClustering(DenseSimilarityMatrix(&similarity), CompleteGraph(), _sparseLaplacian, 12, classLabels);
 
-	cout<<"recognition rate "<<rate<<endl;
-	cout<<"confusion matrix:"<<endl<<confusion<<endl;
+	cout<<classLabels.transpose()<<endl;
 
 	return 0;
 }
