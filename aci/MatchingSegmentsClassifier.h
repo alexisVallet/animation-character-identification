@@ -17,8 +17,8 @@ private:
 	fl::OutputVariable *similarityOutput;
 	bool ignoreFirst;
 	// for each training sample, store its class label with
-	// the segment labels by features.
-	vector<std::tuple<vector<vector<VectorXd> >, int> > trainingLabels;
+	// the segment labels by featuress as well as segment size.
+	vector<std::tuple<vector<vector<VectorXd> >, vector<int>, int> > trainingLabels;
 
 	void computeSegmentLabels(DisjointSetForest &seg, const Mat_<Vec3f> &image, const Mat_<float> &mask, vector<vector<VectorXd> > &segmentLabels);
 
@@ -69,5 +69,5 @@ public:
 	 * @param mask mask of the image to predict the class of.
 	 * @return the predicted class label of the sample.
 	 */
-	int predict(DisjointSetForest &segmentation, const Mat_<Vec3f> &image, const Mat_<float> &mask);
+	int predict(DisjointSetForest &segmentation, const Mat_<Vec3f> &image, const Mat_<float> &mask, int *nearestNeighborIndex = NULL);
 };

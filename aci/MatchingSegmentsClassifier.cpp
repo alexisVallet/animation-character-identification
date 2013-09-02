@@ -211,11 +211,18 @@ void MatchingSegmentClassifier::train(vector<std::tuple<DisjointSetForest, Mat_<
 		vector<vector<VectorXd> > segmentLabels; 
 		this->computeSegmentLabels(get<0>(trainingSet[i]), get<1>(trainingSet[i]), get<2>(trainingSet[i]), segmentLabels);
 
-		this->trainingLabels.push_back(std::tuple<vector<vector<VectorXd> >, int>(segmentLabels, get<3>(trainingSet[i])));
+		vector<int> compSizes(get<0>(trainingSet[i]).getNumberOfComponents(), 0);
+		map<int,int> rootIndexes = get<0>(trainingSet[i]).getRootIndexes();
+
+		for (map<int,int>::iterator it = rootIndexes.begin(); it != rootIndexes.end(); it++) {
+			compSizes[(*it).second] = get<0>(trainingSet[i]).getComponentSize((*it).first);
+		}
+
+		this->trainingLabels.push_back(std::tuple<vector<vector<VectorXd> >, vector<int>, int>(segmentLabels, compSizes, get<3>(trainingSet[i])));
 	}
 }
 
-int MatchingSegmentClassifier::predict(DisjointSetForest &segmentation, const Mat_<Vec3f> &image, const Mat_<float> &mask) {
+int MatchingSegmentClassifier::predict(DisjointSetForest &segmentation, const Mat_<Vec3f> &image, const Mat_<float> &mask, int *nearestNeighborIndex) {
 	vector<vector<VectorXd> > segmentLabels;
 
 	this->computeSegmentLabels(segmentation, image, mask, segmentLabels);
@@ -229,8 +236,6 @@ int MatchingSegmentClassifier::predict(DisjointSetForest &segmentation, const Ma
 	int nearestNeighbor = 0;
 	float maxSimilarity = 0;
 
-	//cout<<"similarities: ";
-
 	for (int i = 0; i < (int)this->trainingLabels.size(); i++) {
 		vector<std::tuple<int, int, double> > matching;
 
@@ -243,10 +248,8 @@ int MatchingSegmentClassifier::predict(DisjointSetForest &segmentation, const Ma
 		for (int j = 0; j < (int)matching.size(); j++) {
 			std::tuple<int,int,double> match = matching[j];
 
-			similarity += compSizes[get<0>(match)] * get<2>(match);
+			similarity += (compSizes[get<0>(match)] + get<1>(this->trainingLabels[i])[get<1>(match)]) * get<2>(match);
 		}
-
-		//cout<<similarity<<", ";
 
 		if (maxSimilarity < similarity) {
 			maxSimilarity = similarity;
@@ -254,7 +257,9 @@ int MatchingSegmentClassifier::predict(DisjointSetForest &segmentation, const Ma
 		}
 	}
 
-	//cout<<endl;
+	if (nearestNeighborIndex != NULL) {
+		*nearestNeighborIndex = nearestNeighbor;
+	}
 
-	return get<1>(this->trainingLabels[nearestNeighbor]);
+	return get<2>(this->trainingLabels[nearestNeighbor]);
 }
