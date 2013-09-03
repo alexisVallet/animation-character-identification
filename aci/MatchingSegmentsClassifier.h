@@ -24,6 +24,8 @@ private:
 
 	void mostSimilarSegmentLabels(const vector<vector<VectorXd> > &lLabels, const vector<vector<VectorXd> > &sLabels, vector<std::tuple<int, int, double> > &matching, int lNbSeg, int sNbSeg);
 
+	double computeSimilarity(DisjointSetForest &testSeg, const Mat_<Vec3f> &testImage, const Mat_<float> &testMask, const vector<int> &compSizes, int trainingIndex);
+
 	int maxClassLabel;
 
 public:

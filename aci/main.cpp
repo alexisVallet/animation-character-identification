@@ -61,27 +61,59 @@ int main(int argc, char** argv) {
 
 		segmentations.push_back(segmentation);
 	}
+	cout<<"classification"<<endl;
 
-	cout<<"embedding"<<endl;
+	double maxClassLabel;
+
+	minMaxLoc(classes, NULL, &maxClassLabel);
+		
 	MatchingSegmentClassifier classifier(true);
-	
 
-	typedef std::tuple<DisjointSetForest, Mat_<Vec3f>, Mat_<float> > Sample;
+	float bestRate = 0;
+	int bestK = 0;
 
-	vector<Sample> samples;
-	samples.reserve(dataset.size());
+	for (int k = 6; k < 7; k++) {
+		cout<<"for K = "<<k<<endl;
+		float rate = 0;
+		MatrixXi confusion = MatrixXi::Zero(maxClassLabel + 1, maxClassLabel + 1);
 
-	for (int i = 0; i < (int)dataset.size(); i++) {
-		samples.push_back(Sample(segmentations[i], get<0>(processedDataset[i]), get<1>(processedDataset[i])));
+		for (int i = 0; i < (int)processedDataset.size(); i++) {
+			cout<<"building training set"<<endl;
+			typedef std::tuple<DisjointSetForest, Mat_<Vec3f>, Mat_<float>, int > TrainingSample;
+
+			vector<TrainingSample> trainingSet;
+			trainingSet.reserve(processedDataset.size() - 1);
+
+			for (int j = 0; j < (int)processedDataset.size(); j++) {
+				if (i != j) {
+					trainingSet.push_back(TrainingSample(segmentations[j], get<0>(processedDataset[j]), get<1>(processedDataset[j]), classes(j,0)));
+				}
+			}
+
+			classifier.train(trainingSet);
+			int actual = classifier.predict(segmentations[i], get<0>(processedDataset[i]), get<1>(processedDataset[i]), NULL, k);
+
+			cout<<"predicted sample "<<i<<" in class "<<actual<<", expected "<<classes(i,0)<<endl;
+
+			if (actual == classes(i,0)) {
+				rate++;
+			}
+
+			confusion(classes(i,0), actual)++;
+		}
+
+		rate = rate / (float)processedDataset.size();
+
+		if (rate > bestRate) {
+			bestRate = rate;
+			bestK = k;
+		}
+
+		cout<<"recognition rate "<<rate<<endl;
+		cout<<"confusion matrix:"<<endl<<confusion<<endl;
 	}
 
-	MatrixXd similarity;
-	classifier.similarityMatrix(samples, similarity);
-	VectorXi classLabels;
-	
-	spectralClustering(DenseSimilarityMatrix(&similarity), CompleteGraph(), _sparseLaplacian, 12, classLabels);
-
-	cout<<classLabels.transpose()<<endl;
+	cout<<"best recognition rate "<<bestRate<<" for k = "<<bestK<<endl;
 
 	return 0;
 }

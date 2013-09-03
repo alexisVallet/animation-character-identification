@@ -186,6 +186,26 @@ void MatchingSegmentClassifier::mostSimilarSegmentLabels(const vector<vector<Vec
 	}
 }
 
+double MatchingSegmentClassifier::computeSimilarity(DisjointSetForest &testSeg, const Mat_<Vec3f> &testImage, const Mat_<float> &testMask, const vector<int> &compSizes, int trainingIndex) {
+	vector<vector<VectorXd> > segmentLabels;
+
+	this->computeSegmentLabels(testSeg, testImage, testMask, segmentLabels);
+
+	vector<std::tuple<int,int,double> > matching;
+
+	this->mostSimilarSegmentLabels(segmentLabels, get<0>(this->trainingLabels[trainingIndex]), matching, testSeg.getNumberOfComponents(), get<0>(this->trainingLabels[trainingIndex])[0].size());
+
+	double similarity = 0;
+
+	for (int i = 0; i < (int)matching.size(); i++) {
+		std::tuple<int,int,double> edge = matching[i];
+
+		similarity += (compSizes[get<0>(edge)] + get<1>(this->trainingLabels[trainingIndex])[get<1>(edge)]) * get<2>(edge);
+	}
+
+	return similarity;
+}
+
 vector<std::tuple<int, int, double> > MatchingSegmentClassifier::mostSimilarSegments(
 	DisjointSetForest &lSeg, const Mat_<Vec3f> &lImage, const Mat_<float> &lMask,
 	DisjointSetForest &sSeg, const Mat_<Vec3f> &sImage, const Mat_<float> &sMask) {
@@ -219,8 +239,25 @@ void MatchingSegmentClassifier::train(vector<std::tuple<DisjointSetForest, Mat_<
 		}
 
 		this->trainingLabels.push_back(std::tuple<vector<vector<VectorXd> >, vector<int>, int>(segmentLabels, compSizes, get<3>(trainingSet[i])));
+		this->maxClassLabel = max(this->maxClassLabel, get<3>(trainingSet[i]));
 	}
 }
+
+class SimilarityComp {
+private:
+	VectorXd *similarity;
+
+public:
+	SimilarityComp(VectorXd *similarity)
+		: similarity(similarity)
+	{
+
+	}
+
+	bool operator() (int i, int j) {
+		return (*similarity)(i) < (*similarity)(j);
+	}
+};
 
 int MatchingSegmentClassifier::predict(DisjointSetForest &segmentation, const Mat_<Vec3f> &image, const Mat_<float> &mask, int *nearestNeighborIndex, int k) {
 	vector<vector<VectorXd> > segmentLabels;
@@ -233,35 +270,37 @@ int MatchingSegmentClassifier::predict(DisjointSetForest &segmentation, const Ma
 		compSizes[(*it).second] = segmentation.getComponentSize((*it).first);
 	}
 
-	int nearestNeighbor = 0;
-	float maxSimilarity = 0;
+	// compute all similarities for test sample
+	VectorXd similarity = VectorXd::Zero(this->trainingLabels.size());
+	
+	for (int i = 0; i < (int)this->trainingLabels.size(); i++) {
+		similarity(i) = this->computeSimilarity(segmentation, image, mask, compSizes, i);
+	}
+
+	// k nearest neighbors classification
+	SimilarityComp comp(&similarity);
+	priority_queue<int, vector<int>, SimilarityComp> kNearest(comp);
 
 	for (int i = 0; i < (int)this->trainingLabels.size(); i++) {
-		vector<std::tuple<int, int, double> > matching;
+		kNearest.push(i);
+	}
 
-		this->mostSimilarSegmentLabels(segmentLabels, get<0>(this->trainingLabels[i]), matching, segmentation.getNumberOfComponents(), get<0>(trainingLabels[i])[0].size());
+	vector<int> counts(this->maxClassLabel + 1, 0);
+	int maxCountIndex = 0;
 
-		// compute weighted sum of matching similarities by size of test sample
-		// segment area.
-		double similarity = 0;
+	for (int i = 0; i < k; i++) {
+		int neighbor = kNearest.top();
+		kNearest.pop();
+		int label = get<2>(this->trainingLabels[neighbor]);
 
-		for (int j = 0; j < (int)matching.size(); j++) {
-			std::tuple<int,int,double> match = matching[j];
+		counts[label]++;
 
-			similarity += (compSizes[get<0>(match)] + get<1>(this->trainingLabels[i])[get<1>(match)]) * get<2>(match);
-		}
-
-		if (maxSimilarity < similarity) {
-			maxSimilarity = similarity;
-			nearestNeighbor = i;
+		if (counts[label] > counts[maxCountIndex]) {
+			maxCountIndex = label;
 		}
 	}
 
-	if (nearestNeighborIndex != NULL) {
-		*nearestNeighborIndex = nearestNeighbor;
-	}
-
-	return get<2>(this->trainingLabels[nearestNeighbor]);
+	return maxCountIndex;
 }
 
 void MatchingSegmentClassifier::similarityMatrix(vector<std::tuple<DisjointSetForest, Mat_<Vec3f>, Mat_<float> > > &samples, MatrixXd &similarity) {
