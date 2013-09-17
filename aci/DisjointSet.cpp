@@ -195,7 +195,7 @@ void DisjointSetForest::fuseCloseComponents(const LabeledGraph<Mat> &segmentatio
 	}
 }*/
 
-void gravityCenters(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, vector<Vec2f> &centers) {
+void gravityCenters(const Mat_<Vec3f> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, vector<Vec2f> &centers) {
 	assert(image.rows == mask.rows && image.cols == mask.cols);
 	centers.clear();
 	centers.reserve(segmentation.getNumberOfComponents());

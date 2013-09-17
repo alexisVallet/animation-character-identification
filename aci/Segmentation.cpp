@@ -50,7 +50,10 @@ void segment(const Mat_<Vec3f> &image, const Mat_<float> &mask, DisjointSetFores
 	WeightedGraph graph = gridGraph(image, CONNECTIVITY_4, mask, euclidDistance, false);
 	int minCompSize = countNonZero(mask) / MAX_SEGMENTS;
 	DisjointSetForest overSegmentation = felzenszwalbSegment(felzenszwalbScale, graph, minCompSize, mask, VOLUME);
+	imshow("segmentation", overSegmentation.toRegionImage(image));
 	fuseByHue(image, mask, overSegmentation, segmentation);
+	imshow("fused", segmentation.toRegionImage(image));
+	waitKey(0);
 }
 
 static double constOne(const Mat &m1, const Mat &m2) {

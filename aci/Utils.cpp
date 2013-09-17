@@ -183,14 +183,17 @@ static void equalizeGrayscaleHistogram(const Mat_<uchar> &image, const Mat_<floa
 	}
 }
 
-void equalizeColorHistogram(const Mat_<Vec3b> &image, const Mat_<float> &mask, Mat_<Vec3b> &equalized) {
+void equalizeColorHistogram(const Mat_<Vec3f> &image, const Mat_<float> &mask, Mat_<Vec3f> &equalized) {
+	Mat_<Vec3f> rgbImage;
 	Mat_<Vec3b> hsvImage;
 
-	cvtColor(image, hsvImage, CV_BGR2HSV);
+	cvtColor(image, rgbImage, CV_Lab2BGR);
+	imshow("bgr", rgbImage);
+	cvtColor(Mat_<Vec3b>(rgbImage*255), hsvImage, CV_BGR2HSV);
 
 	vector<Mat_<uchar> > channels(3);
 
-	split(image, channels);
+	split(hsvImage, channels);
 
 	Mat_<uchar> equalizedHue;
 
@@ -198,7 +201,7 @@ void equalizeColorHistogram(const Mat_<Vec3b> &image, const Mat_<float> &mask, M
 
 	channels[0] = equalizedHue;
 
-	Mat_<Vec3b> equalizedHsv;
+	Mat_<Vec3b> equalizedRgb, equalizedHsv;
 	
 	for (int i = 1; i < 3; i++) {
 		channels[i] = channels[i].mul(Mat_<uchar>(mask));
@@ -206,7 +209,10 @@ void equalizeColorHistogram(const Mat_<Vec3b> &image, const Mat_<float> &mask, M
 
 	merge(channels, equalizedHsv);
 
-	cvtColor(equalizedHsv, equalized, CV_HSV2BGR);
+	cvtColor(equalizedHsv, equalizedRgb, CV_HSV2BGR);
+	imshow("bgr equalized", equalizedRgb);
+	waitKey(0);
+	cvtColor(Mat_<Vec3f>(equalizedRgb) / 255., equalized, CV_BGR2Lab);
 }
 
 void crop(const Mat_<Vec3b> &image, const Mat_<float> &mask, Mat_<Vec3b> &croppedImage, Mat_<float> &croppedMask) {

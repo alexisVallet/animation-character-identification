@@ -81,14 +81,14 @@ Mat imHist(Mat hist, float scaleX=1, float scaleY=1);
 void showHistograms(const Mat_<Vec3b> &image, const Mat_<float> &mask, int nbBins);
 
 /**
- * Equalize the histogram of a BGR image. Equalizes by equalizing the luminance of
- * the image in the HSL color space.
+ * Equalize the histogram of a L*a*b* image. Equalizes by equalizing the hue of
+ * the image.
  *
  * @param image the image to equalize the histogram of.
  * @param mask mask indicating pixels to take into account in the histogram.
  * @param equalized output image with normalized histogram.
  */
-void equalizeColorHistogram(const Mat_<Vec3b> &image, const Mat_<float> &mask, Mat_<Vec3b> &equalized);
+void equalizeColorHistogram(const Mat_<Vec3f> &image, const Mat_<float> &mask, Mat_<Vec3f> &equalized);
 
 /**
  * Crops an image and its mask so it only contains the bounding box of the non 

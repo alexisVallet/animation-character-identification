@@ -95,6 +95,7 @@
     <ClCompile Include="LocallyLinearEmbeddingsTest.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MatchingSegmentsClassifier.cpp" />
+    <ClCompile Include="ModulatedSimilarityClassifier.cpp" />
     <ClCompile Include="MultipleGraphsClassifier.cpp" />
     <ClCompile Include="PatternVectors.cpp" />
     <ClCompile Include="PatternVectorsTest.cpp" />
@@ -121,6 +122,7 @@
     <ClInclude Include="LocallyLinearEmbeddingsTest.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="MatchingSegmentsClassifier.h" />
+    <ClInclude Include="ModulatedSimilarityClassifier.h" />
     <ClInclude Include="MultipleGraphsClassifier.h" />
     <ClInclude Include="PatternVectors.h" />
     <ClInclude Include="PatternVectorsTest.h" />

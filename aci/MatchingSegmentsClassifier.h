@@ -5,6 +5,7 @@
 #include <fl/Headers.h>
 
 #include "SegmentAttributes.h"
+#include "ModulatedSimilarityClassifier.h"
 
 using namespace cv;
 using namespace Eigen;
@@ -28,8 +29,12 @@ private:
 
 	int maxClassLabel;
 
+	ModulatedSimilarityClassifier simClassifier;
+
+	int dimension;
+
 public:
-	MatchingSegmentClassifier(bool ignoreFirst = false);
+	MatchingSegmentClassifier(bool ignoreFirst = false, const ModulatedSimilarityClassifier &simClassifier = ModulatedSimilarityClassifier());
 	~MatchingSegmentClassifier();
 
 	/**
@@ -61,7 +66,7 @@ public:
 	 * @param trainingSet vector of tuples (S, I, M, l) where S is a
 	 * segmentation of image I with mask M associated to class label l.
 	 */
-	void train(vector<std::tuple<DisjointSetForest, Mat_<Vec3f>, Mat_<float>, int> > &trainingSet);
+	void train(vector<std::tuple<DisjointSetForest, Mat_<Vec3f>, Mat_<float>, int> > &trainingSet, int dimension = -1);
 
 	/**
 	 * Predicts the class of an unlabeled sample after training.
@@ -71,11 +76,13 @@ public:
 	 * @param mask mask of the image to predict the class of.
 	 * @return the predicted class label of the sample.
 	 */
-	int predict(DisjointSetForest &segmentation, const Mat_<Vec3f> &image, const Mat_<float> &mask, int *nearestNeighborIndex = NULL, int k = 1);
+	int predict(DisjointSetForest &segmentation, const Mat_<Vec3f> &image, const Mat_<float> &mask, int *nearestNeighborIndex = NULL);
 
 	/**
 	 * Computes a similarity matrix between each samples using matching
 	 * segments similarity.
 	 */
-	void similarityMatrix(vector<std::tuple<DisjointSetForest, Mat_<Vec3f>, Mat_<float> > > &samples, MatrixXd &similarity);
+	void similarityMatrix(MatrixXd &similarity);
+
+	const ModulatedSimilarityClassifier &getSimClassifier();
 };

@@ -103,4 +103,4 @@ public:
  * @param segmentation a segmentation of the image.
  * @param centers output vector containing the gravity center for each segment.
  */
-void gravityCenters(const Mat_<Vec3b> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, vector<Vec2f> &centers);
+void gravityCenters(const Mat_<Vec3f> &image, const Mat_<float> &mask, DisjointSetForest &segmentation, vector<Vec2f> &centers);

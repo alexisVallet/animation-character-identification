@@ -10,4 +10,4 @@
 #include "Segmentation.h"
 
 #include "MatchingSegmentsClassifier.h"
-#include "SpectralClustering.h"
+#include "ModulatedSimilarityClassifier.h"

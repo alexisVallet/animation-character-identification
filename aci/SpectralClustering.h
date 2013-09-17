@@ -48,4 +48,3 @@ void spectralClustering(SimilarityMatrix &similarity, SimilarityGraphRepresentat
  * Spectral embedding according to similarity matrix in k-dimensional space.
  */
 void spectralEmbedding(SimilarityMatrix &similarity, SimilarityGraphRepresentation &graphRep, SparseRepresentation matRep, int k, MatrixXd &embeddings, bool normalize = false, bool symmetric = true);
-
