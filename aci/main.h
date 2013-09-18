@@ -9,5 +9,4 @@
 #include "PreProcessing.h"
 #include "Segmentation.h"
 
-#include "MatchingSegmentsClassifier.h"
-#include "ModulatedSimilarityClassifier.h"
+#include "PaletteProjectionClassifier.h"

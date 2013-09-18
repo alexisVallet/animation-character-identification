@@ -73,6 +73,9 @@
     <ClCompile Include="ModulatedSimilarityClassifier.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="PaletteProjectionClassifier.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DisjointSet.hpp">
@@ -148,6 +151,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="ModulatedSimilarityClassifier.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="PaletteProjectionClassifier.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

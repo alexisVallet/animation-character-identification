@@ -10,7 +10,7 @@ static bool compareSim(const std::tuple<int, int, double> &s1, const std::tuple<
 }
 
 MatchingSegmentClassifier::MatchingSegmentClassifier(bool ignoreFirst, const ModulatedSimilarityClassifier &simClassifier) 
-	: ignoreFirst(ignoreFirst), features(NB_FEATURES), simClassifier(simClassifier)
+	: ignoreFirst(ignoreFirst), features(NB_FEATURES)
 {
 	// set up the fuzzy control system for segment similarity
 	// a bit elaborate to get around the awkward API for fuzzylite.
@@ -223,7 +223,7 @@ vector<std::tuple<int, int, double> > MatchingSegmentClassifier::mostSimilarSegm
 	return matching;
 }
 
-void MatchingSegmentClassifier::train(vector<std::tuple<DisjointSetForest, Mat_<Vec3f>, Mat_<float>, int> > &trainingSet, int dimension) {
+void MatchingSegmentClassifier::train(vector<std::tuple<DisjointSetForest, Mat_<Vec3f>, Mat_<float>, int> > &trainingSet) {
 	this->trainingLabels.clear();
 	this->trainingLabels.reserve(trainingSet.size());
 	typedef std::tuple<DisjointSetForest, Mat_<Vec3f>, Mat_<float> > Sample;
@@ -233,10 +233,8 @@ void MatchingSegmentClassifier::train(vector<std::tuple<DisjointSetForest, Mat_<
 	classLabels.reserve(trainingSet.size());
 	this->maxClassLabel = 0;
 
-	cout<<"training matching segments"<<endl;
-
 	for (int i = 0; i < (int)trainingSet.size(); i++) {
-		vector<vector<VectorXd> > segmentLabels; 
+		vector<vector<VectorXd> > segmentLabels;
 		this->computeSegmentLabels(get<0>(trainingSet[i]), get<1>(trainingSet[i]), get<2>(trainingSet[i]), segmentLabels);
 
 		vector<int> compSizes(get<0>(trainingSet[i]).getNumberOfComponents(), 0);
@@ -251,14 +249,6 @@ void MatchingSegmentClassifier::train(vector<std::tuple<DisjointSetForest, Mat_<
 		samples.push_back(Sample(get<0>(trainingSet[i]), get<1>(trainingSet[i]), get<2>(trainingSet[i])));
 		classLabels.push_back(get<3>(trainingSet[i]));
 	}
-
-	cout<<"training modulated similarities classifier"<<endl;
-	// train the modulated similarity classifier
-	this->dimension = dimension;
-	cout<<"training maxClasslabel = "<<this->maxClassLabel<<endl;
-	MatrixXd similarities;
-	this->similarityMatrix(similarities);
-	this->simClassifier.train(similarities, classLabels);
 }
 
 class SimilarityComp {
@@ -288,16 +278,35 @@ int MatchingSegmentClassifier::predict(DisjointSetForest &segmentation, const Ma
 		compSizes[(*it).second] = segmentation.getComponentSize((*it).first);
 	}
 
-	// compute all similarities for test sample
-	VectorXd similarity = VectorXd::Zero(this->trainingLabels.size());
-	
+	int nearestNeighbor = 0;
+	float maxSimilarity = 0;
+
 	for (int i = 0; i < (int)this->trainingLabels.size(); i++) {
-		similarity(i) = this->computeSimilarity(segmentation, image, mask, compSizes, i);
+		vector<std::tuple<int, int, double> > matching;
+
+		this->mostSimilarSegmentLabels(segmentLabels, get<0>(this->trainingLabels[i]), matching, segmentation.getNumberOfComponents(), get<0>(trainingLabels[i])[0].size());
+
+		// compute weighted sum of matching similarities by size of test sample
+		// segment area.
+		double similarity = 0;
+
+		for (int j = 0; j < (int)matching.size(); j++) {
+			std::tuple<int,int,double> match = matching[j];
+
+			similarity += (compSizes[get<0>(match)] + get<1>(this->trainingLabels[i])[get<1>(match)]) * get<2>(match);
+		}
+
+		if (maxSimilarity < similarity) {
+			maxSimilarity = similarity;
+			nearestNeighbor = i;
+		}
 	}
 
-	cout<<"maxClassLabel = "<<this->maxClassLabel<<endl;
+	if (nearestNeighborIndex != NULL) {
+		*nearestNeighborIndex = nearestNeighbor;
+	}
 
-	return this->simClassifier.predict(similarity, this->dimension < 1 ? this->maxClassLabel : this->dimension);
+	return get<2>(this->trainingLabels[nearestNeighbor]);
 }
 
 void MatchingSegmentClassifier::similarityMatrix(MatrixXd &similarity) {
@@ -320,8 +329,4 @@ void MatchingSegmentClassifier::similarityMatrix(MatrixXd &similarity) {
 			similarity(j,i) = similarity(i,j);
 		}
 	}
-}
-
-const ModulatedSimilarityClassifier &MatchingSegmentClassifier::getSimClassifier() {
-	return this->simClassifier;
 }

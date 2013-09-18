@@ -6,7 +6,7 @@
 vector<VectorXd> averageColorLabeling(DisjointSetForest &segmentation, const Mat_<Vec3f> &image, const Mat_<float> &mask) {
 	vector<VectorXd> averageColor;
 	averageColor.reserve(segmentation.getNumberOfComponents());
-
+	
 	for (int i = 0; i < segmentation.getNumberOfComponents(); i++) {
 		VectorXd zeros = VectorXd::Zero(3);
 		averageColor.push_back(zeros);

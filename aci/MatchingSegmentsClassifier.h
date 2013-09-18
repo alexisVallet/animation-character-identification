@@ -29,10 +29,6 @@ private:
 
 	int maxClassLabel;
 
-	ModulatedSimilarityClassifier simClassifier;
-
-	int dimension;
-
 public:
 	MatchingSegmentClassifier(bool ignoreFirst = false, const ModulatedSimilarityClassifier &simClassifier = ModulatedSimilarityClassifier());
 	~MatchingSegmentClassifier();
@@ -66,7 +62,7 @@ public:
 	 * @param trainingSet vector of tuples (S, I, M, l) where S is a
 	 * segmentation of image I with mask M associated to class label l.
 	 */
-	void train(vector<std::tuple<DisjointSetForest, Mat_<Vec3f>, Mat_<float>, int> > &trainingSet, int dimension = -1);
+	void train(vector<std::tuple<DisjointSetForest, Mat_<Vec3f>, Mat_<float>, int> > &trainingSet);
 
 	/**
 	 * Predicts the class of an unlabeled sample after training.
@@ -83,6 +79,4 @@ public:
 	 * segments similarity.
 	 */
 	void similarityMatrix(MatrixXd &similarity);
-
-	const ModulatedSimilarityClassifier &getSimClassifier();
 };

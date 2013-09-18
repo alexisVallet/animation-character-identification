@@ -97,6 +97,7 @@
     <ClCompile Include="MatchingSegmentsClassifier.cpp" />
     <ClCompile Include="ModulatedSimilarityClassifier.cpp" />
     <ClCompile Include="MultipleGraphsClassifier.cpp" />
+    <ClCompile Include="PaletteProjectionClassifier.cpp" />
     <ClCompile Include="PatternVectors.cpp" />
     <ClCompile Include="PatternVectorsTest.cpp" />
     <ClCompile Include="PreProcessing.cpp" />
@@ -124,6 +125,7 @@
     <ClInclude Include="MatchingSegmentsClassifier.h" />
     <ClInclude Include="ModulatedSimilarityClassifier.h" />
     <ClInclude Include="MultipleGraphsClassifier.h" />
+    <ClInclude Include="PaletteProjectionClassifier.h" />
     <ClInclude Include="PatternVectors.h" />
     <ClInclude Include="PatternVectorsTest.h" />
     <ClInclude Include="PreProcessing.h" />

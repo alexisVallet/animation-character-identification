@@ -59,7 +59,6 @@ int main(int argc, char** argv) {
 	for (int i = 0; i < (int)processedDataset.size(); i++) {
 		DisjointSetForest segmentation;
 
-		imshow("image", get<0>(dataset[i]));
 		Mat_<Vec3f> equalized;
 		//equalizeColorHistogram(get<0>(processedDataset[i]), get<1>(processedDataset[i]), equalized);
 		segment(get<0>(processedDataset[i]), get<1>(processedDataset[i]), segmentation);
@@ -93,7 +92,7 @@ int main(int argc, char** argv) {
 
 	minMaxLoc(classes, NULL, &maxClassLabel);
 		
-	MatchingSegmentClassifier classifier(true);
+	PaletteProjectionClassifier classifier(7);
 
 	float rate = 0;
 	MatrixXi confusion = MatrixXi::Zero(maxClassLabel + 1, maxClassLabel + 1);
@@ -114,7 +113,7 @@ int main(int argc, char** argv) {
 		cout<<"training"<<endl;
 		classifier.train(trainingSet);
 		cout<<"predicting"<<endl;
-		int actual = classifier.predict(segmentations[i], get<0>(processedDataset[i]), get<1>(processedDataset[i]), NULL);
+		int actual = classifier.predict(segmentations[i], get<0>(processedDataset[i]), get<1>(processedDataset[i]));
 
 		cout<<"predicted sample "<<i<<" in class "<<actual<<", expected "<<classes(i,0)<<endl;
 
