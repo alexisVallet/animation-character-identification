@@ -30,7 +30,7 @@ private:
 	int maxClassLabel;
 
 public:
-	MatchingSegmentClassifier(bool ignoreFirst = false, const ModulatedSimilarityClassifier &simClassifier = ModulatedSimilarityClassifier());
+	MatchingSegmentClassifier(bool ignoreFirst = false);
 	~MatchingSegmentClassifier();
 
 	/**

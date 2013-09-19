@@ -22,13 +22,6 @@ void loadDataSet(char* folderName, char** charaNames, int nbImagesPerChara, vect
 	images = vector<std::tuple<Mat_<Vec<uchar,3> >,Mat_<float> > >(nbCharas * nbImagesPerChara);
 	classes = Mat_<int>(nbCharas * nbImagesPerChara, 1);
 
-	// load face positions
-	stringstream faceFilename;
-	faceFilename<<folderName<<"faceData.csv";
-	vector<pair<string,Vector2d>, aligned_allocator<pair<string,Vector2d> > >
-		rawFacePositions = loadFacePositions(faceFilename.str());
-	facePositions = vector<pair<int,int> >(nbCharas * nbImagesPerChara);
-
 	// load manual segmentations
 	manualSegmentations = vector<Mat_<Vec3b> >();
 	manualSegmentations.reserve(nbCharas * nbImagesPerChara);
@@ -46,15 +39,13 @@ void loadDataSet(char* folderName, char** charaNames, int nbImagesPerChara, vect
 			segmentationPath<<folderName<<charaNames[i]<<middle.str()<<"_seg.png";
 
 			fullPath<<folderName<<charaNames[i]<<suffix.str();
+			cout<<"loading "<<fullPath.str()<<endl;
 			stringstream maskPath;
 
 			maskPath<<fullPath.str()<<maskSuffix.str();
 
 			int rowMajorIndex = toRowMajor(nbImagesPerChara, j, i);
-			Vector2d facePosition = rawFacePositions[rowMajorIndex].second;
 
-			facePositions[rowMajorIndex] = pair<int,int>(
-				(int)facePosition(0), (int)facePosition(1));
 			Mat_<Vec<uchar, 3> > mask = imread(maskPath.str());
 			vector<Mat_<uchar> > maskChannels;
 

@@ -9,7 +9,7 @@ static bool compareSim(const std::tuple<int, int, double> &s1, const std::tuple<
 	return get<2>(s1) > get<2>(s2);
 }
 
-MatchingSegmentClassifier::MatchingSegmentClassifier(bool ignoreFirst, const ModulatedSimilarityClassifier &simClassifier) 
+MatchingSegmentClassifier::MatchingSegmentClassifier(bool ignoreFirst) 
 	: ignoreFirst(ignoreFirst), features(NB_FEATURES)
 {
 	// set up the fuzzy control system for segment similarity

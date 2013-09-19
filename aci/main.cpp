@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
 	vector<std::tuple<Mat_<Vec3b>, Mat_<float> > > dataset;
 	Mat_<int> classes;
 	cout<<"loading dataset..."<<endl;
-	loadDataSet("../test/dataset/", charaNames, 5, dataset, classes);
+	loadDataSet("../test/dataset/", charaNames, 10, dataset, classes);
 
 	cout<<"preprocessing"<<endl;
 	vector<std::tuple<Mat_<Vec3f>, Mat_<float> > > processedDataset;
@@ -92,7 +92,7 @@ int main(int argc, char** argv) {
 
 	minMaxLoc(classes, NULL, &maxClassLabel);
 		
-	PaletteProjectionClassifier classifier(7);
+	MatchingSegmentClassifier classifier(true);
 
 	float rate = 0;
 	MatrixXi confusion = MatrixXi::Zero(maxClassLabel + 1, maxClassLabel + 1);
@@ -139,6 +139,7 @@ int main(int argc, char** argv) {
 		}
 
 		name<<" : "<<confusion.row(i)<<endl;
+		cout<<name.str();
 	}
 
 	return 0;
