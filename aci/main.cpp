@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
 	vector<std::tuple<Mat_<Vec3b>, Mat_<float> > > dataset;
 	Mat_<int> classes;
 	cout<<"loading dataset..."<<endl;
-	loadDataSet("../test/dataset/", charaNames, 10, dataset, classes);
+	loadDataSet("../test/dataset/", charaNames, 15, dataset, classes);
 
 	cout<<"preprocessing"<<endl;
 	vector<std::tuple<Mat_<Vec3f>, Mat_<float> > > processedDataset;
@@ -127,20 +127,7 @@ int main(int argc, char** argv) {
 	rate = rate / (float)processedDataset.size();
 
 	cout<<"recognition rate "<<rate<<endl;
-	cout<<"confusion matrix:"<<endl<<confusion<<endl;
-
-	for (int i = 0; i < confusion.rows(); i++) {
-		int charNameLength = strlen(charaNames[i]);
-		stringstream name;
-		name<<charaNames[i];
-		
-		for (int j = 0; j < 6 - charNameLength; j++) {
-			name<<" ";
-		}
-
-		name<<" : "<<confusion.row(i)<<endl;
-		cout<<name.str();
-	}
+	cout<<"confusion matrix"<<endl<<confusion<<endl;
 
 	return 0;
 }
