@@ -59,45 +59,22 @@ int main(int argc, char** argv) {
 	for (int i = 0; i < (int)processedDataset.size(); i++) {
 		DisjointSetForest segmentation;
 
-		Mat_<Vec3f> equalized;
-		//equalizeColorHistogram(get<0>(processedDataset[i]), get<1>(processedDataset[i]), equalized);
 		segment(get<0>(processedDataset[i]), get<1>(processedDataset[i]), segmentation);
 		segmentations.push_back(segmentation);
 	}
-
-	/*cout<<"embedding"<<endl;
-
-	MatchingSegmentClassifier matchingClassifier(true);
-	typedef std::tuple<DisjointSetForest, Mat_<Vec3f>, Mat_<float>, int > Sample;
-	vector<Sample> samples;
-	samples.reserve(processedDataset.size());
-
-	for (int i = 0; i < (int) processedDataset.size(); i++) {
-		samples.push_back(Sample(segmentations[i], get<0>(processedDataset[i]), get<1>(processedDataset[i]), classes(i,0)));
-	}
-
-	matchingClassifier.train(samples, 3);
-
-	MatrixXd embedding;
-	matchingClassifier.getSimClassifier().computeEmbedding(VectorXd::Zero(samples.size()), 3, embedding);
-
-	ofstream embeddingFile;
-	embeddingFile.open("embedding.csv");
-	eigenMatToCsv(embedding.block(0,1,embedding.rows(), 2), embeddingFile);
-	embeddingFile.close();*/
 
 	cout<<"classification"<<endl;
 
 	double maxClassLabel;
 
 	minMaxLoc(classes, NULL, &maxClassLabel);
-		
-	MatchingSegmentClassifier classifier(true);
 
 	float rate = 0;
 	MatrixXi confusion = MatrixXi::Zero(maxClassLabel + 1, maxClassLabel + 1);
+	vector<pair<int,int> > misclassifications;
 
 	for (int i = 0; i < (int)processedDataset.size(); i++) {
+		MatchingSegmentClassifier classifier(true);
 		cout<<"building training set"<<endl;
 		typedef std::tuple<DisjointSetForest, Mat_<Vec3f>, Mat_<float>, int > TrainingSample;
 
@@ -113,12 +90,27 @@ int main(int argc, char** argv) {
 		cout<<"training"<<endl;
 		classifier.train(trainingSet);
 		cout<<"predicting"<<endl;
-		int actual = classifier.predict(segmentations[i], get<0>(processedDataset[i]), get<1>(processedDataset[i]));
+		int nearest;
+		vector<std::tuple<int,int,double> > bestMatching;
+		int actual = classifier.predict(segmentations[i], get<0>(processedDataset[i]), get<1>(processedDataset[i]), &nearest, &bestMatching);
+
+		nearest = nearest < i ? nearest : nearest + 1;
+
+		cout<<"displaying matching"<<endl;
+		Mat_<Vec3b> match1, match2;
+
+		matchingImages(bestMatching, segmentations[i], segmentations[nearest], get<0>(processedDataset[i]), get<0>(processedDataset[nearest]), match1, match2);
+
+		waitKey(0);
 
 		cout<<"predicted sample "<<i<<" in class "<<actual<<", expected "<<classes(i,0)<<endl;
 
+		waitKey(0);
+
 		if (actual == classes(i,0)) {
 			rate++;
+		} else {
+			misclassifications.push_back(pair<int,int>(i, nearest));
 		}
 
 		confusion(classes(i,0), actual)++;
@@ -128,6 +120,13 @@ int main(int argc, char** argv) {
 
 	cout<<"recognition rate "<<rate<<endl;
 	cout<<"confusion matrix"<<endl<<confusion<<endl;
+	cout<<"displaying misclassified samples and nearest neighbor"<<endl;
+
+	for (vector<pair<int,int> >::iterator it = misclassifications.begin(); it != misclassifications.end(); it++) {
+		imshow("misclassified", get<0>(dataset[(*it).first]));
+		imshow("nearest", get<0>(dataset[(*it).second]));
+		waitKey(0);
+	}
 
 	return 0;
 }

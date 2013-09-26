@@ -26,6 +26,8 @@ In the command line, the following computes a recognition rate from the dataset 
 
 	animation-character-identification.exe
 
+Prints recognition rate, confusion matrix and misclassified samples at the end.
+	
 Documentation
 -------------
 

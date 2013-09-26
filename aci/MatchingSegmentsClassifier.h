@@ -72,7 +72,7 @@ public:
 	 * @param mask mask of the image to predict the class of.
 	 * @return the predicted class label of the sample.
 	 */
-	int predict(DisjointSetForest &segmentation, const Mat_<Vec3f> &image, const Mat_<float> &mask, int *nearestNeighborIndex = NULL);
+	int predict(DisjointSetForest &segmentation, const Mat_<Vec3f> &image, const Mat_<float> &mask, int *nearestNeighborIndex = NULL, vector<std::tuple<int, int, double> > *bestMatching = NULL);
 
 	/**
 	 * Computes a similarity matrix between each samples using matching
