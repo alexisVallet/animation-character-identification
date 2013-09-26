@@ -4,6 +4,7 @@
 #include <tuple>
 #include <Eigen/Dense>
 #include <Eigen/StdVector>
+/** @file */
 #include <opencv2/opencv.hpp>
 
 #include "Utils.hpp"

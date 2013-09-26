@@ -107,7 +107,6 @@
     <ClCompile Include="SegmentAttributesTest.cpp" />
     <ClCompile Include="SubspaceComparison.cpp" />
     <ClCompile Include="SubspaceComparisonTest.cpp" />
-    <ClCompile Include="svm.cpp" />
     <ClCompile Include="TrainableStatModel.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -134,7 +133,6 @@
     <ClInclude Include="SegmentAttributesTest.h" />
     <ClInclude Include="SubspaceComparison.h" />
     <ClInclude Include="SubspaceComparisonTest.h" />
-    <ClInclude Include="svm.h" />
     <ClInclude Include="SegmentAttributes.h" />
     <ClInclude Include="TrainableStatModel.h" />
   </ItemGroup>

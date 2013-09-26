@@ -40,9 +40,6 @@
     <ClCompile Include="SubspaceComparison.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="svm.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="SegmentAttributesTest.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -115,9 +112,6 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="SubspaceComparison.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="svm.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="ImageGraphsTest.h">

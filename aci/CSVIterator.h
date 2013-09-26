@@ -1,3 +1,4 @@
+/** @file */
 #pragma once
 /**
  * Taken from Loki Astari at stackoverflow, credits go to him. See:
