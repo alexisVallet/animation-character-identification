@@ -9,5 +9,7 @@ var searchData=
   ['eigentocv',['eigenToCv',['../_utils_8hpp.html#a8c1aacca6f189d05011d7982a06b5b6a',1,'Utils.cpp']]],
   ['eiglaplacian',['eigLaplacian',['../_graph_spectra_8h.html#ad1bb7c01a4e99dc0eb5c517dece12b51',1,'GraphSpectra.cpp']]],
   ['eignormalizedlaplacian',['eigNormalizedLaplacian',['../_graph_spectra_8h.html#a88f5a548a97556fb2525324cc72f30e4',1,'GraphSpectra.cpp']]],
-  ['equalizecolorhistogram',['equalizeColorHistogram',['../_utils_8hpp.html#a36298cafe4c23813908d30567ef7d0a1',1,'Utils.cpp']]]
+  ['equalizecolorhistogram',['equalizeColorHistogram',['../_utils_8hpp.html#a36298cafe4c23813908d30567ef7d0a1',1,'Utils.cpp']]],
+  ['evaluatepowersymmetricpolynomials',['evaluatePowerSymmetricPolynomials',['../_pattern_vectors_8h.html#aed6b8db020b8d1256bfab92a5ced9a3f',1,'PatternVectors.cpp']]],
+  ['evaluatesymmetricpolynomials',['evaluateSymmetricPolynomials',['../_pattern_vectors_8h.html#af9c044c18392cbc70c9080fbb2b8650f',1,'PatternVectors.cpp']]]
 ];

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['decision_5ffunction',['decision_function',['../structdecision__function.html',1,'']]],
+  ['datasetio_2eh',['DatasetIO.h',['../_dataset_i_o_8h.html',1,'']]],
   ['degree',['degree',['../class_weighted_graph.html#a7fbcbcd44385c51240afa4d95bd10d44',1,'WeightedGraph']]],
   ['disjointset',['DisjointSet',['../struct_disjoint_set.html',1,'']]],
   ['disjointset_2ehpp',['DisjointSet.hpp',['../_disjoint_set_8hpp.html',1,'']]],

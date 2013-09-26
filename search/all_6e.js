@@ -7,5 +7,6 @@ var searchData=
   ['normalizedcutssegmentation',['normalizedCutsSegmentation',['../_normalized_cuts_8h.html#ac50d9d7c06a1ecae675081bfa22bd674',1,'NormalizedCuts.cpp']]],
   ['normalizedlaplacian',['normalizedLaplacian',['../_graph_spectra_8h.html#a491d9616f150dcb2a81eee4833e0d91e',1,'GraphSpectra.cpp']]],
   ['normalizedsparselaplacian',['normalizedSparseLaplacian',['../_graph_spectra_8h.html#aa1d9e4c1ee1bcced3080b745f7b8c48c',1,'GraphSpectra.cpp']]],
+  ['nullspacesintersection',['nullSpacesIntersection',['../_subspace_comparison_8h.html#a1c743017073f6684969cd5c766087053',1,'SubspaceComparison.cpp']]],
   ['numberofvertices',['numberOfVertices',['../class_weighted_graph.html#ac6c8807a6c023525baec8525553c03eb',1,'WeightedGraph']]]
 ];

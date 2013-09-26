@@ -12,6 +12,9 @@ var searchData=
   ['sparsemul',['sparseMul',['../_utils_8hpp.html#ac34dfc883daf6cba659fc0fc3226ca19',1,'Utils.cpp']]],
   ['spectralclustering',['spectralClustering',['../_spectral_clustering_8h.html#ab39180681420d8e2b29a024d740ca4b3',1,'SpectralClustering.cpp']]],
   ['spectralembedding',['spectralEmbedding',['../_spectral_clustering_8h.html#a98bb093dd4296778593b95e55f7c9b38',1,'SpectralClustering.cpp']]],
+  ['subspacedistance',['subspaceDistance',['../_subspace_comparison_8h.html#a4f39ec28d32f033af98372a50635490e',1,'SubspaceComparison.cpp']]],
+  ['subspacesintersection',['subspacesIntersection',['../_subspace_comparison_8h.html#acabb0657921d52521454388c72db9345',1,'SubspaceComparison.cpp']]],
+  ['subspacesrotation',['subspacesRotation',['../_subspace_comparison_8h.html#acbefb3ff48a0ee4926c1a7526bb064bd',1,'SubspaceComparison.cpp']]],
   ['symmetric',['symmetric',['../_utils_8hpp.html#a01a70c6fb577435c51a2a05372f5f92c',1,'Utils.cpp']]],
   ['symmetricsparseeigensolver',['symmetricSparseEigenSolver',['../_graph_spectra_8h.html#a30604cf5310319f6d0a531d07f2a8b2a',1,'symmetricSparseEigenSolver(const Eigen::SparseMatrix&lt; double &gt; &amp;L, char *which, int nev, int maxIterations, Eigen::VectorXd &amp;evalues, Eigen::MatrixXd &amp;evectors):&#160;GraphSpectra.cpp'],['../_graph_spectra_8h.html#ae94492b73ee37f6b8754d96b24c4a81c',1,'symmetricSparseEigenSolver(int order, char *which, int nev, int maxIterations, Eigen::VectorXd &amp;evalues, Eigen::MatrixXd &amp;evectors, MatrixVectorMult &amp;mult):&#160;GraphSpectra.cpp']]]
 ];
