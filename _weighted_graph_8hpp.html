@@ -68,7 +68,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -91,6 +91,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <code>#include &lt;assert.h&gt;</code><br/>
 <code>#include &lt;iostream&gt;</code><br/>
 <code>#include &lt;vector&gt;</code><br/>
+<code>#include &lt;queue&gt;</code><br/>
 <code>#include &lt;utility&gt;</code><br/>
 <code>#include &lt;opencv2/opencv.hpp&gt;</code><br/>
 <code>#include &lt;boost/graph/adjacency_list.hpp&gt;</code><br/>
@@ -166,6 +167,10 @@ Functions</h2></td></tr>
 <tr class="separator:ac0f8d6ad10140ac0cb59c747aa594cbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a130037dac60247acfc13dc6805676f66"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_weighted_graph_8hpp.html#a130037dac60247acfc13dc6805676f66">compareGraphSize</a> (const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;g1, const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;g2)</td></tr>
 <tr class="separator:a130037dac60247acfc13dc6805676f66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84b217d269ab66c6b67c8ec026a6ed53"><td class="memItemLeft" align="right" valign="top">vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_weighted_graph_8hpp.html#a84b217d269ab66c6b67c8ec026a6ed53">breadthFirstSearch</a> (const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph, int startingVertex)</td></tr>
+<tr class="separator:a84b217d269ab66c6b67c8ec026a6ed53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3220a2d04d10e51ea1e588ceb3e057d5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_weighted_graph.html">WeightedGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_weighted_graph_8hpp.html#a3220a2d04d10e51ea1e588ceb3e057d5">permuteVertices</a> (const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph, const vector&lt; int &gt; &amp;permutation)</td></tr>
+<tr class="separator:a3220a2d04d10e51ea1e588ceb3e057d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="a51f69d0a09e4e0b8aefc82a7255d11f4"></a>
@@ -182,6 +187,41 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Checks that a graph has a bidirectional representation. </p>
+
+</div>
+</div>
+<a class="anchor" id="a84b217d269ab66c6b67c8ec026a6ed53"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">vector&lt;int&gt; breadthFirstSearch </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;&#160;</td>
+          <td class="paramname"><em>graph</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>startingVertex</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Graph traversal using breadth first search. Returns the order of the traversal in a vector v, e.g. v[0] is the first explored vertex, v[1] the second, etc. Assumes a bidirectional graph data structure.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">graph</td><td>graph to traverse with n vertices. </td></tr>
+    <tr><td class="paramname">startingVertex</td><td>vertex in the graph to start the traversal from. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the order of the traversal in a vector v, e.g. v[0] is the first explored vertex, v[1] the second, etc. </dd></dl>
 
 </div>
 </div>
@@ -349,10 +389,44 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a3220a2d04d10e51ea1e588ceb3e057d5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_weighted_graph.html">WeightedGraph</a> permuteVertices </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;&#160;</td>
+          <td class="paramname"><em>graph</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const vector&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>permutation</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Permutes the indices of vertices in the graph using some permutation. The permutation indicates which vertex from the input graph corresponds to each in the output, eg v[0] in the input will become 0 in the output.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">graph</td><td>graph to permute vertices of. </td></tr>
+    <tr><td class="paramname">permutation</td><td>permutation of the vertices. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 29 2013 17:51:26 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Sep 26 2013 18:38:47 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

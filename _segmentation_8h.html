@@ -68,7 +68,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -80,13 +80,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Segmentation.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;opencv2/opencv.hpp&gt;</code><br/>
+<code>#include &lt;unordered_map&gt;</code><br/>
 <code>#include &quot;<a class="el" href="_weighted_graph_8hpp_source.html">WeightedGraph.hpp</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_utils_8hpp_source.html">Utils.hpp</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_image_graphs_8h_source.html">ImageGraphs.h</a>&quot;</code><br/>
@@ -111,32 +111,59 @@ This graph shows which files directly or indirectly include this file:</div>
 </div>
 <p><a href="_segmentation_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:abdc32f35bdb366428e5c50c7c4953ac9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abdc32f35bdb366428e5c50c7c4953ac9"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>DEBUG_SEGMENTATION</b>&#160;&#160;&#160;false</td></tr>
-<tr class="separator:abdc32f35bdb366428e5c50c7c4953ac9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd7574af168ac3377195ca4b8cfe31c8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abd7574af168ac3377195ca4b8cfe31c8"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>CONNECTIVITY</b>&#160;&#160;&#160;CONNECTIVITY_4</td></tr>
-<tr class="separator:abd7574af168ac3377195ca4b8cfe31c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5155355bbabd39029d45b74529beba04"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5155355bbabd39029d45b74529beba04"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>MAX_SEGMENTS</b>&#160;&#160;&#160;250</td></tr>
-<tr class="separator:a5155355bbabd39029d45b74529beba04"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ab2bd37a7b3e79422bdc19068468cb8e0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_segmentation_8h.html#ab2bd37a7b3e79422bdc19068468cb8e0">segment</a> (const Mat_&lt; Vec3b &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;segGraph, int felzenszwalbScale)</td></tr>
-<tr class="separator:ab2bd37a7b3e79422bdc19068468cb8e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a784e7da5c93191a758f39a6469d5f31c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_segmentation_8h.html#a784e7da5c93191a758f39a6469d5f31c">segment</a> (const Mat_&lt; Vec3f &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, int felzenszwalbScale=1000)</td></tr>
+<tr class="separator:a784e7da5c93191a758f39a6469d5f31c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f433590fc1a01ec2c03ba67790f737d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_segmentation_8h.html#a1f433590fc1a01ec2c03ba67790f737d">segmentationImageToSegmentation</a> (const Mat_&lt; Vec3b &gt; &amp;segmentationImage, const Mat_&lt; float &gt; &amp;mask)</td></tr>
+<tr class="separator:a1f433590fc1a01ec2c03ba67790f737d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24fe34e3f52e4da4ea28f91ddaa9d39b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_segmentation_8h.html#a24fe34e3f52e4da4ea28f91ddaa9d39b">loadSegmentation</a> (Mat_&lt; float &gt; &amp;mask, string segmentationFilename)</td></tr>
+<tr class="separator:a24fe34e3f52e4da4ea28f91ddaa9d39b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="ab2bd37a7b3e79422bdc19068468cb8e0"></a>
+<a class="anchor" id="a24fe34e3f52e4da4ea28f91ddaa9d39b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> loadSegmentation </td>
+          <td>(</td>
+          <td class="paramtype">Mat_&lt; float &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>segmentationFilename</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Loads a segmentation from a file. Assumes the file is a color image, where each segment is filled with the exact same color. Greedily fuses segments of size smaller than a threshold.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mask</td><td>mask of the image to load a segmentation for. </td></tr>
+    <tr><td class="paramname">segmentationFilename</td><td>filename of the segmentation file. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>segmentation of the image loaded from the file. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a784e7da5c93191a758f39a6469d5f31c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void segment </td>
           <td>(</td>
-          <td class="paramtype">const Mat_&lt; Vec3b &gt; &amp;&#160;</td>
+          <td class="paramtype">const Mat_&lt; Vec3f &gt; &amp;&#160;</td>
           <td class="paramname"><em>image</em>, </td>
         </tr>
         <tr>
@@ -154,14 +181,8 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;&#160;</td>
-          <td class="paramname"><em>segGraph</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>felzenszwalbScale</em>&#160;</td>
+          <td class="paramname"><em>felzenszwalbScale</em> = <code>1000</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -183,10 +204,37 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a1f433590fc1a01ec2c03ba67790f737d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> segmentationImageToSegmentation </td>
+          <td>(</td>
+          <td class="paramtype">const Mat_&lt; Vec3b &gt; &amp;&#160;</td>
+          <td class="paramname"><em>segmentationImage</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Mat_&lt; float &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mask</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Converts a segmentation image, where each color corresponds to a segment, into a corresponding disjoint set forest data structure representing the segmentation. Ignores segments smaller than a given size, allowing manual "imperfect" segmentations. Also puts the background segment at the last index, yielding a rows * cols + 1 element segmentation. </p>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 29 2013 17:51:25 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Sep 26 2013 18:38:46 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

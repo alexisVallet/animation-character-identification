@@ -68,7 +68,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -80,18 +80,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">SpectralClustering.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;Eigen/Dense&gt;</code><br/>
+<div class="textblock"><code>#include &lt;boost/variant.hpp&gt;</code><br/>
+<code>#include &lt;Eigen/Dense&gt;</code><br/>
 <code>#include &lt;Eigen/Sparse&gt;</code><br/>
 <code>#include &lt;opencv2/opencv.hpp&gt;</code><br/>
 <code>#include &lt;queue&gt;</code><br/>
 <code>#include &quot;<a class="el" href="_graph_spectra_8h_source.html">GraphSpectra.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_weighted_graph_8hpp_source.html">WeightedGraph.hpp</a>&quot;</code><br/>
+<code>#include &quot;spectral-graph-theory/SimilarityGraphs.h&quot;</code><br/>
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for SpectralClustering.h:</div>
 <div class="dyncontent">
@@ -109,41 +110,28 @@ This graph shows which files directly or indirectly include this file:</div>
 </div>
 <p><a href="_spectral_clustering_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_similarity_graph_representation.html">SimilarityGraphRepresentation</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_neighborhood_graph.html">NeighborhoodGraph</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_k_nearest_graph.html">KNearestGraph</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_mutual_k_nearest_graph.html">MutualKNearestGraph</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_complete_graph.html">CompleteGraph</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ad1a2fd310119248cd18c335f1d9f3096"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_spectral_clustering_8h.html#ad1a2fd310119248cd18c335f1d9f3096">spectralClustering</a> (const MatrixXd &amp;similarity, <a class="el" href="class_similarity_graph_representation.html">SimilarityGraphRepresentation</a> &amp;graphRep, SparseRepresentation matRep, int k, VectorXi &amp;classLabels, bool normalize=false, bool <a class="el" href="_utils_8hpp.html#a01a70c6fb577435c51a2a05372f5f92c">symmetric</a>=true)</td></tr>
-<tr class="separator:ad1a2fd310119248cd18c335f1d9f3096"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a005053bdfcf1d752b2dddc0412297200"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_spectral_clustering_8h.html#a005053bdfcf1d752b2dddc0412297200">spectralEmbedding</a> (const MatrixXd &amp;similarity, <a class="el" href="class_similarity_graph_representation.html">SimilarityGraphRepresentation</a> &amp;graphRep, SparseRepresentation matRep, int k, MatrixXd &amp;embeddings, bool normalize=false, bool <a class="el" href="_utils_8hpp.html#a01a70c6fb577435c51a2a05372f5f92c">symmetric</a>=true)</td></tr>
-<tr class="separator:a005053bdfcf1d752b2dddc0412297200"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab39180681420d8e2b29a024d740ca4b3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_spectral_clustering_8h.html#ab39180681420d8e2b29a024d740ca4b3">spectralClustering</a> (SimilarityMatrix &amp;similarity, SimilarityGraphRepresentation &amp;graphRep, SparseRepresentation matRep, int k, VectorXi &amp;classLabels, bool normalize=false, bool <a class="el" href="_utils_8hpp.html#a01a70c6fb577435c51a2a05372f5f92c">symmetric</a>=true)</td></tr>
+<tr class="separator:ab39180681420d8e2b29a024d740ca4b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98bb093dd4296778593b95e55f7c9b38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_spectral_clustering_8h.html#a98bb093dd4296778593b95e55f7c9b38">spectralEmbedding</a> (SimilarityMatrix &amp;similarity, SimilarityGraphRepresentation &amp;graphRep, SparseRepresentation matRep, int k, MatrixXd &amp;embeddings, bool normalize=false, bool <a class="el" href="_utils_8hpp.html#a01a70c6fb577435c51a2a05372f5f92c">symmetric</a>=true)</td></tr>
+<tr class="separator:a98bb093dd4296778593b95e55f7c9b38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="ad1a2fd310119248cd18c335f1d9f3096"></a>
+<a class="anchor" id="ab39180681420d8e2b29a024d740ca4b3"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void spectralClustering </td>
           <td>(</td>
-          <td class="paramtype">const MatrixXd &amp;&#160;</td>
+          <td class="paramtype">SimilarityMatrix &amp;&#160;</td>
           <td class="paramname"><em>similarity</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_similarity_graph_representation.html">SimilarityGraphRepresentation</a> &amp;&#160;</td>
+          <td class="paramtype">SimilarityGraphRepresentation &amp;&#160;</td>
           <td class="paramname"><em>graphRep</em>, </td>
         </tr>
         <tr>
@@ -190,6 +178,7 @@ Functions</h2></td></tr>
     <tr><td class="paramname">graphRep</td><td>graph representation to use for clustering. </td></tr>
     <tr><td class="paramname">matRep</td><td>a sparse matrix graph representation. The representation is sparse for efficient smallest eigenvectors computation. </td></tr>
     <tr><td class="paramname">k</td><td>the number of clusters. </td></tr>
+    <tr><td class="paramname">classLabels</td><td>output vector of class labels corresponding to each sample. </td></tr>
     <tr><td class="paramname">normalize</td><td>indicates whether the spectral embedding coordinates should be normalized. Useful in the case of normalized spectral clustering as defined by Ng - Jordan - Weiss algorithm. </td></tr>
     <tr><td class="paramname">bidirectional</td><td>indicates whether the graph representation is bidirectional or not. </td></tr>
   </table>
@@ -198,20 +187,20 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a005053bdfcf1d752b2dddc0412297200"></a>
+<a class="anchor" id="a98bb093dd4296778593b95e55f7c9b38"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void spectralEmbedding </td>
           <td>(</td>
-          <td class="paramtype">const MatrixXd &amp;&#160;</td>
+          <td class="paramtype">SimilarityMatrix &amp;&#160;</td>
           <td class="paramname"><em>similarity</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_similarity_graph_representation.html">SimilarityGraphRepresentation</a> &amp;&#160;</td>
+          <td class="paramtype">SimilarityGraphRepresentation &amp;&#160;</td>
           <td class="paramname"><em>graphRep</em>, </td>
         </tr>
         <tr>
@@ -251,14 +240,22 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Spectral embedding according to similarity matrix in k-dimensional space. </p>
+<p>Self tuning spectral clustering as defined by (Zelnik-Manor and Perona, 2004). Right now only uses local scaling, does not infer the number of clusters, and uses K-means for the final step.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">samples</td><td>samples to cluster as rows of a matrix. </td></tr>
+    <tr><td class="paramname">nbClusters</td><td>number of clusters. </td></tr>
+    <tr><td class="paramname">classLabels</td><td>output vector of class labels corresponding to each sample. Spectral embedding according to similarity matrix in k-dimensional space. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 29 2013 17:51:25 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Sep 26 2013 18:38:46 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

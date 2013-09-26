@@ -70,7 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -110,6 +110,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ab6952debe4a19bdfadce2f31c229107d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ce86a5e55a9d18c4d7a4f900d5cda39"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_weighted_graph.html#a1ce86a5e55a9d18c4d7a4f900d5cda39">copyEdges</a> (const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph)</td></tr>
 <tr class="separator:a1ce86a5e55a9d18c4d7a4f900d5cda39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fbcbcd44385c51240afa4d95bd10d44"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_weighted_graph.html#a7fbcbcd44385c51240afa4d95bd10d44">degree</a> (int vertex) const </td></tr>
+<tr class="separator:a7fbcbcd44385c51240afa4d95bd10d44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -214,6 +216,30 @@ ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="a7fbcbcd44385c51240afa4d95bd10d44"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double WeightedGraph::degree </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>vertex</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Returns the (undirected) weighted degree of a given vertex. The weighted degree of vertex v is defined as the sum of the weights of all edges incident to v. This method runs in constant time.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vertex</td><td>vertex to get the degree of. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the weighted degree of the vertex. </dd></dl>
 
 </div>
 </div>
@@ -373,7 +399,7 @@ ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 29 2013 17:51:26 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Sep 26 2013 18:38:47 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

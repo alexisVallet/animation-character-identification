@@ -69,7 +69,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -99,11 +99,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">using namespace </span>std;</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">using namespace </span>cv;</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">void</span> preProcessing(<span class="keyword">const</span> Mat_&lt;Vec3b&gt; &amp;rawImage, <span class="keyword">const</span> Mat_&lt;float&gt; &amp;rawMask, Mat_&lt;Vec3b&gt; &amp;processedImage, Mat_&lt;float&gt; &amp;processedMask, <span class="keywordtype">int</span> kuwaharaHalfsize = DEFAULT_KUWAHARA_HALFSIZE, <span class="keywordtype">int</span> maxNbPixels = DEFAULT_MAX_NB_PIXELS);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">void</span> preProcessing(<span class="keyword">const</span> Mat_&lt;Vec3b&gt; &amp;rawImage, <span class="keyword">const</span> Mat_&lt;float&gt; &amp;rawMask, Mat_&lt;Vec3f&gt; &amp;processedImage, Mat_&lt;float&gt; &amp;processedMask, <span class="keyword">const</span> Mat_&lt;Vec3b&gt; &amp;manualSegmentation = Mat_&lt;Vec3f&gt;(), Mat_&lt;Vec3b&gt; &amp;processedSegmentation = Mat_&lt;Vec3b&gt;(), <span class="keywordtype">int</span> kuwaharaHalfsize = DEFAULT_KUWAHARA_HALFSIZE, <span class="keywordtype">int</span> maxNbPixels = DEFAULT_MAX_NB_PIXELS);</div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 29 2013 17:51:25 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Sep 26 2013 18:38:46 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

@@ -68,7 +68,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -86,7 +86,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;opencv2/opencv.hpp&gt;</code><br/>
-<code>#include &quot;<a class="el" href="_kernels_8h_source.html">Kernels.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_weighted_graph_8hpp_source.html">WeightedGraph.hpp</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_utils_8hpp_source.html">Utils.hpp</a>&quot;</code><br/>
 </div><div class="textblock"><div class="dynheader">
@@ -108,20 +107,20 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a30ada09a56806ed50a5a8ed9633675cf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_weighted_graph.html">WeightedGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_image_graphs_8h.html#a30ada09a56806ed50a5a8ed9633675cf">gridGraph</a> (const Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;image, <a class="el" href="_utils_8hpp.html#a312f57b0318728667933d7254778058b">ConnectivityType</a> connectivity, Mat_&lt; float &gt; mask, double(*simFunc)(const Mat &amp;, const Mat &amp;), bool <a class="el" href="_weighted_graph_8hpp.html#a51f69d0a09e4e0b8aefc82a7255d11f4">bidirectional</a>=false)</td></tr>
-<tr class="separator:a30ada09a56806ed50a5a8ed9633675cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a62ea6ca57c30dac2d00d995728f04638"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_weighted_graph.html">WeightedGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_image_graphs_8h.html#a62ea6ca57c30dac2d00d995728f04638">kNearestGraph</a> (const Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;image, const Mat_&lt; float &gt; mask, int k, double(*simFunc)(const Mat &amp;, const Mat &amp;), bool <a class="el" href="_weighted_graph_8hpp.html#a51f69d0a09e4e0b8aefc82a7255d11f4">bidirectional</a>=false)</td></tr>
-<tr class="separator:a62ea6ca57c30dac2d00d995728f04638"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d6826b0b75e0bf091767114108fde81"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_weighted_graph.html">WeightedGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_image_graphs_8h.html#a3d6826b0b75e0bf091767114108fde81">gridGraph</a> (const Mat_&lt; Vec3f &gt; &amp;image, <a class="el" href="_utils_8hpp.html#a312f57b0318728667933d7254778058b">ConnectivityType</a> connectivity, Mat_&lt; float &gt; mask, double(*simFunc)(const Mat &amp;, const Mat &amp;), bool <a class="el" href="_weighted_graph_8hpp.html#a51f69d0a09e4e0b8aefc82a7255d11f4">bidirectional</a>=false)</td></tr>
+<tr class="separator:a3d6826b0b75e0bf091767114108fde81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0920f2a37f3effbb4742ecb897bf6e3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_weighted_graph.html">WeightedGraph</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_image_graphs_8h.html#ad0920f2a37f3effbb4742ecb897bf6e3">kNearestGraph</a> (const Mat_&lt; Vec3f &gt; &amp;image, const Mat_&lt; float &gt; mask, int k, double(*simFunc)(const Mat &amp;, const Mat &amp;), bool <a class="el" href="_weighted_graph_8hpp.html#a51f69d0a09e4e0b8aefc82a7255d11f4">bidirectional</a>=false)</td></tr>
+<tr class="separator:ad0920f2a37f3effbb4742ecb897bf6e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a30ada09a56806ed50a5a8ed9633675cf"></a>
+<a class="anchor" id="a3d6826b0b75e0bf091767114108fde81"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="class_weighted_graph.html">WeightedGraph</a> gridGraph </td>
           <td>(</td>
-          <td class="paramtype">const Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;&#160;</td>
+          <td class="paramtype">const Mat_&lt; Vec3f &gt; &amp;&#160;</td>
           <td class="paramname"><em>image</em>, </td>
         </tr>
         <tr>
@@ -167,14 +166,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a62ea6ca57c30dac2d00d995728f04638"></a>
+<a class="anchor" id="ad0920f2a37f3effbb4742ecb897bf6e3"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="class_weighted_graph.html">WeightedGraph</a> kNearestGraph </td>
           <td>(</td>
-          <td class="paramtype">const Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;&#160;</td>
+          <td class="paramtype">const Mat_&lt; Vec3f &gt; &amp;&#160;</td>
           <td class="paramname"><em>image</em>, </td>
         </tr>
         <tr>
@@ -224,7 +223,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 29 2013 17:51:25 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Sep 26 2013 18:38:46 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

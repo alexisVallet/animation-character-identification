@@ -80,6 +80,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="#index_f"><span>f</span></a></li>
       <li><a href="#index_g"><span>g</span></a></li>
       <li><a href="#index_l"><span>l</span></a></li>
+      <li><a href="#index_m"><span>m</span></a></li>
       <li><a href="#index_n"><span>n</span></a></li>
       <li><a href="#index_o"><span>o</span></a></li>
       <li><a href="#index_p"><span>p</span></a></li>
@@ -94,7 +95,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -117,14 +118,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <h3><a class="anchor" id="index_c"></a>- c -</h3><ul>
-<li>CircularCompare()
-: <a class="el" href="class_circular_compare.html#a5f569823dcd0c2bcb66285f3c271ee30">CircularCompare</a>
-</li>
 <li>clear()
 : <a class="el" href="class_trainable_stat_model.html#af5ea7723d71f07101d561a061e3f0226">TrainableStatModel</a>
+, <a class="el" href="class_bayes_model.html#a3cae5020c0a35e12454ced7d66807b95">BayesModel</a>
+, <a class="el" href="class_s_v_m_model.html#ad276b849b2179a7f3a759fab673e64ce">SVMModel</a>
 , <a class="el" href="class_a_n_n_model.html#a9b360a8e6c416dc204edb8190f9cc464">ANNModel</a>
 , <a class="el" href="class_k_nearest_model.html#ae5cf2beed9b6a2def175920a81c7a69e">KNearestModel</a>
-, <a class="el" href="class_bayes_model.html#a3cae5020c0a35e12454ced7d66807b95">BayesModel</a>
 </li>
 <li>copyEdges()
 : <a class="el" href="class_weighted_graph.html#a1ce86a5e55a9d18c4d7a4f900d5cda39">WeightedGraph</a>
@@ -133,6 +132,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <h3><a class="anchor" id="index_d"></a>- d -</h3><ul>
+<li>degree()
+: <a class="el" href="class_weighted_graph.html#a7fbcbcd44385c51240afa4d95bd10d44">WeightedGraph</a>
+</li>
 <li>DisjointSetForest()
 : <a class="el" href="class_disjoint_set_forest.html#ad0509685d5dee856bbedd3063bd15514">DisjointSetForest</a>
 </li>
@@ -148,9 +150,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h3><a class="anchor" id="index_e"></a>- e -</h3><ul>
 <li>EigenMult()
 : <a class="el" href="class_eigen_mult.html#ac582ccac0c0a4d19e6bd1fd1fa41ffd6">EigenMult</a>
-</li>
-<li>embed()
-: <a class="el" href="class_t_w_k_spectral_clustering.html#aabd50f9ee4ae5fb6047f05a1b04a14f5">TWKSpectralClustering&lt; _Tp, m, n &gt;</a>
 </li>
 </ul>
 
@@ -188,10 +187,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="class_disjoint_set_forest.html#a6a1edb88b34acf06cf214c97ff4ad473">DisjointSetForest</a>
 </li>
 <li>getStatModel()
-: <a class="el" href="class_bayes_model.html#ad2245e700e4c27f34b6654d4a8598b1c">BayesModel</a>
-, <a class="el" href="class_a_n_n_model.html#a8d971b9fa044dedd88dfcafc9aa0f8b8">ANNModel</a>
+: <a class="el" href="class_a_n_n_model.html#a8d971b9fa044dedd88dfcafc9aa0f8b8">ANNModel</a>
 , <a class="el" href="class_k_nearest_model.html#ae1b0212eba134e72293b5e4be1369f89">KNearestModel</a>
+, <a class="el" href="class_s_v_m_model.html#a24bc177f28c9452a21de169d4a253de9">SVMModel</a>
 , <a class="el" href="class_trainable_stat_model.html#a3e2487f4366375c8004e59d09f8a0f99">TrainableStatModel</a>
+, <a class="el" href="class_bayes_model.html#ad2245e700e4c27f34b6654d4a8598b1c">BayesModel</a>
 </li>
 </ul>
 
@@ -203,8 +203,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>leaveOneOutCrossValidation()
 : <a class="el" href="class_trainable_stat_model.html#aa819631a7dbdcd94613eff21ab94912f">TrainableStatModel</a>
 </li>
-<li>leaveOneOutRecognitionRate()
-: <a class="el" href="class_spectrum_distance_classifier.html#abb060e3bd990cc73517d6463e70f2e5e">SpectrumDistanceClassifier</a>
+</ul>
+
+
+<h3><a class="anchor" id="index_m"></a>- m -</h3><ul>
+<li>mostSimilarSegments()
+: <a class="el" href="class_matching_segment_classifier.html#a65d30ed828a4cc795ce4b125e539ec49">MatchingSegmentClassifier</a>
+</li>
+<li>MultipleGraphsClassifier()
+: <a class="el" href="class_multiple_graphs_classifier.html#a832061c3706ad084764bff23e0bc6aee">MultipleGraphsClassifier</a>
 </li>
 </ul>
 
@@ -219,11 +226,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h3><a class="anchor" id="index_o"></a>- o -</h3><ul>
 <li>operator()()
 : <a class="el" href="class_matrix_vector_mult.html#a0f29228e16ad3d290d4f61dd94d22d93">MatrixVectorMult</a>
-, <a class="el" href="class_complete_graph.html#ac0321c345399cfdd682e5466c571e4e7">CompleteGraph</a>
-, <a class="el" href="class_mutual_k_nearest_graph.html#a0032c88882068e68ec2d5be94c24d4b8">MutualKNearestGraph</a>
-, <a class="el" href="class_k_nearest_graph.html#a3b5d789ae5ee85b3a5283112778dbdd6">KNearestGraph</a>
-, <a class="el" href="class_neighborhood_graph.html#aa368ce8851010733c3a00e34a534c4ed">NeighborhoodGraph</a>
-, <a class="el" href="class_similarity_graph_representation.html#aed27147f028a31899e4165f706d15406">SimilarityGraphRepresentation</a>
 , <a class="el" href="class_l_l_e_mult.html#a89a8c387260c0d789a2b42a3fa359860">LLEMult</a>
 , <a class="el" href="class_eigen_mult.html#a181eadb10e4ab949d3ab3bf9ce8a21e4">EigenMult</a>
 </li>
@@ -231,11 +233,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <h3><a class="anchor" id="index_p"></a>- p -</h3><ul>
+<li>PixelSimilarityMatrix()
+: <a class="el" href="class_pixel_similarity_matrix.html#a77bcc267475af7476be27ed5be3996cf">PixelSimilarityMatrix</a>
+</li>
 <li>predict()
-: <a class="el" href="class_trainable_stat_model.html#a8a272769ef46072455a678c9803fb16e">TrainableStatModel</a>
+: <a class="el" href="class_s_v_m_model.html#a0dbe4f731fd497a6c3c52eb4fa626829">SVMModel</a>
 , <a class="el" href="class_a_n_n_model.html#a42769b7bc63179f4b1f4ca181c39e1f0">ANNModel</a>
 , <a class="el" href="class_k_nearest_model.html#a2afe7f6a1b906cf31eb9252f494fe54f">KNearestModel</a>
 , <a class="el" href="class_bayes_model.html#af4cae4469164a5b58632c40f6a0839f5">BayesModel</a>
+, <a class="el" href="class_trainable_stat_model.html#a8a272769ef46072455a678c9803fb16e">TrainableStatModel</a>
+, <a class="el" href="class_multiple_graphs_classifier.html#a728f01b1c28188c89b18b7dadb89f263">MultipleGraphsClassifier</a>
+, <a class="el" href="class_matching_segment_classifier.html#a39bd46202dce11c01fa4d6a4d41e8cdd">MatchingSegmentClassifier</a>
 </li>
 </ul>
 
@@ -244,8 +252,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>setUnion()
 : <a class="el" href="class_disjoint_set_forest.html#a8910794cfdf7a6d014e9d9d0faab222c">DisjointSetForest</a>
 </li>
-<li>SpectrumDistanceClassifier()
-: <a class="el" href="class_spectrum_distance_classifier.html#ac026a02ac078c32bc99c926b8eada31b">SpectrumDistanceClassifier</a>
+<li>similarityMatrix()
+: <a class="el" href="class_matching_segment_classifier.html#a73b05ac84a2ae0bddec3a71d3a027409">MatchingSegmentClassifier</a>
 </li>
 </ul>
 
@@ -255,16 +263,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="class_weighted_graph.html#adeea80029e36859b8ff567eaa1d02ef4">WeightedGraph</a>
 </li>
 <li>toRegionImage()
-: <a class="el" href="class_disjoint_set_forest.html#aad6c80f354f5cb0e1e5a81cee5acaed5">DisjointSetForest</a>
+: <a class="el" href="class_disjoint_set_forest.html#ae93706c67cf0985ab18b65ef978c76c1">DisjointSetForest</a>
 </li>
 <li>train()
 : <a class="el" href="class_a_n_n_model.html#a2da3c5c659871364f9bcead4980b70f1">ANNModel</a>
 , <a class="el" href="class_k_nearest_model.html#ae5278bb119540c9263bc96ad0eeea469">KNearestModel</a>
 , <a class="el" href="class_bayes_model.html#a72af01b372a06ebac227e0bb4fd4a7de">BayesModel</a>
 , <a class="el" href="class_trainable_stat_model.html#a5cb70c5e9e6f3e7f09e7f0ee666ddc25">TrainableStatModel</a>
-</li>
-<li>TWKSpectralClustering()
-: <a class="el" href="class_t_w_k_spectral_clustering.html#a75bc2cca60976fd16118627600699d78">TWKSpectralClustering&lt; _Tp, m, n &gt;</a>
+, <a class="el" href="class_multiple_graphs_classifier.html#a4cafe11c53b4cca0313c95b19316ddc6">MultipleGraphsClassifier</a>
+, <a class="el" href="class_matching_segment_classifier.html#ad750c758a369be8db381ed03452b3620">MatchingSegmentClassifier</a>
+, <a class="el" href="class_s_v_m_model.html#a9dac1152f099e994bf85335f6be4fcb8">SVMModel</a>
 </li>
 </ul>
 
@@ -277,7 +285,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 29 2013 17:51:26 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Sep 26 2013 18:38:47 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

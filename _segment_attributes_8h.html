@@ -68,7 +68,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -81,12 +81,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">SegmentAttributes.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;opencv2/opencv.hpp&gt;</code><br/>
+<code>#include &lt;Eigen/Dense&gt;</code><br/>
 <code>#include &quot;<a class="el" href="_weighted_graph_8hpp_source.html">WeightedGraph.hpp</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_labeled_graph_8hpp_source.html">LabeledGraph.hpp</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_disjoint_set_8hpp_source.html">DisjointSet.hpp</a>&quot;</code><br/>
@@ -109,81 +111,58 @@ This graph shows which files directly or indirectly include this file:</div>
 </div>
 <p><a href="_segment_attributes_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:acd84721e27e97d643d402947a4b49c9b"><td class="memItemLeft" align="right" valign="top">typedef vector&lt; VectorXd &gt;(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_segment_attributes_8h.html#acd84721e27e97d643d402947a4b49c9b">SegmentLabeling</a> )(<a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, const Mat_&lt; Vec3f &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask)</td></tr>
+<tr class="separator:acd84721e27e97d643d402947a4b49c9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a989b4d587469f799bbb5f240f3e2a8db"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_segment_attributes_8h.html#a989b4d587469f799bbb5f240f3e2a8db">averageColorLabels</a> (const Mat_&lt; Vec3b &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;segGraph, <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Matx&lt; float, 3, 1 &gt; &gt; &amp;labeledGraph)</td></tr>
-<tr class="separator:a989b4d587469f799bbb5f240f3e2a8db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30cd11f3189d58357fad3981388738e3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_segment_attributes_8h.html#a30cd11f3189d58357fad3981388738e3">gravityCenterLabels</a> (const Mat_&lt; Vec3b &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;segGraph, <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Matx&lt; float, 2, 1 &gt; &gt; &amp;labeledGraph)</td></tr>
-<tr class="separator:a30cd11f3189d58357fad3981388738e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6e4fb9986a44d337b150c87272f729b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_segment_attributes_8h.html#af6e4fb9986a44d337b150c87272f729b">pixelsCovarianceMatrixLabels</a> (const Mat_&lt; Vec3b &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;segGraph, <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Matx&lt; float, 3, 1 &gt; &gt; &amp;labeledGrpah)</td></tr>
-<tr class="separator:af6e4fb9986a44d337b150c87272f729b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af8a5ca8343cd80924b65a2c409350f2a"><td class="memTemplParams" colspan="2">template&lt;typename _Tp , int m1, int m2, int n&gt; </td></tr>
-<tr class="memitem:af8a5ca8343cd80924b65a2c409350f2a"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_segment_attributes_8h.html#af8a5ca8343cd80924b65a2c409350f2a">concatenateLabelings</a> (const typename <a class="el" href="struct_labeling.html">Labeling</a>&lt; _Tp, m1, n &gt;::type l1, const typename <a class="el" href="struct_labeling.html">Labeling</a>&lt; _Tp, m2, n &gt;::type l2, const Mat_&lt; Vec3b &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;segGraph, <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Matx&lt; _Tp, m1+m2, n &gt; &gt; &amp;labeledGraph)</td></tr>
-<tr class="separator:af8a5ca8343cd80924b65a2c409350f2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2158b851e084af2ff8198ab81bbfd507"><td class="memTemplParams" colspan="2">template&lt;typename _Tp , int m, int n&gt; </td></tr>
-<tr class="memitem:a2158b851e084af2ff8198ab81bbfd507"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Matx&lt; _Tp, m, n &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_segment_attributes_8h.html#a2158b851e084af2ff8198ab81bbfd507">addGroundVertex</a> (const <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Matx&lt; _Tp, m, n &gt; &gt; &amp;graph)</td></tr>
-<tr class="separator:a2158b851e084af2ff8198ab81bbfd507"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0ba10db3b56cbc533b916dc62fd5296"><td class="memItemLeft" align="right" valign="top">vector&lt; VectorXd &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_segment_attributes_8h.html#ab0ba10db3b56cbc533b916dc62fd5296">averageColorLabeling</a> (<a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, const Mat_&lt; Vec3f &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask)</td></tr>
+<tr class="separator:ab0ba10db3b56cbc533b916dc62fd5296"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adcddfd4b4b0de7aa3fefdfc2c6ca8e5e"><td class="memItemLeft" align="right" valign="top">vector&lt; VectorXd &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_segment_attributes_8h.html#adcddfd4b4b0de7aa3fefdfc2c6ca8e5e">averageHueLabeling</a> (<a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, const Mat_&lt; Vec3f &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask)</td></tr>
+<tr class="separator:adcddfd4b4b0de7aa3fefdfc2c6ca8e5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ecb5bdf58bbbbbc34c6012bc3be7853"><td class="memItemLeft" align="right" valign="top">vector&lt; VectorXd &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_segment_attributes_8h.html#a1ecb5bdf58bbbbbc34c6012bc3be7853">gravityCenterLabeling</a> (<a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, const Mat_&lt; Vec3f &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask)</td></tr>
+<tr class="separator:a1ecb5bdf58bbbbbc34c6012bc3be7853"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2adc1af46cc6f0157371682998f75fa8"><td class="memItemLeft" align="right" valign="top">vector&lt; VectorXd &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_segment_attributes_8h.html#a2adc1af46cc6f0157371682998f75fa8">segmentAreaLabeling</a> (<a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, const Mat_&lt; Vec3f &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask)</td></tr>
+<tr class="separator:a2adc1af46cc6f0157371682998f75fa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a class="anchor" id="acd84721e27e97d643d402947a4b49c9b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef vector&lt;VectorXd&gt;(* SegmentLabeling)(<a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;segmentation, const Mat_&lt; Vec3f &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Datatype for segment labelling function associating vectors to each segment. </p>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a2158b851e084af2ff8198ab81bbfd507"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename _Tp , int m, int n&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt;Matx&lt;_Tp, m, n&gt; &gt; addGroundVertex </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Matx&lt; _Tp, m, n &gt; &gt; &amp;&#160;</td>
-          <td class="paramname"><em>graph</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Adds a vertex to a labelled graph connected to all other vertices in the original graph, labeled with the 0 matrix with the same size as the other labels.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">graph</td><td>graph to add a vertex to. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>the same graph as the input with an additional vertex labeled with the 0 matrix and connected to all other vertices. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a989b4d587469f799bbb5f240f3e2a8db"></a>
+<a class="anchor" id="ab0ba10db3b56cbc533b916dc62fd5296"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void averageColorLabels </td>
+          <td class="memname">vector&lt;VectorXd&gt; averageColorLabeling </td>
           <td>(</td>
-          <td class="paramtype">const Mat_&lt; Vec3b &gt; &amp;&#160;</td>
-          <td class="paramname"><em>image</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Mat_&lt; float &gt; &amp;&#160;</td>
-          <td class="paramname"><em>mask</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype"><a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;&#160;</td>
           <td class="paramname"><em>segmentation</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;&#160;</td>
-          <td class="paramname"><em>segGraph</em>, </td>
+          <td class="paramtype">const Mat_&lt; Vec3f &gt; &amp;&#160;</td>
+          <td class="paramname"><em>image</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Matx&lt; float, 3, 1 &gt; &gt; &amp;&#160;</td>
-          <td class="paramname"><em>labeledGraph</em>&#160;</td>
+          <td class="paramtype">const Mat_&lt; float &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mask</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -192,67 +171,31 @@ template&lt;typename _Tp , int m, int n&gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Labels vertices of a segmentation graph by the average color of the segment.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">image</td><td>image to compute average colors from. </td></tr>
-    <tr><td class="paramname">mask</td><td>mask of pixels to take into account. </td></tr>
-    <tr><td class="paramname">segmentation</td><td>a segmentation of the image. </td></tr>
-    <tr><td class="paramname">segGraph</td><td>graph to add labels to. </td></tr>
-    <tr><td class="paramname">labeledGraph</td><td>output graph with labels added. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Labels segments by their average color. </p>
 
 </div>
 </div>
-<a class="anchor" id="af8a5ca8343cd80924b65a2c409350f2a"></a>
+<a class="anchor" id="adcddfd4b4b0de7aa3fefdfc2c6ca8e5e"></a>
 <div class="memitem">
 <div class="memproto">
-<div class="memtemplate">
-template&lt;typename _Tp , int m1, int m2, int n&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void concatenateLabelings </td>
+          <td class="memname">vector&lt;VectorXd&gt; averageHueLabeling </td>
           <td>(</td>
-          <td class="paramtype">const typename <a class="el" href="struct_labeling.html">Labeling</a>&lt; _Tp, m1, n &gt;::type&#160;</td>
-          <td class="paramname"><em>l1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const typename <a class="el" href="struct_labeling.html">Labeling</a>&lt; _Tp, m2, n &gt;::type&#160;</td>
-          <td class="paramname"><em>l2</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Mat_&lt; Vec3b &gt; &amp;&#160;</td>
-          <td class="paramname"><em>image</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Mat_&lt; float &gt; &amp;&#160;</td>
-          <td class="paramname"><em>mask</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype"><a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;&#160;</td>
           <td class="paramname"><em>segmentation</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;&#160;</td>
-          <td class="paramname"><em>segGraph</em>, </td>
+          <td class="paramtype">const Mat_&lt; Vec3f &gt; &amp;&#160;</td>
+          <td class="paramname"><em>image</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Matx&lt; _Tp, m1+m2, n &gt; &gt; &amp;&#160;</td>
-          <td class="paramname"><em>labeledGraph</em>&#160;</td>
+          <td class="paramtype">const Mat_&lt; float &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mask</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -261,55 +204,31 @@ template&lt;typename _Tp , int m1, int m2, int n&gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Concatenates the results of multiple labelling functions into one. Assumes the labels are column vector.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">l1</td><td>labeling to concatenate with l2 </td></tr>
-    <tr><td class="paramname">l2</td><td>labeling to concatenate with l1 </td></tr>
-    <tr><td class="paramname">image</td><td>image to compute labels from. </td></tr>
-    <tr><td class="paramname">mask</td><td>mask of pixels to take into account. </td></tr>
-    <tr><td class="paramname">segmentation</td><td>a segmentation of the image. </td></tr>
-    <tr><td class="paramname">segGraph</td><td>graph to add labels to. </td></tr>
-    <tr><td class="paramname">labeledGraph</td><td>output graph with labels added. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Labels segments by their average hue. </p>
 
 </div>
 </div>
-<a class="anchor" id="a30cd11f3189d58357fad3981388738e3"></a>
+<a class="anchor" id="a1ecb5bdf58bbbbbc34c6012bc3be7853"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void gravityCenterLabels </td>
+          <td class="memname">vector&lt;VectorXd&gt; gravityCenterLabeling </td>
           <td>(</td>
-          <td class="paramtype">const Mat_&lt; Vec3b &gt; &amp;&#160;</td>
-          <td class="paramname"><em>image</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Mat_&lt; float &gt; &amp;&#160;</td>
-          <td class="paramname"><em>mask</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype"><a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;&#160;</td>
           <td class="paramname"><em>segmentation</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;&#160;</td>
-          <td class="paramname"><em>segGraph</em>, </td>
+          <td class="paramtype">const Mat_&lt; Vec3f &gt; &amp;&#160;</td>
+          <td class="paramname"><em>image</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Matx&lt; float, 2, 1 &gt; &gt; &amp;&#160;</td>
-          <td class="paramname"><em>labeledGraph</em>&#160;</td>
+          <td class="paramtype">const Mat_&lt; float &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mask</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -318,53 +237,31 @@ template&lt;typename _Tp , int m1, int m2, int n&gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Labels vertices of a segmentation graph by the gravity center of the segment.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">image</td><td>image to compute gravity centers from. </td></tr>
-    <tr><td class="paramname">mask</td><td>mask of pixels to take into account. </td></tr>
-    <tr><td class="paramname">segmentation</td><td>a segmentation of the image. </td></tr>
-    <tr><td class="paramname">segGraph</td><td>graph to add labels to. </td></tr>
-    <tr><td class="paramname">labeledGraph</td><td>output graph with labels added. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Labels segments by their gravity center. </p>
 
 </div>
 </div>
-<a class="anchor" id="af6e4fb9986a44d337b150c87272f729b"></a>
+<a class="anchor" id="a2adc1af46cc6f0157371682998f75fa8"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void pixelsCovarianceMatrixLabels </td>
+          <td class="memname">vector&lt;VectorXd&gt; segmentAreaLabeling </td>
           <td>(</td>
-          <td class="paramtype">const Mat_&lt; Vec3b &gt; &amp;&#160;</td>
-          <td class="paramname"><em>image</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const Mat_&lt; float &gt; &amp;&#160;</td>
-          <td class="paramname"><em>mask</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype"><a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &amp;&#160;</td>
           <td class="paramname"><em>segmentation</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;&#160;</td>
-          <td class="paramname"><em>segGraph</em>, </td>
+          <td class="paramtype">const Mat_&lt; Vec3f &gt; &amp;&#160;</td>
+          <td class="paramname"><em>image</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="class_labeled_graph.html">LabeledGraph</a>&lt; Matx&lt; float, 3, 1 &gt; &gt; &amp;&#160;</td>
-          <td class="paramname"><em>labeledGrpah</em>&#160;</td>
+          <td class="paramtype">const Mat_&lt; float &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mask</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -373,24 +270,14 @@ template&lt;typename _Tp , int m1, int m2, int n&gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Labels vertices of a segmentation graph by the covariance matrix of the pixel positions of the segment, flattened in a column vector.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">image</td><td>image to compute covariance matrices from. </td></tr>
-    <tr><td class="paramname">mask</td><td>mask of pixels to take into account. </td></tr>
-    <tr><td class="paramname">segmentation</td><td>a segmentation of the image. </td></tr>
-    <tr><td class="paramname">segGraph</td><td>graph to add labels to. </td></tr>
-    <tr><td class="paramname">labeledGraph</td><td>output graph with labels added. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Labels segments by their area in number of pixels. </p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 29 2013 17:51:25 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Sep 26 2013 18:38:46 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

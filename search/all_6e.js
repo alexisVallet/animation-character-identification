@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['neighborhoodgraph',['NeighborhoodGraph',['../class_neighborhood_graph.html',1,'']]],
   ['noloops',['noLoops',['../_weighted_graph_8hpp.html#aa8ad3364b1729827fc814b1d212c3d85',1,'WeightedGraph.cpp']]],
   ['nonsymmetricsparseeigensolver',['nonSymmetricSparseEigenSolver',['../_graph_spectra_8h.html#a9e53c4e1cd8cfd94006505c3f8fb767d',1,'nonSymmetricSparseEigenSolver(const Eigen::SparseMatrix&lt; double &gt; &amp;L, char *which, int nev, int maxIterations, Eigen::VectorXd &amp;evalues, Eigen::MatrixXd &amp;evectors):&#160;GraphSpectra.cpp'],['../_graph_spectra_8h.html#a4391cf1136368d1b5ebb90e8a69cd0e5',1,'nonSymmetricSparseEigenSolver(int order, char *which, int nev, int maxIterations, Eigen::VectorXd &amp;evalues, Eigen::MatrixXd &amp;evectors, MatrixVectorMult &amp;mult):&#160;GraphSpectra.cpp']]],
   ['normalizedcuts',['normalizedCuts',['../_normalized_cuts_8h.html#aa15a162253bc9523c8941f526414a085',1,'NormalizedCuts.cpp']]],

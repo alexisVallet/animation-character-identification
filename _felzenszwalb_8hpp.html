@@ -68,7 +68,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -80,6 +80,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Felzenszwalb.hpp File Reference</div>  </div>
@@ -89,10 +90,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <code>#include &lt;vector&gt;</code><br/>
 <code>#include &lt;algorithm&gt;</code><br/>
 <code>#include &lt;opencv2/opencv.hpp&gt;</code><br/>
+<code>#include &lt;boost/heap/fibonacci_heap.hpp&gt;</code><br/>
 <code>#include &quot;<a class="el" href="_weighted_graph_8hpp_source.html">WeightedGraph.hpp</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_disjoint_set_8hpp_source.html">DisjointSet.hpp</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_utils_8hpp_source.html">Utils.hpp</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="_image_graphs_8h_source.html">ImageGraphs.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="_segmentation_graph_8hpp_source.html">SegmentationGraph.hpp</a>&quot;</code><br/>
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Felzenszwalb.hpp:</div>
 <div class="dyncontent">
@@ -110,13 +113,34 @@ This graph shows which files directly or indirectly include this file:</div>
 </div>
 <p><a href="_felzenszwalb_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:aa4056483f16ca76a5fc35a129a3a16da"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_felzenszwalb_8hpp.html#aa4056483f16ca76a5fc35a129a3a16da">ScaleType</a> { <b>CARDINALITY</b>, 
+<b>VOLUME</b>
+ }</td></tr>
+<tr class="separator:aa4056483f16ca76a5fc35a129a3a16da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:afc65b87bcefeccabe7d297b2a9ff4960"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_felzenszwalb_8hpp.html#afc65b87bcefeccabe7d297b2a9ff4960">felzenszwalbSegment</a> (int k, <a class="el" href="class_weighted_graph.html">WeightedGraph</a> graph, int minCompSize, Mat_&lt; float &gt; mask)</td></tr>
-<tr class="separator:afc65b87bcefeccabe7d297b2a9ff4960"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae483b0e3f53fe88934c8612eec738e29"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_felzenszwalb_8hpp.html#ae483b0e3f53fe88934c8612eec738e29">felzenszwalbSegment</a> (int k, <a class="el" href="class_weighted_graph.html">WeightedGraph</a> graph, int minCompSize, Mat_&lt; float &gt; mask, <a class="el" href="_felzenszwalb_8hpp.html#aa4056483f16ca76a5fc35a129a3a16da">ScaleType</a> scaleType=CARDINALITY)</td></tr>
+<tr class="separator:ae483b0e3f53fe88934c8612eec738e29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a63881e4b3642fa9c8c98d0789eb3c75f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_felzenszwalb_8hpp.html#a63881e4b3642fa9c8c98d0789eb3c75f">combineSegmentations</a> (const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;imageGraph, vector&lt; <a class="el" href="class_disjoint_set_forest.html">DisjointSetForest</a> &gt; &amp;segmentations)</td></tr>
 <tr class="separator:a63881e4b3642fa9c8c98d0789eb3c75f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a class="anchor" id="aa4056483f16ca76a5fc35a129a3a16da"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="_felzenszwalb_8hpp.html#aa4056483f16ca76a5fc35a129a3a16da">ScaleType</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Type specifying which type of scale measure to use for segment sizes, either cardinality (the number of element for finite graphs) or volume (the sum of degrees) of the vertex set. </p>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="a63881e4b3642fa9c8c98d0789eb3c75f"></a>
 <div class="memitem">
@@ -153,7 +177,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="afc65b87bcefeccabe7d297b2a9ff4960"></a>
+<a class="anchor" id="ae483b0e3f53fe88934c8612eec738e29"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -179,7 +203,13 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">Mat_&lt; float &gt;&#160;</td>
-          <td class="paramname"><em>mask</em>&#160;</td>
+          <td class="paramname"><em>mask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="_felzenszwalb_8hpp.html#aa4056483f16ca76a5fc35a129a3a16da">ScaleType</a>&#160;</td>
+          <td class="paramname"><em>scaleType</em> = <code>CARDINALITY</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -194,6 +224,7 @@ Functions</h2></td></tr>
     <tr><td class="paramname">k</td><td>scale parameter. </td></tr>
     <tr><td class="paramname">graph</td><td>the graph to segment. </td></tr>
     <tr><td class="paramname">minCompSize</td><td>minimum size of components. </td></tr>
+    <tr><td class="paramname">scaleType</td><td>type of scale measure to use for segment size in the threshold function. This is defined as cardinality in the original paper by Felzenszwalb, but we introduce volume as a way of making the algorithm sensitive to local scale. </td></tr>
   </table>
   </dd>
 </dl>
@@ -204,7 +235,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 29 2013 17:51:25 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Sep 26 2013 18:38:46 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

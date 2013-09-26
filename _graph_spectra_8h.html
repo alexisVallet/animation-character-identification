@@ -68,7 +68,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -122,6 +122,9 @@ Typedefs</h2></td></tr>
 <tr class="memitem:a67d655fbf3f331d59844b87c29fe0b5d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a67d655fbf3f331d59844b87c29fe0b5d"></a>
 typedef Mat_&lt; double &gt;(*&#160;</td><td class="memItemRight" valign="bottom"><b>MatrixRepresentation</b> )(const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;)</td></tr>
 <tr class="separator:a67d655fbf3f331d59844b87c29fe0b5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fc855246676a82795e0504cff353e73"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8fc855246676a82795e0504cff353e73"></a>
+typedef MatrixXd(*&#160;</td><td class="memItemRight" valign="bottom"><b>DenseRepresentation</b> )(const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;)</td></tr>
+<tr class="separator:a8fc855246676a82795e0504cff353e73"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abdb60d6e5a6323156fde4280b9129323"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abdb60d6e5a6323156fde4280b9129323"></a>
 typedef Eigen::SparseMatrix<br class="typebreak"/>
 &lt; double &gt;(*&#160;</td><td class="memItemRight" valign="bottom"><b>SparseRepresentation</b> )(const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;, bool <a class="el" href="_weighted_graph_8hpp.html#a51f69d0a09e4e0b8aefc82a7255d11f4">bidirectional</a>)</td></tr>
@@ -131,12 +134,24 @@ typedef Eigen::SparseMatrix<br class="typebreak"/>
 Functions</h2></td></tr>
 <tr class="memitem:a3d5e2c06677bee5ea96cb2ef387471ca"><td class="memItemLeft" align="right" valign="top">Mat_&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_graph_spectra_8h.html#a3d5e2c06677bee5ea96cb2ef387471ca">laplacian</a> (const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph)</td></tr>
 <tr class="separator:a3d5e2c06677bee5ea96cb2ef387471ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ac7f4f7ca9e9a595072b80fc00803ad"><td class="memItemLeft" align="right" valign="top">Eigen::SparseMatrix&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_graph_spectra_8h.html#a5ac7f4f7ca9e9a595072b80fc00803ad">sparseLaplacian</a> (const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph, bool <a class="el" href="_weighted_graph_8hpp.html#a51f69d0a09e4e0b8aefc82a7255d11f4">bidirectional</a>, Eigen::VectorXd &amp;degrees)</td></tr>
-<tr class="separator:a5ac7f4f7ca9e9a595072b80fc00803ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1bb7c01a4e99dc0eb5c517dece12b51"><td class="memItemLeft" align="right" valign="top">MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_graph_spectra_8h.html#ad1bb7c01a4e99dc0eb5c517dece12b51">eigLaplacian</a> (const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph)</td></tr>
+<tr class="separator:ad1bb7c01a4e99dc0eb5c517dece12b51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a491d9616f150dcb2a81eee4833e0d91e"><td class="memItemLeft" align="right" valign="top">Mat_&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_graph_spectra_8h.html#a491d9616f150dcb2a81eee4833e0d91e">normalizedLaplacian</a> (const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph)</td></tr>
 <tr class="separator:a491d9616f150dcb2a81eee4833e0d91e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88f5a548a97556fb2525324cc72f30e4"><td class="memItemLeft" align="right" valign="top">MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_graph_spectra_8h.html#a88f5a548a97556fb2525324cc72f30e4">eigNormalizedLaplacian</a> (const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph)</td></tr>
+<tr class="separator:a88f5a548a97556fb2525324cc72f30e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ded5cbc388ef377c81b59cdb60e1e89"><td class="memItemLeft" align="right" valign="top">MatrixXd&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_graph_spectra_8h.html#a7ded5cbc388ef377c81b59cdb60e1e89">eigAdjacencyMatrix</a> (const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph)</td></tr>
+<tr class="separator:a7ded5cbc388ef377c81b59cdb60e1e89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ac7f4f7ca9e9a595072b80fc00803ad"><td class="memItemLeft" align="right" valign="top">Eigen::SparseMatrix&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_graph_spectra_8h.html#a5ac7f4f7ca9e9a595072b80fc00803ad">sparseLaplacian</a> (const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph, bool <a class="el" href="_weighted_graph_8hpp.html#a51f69d0a09e4e0b8aefc82a7255d11f4">bidirectional</a>, Eigen::VectorXd &amp;degrees)</td></tr>
+<tr class="separator:a5ac7f4f7ca9e9a595072b80fc00803ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a054c0d1dbe7c08cd973d20f04ae24210"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a054c0d1dbe7c08cd973d20f04ae24210"></a>
+Eigen::SparseMatrix&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>_sparseLaplacian</b> (const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph, bool <a class="el" href="_weighted_graph_8hpp.html#a51f69d0a09e4e0b8aefc82a7255d11f4">bidirectional</a>)</td></tr>
+<tr class="separator:a054c0d1dbe7c08cd973d20f04ae24210"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa1d9e4c1ee1bcced3080b745f7b8c48c"><td class="memItemLeft" align="right" valign="top">Eigen::SparseMatrix&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_graph_spectra_8h.html#aa1d9e4c1ee1bcced3080b745f7b8c48c">normalizedSparseLaplacian</a> (const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph, bool <a class="el" href="_weighted_graph_8hpp.html#a51f69d0a09e4e0b8aefc82a7255d11f4">bidirectional</a>, Eigen::VectorXd &amp;degrees)</td></tr>
 <tr class="separator:aa1d9e4c1ee1bcced3080b745f7b8c48c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a492950a3d43d65bae4fccc9509a68a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2a492950a3d43d65bae4fccc9509a68a"></a>
+Eigen::SparseMatrix&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>_normalizedSparseLaplacian</b> (const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph, bool <a class="el" href="_weighted_graph_8hpp.html#a51f69d0a09e4e0b8aefc82a7255d11f4">bidirectional</a>)</td></tr>
+<tr class="separator:a2a492950a3d43d65bae4fccc9509a68a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa38ed6ce122572df073a69924a631a71"><td class="memItemLeft" align="right" valign="top">Eigen::SparseMatrix&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_graph_spectra_8h.html#aa38ed6ce122572df073a69924a631a71">randomWalkSparseLaplacian</a> (const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph, bool <a class="el" href="_weighted_graph_8hpp.html#a51f69d0a09e4e0b8aefc82a7255d11f4">bidirectional</a>, Eigen::VectorXd &amp;degrees)</td></tr>
 <tr class="separator:aa38ed6ce122572df073a69924a631a71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba5d00dfafcba51484cddc95881ca470"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_graph_spectra_8h.html#aba5d00dfafcba51484cddc95881ca470">packedStorageNormalizedLaplacian</a> (const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;graph, double *L)</td></tr>
@@ -149,8 +164,119 @@ Functions</h2></td></tr>
 <tr class="separator:ae94492b73ee37f6b8754d96b24c4a81c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4391cf1136368d1b5ebb90e8a69cd0e5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_graph_spectra_8h.html#a4391cf1136368d1b5ebb90e8a69cd0e5">nonSymmetricSparseEigenSolver</a> (int order, char *which, int nev, int maxIterations, Eigen::VectorXd &amp;evalues, Eigen::MatrixXd &amp;evectors, <a class="el" href="class_matrix_vector_mult.html">MatrixVectorMult</a> &amp;mult)</td></tr>
 <tr class="separator:a4391cf1136368d1b5ebb90e8a69cd0e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1d508817a71152649fdd5a68526f927"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_graph_spectra_8h.html#ad1d508817a71152649fdd5a68526f927">eigenGap</a> (Eigen::VectorXd eigenvalues, double epsilon=10E-4)</td></tr>
+<tr class="separator:ad1d508817a71152649fdd5a68526f927"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a7ded5cbc388ef377c81b59cdb60e1e89"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">MatrixXd eigAdjacencyMatrix </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;&#160;</td>
+          <td class="paramname"><em>graph</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Computes the adjacency matrix of a simple weighted graph. It is a square, symmetrical matrix.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">graph</td><td>graph to compute the adjacency matrix of. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>adjacency matrix of the graph. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ad1d508817a71152649fdd5a68526f927"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int eigenGap </td>
+          <td>(</td>
+          <td class="paramtype">Eigen::VectorXd&#160;</td>
+          <td class="paramname"><em>eigenvalues</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>epsilon</em> = <code>10E-4</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Computes the eigengap of a vector of eigenvalues.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">eigenvalues</td><td>vector of eigenvalues sorted in ascending order. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the index of the eigengap, that is k such that |ek - ek+1| is largest. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ad1bb7c01a4e99dc0eb5c517dece12b51"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">MatrixXd eigLaplacian </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;&#160;</td>
+          <td class="paramname"><em>graph</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Computes the unnormalized laplacian matrix L of a weighted graph, defined by:</p>
+<p>L(u,v) = dv - w(v,v) if u = v -w(u,v) if u and v are adjacent 0 otherwise</p>
+<p>Assumes the graph represents each edge only once, ie. that the adjacency lists are not bidirectional.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">graph</td><td>graph to compute the laplacian from. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the laplacian matrix of the weighted graph. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a88f5a548a97556fb2525324cc72f30e4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">MatrixXd eigNormalizedLaplacian </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_weighted_graph.html">WeightedGraph</a> &amp;&#160;</td>
+          <td class="paramname"><em>graph</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Computes the normalized laplacian NL matrix of a weighted graph, defined by:</p>
+<p>NL(u,v) = 1 - w(v,v)/dv if u = v -w(u,v)/sqrt(du*dv) if u and v are adjacent 0 otherwise Assumes the graph represents each edge only once, ie. that the adjacency lists are not bidirectional.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">graph</td><td>graph to compute the laplacian from. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the normalized laplacian matrix of the weighted graph. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a3d5e2c06677bee5ea96cb2ef387471ca"></a>
 <div class="memitem">
 <div class="memproto">
@@ -596,7 +722,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 29 2013 17:51:25 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Sep 26 2013 18:38:46 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>

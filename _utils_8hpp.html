@@ -68,7 +68,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Enumerations</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -89,6 +89,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock"><code>#include &lt;utility&gt;</code><br/>
 <code>#include &lt;opencv2/opencv.hpp&gt;</code><br/>
 <code>#include &lt;Eigen/Sparse&gt;</code><br/>
+<code>#include &lt;iostream&gt;</code><br/>
+<code>#include &lt;fstream&gt;</code><br/>
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Utils.hpp:</div>
 <div class="dyncontent">
@@ -121,8 +123,6 @@ Functions</h2></td></tr>
 <tr class="separator:a396388b8933428ef395cbf6f016b63a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7684a46db62865dd6f5be52e8c2989f5"><td class="memItemLeft" align="right" valign="top">pair&lt; int, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utils_8hpp.html#a7684a46db62865dd6f5be52e8c2989f5">fromRowMajor</a> (int width, int i)</td></tr>
 <tr class="separator:a7684a46db62865dd6f5be52e8c2989f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f5a6e6e6eb25e5521137ea523049fcc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utils_8hpp.html#a6f5a6e6e6eb25e5521137ea523049fcc">loadDataSet</a> (char *folderName, char **charaNames, int nbCharas, int nbImagesPerChara, vector&lt; pair&lt; Mat_&lt; Vec&lt; uchar, 3 &gt; &gt;, Mat_&lt; float &gt; &gt; &gt; &amp;images, Mat_&lt; int &gt; &amp;classes)</td></tr>
-<tr class="separator:a6f5a6e6e6eb25e5521137ea523049fcc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac34dfc883daf6cba659fc0fc3226ca19"><td class="memItemLeft" align="right" valign="top">Mat_&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utils_8hpp.html#ac34dfc883daf6cba659fc0fc3226ca19">sparseMul</a> (SparseMat_&lt; double &gt; A, Mat_&lt; double &gt; b)</td></tr>
 <tr class="separator:ac34dfc883daf6cba659fc0fc3226ca19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a01a70c6fb577435c51a2a05372f5f92c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utils_8hpp.html#a01a70c6fb577435c51a2a05372f5f92c">symmetric</a> (Eigen::SparseMatrix&lt; double &gt; M)</td></tr>
@@ -137,15 +137,27 @@ Functions</h2></td></tr>
 <tr class="separator:a4a8afae3441d973eff4df57e06762afd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17e6247c7a1e067b1e4bf88e6b65b91f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utils_8hpp.html#a17e6247c7a1e067b1e4bf88e6b65b91f">showHistograms</a> (const Mat_&lt; Vec3b &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, int nbBins)</td></tr>
 <tr class="separator:a17e6247c7a1e067b1e4bf88e6b65b91f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9961eb17b5620424af0bfdd2b92ebb65"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utils_8hpp.html#a9961eb17b5620424af0bfdd2b92ebb65">equalizeColorHistogram</a> (const Mat_&lt; Vec3b &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, Mat_&lt; Vec3b &gt; &amp;equalized)</td></tr>
-<tr class="separator:a9961eb17b5620424af0bfdd2b92ebb65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36298cafe4c23813908d30567ef7d0a1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utils_8hpp.html#a36298cafe4c23813908d30567ef7d0a1">equalizeColorHistogram</a> (const Mat_&lt; Vec3f &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, Mat_&lt; Vec3f &gt; &amp;equalized)</td></tr>
+<tr class="separator:a36298cafe4c23813908d30567ef7d0a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91b7070cd0432fcb2485f142ac43edbb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utils_8hpp.html#a91b7070cd0432fcb2485f142ac43edbb">crop</a> (const Mat_&lt; Vec3b &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, Mat_&lt; Vec3b &gt; &amp;croppedImage, Mat_&lt; float &gt; &amp;croppedMask)</td></tr>
 <tr class="separator:a91b7070cd0432fcb2485f142ac43edbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5eab31b206a0e529b87f026a2eeb0d7f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utils_8hpp.html#a5eab31b206a0e529b87f026a2eeb0d7f">resizeImage</a> (const Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;resizedImage, Mat_&lt; float &gt; &amp;resizedMask, int maxNbPixels)</td></tr>
-<tr class="separator:a5eab31b206a0e529b87f026a2eeb0d7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac239fd5688255aec2e31bfbea1fee594"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utils_8hpp.html#ac239fd5688255aec2e31bfbea1fee594">resizeImage</a> (const Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;image, const Mat_&lt; float &gt; &amp;mask, Mat_&lt; Vec&lt; uchar, 3 &gt; &gt; &amp;resizedImage, Mat_&lt; float &gt; &amp;resizedMask, int maxNbPixelsconst, const Mat_&lt; Vec3b &gt; &amp;manualSegmentation=Mat_&lt; Vec3b &gt;(), Mat_&lt; Vec3b &gt; &amp;resizedSegmentation=Mat_&lt; Vec3b &gt;())</td></tr>
+<tr class="separator:ac239fd5688255aec2e31bfbea1fee594"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f8368514b8d89308360824487a28b83"><td class="memTemplParams" colspan="2">template&lt;typename _Tp , int m1, int m2, int n&gt; </td></tr>
 <tr class="memitem:a6f8368514b8d89308360824487a28b83"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_utils_8hpp.html#a6f8368514b8d89308360824487a28b83">vconcatX</a> (const Matx&lt; _Tp, m1, n &gt; &amp;mat1, const Matx&lt; _Tp, m2, n &gt; &amp;mat2, Matx&lt; _Tp, m1+m2, n &gt; &amp;res)</td></tr>
 <tr class="separator:a6f8368514b8d89308360824487a28b83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0638cd56af891f948fae8b97c9865d8c"><td class="memTemplParams" colspan="2"><a class="anchor" id="a0638cd56af891f948fae8b97c9865d8c"></a>
+template&lt;typename MatType &gt; </td></tr>
+<tr class="memitem:a0638cd56af891f948fae8b97c9865d8c"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>matToCsv</b> (const MatType &amp;matrix, int rows, int cols, double(*indexing)(const MatType &amp;m, int i, int j), ofstream &amp;out)</td></tr>
+<tr class="separator:a0638cd56af891f948fae8b97c9865d8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adacdfaec187d642e97d6cc36bbc10d7c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utils_8hpp.html#adacdfaec187d642e97d6cc36bbc10d7c">cvMatToCsv</a> (const Mat_&lt; double &gt; &amp;matrix, ofstream &amp;out)</td></tr>
+<tr class="separator:adacdfaec187d642e97d6cc36bbc10d7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad95160d77ba90911868ec399dc7600f5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utils_8hpp.html#ad95160d77ba90911868ec399dc7600f5">eigenMatToCsv</a> (const Eigen::MatrixXd &amp;matrix, ofstream &amp;out)</td></tr>
+<tr class="separator:ad95160d77ba90911868ec399dc7600f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c1aacca6f189d05011d7982a06b5b6a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utils_8hpp.html#a8c1aacca6f189d05011d7982a06b5b6a">eigenToCv</a> (const Eigen::MatrixXd &amp;eigenMat, Mat_&lt; double &gt; &amp;cvMat)</td></tr>
+<tr class="separator:a8c1aacca6f189d05011d7982a06b5b6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a88720f90f0858821985401c273e136"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utils_8hpp.html#a8a88720f90f0858821985401c273e136">approxNonzeros</a> (const Eigen::MatrixXd m, double tol=10E-8)</td></tr>
+<tr class="separator:a8a88720f90f0858821985401c273e136"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a class="anchor" id="a312f57b0318728667933d7254778058b"></a>
@@ -162,6 +174,40 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a8a88720f90f0858821985401c273e136"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int approxNonzeros </td>
+          <td>(</td>
+          <td class="paramtype">const Eigen::MatrixXd&#160;</td>
+          <td class="paramname"><em>m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>tol</em> = <code>10E-8</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Computes the number of approximately non zero coefficient in a matrix, up to some tolerance.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">m</td><td>matrix to compute the number of nonzeros from. </td></tr>
+    <tr><td class="paramname">tol</td><td>nonegative tolerance, a coefficient will be considered 0 iff it is absolutely lower than or equal than tol. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a91b7070cd0432fcb2485f142ac43edbb"></a>
 <div class="memitem">
 <div class="memproto">
@@ -210,14 +256,116 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a9961eb17b5620424af0bfdd2b92ebb65"></a>
+<a class="anchor" id="adacdfaec187d642e97d6cc36bbc10d7c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cvMatToCsv </td>
+          <td>(</td>
+          <td class="paramtype">const Mat_&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>matrix</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ofstream &amp;&#160;</td>
+          <td class="paramname"><em>out</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Outputs a csv file representation of an openCV matrix to an arbitrary output stream.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">matrix</td><td>matrix to output as csv file. </td></tr>
+    <tr><td class="paramname">out</td><td>output stream to send csv data to. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ad95160d77ba90911868ec399dc7600f5"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void eigenMatToCsv </td>
+          <td>(</td>
+          <td class="paramtype">const Eigen::MatrixXd &amp;&#160;</td>
+          <td class="paramname"><em>matrix</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ofstream &amp;&#160;</td>
+          <td class="paramname"><em>out</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Outputs a csv file representation of an Eigen matrix to an arbitrary output stream.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">matrix</td><td>matrix to output as csv file. </td></tr>
+    <tr><td class="paramname">out</td><td>output stream to send csv data to. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a8c1aacca6f189d05011d7982a06b5b6a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void eigenToCv </td>
+          <td>(</td>
+          <td class="paramtype">const Eigen::MatrixXd &amp;&#160;</td>
+          <td class="paramname"><em>eigenMat</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat_&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>cvMat</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Create an OpenCV matrix header from an Eigen matrix without copying data. This is kind of a hack, may result in unwanted behaviour when modifying either matrix, and has not been tested outside of the win32 platform. Be careful using this, preferably only use it with matrices you know you won't modify.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">eigenMat</td><td>input Eigen matrix. </td></tr>
+    <tr><td class="paramname">cvMat</td><td>output OpenCV matrix. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a36298cafe4c23813908d30567ef7d0a1"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void equalizeColorHistogram </td>
           <td>(</td>
-          <td class="paramtype">const Mat_&lt; Vec3b &gt; &amp;&#160;</td>
+          <td class="paramtype">const Mat_&lt; Vec3f &gt; &amp;&#160;</td>
           <td class="paramname"><em>image</em>, </td>
         </tr>
         <tr>
@@ -229,7 +377,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Mat_&lt; Vec3b &gt; &amp;&#160;</td>
+          <td class="paramtype">Mat_&lt; Vec3f &gt; &amp;&#160;</td>
           <td class="paramname"><em>equalized</em>&#160;</td>
         </tr>
         <tr>
@@ -239,7 +387,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Equalize the histogram of a BGR image. Equalizes by equalizing the luminance of the image in the HSL color space.</p>
+<p>Equalize the histogram of a L*a*b* image. Equalizes by equalizing the hue of the image.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">image</td><td>the image to equalize the histogram of. </td></tr>
@@ -320,57 +468,6 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a6f5a6e6e6eb25e5521137ea523049fcc"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void loadDataSet </td>
-          <td>(</td>
-          <td class="paramtype">char *&#160;</td>
-          <td class="paramname"><em>folderName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char **&#160;</td>
-          <td class="paramname"><em>charaNames</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>nbCharas</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>nbImagesPerChara</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">vector&lt; pair&lt; Mat_&lt; Vec&lt; uchar, 3 &gt; &gt;, Mat_&lt; float &gt; &gt; &gt; &amp;&#160;</td>
-          <td class="paramname"><em>images</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Mat_&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>classes</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Loads a data set from a specific folder. </p>
-
-</div>
-</div>
 <a class="anchor" id="a4c818d133f63f874c73c573665dd9842"></a>
 <div class="memitem">
 <div class="memproto">
@@ -421,7 +518,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a5eab31b206a0e529b87f026a2eeb0d7f"></a>
+<a class="anchor" id="ac239fd5688255aec2e31bfbea1fee594"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -453,7 +550,19 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>maxNbPixels</em>&#160;</td>
+          <td class="paramname"><em>maxNbPixelsconst</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Mat_&lt; Vec3b &gt; &amp;&#160;</td>
+          <td class="paramname"><em>manualSegmentation</em> = <code>Mat_&lt;&#160;Vec3b&#160;&gt;()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Mat_&lt; Vec3b &gt; &amp;&#160;</td>
+          <td class="paramname"><em>resizedSegmentation</em> = <code>Mat_&lt;&#160;Vec3b&#160;&gt;()</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -706,7 +815,7 @@ template&lt;typename _Tp , int m1, int m2, int n&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 29 2013 17:51:26 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Sep 26 2013 18:38:47 for Animation character identification by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>
